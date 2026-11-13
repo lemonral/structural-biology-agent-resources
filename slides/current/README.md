@@ -1,14 +1,21 @@
-# 当前30页PPT的内容源
+# Current 30-slide presentation: source material
 
-作者：周熠。版本：2026-11-13。
+Author: Yi Zhou (周熠). English edition: November 14, 2026. Source deck: November 13, 2026.
 
-- `content.json`：30页标题、内容、讲稿备注和来源链接。
-- `agent_methods.md`、`bio_landscape.md`：Agent方法和九个领域代表系统的研究说明。
-- `assets/`：作者原图、来源记录及演示使用的科研图片。图片权利归各原作者。
-- `build.mjs`：本版PPT的作者脚本，所有本地素材已改成仓库相对路径。
+[English](README.md) · [Chinese original notes](README.zh-CN.md)
 
-可直接使用的成品位于 [`site/brief/`](../../site/brief/structbio-agent-landscape-30-20261113.pptx)。
+- `content.json`: English titles, content, speaker notes and source links for all 30 slides.
+- `build.mjs`: English authoring script using repository-relative assets.
+- `agent_methods.md` and `bio_landscape.md`: English method and research-landscape notes.
+- `assets/`: original source figures, scientific images and provenance records. Third-party rights remain with the original authors.
+- `*.zh-CN.*`: preserved Chinese source files. `build.zh-CN.mjs` reads `content.zh-CN.json`.
 
-脚本使用作者环境中的 `@oai/artifact-tool`（Codex随附运行时），它不是本仓库提供的通用安装依赖。复用该脚本需要可访问这一运行时，且安装 `Hiragino Sans GB` 字体；本仓库不承诺普通Node环境能直接重新生成PPT。静态网站预览不需要这些依赖。
+Ready-to-use output: [English PPT](../../site/en/brief/structural-biology-agent-30-en.pptx), [slide viewer](../../site/en/brief/index.html), [English slide notes](../../site/en/brief/sources.html), [Chinese PPT](../../site/brief/structbio-agent-landscape-30-20261113.pptx).
 
-在具备作者运行时的环境下运行 `node slides/current/build.mjs`，产物写入 `slides/current/generated/`。成品发布时另做版面与包结构验证；生成脚本不会自动覆盖网站成品。
+## Authoring dependencies
+
+The script uses `@oai/artifact-tool` from the author’s bundled Codex runtime. That runtime is not distributed by this repository or guaranteed to be installable as an ordinary Node dependency. Rebuilding requires that runtime to be available through Node’s module resolution and the **Arial** font. The preserved Chinese script uses Hiragino Sans GB.
+
+In an environment with these dependencies, run `node slides/current/build.mjs`. Output goes to the ignored `slides/current/generated/` directory. Validate package structure and visually review every slide before replacing a published PPT. The authoring script does not overwrite the website’s final presentation.
+
+Reading or serving the static website requires none of these authoring dependencies.

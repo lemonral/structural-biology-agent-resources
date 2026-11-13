@@ -1,8 +1,11 @@
-# 来源与使用说明
+# Sources and reuse
 
-本仓库由周熠整理，包含原创讲解、设计文档、演示材料及第三方论文、软件资料和科研图片。
+This research archive was prepared by Yi Zhou (周熠). It contains original explanations and design material alongside third-party papers, documentation and scientific figures.
 
-- 各论文、图片和软件的权利归原作者或权利人所有，引用出处保留在资料页面、PPT备注和素材来源文件中。
-- 本仓库没有为第三方材料重新授予统一开源许可。复用、修改或再次分发时，应核对各材料的原始许可证和使用条件。
-- 部分作者原图按原义作为研究介绍资料收录，不表示其作者认可本项目，也不表示本项目已复现论文结论。
-- 外部项目链接、公开论文与产品功能可能更新，资料应结合对应版本理解。
+- Third-party papers, figures and software remain the property of their authors or rights holders. Source links are retained in the reading pages, slide notes and asset provenance files.
+- This repository does not relicense all third-party material under a single open-source license. Check the original license and conditions before modifying, reusing or redistributing any item.
+- Reproduced author figures preserve their original meaning. Inclusion does not imply author endorsement or that this project reproduced the reported results.
+- English guides are editorial translations of the archived research notes. Original publication versions, source-verification dates and evidence boundaries remain relevant.
+- External projects and documentation can change. Interpret each note against its stated source snapshot.
+
+[Chinese notice](NOTICE.zh-CN.md)

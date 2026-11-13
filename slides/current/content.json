@@ -1,139 +1,141 @@
 [
   {
-    "title": "结构生物学\n通用计算 Agent",
-    "chapter": "方法谱系、领域进展与系统架构",
+    "title": "Structural Biology\nComputational Agent",
+    "chapter": "Methods, Research Landscape and System Architecture",
     "kind": "cover",
-    "lead": "面向跨任务结构生物学计算的Agent研究与实现方案",
+    "lead": "A research and implementation proposal for an extensible scientific agent",
     "body": [],
-    "take": "作者：周熠"
+    "take": "Author: Yi Zhou",
+    "notes": "English edition of the 30-slide research presentation. Capability maps describe target scope, not completed deployment or measured performance."
   },
   {
-    "title": "汇报目录与核心问题",
-    "chapter": "研究路线",
+    "title": "Research Roadmap",
+    "chapter": "Roadmap",
     "kind": "agenda",
-    "lead": "先建立方法与领域脉络，再解释本项目的架构、实现与评价",
+    "lead": "Establish the field and research question before introducing architecture and experiments",
     "body": [
       [
         "01",
-        "Agent与科学Agent背景",
-        "03–12页：方法谱系、九个代表工作、研究缺口与定位"
+        "Agents and Scientific Applications",
+        "03–12: methods, nine systems, research gaps and hypotheses"
       ],
       [
         "02",
-        "任务空间与核心架构",
-        "13–16页：开放能力地图、系统主图与内部机制"
+        "Task Space and Core Architecture",
+        "13–16: capability maps, system design and control loop"
       ],
       [
         "03",
-        "模块实现与科研实例",
-        "17–26页：规格、规划、工具、执行、记忆、验证与部署"
+        "Implementation and Scientific Examples",
+        "17–26: specifications, planning, tools, state, validation and deployment"
       ],
       [
         "04",
-        "评估、优化与开发路线",
-        "27–30页：统一评分、故障测试、安全和实施"
+        "Evaluation and Delivery",
+        "27–30: controls, ablations, safety and development gates"
       ]
     ],
-    "take": "目标：设计一个可扩展的科研执行系统，让新任务通过工具与验证器接入"
+    "take": "Goal: an extensible scientific execution system, with tools and validators as units of capability.",
+    "notes": ""
   },
   {
-    "title": "结构研究依赖跨模态计算链",
-    "chapter": "01 结构计算的共同需求",
+    "title": "Structural Research Connects Multiple Modalities",
+    "chapter": "01 Research Context",
     "kind": "bgmodal",
-    "lead": "研究输入跨越序列、实验数据和模型，科学结论依赖多步骤证据",
+    "lead": "Sequences, experiments and models contribute different forms of scientific evidence",
     "body": [
       [
-        "序列与组成",
-        "FASTA、分子组成、化学计量",
-        "预测、检索与候选扩展"
+        "Sequence and composition",
+        "FASTA, components, stoichiometry",
+        "Prediction, search, candidate expansion"
       ],
       [
-        "实验数据",
-        "密度图、衍射、谱学和多源约束",
-        "建模、拟合、精修与验证"
+        "Experimental data",
+        "Density, diffraction, spectra, restraints",
+        "Building, fitting, refinement, validation"
       ],
       [
-        "模型与集合",
-        "原子结构、轨迹、构象与装配",
-        "比较、界面、机制和设计"
+        "Models and ensembles",
+        "Coordinates, trajectories, assemblies",
+        "Comparison, interfaces, mechanisms, design"
       ]
     ],
-    "take": "结构计算的共同需求：跨工具连接对象、参数、计算产物与科学解释",
+    "take": "Shared requirement: preserve object identity, parameters, artifacts and interpretation across tools.",
     "refs": [
       "https://www.nature.com/articles/s41586-024-07487-w",
       "https://www.ebi.ac.uk/emdb/va/help/"
     ],
-    "notes": "结构预测、实验约束建模、搜索和机制分析提供不同层次的能力。预测模型并不自动解决实验数据支持、对象身份和机制因果。这里概括领域输入及任务角色，不作跨方法性能比较。"
+    "notes": "Prediction, experimentally restrained modeling, search and mechanistic analysis support different claims. A predicted model does not by itself establish experimental support, object identity or causality. This page organizes inputs and task roles without ranking methods across unrelated benchmarks."
   },
   {
-    "title": "Agent基础：推理、行动与真实观察",
-    "chapter": "01 Agent方法背景",
+    "title": "Agent Foundations: Reasoning, Action, Observation",
+    "chapter": "01 Agent Methods",
     "kind": "agent_foundation",
-    "lead": "模型形成候选决策，工具返回观察，运行时规定可以采取哪些行动",
+    "lead": "A model proposes decisions, tools return observations, and a runtime constrains permitted actions",
     "body": [
       [
-        "语言推理",
-        "形成方案与决策摘要"
+        "Reasoning",
+        "Form candidate plans and decision summaries"
       ],
       [
-        "外部行动",
-        "执行工具并获得实际观察"
+        "External actions",
+        "Execute tools and observe actual results"
       ],
       [
-        "受约束反馈",
-        "更新下一动作，同时检查权限、预算与停止条件"
+        "Constrained feedback",
+        "Update actions under permission, budget and stopping rules"
       ]
     ],
-    "take": "反馈是决策依据；原论文的问答、交互任务收益仍需在科学任务中另行验证",
+    "take": "Feedback informs decisions. Gains on question-answering or interactive tasks require scientific validation.",
     "refs": [
       "https://arxiv.org/abs/2210.03629",
       "https://react-lm.github.io/"
     ],
-    "notes": "图为ReAct作者原机制示意，展示reason-only、act-only与推理/行动结合的区别。它是方法背景，不是本项目结构生物学实测结果。审计记录保存动作、观察与决策摘要，不要求披露模型内部思维链。"
+    "notes": "Original ReAct author diagram: reason-only, act-only and combined reasoning/action. This is a methods illustration, not a structural-biology experiment from this project. Audit actions, observations and decision summaries without requiring disclosure of private model reasoning."
   },
   {
-    "title": "Agent方法谱系：六种机制改变不同部件",
-    "chapter": "01 Agent方法背景",
+    "title": "Agent Methods Change Different System Components",
+    "chapter": "01 Agent Methods",
     "kind": "method_taxonomy",
-    "lead": "按系统作用比较方法，避免把论文名排成统一的优劣顺序",
+    "lead": "Compare mechanisms and assumptions rather than treating papers as a single performance ranking",
     "body": [
       [
-        "方法",
-        "改变的部件",
-        "机制与适用边界"
+        "Method",
+        "Component affected",
+        "Mechanism and boundary"
       ],
       [
         "ReAct",
-        "单次行动反馈",
-        "行动后读观察；错误观察仍会误导决策"
+        "Action-level feedback",
+        "Observe after acting. Incorrect observations can still mislead."
       ],
       [
         "LLMCompiler",
-        "依赖计划与调度",
-        "DAG与就绪调用；并行受真实依赖/资源限制"
+        "Planning and scheduling",
+        "Dependency DAG and ready calls. Parallelism obeys real constraints."
       ],
       [
         "Reflexion",
-        "跨尝试经验记忆",
-        "语言反馈复用，不必更新权重；反思需核验"
+        "Memory across attempts",
+        "Reuse verbal feedback without necessarily updating weights. Verify it."
       ],
       [
         "LATS",
-        "候选轨迹搜索",
-        "树搜索与评价；需要可信反馈和额外预算"
+        "Search over trajectories",
+        "Tree search and evaluation need reliable feedback and extra budget."
       ],
       [
         "DSPy",
-        "离线程序优化",
-        "开发数据+指标优化LM程序；最终测试冻结"
+        "Offline program optimization",
+        "Optimize LM programs on development data. Freeze final tests."
       ],
       [
         "AutoGen",
-        "角色与消息协作",
-        "组织模型、人和工具；协作共识不等于真值"
+        "Roles and communication",
+        "Coordinate models, people and tools. Consensus is not ground truth."
       ]
     ],
-    "take": "这些机制可组合使用；架构选择取决于任务反馈、行动成本和评价可靠性",
+    "take": "Combine mechanisms according to task feedback, action cost and evaluation reliability.",
     "widths": [
       230,
       370,
@@ -147,68 +149,68 @@
       "https://arxiv.org/abs/2310.03714",
       "https://arxiv.org/abs/2308.08155"
     ],
-    "notes": "原论文验证涵盖问答、代码、网页与交互环境等，不直接构成本项目结构生物学效果证据。DSPy属于离线优化方法，不能画作每步工具执行的在线反馈模块；Reflexion使用语言经验，不必更新模型权重。AutoGen原论文机制与当前SDK版本应分开。"
+    "notes": "Original evaluations cover QA, code, web and interactive environments. They do not establish performance on this project’s scientific tasks. DSPy is an offline optimization method, not a mandatory online tool-loop stage. Reflexion can reuse verbal experience without updating model weights. Distinguish the AutoGen paper’s mechanism from later SDK versions."
   },
   {
-    "title": "工作流、单Agent与多Agent如何选择",
-    "chapter": "01 架构范式与取舍",
+    "title": "Workflow, Single Agent or Multiple Agents?",
+    "chapter": "01 Architecture Choices",
     "kind": "architecture_patterns",
-    "lead": "确定的计算步骤可固化，动态选择与协作机制需要额外的收益证据",
+    "lead": "Fixed computation can use explicit paths. Dynamic selection and collaboration need measurable benefits",
     "body": [
       [
-        "固定工作流",
-        "输入与依赖明确、频繁重复",
-        "路径可复算，控制开销小；动态分支需预先定义"
+        "Fixed workflow",
+        "Known inputs and dependencies",
+        "Reproducible paths and low control cost. Define branches in advance."
       ],
       [
-        "单主控Agent",
-        "候选与观察可能改变下一步",
-        "统一状态与预算；工具语义和停止条件必须清楚"
+        "Single controller",
+        "Observations can change the next step",
+        "One state and budget. Define tool semantics and stopping rules."
       ],
       [
-        "多Agent协作",
-        "存在可验证的角色分工需求",
-        "分工显式；增加通信、重复计算与协同错误风险"
+        "Multiple agents",
+        "A testable division of responsibilities",
+        "Explicit roles add communication, duplicate work and coordination risk."
       ]
     ],
-    "take": "实现参考：LangChain / LangGraph、Google ADK、AutoGen；以状态、恢复和评估需求选型",
+    "take": "Implementation options: LangChain / LangGraph, Google ADK and AutoGen. Evaluate state and recovery needs.",
     "refs": [
       "https://docs.langchain.com/oss/python/langgraph/workflows-agents",
       "https://arxiv.org/abs/2308.08155",
       "https://docs.langchain.com/oss/python/langchain/overview",
       "https://adk.dev/agents/"
     ],
-    "notes": "三个小图是本汇报对架构模式的概念说明，不是定量的性能排序。多Agent只有在分工、工具与评分可明确控制时才便于检验贡献。比较时同时报告成功、成本、延迟、错误及人工介入。 工程框架与架构范式不一一对应。LangChain提供模型、工具与中间件组织，LangGraph支持状态化的确定流程和Agent编排，Google ADK提供Agent及工作流组件。框架功能不自动保证科学正确性。本项目建议用LangGraph持久状态图承载主控，科学工具由独立Worker执行，再用同预算实验检验协作机制。"
+    "notes": "Conceptual patterns, not a quantitative ranking. Report success, cost, latency, errors and human intervention under matched tools and budgets. Frameworks do not map one-to-one to patterns. LangChain organizes models, tools and middleware. LangGraph supports stateful workflows and agents. ADK provides agent and workflow components. Framework features do not ensure scientific correctness. Start this project with one controller and a persistent state graph; test collaboration as an additional mechanism."
   },
   {
-    "title": "生物学Agent的科研角色地图",
-    "chapter": "01 生物学与结构Agent背景",
+    "title": "A Research-Role Map of Biological Agents",
+    "chapter": "01 Biological and Structural Agents",
     "kind": "family_landscape",
-    "lead": "九个代表工作覆盖不同科研环节，框架、研究系统与软件入口分别辨识",
+    "lead": "Nine examples occupy different research roles: frameworks, research systems and software entry points",
     "body": [
       [
-        "知识与科研环境",
+        "Knowledge / research",
         "BioChatter",
         "Biomni"
       ],
       [
-        "分析与实验决策",
+        "Analysis / experiment choice",
         "CellAgent",
         "BioDiscoveryAgent"
       ],
       [
-        "实验结构解析",
+        "Structure determination",
         "Phenix AI Agent",
         "CryoNet.Agent",
         "StructAgent"
       ],
       [
-        "蛋白工程与发现",
+        "Protein engineering",
         "ProtAgents",
         "Sparks"
       ]
     ],
-    "take": "比较主线：知识怎样接入、工具怎样执行、反馈怎样使用、结论依靠什么证据",
+    "take": "Compare knowledge access, tool execution, feedback and the evidence supporting each conclusion.",
     "refs": [
       "https://www.nature.com/articles/s41587-024-02534-3",
       "https://github.com/snap-stanford/Biomni",
@@ -220,32 +222,32 @@
       "https://pubs.rsc.org/en/content/articlehtml/2024/dd/d4dd00013g",
       "https://arxiv.org/html/2504.19017v1"
     ],
-    "notes": "这是按科研角色组织的代表性地图，分类可交叉，未声称穷尽领域或构成统一自主性/性能排名。BioChatter是应用框架，Biomni及CellAgent等为研究系统；Phenix和CryoNet介绍采用官方实现/功能文档，不能视为相同协议下的性能证据。"
+    "notes": "A representative, overlapping classification rather than an exhaustive map or common autonomy ranking. BioChatter is an application framework. Biomni and CellAgent are research systems. Phenix and CryoNet entries use official implementation or capability documentation, which is not comparable to a shared benchmark protocol."
   },
   {
-    "title": "知识接入、数据执行与实验决策",
-    "chapter": "01 生物学Agent背景",
+    "title": "Knowledge, Analysis and Experimental Decisions",
+    "chapter": "01 Biological Agents",
     "kind": "bio_profiles",
-    "lead": "四种路线改变科研链条的不同环节，反馈的来源与含义也不同",
+    "lead": "These routes change different stages of research and use different kinds of feedback",
     "body": [
       [
-        "BioChatter：应用接入框架",
-        "知识图谱/RAG、模型链与接口\n证据为应用集成，LLM互审仍需外部核查"
+        "BioChatter: integration framework",
+        "Knowledge graphs, RAG and model/API chains.\nIntegration needs external fact-checking."
       ],
       [
-        "Biomni：通用科研环境",
-        "检索工具与数据、规划并执行代码\n证据覆盖公开任务与案例，并非任意结构问题"
+        "Biomni: research environment",
+        "Retrieve tools/data, plan and execute code.\nPublic cases do not cover every structural task."
       ],
       [
-        "CellAgent：领域分析流程",
-        "规划/执行/评价分工，检索工具后迭代\n证据聚焦单细胞任务，依赖数据与评价目标"
+        "CellAgent: analysis workflow",
+        "Plan, execute and evaluate with tool retrieval.\nSingle-cell evidence depends on data and metrics."
       ],
       [
-        "BioDiscoveryAgent：实验决策",
-        "依据遗传扰动反馈选择下一轮实验\n采用扰动数据评价，不等于湿实验仪器自动化"
+        "BioDiscoveryAgent: experiment choice",
+        "Select the next round from perturbation feedback.\nData-based evaluation, not wet-lab automation."
       ]
     ],
-    "take": "可借鉴的是知识、执行、评价与实验决策机制，任务质量仍需领域判据",
+    "take": "Knowledge, execution and experiment-selection mechanisms still need domain-specific quality criteria.",
     "refs": [
       "https://www.nature.com/articles/s41587-024-02534-3",
       "https://biocypher.github.io/biochatter-paper/",
@@ -253,63 +255,63 @@
       "https://arxiv.org/html/2407.09811v1",
       "https://arxiv.org/abs/2405.17631"
     ],
-    "notes": "左图为BioChatter作者稿Fig.1，2024-02-23快照，保留图的原义与出处。其他三个项目不共享这一架构。CellAgent根据2024原始预印本机制介绍，未混用后续版本性能数字。BioDiscoveryAgent用于说明闭环实验选择，不提供湿实验操作程序。"
+    "notes": "Left: BioChatter author-manuscript Fig. 1, snapshot 2024-02-23, preserving its original meaning. The other three systems do not share this diagram. CellAgent follows the 2024 preprint mechanism, without mixing later-version scores. BioDiscoveryAgent illustrates experimental selection, not an instrument-control protocol."
   },
   {
-    "title": "结构解析Agent：专业软件与质量门控",
-    "chapter": "01 结构生物学Agent背景",
+    "title": "Structural Agents: Software and Quality Gates",
+    "chapter": "01 Structural Biology Agents",
     "kind": "structure_profiles",
-    "lead": "建模、拟合与精修由专业引擎完成，Agent组织步骤、约束与审阅",
+    "lead": "Scientific engines build, fit and refine models. Agents organize steps, constraints and review",
     "body": [
       [
         "Phenix AI Agent",
-        "晶体学与cryo-EM结构确定",
-        "LLM分析/规划\n参数白名单与阶段门控",
-        "官方实现文档与解析案例",
-        "程序和数据条件受限\n最终结构仍需专家审查"
+        "Crystallography and cryo-EM",
+        "LLM analysis and planning\nParameter allowlists, stage gates",
+        "Official documentation and cases",
+        "Bounded by software and data\nFinal structures need expert review"
       ],
       [
         "CryoNet.Agent",
-        "map/FASTA/模型的工作流入口",
-        "结构化输入目录\n统一会话与作业入口",
-        "官方功能目录与教程",
-        "入口覆盖不同于统一盲测\n具体工具需独立验收"
+        "Workflows for maps, FASTA, models",
+        "Typed input catalogue\nShared session and job entry",
+        "Official catalogue and tutorials",
+        "An interface is not a blind test\nAccept individual tools separately"
       ],
       [
         "StructAgent",
-        "cryo-EM模型构建与修订",
-        "领域推理与本地执行分工\n重大模型改动由专家批准",
-        "2026预印本中的结构案例",
-        "案例支持有限任务能力\n不能推出全面自主解析"
+        "cryo-EM building and revision",
+        "Reasoning with local execution\nExpert approval for major edits",
+        "Cases in the 2026 preprint",
+        "Evidence supports bounded tasks\nNot universal autonomous solving"
       ]
     ],
-    "take": "共同启示：专业工具、领域规则和人工检查点必须进入Agent执行路径",
+    "take": "Professional tools, domain rules and human checkpoints belong in the execution path.",
     "refs": [
       "https://www.phenix-online.org/documentation/reference/ai_agent.html",
       "https://cryonet.ai/agent/",
       "https://www.biorxiv.org/content/10.64898/2026.05.18.725842v1",
       "https://github.com/bhgtiger/StructAgent"
     ],
-    "notes": "Phenix文档列出PERCEIVE/THINK/PLAN/BUILD/VALIDATE/OUTPUT，LLM主要参与THINK和PLAN。CryoNet使用同日核验的官方HTML快照，在线页面抓取超时。这里的StructAgent为Xiaohu Guo的cryo-EM系统，不是arXiv:2607.11388的同名数字Agent论文。不同来源的案例与产品文档不能直接用于成功率比较。"
+    "notes": "Phenix documents PERCEIVE, THINK, PLAN, BUILD, VALIDATE and OUTPUT; LLMs mainly participate in THINK and PLAN. CryoNet descriptions use the archived official HTML when live retrieval timed out. StructAgent here is Xiaohu Guo’s cryo-EM system, not the unrelated arXiv:2607.11388 namesake. Cases and product documentation cannot support direct success-rate comparisons."
   },
   {
-    "title": "蛋白工程Agent：协作设计与假设检验",
-    "chapter": "01 蛋白工程与发现背景",
+    "title": "Protein Engineering: Design and Hypothesis Tests",
+    "chapter": "01 Protein Engineering Agents",
     "kind": "protein_profiles",
-    "lead": "生成、预测、模拟与实验检验属于不同层次的证据",
+    "lead": "Generation, prediction, simulation and experimental validation support different levels of evidence",
     "body": [
       [
         "ProtAgents",
-        "群聊管理器协调规划、执行与评价角色\n组合生成模型、结构预测和物理分析工具",
-        "计算设计与物理分析示范\n协作增益仍需同预算对照"
+        "Group chat coordinates planning and critique.\nTools combine generation, prediction and physics.",
+        "Computational design and physics examples.\nCompare collaboration at matched budgets."
       ],
       [
         "Sparks",
-        "生成—反思配对覆盖假设、编码、分析与报告\n计算结果用于保留、修订或否定假设",
-        "蛋白性质的计算研究案例\n结论受采样、代理模型和模拟条件限制"
+        "Generator–reflection pairs organize research.\nCode and analysis retain or revise hypotheses.",
+        "Computational studies of protein properties.\nLimited by sampling, models and conditions."
       ]
     ],
-    "take": "生成评分、独立计算与实验验证提供不同层次证据，计算规律仍需外部检验",
+    "take": "Generated scores, independent calculations and experiments provide different kinds of evidence.",
     "refs": [
       "https://pubs.rsc.org/en/content/articlehtml/2024/dd/d4dd00013g",
       "https://arxiv.org/html/2402.04268v1",
@@ -317,506 +319,514 @@
       "https://arxiv.org/html/2504.19017v1",
       "https://github.com/lamm-mit/Sparks/"
     ],
-    "notes": "左图为ProtAgents原论文Fig.1，保持完整含义，并非本项目原创架构。ProtAgents采用计算示范而非领域通用基准。Sparks案例组合生成、预测、二级结构、性质模型与MD等，不把代理评分或模拟观察等同实验确认，不声称这些系统完成所有证据层级。"
+    "notes": "Left: original ProtAgents Fig. 1, preserving its meaning, not our architecture. ProtAgents demonstrates computational studies rather than a universal scientific benchmark. Sparks combines generation, prediction, secondary-structure/property models and MD. Surrogate scores or simulations do not establish experimental confirmation. External validation remains necessary."
   },
   {
-    "title": "从代表路线到本项目的研究问题",
-    "chapter": "01 文献归纳与研究缺口",
+    "title": "From Existing Systems to Our Research Questions",
+    "chapter": "01 Research Gaps",
     "kind": "memory",
-    "lead": "现有工作已经实现多种科研闭环，本项目需要检验更广任务组合下的可靠性",
+    "lead": "Existing work closes several research loops. Reliability across broader task combinations still needs testing",
     "body": [
       [
-        "科学对象语义",
-        "链、残基、坐标系、单位、组分和采样条件必须在工具间保持一致。"
+        "Scientific object semantics",
+        "Keep chains, residues, coordinates, units, composition and sampling conditions consistent across tools."
       ],
       [
-        "计划与执行可靠性",
-        "输入不足、工具不可用、长作业中断或候选失败时，需要受控分支和恢复。"
+        "Planning and execution",
+        "Control branching and recovery when inputs are incomplete, tools fail, candidates fail or long jobs stop."
       ],
       [
-        "产物与结论一致性",
-        "分别检查文件、执行与科学结论，保留可追溯依据。"
+        "Artifacts and claims",
+        "Check files, execution and scientific conclusions separately, with traceable supporting evidence."
       ],
       [
-        "通用性的证据",
-        "跨对象、任务与工具组合的泛化，需要统一预算、外部评分与故障测试。"
+        "Evidence of generality",
+        "Test across objects, tasks and tool combinations using matched budgets, external scoring and injected faults."
       ]
     ],
-    "take": "这些是本项目需要实证检验的问题，不把未经测试的系统差异当作研究结论"
+    "take": "These are empirical research questions. Untested differences between systems are not research findings.",
+    "notes": ""
   },
   {
-    "title": "研究定位与可检验假设",
-    "chapter": "01 本项目定位与研究假设",
+    "title": "Positioning and Testable Hypotheses",
+    "chapter": "01 Research Hypotheses",
     "kind": "hypotheses",
-    "lead": "研究对象是可扩展的结构生物学Agent，核心是任务组织与可信执行",
+    "lead": "Study an extensible structural-biology agent for task organization and reliable scientific execution",
     "body": [
       [
-        "H1 统一任务表示",
-        "显式表示对象、目标、条件和验收规则",
-        "检验对象错误与跨工具不一致是否减少"
+        "H1 Task representation",
+        "Make objects, goals, conditions and acceptance rules explicit",
+        "Test reductions in identity errors and cross-tool inconsistency"
       ],
       [
-        "H2 受约束规划执行",
-        "工具语义检索、持久状态与有限修订",
-        "检验新任务组合的完成率与恢复代价"
+        "H2 Constrained execution",
+        "Combine tool semantics, persistent state and bounded replanning",
+        "Test completion and recovery cost on new task combinations"
       ],
       [
-        "H3 验证与证据交付",
-        "独立科学验证和报告证据绑定",
-        "检验无效产物与无依据结论是否减少"
+        "H3 Evidence-based delivery",
+        "Use independent validation and bind report claims to artifacts",
+        "Test reductions in invalid artifacts and unsupported conclusions"
       ]
     ],
-    "take": "目标能力尽可能广泛覆盖结构分析，实际可用性由适配器与参考测试逐项建立",
-    "notes": "假设与收益是待检验内容。首版采用单主控框架，工具和验证规则可扩展。多Agent、模型升级和更多计算预算都不能自动当作有效性提升。"
+    "take": "Broad capability is the goal. Establish actual availability with adapters and reference tests.",
+    "notes": "These hypotheses and benefits remain to be tested. Start with one controller, extensible tools and validation rules. More agents, a model upgrade or a larger compute budget do not automatically establish improved scientific validity."
   },
   {
-    "title": "能力地图 I：对象获取、建模与实验解析",
-    "chapter": "02 结构任务覆盖范围",
+    "title": "Capability Map I: Data, Building and Experiments",
+    "chapter": "02 Task Space",
     "kind": "scope",
-    "lead": "任务与模态共同组织能力，面向蛋白、核酸、配体、糖链和复合物",
+    "lead": "Organize tasks by modality across proteins, nucleic acids, ligands, glycans and complexes",
     "body": [
       [
-        "任务族",
-        "代表输入与分析",
-        "输出及验证重点"
+        "Task family",
+        "Representative inputs and analyses",
+        "Outputs and validation focus"
       ],
       [
-        "数据整理与知识检索",
-        "序列、结构、密度图、文献与元数据",
-        "规范对象、溯源、缺失和一致性"
+        "Data and knowledge",
+        "Sequences, structures, maps, literature, metadata",
+        "Normalized identity, provenance, missingness, consistency"
       ],
       [
-        "序列与结构发现",
-        "序列/结构/局部密度的搜索与候选扩展",
-        "候选、覆盖、身份与库外拒答"
+        "Sequence / structure search",
+        "Search sequences, structures or local density; expand hits",
+        "Candidates, coverage, identity, out-of-library abstention"
       ],
       [
-        "预测与结构建模",
-        "单体/复合物预测、同源建模、结构补全",
-        "模型、组成、置信度与适用边界"
+        "Prediction and building",
+        "Monomer/complex prediction, homology, completion",
+        "Models, composition, confidence, applicability"
       ],
       [
-        "cryo-EM / ET解析",
-        "图谱检查、分割、定位、建模与精修",
-        "坐标变换、局部质量、图–模型支持"
+        "cryo-EM / ET",
+        "Inspect, segment, localize, build and refine maps",
+        "Coordinate transforms, local quality, map–model support"
       ],
       [
-        "晶体学与衍射流程",
-        "衍射数据/反射、分子置换、重建与精修",
-        "数据质量、几何和交叉验证"
+        "Crystallography",
+        "Diffraction, reflections, replacement, rebuilding, refinement",
+        "Data quality, geometry and cross-validation"
       ],
       [
-        "NMR与整合建模",
-        "NMR、SAXS/XL-MS与多源实验约束",
-        "约束满足、集合与不确定性"
+        "NMR / integrative modeling",
+        "NMR, SAXS, XL-MS and multimodal restraints",
+        "Restraint satisfaction, ensembles and uncertainty"
       ]
     ],
-    "take": "这些是目标能力族；可运行范围由工具接入、数据条件和参考测试限定",
+    "take": "These are target task families. Executable scope depends on tool integration, inputs and reference tests.",
     "widths": [
       320,
       490,
       490
-    ]
+    ],
+    "notes": ""
   },
   {
-    "title": "能力地图 II：比较、机制、模拟与设计",
-    "chapter": "02 结构任务覆盖范围",
+    "title": "Capability Map II: Analysis, Simulation and Design",
+    "chapter": "02 Task Space",
     "kind": "scope",
-    "lead": "分析模块可独立使用，也可由Agent组合成新的研究流程",
+    "lead": "Analysis modules can run independently or form new research workflows through the agent",
     "body": [
       [
-        "任务族",
-        "代表分析",
-        "输出及验证重点"
+        "Task family",
+        "Representative analyses",
+        "Outputs and validation focus"
       ],
       [
-        "质量与构象比较",
-        "结构验证、对应、叠合、域运动与集合差异",
-        "质量表、映射、变换与比较定义"
+        "Quality and conformation",
+        "Validation, correspondence, superposition, motion, ensembles",
+        "Quality tables, mappings, transforms, comparison definitions"
       ],
       [
-        "表面、口袋与分子相互作用",
-        "界面、接触、通道、配体、核酸与膜环境",
-        "几何/能量/评分的单位与边界"
+        "Surfaces and interactions",
+        "Interfaces, contacts, channels, ligands, nucleic acids, membranes",
+        "Units and limits of geometry, energies and scores"
       ],
       [
-        "对接与复合物装配",
-        "蛋白/配体对接、亚基定位、对称与冲突检查",
-        "候选位姿、构象采样与独立重评分"
+        "Docking and assembly",
+        "Protein/ligand docking, subunit placement, symmetry, clashes",
+        "Candidate poses, sampling and independent rescoring"
       ],
       [
-        "动力学与统计热力学",
-        "轨迹预处理、构象聚类、自由能与状态转移",
-        "采样、收敛、误差与物理条件"
+        "Dynamics and thermodynamics",
+        "Trajectory processing, clustering, free energies, transitions",
+        "Sampling, convergence, errors and physical conditions"
       ],
       [
-        "突变、设计与筛选",
-        "稳定性/结合变化、序列或结构设计",
-        "候选、对照、失效风险与实验可检验性"
+        "Mutation, design, screening",
+        "Stability/binding changes, sequence and structure design",
+        "Candidates, controls, failure risks and experimental tests"
       ],
       [
-        "多尺度与综合解释",
-        "粗粒化、网络、变构、跨模态证据与可视化",
-        "模型假设、证据链和机制解释范围"
+        "Multiscale interpretation",
+        "Coarse graining, networks, allostery, multimodal visualization",
+        "Model assumptions, evidence and scope of mechanisms"
       ]
     ],
-    "take": "扩展单位是一套“任务合同、计算工具、验证器、参考测试”，而非新增按钮",
+    "take": "A capability adds a task contract, scientific tool, validator and reference tests.",
     "widths": [
       320,
       490,
       490
-    ]
+    ],
+    "notes": ""
   },
   {
-    "title": "结构生物学 Agent 系统架构",
-    "chapter": "02 系统架构",
+    "title": "Structural Biology Agent: Core Architecture",
+    "chapter": "02 Core Architecture",
     "kind": "academic_main",
-    "lead": "LLM认知层、确定性运行时、科学工具与证据底座分层协作",
+    "lead": "Separate model cognition, deterministic control, scientific execution and evidence management",
     "body": [
       [
-        "认知与规划",
-        "任务规格化、能力与知识检索、上下文组装、LLM规划与修订"
+        "Cognition and planning",
+        "Task specifications, capability/knowledge retrieval, context assembly, LLM planning and revision"
       ],
       [
-        "确定性控制",
-        "计划编译、类型检查、运行状态机、预算与恢复"
+        "Deterministic control",
+        "Plan compilation, type checks, state machine, budgets and recovery"
       ],
       [
-        "受控计算",
-        "动作权限网关、作业调度、领域工具与真实产物"
+        "Controlled computation",
+        "Permission gateway, job scheduling, scientific tools and real artifacts"
       ],
       [
-        "证据与验证",
-        "工具合同、状态与产物引用、独立科学质量与报告依据"
+        "Evidence and validation",
+        "Tool contracts, state/artifact references, independent quality checks and report support"
       ],
       [
-        "科研交付",
-        "验证后的结果、方法、限制和人工审阅"
+        "Scientific delivery",
+        "Validated results, methods, limitations and human review"
       ]
     ],
-    "take": "模型提出计划与解释，运行时控制动作权限，科学验证依据真实产物",
-    "notes": "主图是拟建系统架构而非顺序流程图。科研任务与数据经任务规范模块进入Agent Core；上下文组装器结合工具检索与运行观察，给LLM规划器提供受控上下文；规划动作必须经过确定性运行时、动作网关及作业管理器。独立验证器检查实际产物并把结构化观察写入证据与状态，反馈给下一步决策。工具文档、状态/检查点与不可变产物逻辑分开存储，图中以共享底座概括。图例区分控制/动作、资产/状态、观察/验证反馈。",
+    "take": "Models propose plans and explanations. Runtimes enforce permissions. Validators inspect actual artifacts.",
+    "notes": "Proposed system architecture, not a linear workflow. Research tasks and data enter through specification. A context builder combines retrieved capabilities and recorded observations for the planner. Actions pass deterministic plan checks, a permission gateway and job management. Independent validation writes structured observations into evidence/state for later decisions. Tool documentation, checkpoints and immutable artifacts remain logically separate. The legend distinguishes control, assets/state and feedback.",
     "refs": [
       "https://docs.langchain.com/oss/python/langgraph/overview",
       "https://www.phenix-online.org/documentation/reference/ai_agent.html"
     ]
   },
   {
-    "title": "Agent内部机制：状态、动作与验证反馈",
-    "chapter": "02 Agent决策闭环",
+    "title": "The Agent Loop: State, Actions and Validation",
+    "chapter": "02 Agent Control",
     "kind": "agent_loop",
-    "lead": "显式状态 sₜ 支持动作选择 aₜ、受控执行和下一轮状态更新",
+    "lead": "Explicit state supports action selection, controlled execution and the next state update",
     "body": [
       [
-        "上下文 cₜ",
-        "规格、观察与资产引用\n可用工具与预算"
+        "Context cₜ",
+        "Specs, observations, asset refs\nAllowed tools and budget"
       ],
       [
-        "策略 πθ",
-        "选择结构化动作\n或修订局部计划"
+        "Policy πθ",
+        "Choose a structured action\nor revise a local plan"
       ],
       [
-        "动作检查",
-        "类型、权限、前置条件\n预算与停止规则"
+        "Action checks",
+        "Types, rights, preconditions\nBudget and stopping rules"
       ],
       [
-        "真实执行",
-        "同步工具/异步作业\n执行尝试与产物"
+        "Execution",
+        "Sync tools / async jobs\nAttempts and artifacts"
       ],
       [
-        "观察 oₜ₊₁",
-        "执行结果与错误\n独立科学验证摘要"
+        "Observation oₜ₊₁",
+        "Results and errors\nIndependent validation summary"
       ],
       [
-        "状态 sₜ₊₁",
-        "计划节点与产物\n检查点与实际用量"
+        "State sₜ₊₁",
+        "Plan nodes and artifacts\nCheckpoints and actual usage"
       ]
     ],
-    "take": "持久化动作、观察和决策摘要；不把模型内部推理当作计算证据",
-    "notes": "计划是候选执行方案而非科学事实。策略可以依据观察修订局部计划，但任务意图改变应创建新科学规格。运行时检查和科学验证属于外部约束，模型不能通过改写解释把失败变成成功。超过预算或不可恢复错误需要终止。"
+    "take": "Persist actions, observations and decision summaries. Internal reasoning is not computational evidence.",
+    "notes": "A plan is a candidate execution scheme, not a scientific fact. The policy may revise a local plan using observations. Changed scientific intent requires a new specification version. Runtime and scientific checks are external constraints: a model cannot turn failure into success through explanation. Stop on exhausted budgets or unrecoverable failures."
   },
   {
-    "title": "任务表示：把研究意图转成明确规格",
-    "chapter": "03 任务理解与规格表示",
+    "title": "Task Specifications Make Intent Computable",
+    "chapter": "03 Specifications",
     "kind": "spec",
-    "lead": "例：“比较两个复合物的界面差异，指出哪些接触发生改变”",
+    "lead": "Example request: compare two complex interfaces and identify which contacts change",
     "body": [
       [
-        "科学对象",
-        "两个模型、目标链对、残基对应、配体与原子选择"
+        "Scientific objects",
+        "Two models, target chain pairs, residue correspondence, ligand and atom selection"
       ],
       [
-        "问题定义",
-        "比较接触数量、接触组成，还是几何/能量变化？"
+        "Question definition",
+        "Compare contact counts, contact composition, geometry or energy changes?"
       ],
       [
-        "计算规格",
-        "对齐策略、距离阈值、单位、缺失残基与替代构象处理"
+        "Calculation rules",
+        "Alignment strategy, distance threshold, units, missing residues and alternate conformers"
       ],
       [
-        "接受与交付",
-        "映射和接触表可复核；输出变化清单、视图和适用限制"
+        "Acceptance and delivery",
+        "Auditable mappings and contact tables; change lists, views and limitations"
       ]
     ],
-    "take": "缺少关键条件先澄清；规格改变创建新版本，避免执行中悄悄换问题",
-    "notes": "本例用于说明任务理解与规格表示模块如何产生可计算的任务，不是现有API可直接提交的JSON。对其他任务替换领域字段即可：密度图增加voxel/origin/axis，轨迹增加拓扑/周期边界/时间单位，衍射任务增加反射数据和工作/交叉验证集。"
+    "take": "Clarify missing conditions. Version specification changes instead of silently changing the question.",
+    "notes": "This illustrates task understanding and specification, not JSON that an existing endpoint necessarily accepts. Other tasks need modality-specific fields: map voxel/origin/axis, trajectory topology/periodicity/time units, or reflection data with working and validation sets."
   },
   {
-    "title": "规划器：能力检索与依赖图共同约束计划",
-    "chapter": "03 规划与能力检索",
+    "title": "Planning Combines Retrieval and Dependencies",
+    "chapter": "03 Planning",
     "kind": "planner",
-    "lead": "模型先检索适用能力，再组合满足输入输出条件的步骤",
+    "lead": "Retrieve applicable capabilities, then compose steps with compatible input and output conditions",
     "body": [
       [
-        "能力检索",
-        "按任务语义、输入类型、前置条件、版本和资源筛选工具"
+        "Capability retrieval",
+        "Filter tools by semantics, input types, preconditions, versions and resources"
       ],
       [
-        "计划编译",
-        "把子任务编成依赖图，明确每条边传递哪个产物"
+        "Plan compilation",
+        "Build a dependency DAG and identify the artifact passed on every edge"
       ],
       [
-        "静态检查",
-        "检查输入是否齐备、类型兼容、资源可用与验证步骤是否存在"
+        "Static checks",
+        "Check available inputs, type compatibility, resources and required validation"
       ],
       [
-        "执行后修订",
-        "根据新观察调整候选或局部步骤，限定修订次数与总预算"
+        "Bounded revision",
+        "Use observations to adjust candidates or local steps within revision and total-cost limits"
       ]
     ],
-    "take": "计划是待执行的假设；通过检查后才能变成真正的工具动作",
+    "take": "Treat plans as hypotheses for execution. Run tool actions only after the relevant checks.",
     "refs": [
       "https://arxiv.org/abs/2312.04511",
       "https://docs.langchain.com/oss/python/langgraph/overview"
-    ]
+    ],
+    "notes": ""
   },
   {
-    "title": "工具注册：让新科学能力可以被发现和调用",
-    "chapter": "03 工具适配与受控执行",
+    "title": "The Registry Makes Scientific Tools Discoverable",
+    "chapter": "03 Tool Integration",
     "kind": "table",
-    "lead": "工具合同同时描述语义、运行条件和可验证产物",
+    "lead": "A tool contract describes semantics, execution conditions and verifiable artifacts",
     "body": [
       [
-        "字段",
-        "工具适配器需要提供的内容"
+        "Field",
+        "Required information from the tool adapter"
       ],
       [
-        "任务语义",
-        "能回答什么、不能回答什么、适用数据和方法假设"
+        "Task semantics",
+        "Supported questions, unsupported claims, valid data and method assumptions"
       ],
       [
-        "输入输出",
-        "结构化schema、资产引用、坐标/单位、产物类型与后置条件"
+        "Inputs and outputs",
+        "Structured schemas, asset refs, coordinates/units, types and postconditions"
       ],
       [
-        "环境与资源",
-        "容器、软件/权重/数据库版本、CPU/GPU、许可与外部服务"
+        "Environment and resources",
+        "Container, software/weights/database versions, CPU/GPU, licenses, services"
       ],
       [
-        "失败与恢复",
-        "错误分类、超时、幂等键、检查点与可重试条件"
+        "Failures and recovery",
+        "Error classes, timeouts, idempotency keys, checkpoints and retry conditions"
       ],
       [
-        "验证与能力状态",
-        "配套验证器；已登记、环境健康、参考任务通过分别记录"
+        "Validation and status",
+        "Companion validator; registration, environment health and reference-test status"
       ]
     ],
-    "take": "新工具先通过适配器与参考测试，再开放给规划器",
+    "take": "Admit a tool to planning only after its adapter and reference tests pass.",
     "widths": [
       300,
       1000
-    ]
+    ],
+    "notes": ""
   },
   {
-    "title": "控制闭环：状态驱动下一步行动",
-    "chapter": "03 运行状态与恢复",
+    "title": "State Controls the Next Action",
+    "chapter": "03 State and Recovery",
     "kind": "state",
-    "lead": "模型读取可确认事实，外部状态机限制动作与停止条件",
+    "lead": "The model reads recorded facts. An external state machine enforces actions and stopping rules",
     "body": [
       [
-        "待澄清",
-        "目标或对象不明"
+        "Needs clarification",
+        "Goal or object unclear"
       ],
       [
-        "计划就绪",
-        "规格冻结、计划合法"
+        "Plan ready",
+        "Frozen spec, valid plan"
       ],
       [
-        "运行中",
-        "工具执行、观察与用量"
+        "Running",
+        "Tools, observations, usage"
       ],
       [
-        "验证中",
-        "产物与科学规则检查"
+        "Validating",
+        "Artifact and scientific checks"
       ],
       [
-        "终止",
-        "完成 / 失败 / 取消"
+        "Terminal",
+        "Completed / failed / cancelled"
       ]
     ],
-    "take": "可恢复失败触发局部修订；科学质量结论与作业运行状态分开保存",
-    "notes": "保留动作请求、工具观察和决策摘要，无需把模型内部推理当成计算证据。状态机处理等待、恢复和停止，验证失败不能被语言解释改成成功。预算计入所有尝试。"
+    "take": "Recoverable failures permit bounded revision. Store scientific quality separately from job status.",
+    "notes": "Record action requests, observations and decision summaries. State handles waiting, recovery and termination. Language cannot override failed validation. Account for all attempts when enforcing budgets."
   },
   {
-    "title": "执行层：长作业与模型会话解耦",
-    "chapter": "03 异步执行与作业协议",
+    "title": "Long Jobs Are Independent of Model Sessions",
+    "chapter": "03 Execution",
     "kind": "execution",
-    "lead": "同步小工具、异步CPU/GPU作业、远端计算采用统一作业接口",
+    "lead": "Use one job interface for small synchronous tools, asynchronous CPU/GPU work and remote computation",
     "body": [
       [
-        "入口检查",
-        "绑定冻结规格、参数、权限与资源预算"
+        "Admission checks",
+        "Bind frozen specifications, parameters, permissions and resource budgets"
       ],
       [
-        "调度执行",
-        "小任务直接运行\n长任务入队\n分配 Worker"
+        "Scheduling",
+        "Run small tools directly\nQueue long tasks\nAllocate workers"
       ],
       [
-        "异步观察",
-        "job_id、心跳、进度、日志、实际用量与取消"
+        "Async observation",
+        "job_id, heartbeat, progress, logs, actual usage and cancellation"
       ],
       [
-        "结果登记",
-        "输入输出哈希、工具版本、Attempt和完整产物清单"
+        "Result registration",
+        "Input/output hashes, tool versions, attempts and a complete artifact manifest"
       ]
     ],
-    "take": "网络中断后读取持久状态继续；幂等提交避免重复昂贵计算"
+    "take": "Resume from persistent state after network loss. Idempotent submission prevents duplicate expensive jobs.",
+    "notes": ""
   },
   {
-    "title": "上下文、状态、知识与产物的边界",
-    "chapter": "03 上下文、状态与记忆",
+    "title": "Context, State, Knowledge and Artifacts",
+    "chapter": "03 Context and Memory",
     "kind": "memory",
-    "lead": "给模型足够的信息做决策，把原始科学数据留在受控存储中",
+    "lead": "Give the model sufficient decision context while keeping scientific data in controlled storage",
     "body": [
       [
-        "上下文",
-        "当前目标、观察摘要、候选动作与资产ID"
+        "Context",
+        "Current goal, observation summaries, candidate actions and asset IDs"
       ],
       [
-        "运行状态",
-        "规格版本、计划节点、历史Attempt、预算和待确认问题"
+        "Runtime state",
+        "Spec versions, plan nodes, past attempts, budgets and questions awaiting confirmation"
       ],
       [
-        "检索知识",
-        "工具文档、领域方法、已验证流程与适用条件"
+        "Retrieved knowledge",
+        "Tool documentation, methods, validated workflows and applicability conditions"
       ],
       [
-        "产物与证据",
-        "原始文件、模型/图谱/轨迹、日志、指标与变换链"
+        "Artifacts and evidence",
+        "Raw files, models/maps/trajectories, logs, metrics and transform chains"
       ]
     ],
-    "take": "记忆提供可复用经验，产物提供本次真实证据；引用前检查版本与适用性"
+    "take": "Memory provides reusable experience. Current artifacts provide evidence. Check versions and applicability.",
+    "notes": ""
   },
   {
-    "title": "验证器：把通用运行检查与科学判据分开",
-    "chapter": "03 科学验证与证据交付",
+    "title": "Validation Separates Execution from Science",
+    "chapter": "03 Validation",
     "kind": "validation",
-    "lead": "同一Agent框架使用不同领域验证器，判据随任务定义",
+    "lead": "One agent framework uses different scientific validators according to the task specification",
     "body": [
       [
-        "通用检查",
-        "文件、schema与来源\n对象、参数与运行记录"
+        "Integrity checks",
+        "Files, schema, provenance\nObjects, parameters, run records"
       ],
       [
-        "领域验证",
-        "结构：映射与几何\n图谱：坐标与密度支持\n轨迹：采样与收敛"
+        "Domain checks",
+        "Structures: mapping, geometry\nMaps: coordinates, density support\nTrajectories: sampling, convergence"
       ],
       [
-        "解释检查",
-        "结论引用真实产物\n数值与对象逐项核对"
+        "Claim checks",
+        "Claims cite real artifacts\nVerify numbers and objects"
       ],
       [
-        "交付状态",
-        "接受 / 拒绝 / 证据不足\n保留限制和未解决问题"
+        "Delivery decision",
+        "Accept / reject / insufficient\nKeep unresolved limits"
       ]
     ],
-    "take": "退出码为0通常表示程序按自身规则成功退出，科学结果仍须独立验证",
+    "take": "Exit code 0 usually means software-defined success. Scientific results still require independent validation.",
     "refs": [
       "https://www.ebi.ac.uk/emdb/va/help/",
       "https://www.rcsb.org/docs/general-help/assessing-the-quality-of-3d-structures"
-    ]
+    ],
+    "notes": ""
   },
   {
-    "title": "示例一：未知密度的候选发现与建模",
-    "chapter": "同一框架处理多步科研任务",
+    "title": "Example I: Unknown Density to Candidate Models",
+    "chapter": "03 Scientific Example",
     "kind": "exampleA",
-    "lead": "用户只提供密度区域，系统根据输入条件选择计算分支",
+    "lead": "With only a density region, the system selects branches according to available inputs",
     "body": [
       [
-        "任务规格",
-        "确认图谱区域、空间坐标、候选范围和所需证据"
+        "Task specification",
+        "Confirm map region, coordinates, candidate scope and required evidence"
       ],
       [
-        "规划路径",
-        "map-first搜索，或先建骨架再做结构检索"
+        "Planning",
+        "Search map-first, or build a backbone before structural retrieval"
       ],
       [
-        "执行与验证",
-        "多候选拟合、局部密度与几何检查，保留证据不足分支"
+        "Execution and validation",
+        "Check fit, density and geometry.\nFlag insufficient evidence."
       ],
       [
-        "科研交付",
-        "候选排名、支持/反证、模型和图谱联动视图及后续任务"
+        "Scientific delivery",
+        "Rank candidates with evidence.\nLink views and follow-up tasks."
       ]
     ],
-    "take": "工具可替换，共享认知与执行架构；最高检索分数不能单独确认蛋白身份",
+    "take": "Reuse the architecture with replaceable tools. A top retrieval score alone cannot establish protein identity.",
     "refs": [
       "https://cryonet.ai/agent/",
       "https://github.com/3dem/model-angelo",
       "https://github.com/steineggerlab/foldseek"
     ],
-    "notes": ""
+    "notes": "Illustrative proposed workflow. The figure is an official CryoNet.Discovery example, not a run of this project’s agent."
   },
   {
-    "title": "示例二：轨迹中的构象与界面变化",
-    "chapter": "同一框架扩展到另一类科学数据",
+    "title": "Example II: Motion and Interfaces in Trajectories",
+    "chapter": "03 Scientific Example",
     "kind": "exampleB",
-    "lead": "用户问：“这段模拟中，域运动与界面接触怎样共同变化？”",
+    "lead": "Question: how do domain motion and interfacial contacts change together during this simulation?",
     "body": [
       [
-        "任务规格",
-        "拓扑/轨迹、时间单位、周期边界、链与区域、分析定义"
+        "Task specification",
+        "Topology/trajectory, time units, periodic boundaries, chains/regions and analysis definitions"
       ],
       [
-        "规划路径",
-        "去周期与对齐；域几何、接触和聚类可按依赖并行"
+        "Planning",
+        "Unwrap and align; run geometry, contacts and clustering as dependencies permit"
       ],
       [
-        "执行与验证",
-        "原子对应、采样区间、相关性、收敛与误差估计"
+        "Execution and validation",
+        "Check atom mappings, sampling windows, correlation, convergence and uncertainty"
       ],
       [
-        "科研交付",
-        "随时间曲线、状态代表构象、统计结果和物理解释限制"
+        "Scientific delivery",
+        "Time series, representative conformations, statistics and limits of physical interpretation"
       ]
     ],
-    "take": "接入轨迹工具及验证器即可复用控制架构；相关变化不能直接推出因果",
-    "notes": "本页为拟建任务场景，未声明已经运行MD分析。并行分支应使用同一预处理版本与时间索引。采样不足时标记证据有限，不能用轨迹帧数冒充独立样本数。"
+    "take": "Trajectory adapters and validators reuse the control design. Correlated changes do not establish causality.",
+    "notes": "Proposed scenario, not a completed MD analysis. Parallel branches must share preprocessing versions and time indices. Mark limited evidence when sampling is inadequate; trajectory frames are not independent samples."
   },
   {
-    "title": "工程部署架构与模块实现",
-    "chapter": "03 系统实现与部署",
+    "title": "Deployment: Services, Workers and Evidence",
+    "chapter": "03 Deployment",
     "kind": "deployment",
-    "lead": "把认知服务、作业执行和科学数据隔离部署，通过持久状态协调",
+    "lead": "Separate cognition, job execution and scientific data, coordinating them through persistent state",
     "body": [
       [
-        "交互与API",
-        "Web工作台、FastAPI/Pydantic等任务与资产模型"
+        "Interaction and API",
+        "Web workbench and task/asset models, e.g. FastAPI/Pydantic"
       ],
       [
-        "Agent服务",
-        "LangGraph等状态图、模型适配与知识检索"
+        "Agent service",
+        "A state graph such as LangGraph, model adapters and retrieval"
       ],
       [
-        "作业服务",
-        "队列、租约、幂等提交、取消和事件回传"
+        "Job service",
+        "Queue, leases, idempotency, cancellation and events"
       ],
       [
-        "计算与证据",
-        "CPU/GPU/HPC Worker、对象存储、元数据库与独立验证"
+        "Compute and evidence",
+        "CPU/GPU/HPC workers, object storage, metadata and independent validation"
       ]
     ],
-    "take": "模块合同先固定，工具先通过真实参考任务，再开放模型规划与动态组合",
+    "take": "Fix module contracts and pass real reference tasks before enabling dynamic model-driven composition.",
     "widths": [
       280,
       590,
@@ -826,121 +836,124 @@
       "https://docs.langchain.com/oss/python/langgraph/overview",
       "https://docs.langchain.com/oss/python/langgraph/persistence"
     ],
-    "notes": "部署图为建议实现。Web/API和Agent服务不直接执行任意科学命令，作业服务调用隔离Worker。关系数据库保存任务、状态、版本与权限；对象存储保存结构、图谱、轨迹和日志；工具/知识注册与独立验证模块独立版本化。首版不要求同时实现全部GPU/HPC后端。"
+    "notes": "Recommended design. Web/API and agent services do not directly execute arbitrary scientific commands. The job service invokes isolated workers. A relational database stores tasks, state, versions and permissions. Object storage holds models, maps, trajectories and logs. Registries and validators are versioned separately. The first release need not implement every GPU/HPC backend."
   },
   {
-    "title": "实验设计：评估Agent，而不只测科学工具",
-    "chapter": "04 评估设计",
+    "title": "Experiments Measure the Agent’s Contribution",
+    "chapter": "04 Evaluation",
     "kind": "evaluation",
-    "lead": "固定工具和数据能力，比较控制机制是否提高任务完成质量",
+    "lead": "Hold tools and data capabilities fixed while comparing decision and control mechanisms",
     "body": [
       [
-        "B0 固定流程",
-        "预设计划执行，建立稳定任务基线"
+        "B0 Fixed workflow",
+        "Execute a preset plan\nas a stable task baseline"
       ],
       [
-        "B1 基础Agent",
-        "同模型、同工具、同预算，自主选择步骤"
+        "B1 Basic agent",
+        "Same model, tools, budget\nChoose steps dynamically"
       ],
       [
-        "B2 合同与验证",
-        "加入任务约束、运行时质量门控与有限修订"
+        "B2 Contracts + validation",
+        "Add task constraints,\nquality gates and bounded revision"
       ],
       [
-        "统一外部评分",
-        "所有组使用同一冻结评分器，并保留全部任务分母"
+        "External scoring",
+        "Use one frozen scorer\nand retain all tasks in denominators"
       ]
     ],
-    "take": "主要报告任务成功、科学错误、拒答质量、总成本和耗时，不预设提升幅度"
+    "take": "Report task success, scientific errors, abstention quality, total cost and elapsed time without assumed gains.",
+    "notes": ""
   },
   {
-    "title": "评估与优化：定位失败层再改变机制",
-    "chapter": "04 持续优化",
+    "title": "Optimization Starts with Failure Attribution",
+    "chapter": "04 Evaluation and Optimization",
     "kind": "optimization",
-    "lead": "跨任务留出与机制消融同时检查通用性和代价",
+    "lead": "Held-out combinations and mechanism ablations test generalization as well as cost",
     "body": [
       [
-        "数据与泛化",
-        "按家族/对象/任务组合留出；冻结数据库与输入处理，登记污染风险"
+        "Data and generalization",
+        "Hold out families, objects or task combinations. Freeze databases and preprocessing; track contamination."
       ],
       [
-        "机制消融",
-        "分别移除任务合同、运行时验证反馈和恢复策略"
+        "Mechanism ablations",
+        "Remove task contracts, runtime validation feedback and recovery policies separately."
       ],
       [
-        "故障测试",
-        "缺字段、错映射、残缺产物、作业超时、工具不可用和恶意内容"
+        "Fault injection",
+        "Missing fields, wrong mappings, incomplete artifacts, timeouts, unavailable tools and malicious content."
       ],
       [
-        "优化归因",
-        "区分意图、规划、工具、数据、科学验证和解释错误，修改后回归"
+        "Failure attribution",
+        "Separate intent, planning, tool, data, validation and explanation errors. Regress after changes."
       ]
     ],
-    "take": "以任务或家族为统计单位，配对比较并报告区间；重复尝试不当独立样本"
+    "take": "Use tasks or families as statistical units, with paired comparisons and intervals. Attempts are not independent.",
+    "notes": ""
   },
   {
-    "title": "安全与运行：权限进入执行路径",
-    "chapter": "04 工程落地",
+    "title": "Safety Controls Are Part of Execution",
+    "chapter": "04 Safety and Operations",
     "kind": "safety",
-    "lead": "模型不能绕过工具网关、数据策略与资源边界",
+    "lead": "A model must respect the tool gateway, data policies and resource boundaries",
     "body": [
       [
-        "执行控制",
-        "工具白名单、参数与路径校验、隔离环境、资源配额和幂等提交"
+        "Execution controls",
+        "Tool allowlists, parameter/path checks, isolation, quotas and idempotent submission"
       ],
       [
-        "数据与输入",
-        "项目隔离、私有结构出域规则、不可信PKL/目录的受限导入"
+        "Data and inputs",
+        "Project isolation, private-structure egress policies, restricted import of untrusted PKL/directories"
       ],
       [
-        "人工检查点",
-        "昂贵计算、敏感外发和科学规格变更绑定具体动作确认"
+        "Human checkpoints",
+        "Bind expensive computation, sensitive egress and scientific-spec changes to concrete approvals"
       ],
       [
-        "运行保障",
-        "追踪、报警、任务恢复、备份、版本回滚与可复算包"
+        "Operational safeguards",
+        "Tracing, alerts, recovery, backups, rollback and reproducibility bundles"
       ]
     ],
-    "take": "安全测试与科学回归一起进入上线门槛，不依赖模型自我约束"
+    "take": "Release gates combine safety tests with scientific regression tests, enforced outside the model.",
+    "notes": ""
   },
   {
-    "title": "开发路线与交付门槛",
-    "chapter": "04 实施路线",
+    "title": "Development Roadmap and Delivery Gates",
+    "chapter": "04 Delivery",
     "kind": "roadmap",
-    "lead": "按可检查的系统能力推进，同时逐项扩大结构生物学覆盖",
+    "lead": "Progress by verifiable system capabilities while expanding scientific task coverage",
     "body": [
       [
-        "阶段",
-        "核心交付",
-        "进入下一阶段的条件"
+        "Stage",
+        "Core deliverables",
+        "Gate to the next stage"
       ],
       [
-        "1 合同与基准",
-        "任务族、资产模型、工具/验证schema和参考任务",
-        "输入输出明确，独立评分器可用"
+        "1 Contracts and baselines",
+        "Task families, asset model, tool/validator schemas, reference tasks",
+        "Defined inputs/outputs and an independent scorer"
       ],
       [
-        "2 真实执行",
-        "固定流程、工具适配、产物与作业持久化",
-        "可复算、可取消、失败可定位"
+        "2 Real execution",
+        "Fixed workflows, adapters, persistent jobs and artifacts",
+        "Reproducible, cancellable, diagnosable runs"
       ],
       [
-        "3 Agent闭环",
-        "模型规划、观察更新、有限修订和证据交付",
-        "同预算对照、消融与故障测试完成"
+        "3 Agent control loop",
+        "Model planning, observations, bounded revision, evidence delivery",
+        "Budget-matched controls, ablations and fault tests"
       ],
       [
-        "4 扩展与服务",
-        "更多科学任务、GPU/HPC适配和运行保障",
-        "每项能力通过参考任务和运行验收"
+        "4 Expansion and service",
+        "More tasks, GPU/HPC adapters and operational support",
+        "Reference-task and operational acceptance per capability"
       ]
     ],
-    "take": "总体目标：统一Agent架构 + 持续扩展的结构任务生态 + 独立可复核交付",
+    "take": "One agent architecture, an expanding scientific tool ecosystem, and independently auditable delivery.",
     "widths": [
       250,
       650,
       400
     ],
-    "notes": "这是30页Agent方案的实施路线，沿用现有PRD0.2作为已定义开发基线，新的领域任务通过扩展合同和适配器逐项接入，不另造平行PRD版本。本轮更新的是设计汇报和功能覆盖目标，并未部署新的Agent运行服务。"
+    "notes": "Implementation roadmap for the 30-slide proposal. Existing PRD 0.2 remains the defined development baseline. Extend contracts and adapters for new scientific tasks rather than creating a parallel baseline. This update delivers research/design material, not a newly deployed agent service."
   }
 ]

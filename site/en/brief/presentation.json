@@ -1,0 +1,160 @@
+{
+  "title": "Structural Biology Computational Agent",
+  "author": "Yi Zhou",
+  "language": "en",
+  "edition_date": "2026-11-14",
+  "source_date": "2026-11-13",
+  "slide_count": 30,
+  "slides": [
+    {
+      "page": 1,
+      "title": "Structural Biology\nComputational Agent",
+      "chapter": "Methods, Research Landscape and System Architecture"
+    },
+    {
+      "page": 2,
+      "title": "Research Roadmap",
+      "chapter": "Roadmap"
+    },
+    {
+      "page": 3,
+      "title": "Structural Research Connects Multiple Modalities",
+      "chapter": "01 Research Context"
+    },
+    {
+      "page": 4,
+      "title": "Agent Foundations: Reasoning, Action, Observation",
+      "chapter": "01 Agent Methods"
+    },
+    {
+      "page": 5,
+      "title": "Agent Methods Change Different System Components",
+      "chapter": "01 Agent Methods"
+    },
+    {
+      "page": 6,
+      "title": "Workflow, Single Agent or Multiple Agents?",
+      "chapter": "01 Architecture Choices"
+    },
+    {
+      "page": 7,
+      "title": "A Research-Role Map of Biological Agents",
+      "chapter": "01 Biological and Structural Agents"
+    },
+    {
+      "page": 8,
+      "title": "Knowledge, Analysis and Experimental Decisions",
+      "chapter": "01 Biological Agents"
+    },
+    {
+      "page": 9,
+      "title": "Structural Agents: Software and Quality Gates",
+      "chapter": "01 Structural Biology Agents"
+    },
+    {
+      "page": 10,
+      "title": "Protein Engineering: Design and Hypothesis Tests",
+      "chapter": "01 Protein Engineering Agents"
+    },
+    {
+      "page": 11,
+      "title": "From Existing Systems to Our Research Questions",
+      "chapter": "01 Research Gaps"
+    },
+    {
+      "page": 12,
+      "title": "Positioning and Testable Hypotheses",
+      "chapter": "01 Research Hypotheses"
+    },
+    {
+      "page": 13,
+      "title": "Capability Map I: Data, Building and Experiments",
+      "chapter": "02 Task Space"
+    },
+    {
+      "page": 14,
+      "title": "Capability Map II: Analysis, Simulation and Design",
+      "chapter": "02 Task Space"
+    },
+    {
+      "page": 15,
+      "title": "Structural Biology Agent: Core Architecture",
+      "chapter": "02 Core Architecture"
+    },
+    {
+      "page": 16,
+      "title": "The Agent Loop: State, Actions and Validation",
+      "chapter": "02 Agent Control"
+    },
+    {
+      "page": 17,
+      "title": "Task Specifications Make Intent Computable",
+      "chapter": "03 Specifications"
+    },
+    {
+      "page": 18,
+      "title": "Planning Combines Retrieval and Dependencies",
+      "chapter": "03 Planning"
+    },
+    {
+      "page": 19,
+      "title": "The Registry Makes Scientific Tools Discoverable",
+      "chapter": "03 Tool Integration"
+    },
+    {
+      "page": 20,
+      "title": "State Controls the Next Action",
+      "chapter": "03 State and Recovery"
+    },
+    {
+      "page": 21,
+      "title": "Long Jobs Are Independent of Model Sessions",
+      "chapter": "03 Execution"
+    },
+    {
+      "page": 22,
+      "title": "Context, State, Knowledge and Artifacts",
+      "chapter": "03 Context and Memory"
+    },
+    {
+      "page": 23,
+      "title": "Validation Separates Execution from Science",
+      "chapter": "03 Validation"
+    },
+    {
+      "page": 24,
+      "title": "Example I: Unknown Density to Candidate Models",
+      "chapter": "03 Scientific Example"
+    },
+    {
+      "page": 25,
+      "title": "Example II: Motion and Interfaces in Trajectories",
+      "chapter": "03 Scientific Example"
+    },
+    {
+      "page": 26,
+      "title": "Deployment: Services, Workers and Evidence",
+      "chapter": "03 Deployment"
+    },
+    {
+      "page": 27,
+      "title": "Experiments Measure the Agent’s Contribution",
+      "chapter": "04 Evaluation"
+    },
+    {
+      "page": 28,
+      "title": "Optimization Starts with Failure Attribution",
+      "chapter": "04 Evaluation and Optimization"
+    },
+    {
+      "page": 29,
+      "title": "Safety Controls Are Part of Execution",
+      "chapter": "04 Safety and Operations"
+    },
+    {
+      "page": 30,
+      "title": "Development Roadmap and Delivery Gates",
+      "chapter": "04 Delivery"
+    }
+  ]
+}

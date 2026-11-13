@@ -1,0 +1,502 @@
+{
+  "document_type": "EDITORIAL_ENGLISH_GUIDE_NOT_A_NEW_API_VERSION",
+  "source_version": "0.2",
+  "status": "PROPOSED_REVIEW_BASELINE_NOT_IMPLEMENTED",
+  "english_edition_date": "2026-11-14",
+  "requirements": [
+    {
+      "id": "FR-01",
+      "priority": "P0",
+      "title": "Project and task identity",
+      "requirement": "Create a stable task_id and immutable original-request TaskRevision. Preallocate an ANALYZE Run while the candidate specification is still DRAFT; freeze the original request, inputs, model configuration, trusted scope and total budget. Intent parsing, clarification, planning, repair, tools and reporting belong to this same Run. Reject unauthorized creation; deduplicate repeated requests.",
+      "acceptance_ids": [
+        "AC-10",
+        "AC-14",
+        "AC-19"
+      ]
+    },
+    {
+      "id": "FR-02",
+      "priority": "P0",
+      "title": "Controlled input import",
+      "requirement": "Validate source, size, actual format and access. Store immutable original bytes with SHA-256 and acquisition metadata. Download only from configured sources. Reject empty responses, HTML error pages, unsupported formats and unclear permission; never silently replace the file.",
+      "acceptance_ids": [
+        "AC-01",
+        "AC-02",
+        "AC-12"
+      ]
+    },
+    {
+      "id": "FR-03",
+      "priority": "P0",
+      "title": "Object inventory and preprocessing",
+      "requirement": "List model/entity, author and label chain identities, residue and atom counts, insertion codes, missing data and alternate conformers. Record before/after selection changes and whether ligands, waters and ions participate. Stop affected calculations if identity cannot be explained.",
+      "acceptance_ids": [
+        "AC-02",
+        "AC-19"
+      ]
+    },
+    {
+      "id": "FR-04",
+      "priority": "P0",
+      "title": "Natural language to TaskSpec",
+      "requirement": "Within the preallocated Run, derive the goal, objects, selections, fit/evaluation regions, contact definition, units, outputs and constraints. Preserve candidate provenance. Before the first scientific computation, programmatically check and freeze one FrozenTaskSpec with frozen_spec_id; every formal plan references that identity.",
+      "acceptance_ids": [
+        "AC-01",
+        "AC-06",
+        "AC-07"
+      ]
+    },
+    {
+      "id": "FR-05",
+      "priority": "P0",
+      "title": "Necessary clarification and revision",
+      "requirement": "Ask only questions that change scientific meaning. Before freezing, append answers to the same Run without rewriting the original request, extending its deadline or resetting its budget. After freezing, a changed goal, object, selection or method creates a linked new TaskRevision and Run; preserve all old costs and unresolved state.",
+      "acceptance_ids": [
+        "AC-01",
+        "AC-07"
+      ]
+    },
+    {
+      "id": "FR-06",
+      "priority": "P0",
+      "title": "Available capability catalogue",
+      "requirement": "Expose scientific purpose, preconditions, typed I/O, version, resource class and validated range. Keep registration, deployment health, reference-test passage and current authorization separate. A declared interface alone is not READY and must not be offered as executable.",
+      "acceptance_ids": [
+        "AC-11",
+        "AC-12",
+        "AC-20"
+      ]
+    },
+    {
+      "id": "FR-07",
+      "priority": "P0",
+      "title": "Dependency planning and preflight compilation",
+      "requirement": "The model proposes typed steps, dependencies, expected artifacts, validation nodes and stop conditions under the same frozen specification. Deterministically reject cycles, missing references, incompatible types, failed scientific preconditions, denied access and excessive budgets. A PlanRevision may change execution strategy within the same contract, not the scientific question.",
+      "acceptance_ids": [
+        "AC-01",
+        "AC-11",
+        "AC-12",
+        "AC-13"
+      ]
+    },
+    {
+      "id": "FR-08",
+      "priority": "P0",
+      "title": "Selections and cross-structure mapping",
+      "requirement": "Materialize one-to-one atom pairs while retaining author/label namespaces and insertion codes. A frozen sequence correspondence rule may propose the mapping, but expose coverage, conflicts, missing residues and unmatched items. Empty selections, duplicate pairs or unresolved ambiguity block fitting.",
+      "acceptance_ids": [
+        "AC-02",
+        "AC-03"
+      ]
+    },
+    {
+      "id": "FR-09",
+      "priority": "P0",
+      "title": "Superposition and regional comparison",
+      "requirement": "Compute the specified right-handed rigid transform, evaluation-region RMSD and per-pair displacement. Distinguish full-chain fitting, independent fits per region and evaluation after a fixed CORE fit. Record atom pairs and exclusions; do not silently trim outliers. Reject degeneracy, non-finite values and unsupported units.",
+      "acceptance_ids": [
+        "AC-03",
+        "AC-05"
+      ]
+    },
+    {
+      "id": "FR-10",
+      "priority": "P0",
+      "title": "Geometric contacts",
+      "requirement": "Use the frozen object identities, heavy-atom selection, Euclidean-distance threshold and explicit < or ≤ rule. Return atom pairs and separately deduplicated residue summaries. Do not promote distance contacts into hydrogen bonds, affinity or functional causation without the required evidence.",
+      "acceptance_ids": [
+        "AC-04",
+        "AC-05"
+      ]
+    },
+    {
+      "id": "FR-11",
+      "priority": "P0",
+      "title": "Controlled real execution",
+      "requirement": "Run fixed adapters in restricted Worker environments, with read-only inputs, dedicated outputs and enforced process/network/resource limits. Persist actual Step/Attempt execution facts. Ordinary new immutable artifacts within an authorized project are automatically allowed; the model cannot invent successful files.",
+      "acceptance_ids": [
+        "AC-09",
+        "AC-12",
+        "AC-13",
+        "AC-14"
+      ]
+    },
+    {
+      "id": "FR-12",
+      "priority": "P0",
+      "title": "Bounded retries and scientific repair",
+      "requirement": "Retry only safe transient failures within limits. Append diagnosed PlanRevisions and Attempts under the same FrozenTaskSpec and remaining Run budget. Preserve the goal, acceptance rules, all failed candidates and all costs. Stop when exhausted, stalled, denied or unrecoverable; never relax a threshold merely to obtain a pass.",
+      "acceptance_ids": [
+        "AC-05",
+        "AC-08",
+        "AC-14"
+      ]
+    },
+    {
+      "id": "FR-13",
+      "priority": "P0",
+      "title": "Query, cancellation and recovery",
+      "requirement": "Use server-side facts as the authority; closing a page does not remove the Run. Separate a cancellation request from confirmed termination. Reconcile actual processes/jobs and existing artifacts before resubmitting. Preserve UNKNOWN when the side effect cannot be established.",
+      "acceptance_ids": [
+        "AC-14",
+        "AC-15"
+      ]
+    },
+    {
+      "id": "FR-14",
+      "priority": "P0",
+      "title": "Execution and scientific acceptance",
+      "requirement": "Record execution status independently from scientific_status. Check identity, mapping, units, schema, numerical invariants or independent references, and report citations. Successful process exit does not establish scientific acceptance. Invalid candidates may be shown only with explicit diagnostic labels.",
+      "acceptance_ids": [
+        "AC-05",
+        "AC-06",
+        "AC-18"
+      ]
+    },
+    {
+      "id": "FR-15",
+      "priority": "P0",
+      "title": "Evidence report and analytical views",
+      "requirement": "P0 provides object/mapping tables, metrics, displacement/contact plots and auditable selection manifests. Optional read-only Mol* 3D highlighting is P1. Report the question, objects, method, results, evidence, limits and unfinished parts; populate numerical values from validated artifacts.",
+      "acceptance_ids": [
+        "AC-18",
+        "AC-19"
+      ]
+    },
+    {
+      "id": "FR-16",
+      "priority": "P0",
+      "title": "Immutable artifacts and downloads",
+      "requirement": "Automatically save authorized new project outputs and allow downloads within the same access policy. A reproducibility bundle records input identities, frozen specification, parameters, versions, artifacts and checks. Including original inputs depends on data rights; reject corrupted, missing or no-longer-authorized downloads.",
+      "acceptance_ids": [
+        "AC-09",
+        "AC-10",
+        "AC-19"
+      ]
+    },
+    {
+      "id": "FR-17",
+      "priority": "P0",
+      "title": "High-impact actions and approval",
+      "requirement": "P0 keeps arbitrary code, export, overwriting and real HPC submission disabled rather than displaying nonfunctional approval controls. P1 approval binds the exact actor, project, input hashes, destination, parameters, versions, expiry and one-time use. Approval cannot expand hard permissions, support scope or cumulative hard budget.",
+      "acceptance_ids": [
+        "AC-11",
+        "AC-16"
+      ]
+    },
+    {
+      "id": "FR-18",
+      "priority": "P0",
+      "title": "Identity, projects and data boundaries",
+      "requirement": "A team pilot needs real server-side authentication and per-object authorization across storage, retrieval, state, caches, streams and download. Apply separate policies to private coordinates sent to a model, traces and exports. Model-supplied roles or tenant names confer no authority; connectors keep credentials server-side.",
+      "acceptance_ids": [
+        "AC-10",
+        "AC-11",
+        "AC-17"
+      ]
+    },
+    {
+      "id": "FR-19",
+      "priority": "P0",
+      "title": "Trace, cost and error ledger",
+      "requirement": "From Run creation, retain parsing, clarification, planning, execution, validation and reporting events, structured failures, retries, both outcome types and cumulative resource use. Break down model/tool/failure/retry costs. Mark missing billing UNKNOWN rather than zero; minimize and redact sensitive diagnostics.",
+      "acceptance_ids": [
+        "AC-08",
+        "AC-13",
+        "AC-17",
+        "AC-19",
+        "AC-22"
+      ]
+    },
+    {
+      "id": "FR-20",
+      "priority": "P0",
+      "title": "Model configuration and planner adapter",
+      "requirement": "Use a provider-neutral Planner/ModelAdapter and one initial production configuration. Freeze model/prompt settings before the Run. All model calls, including intent parsing, belong to it. Missing credentials, quota or network must produce an explicit failure; fixed-plan reference mode is visibly separate.",
+      "acceptance_ids": [
+        "AC-06",
+        "AC-08",
+        "AC-17"
+      ]
+    },
+    {
+      "id": "FR-21",
+      "priority": "P0",
+      "title": "Reproduction and version freeze",
+      "requirement": "Publish a machine-readable manifest distinguishing deterministic computations from stochastic model/search choices. Freeze or identify inputs, tool/environment/checker versions and tolerances. Disclose hosted components that cannot be frozen; identify missing material instead of claiming complete reproduction.",
+      "acceptance_ids": [
+        "AC-19",
+        "AC-21"
+      ]
+    },
+    {
+      "id": "FR-22",
+      "priority": "P0",
+      "title": "Capability packaging and release",
+      "requirement": "Ship purpose, preconditions, schemas, limits, adapter, error codes, independent checks, reference tasks and reporting rules together. Enable a capability only after contract, numerical, permission and existing-regression checks pass. Registration is not deployment.",
+      "acceptance_ids": [
+        "AC-12",
+        "AC-20",
+        "AC-21"
+      ]
+    },
+    {
+      "id": "FR-23",
+      "priority": "P0",
+      "title": "Regression and real-model evaluation",
+      "requirement": "First test contracts, numerics and deterministic execution; then test real-model object interpretation, planning, artifacts, explanations, refusal and total cost. Freeze the final test set. Missing Run artifacts remain failures; a broken global reference/scorer makes the evaluation INVALID, rather than making every model answer wrong.",
+      "acceptance_ids": [
+        "AC-05",
+        "AC-06",
+        "AC-07",
+        "AC-08",
+        "AC-21",
+        "AC-22"
+      ]
+    },
+    {
+      "id": "FR-24",
+      "priority": "P0",
+      "title": "Feedback and failure triage",
+      "requirement": "Link feedback to an accessible Run, frozen contract and relevant Attempt/artifact/report version. Creation is NEEDS_REPRODUCTION. Authorized reproduction and scientific review append REPRODUCED, DISPUTED or resolution evidence; confirmed defects link a regression task and fix version. Likes and model self-assessment do not become scientific truth.",
+      "acceptance_ids": [
+        "AC-05",
+        "AC-08",
+        "AC-21"
+      ]
+    }
+  ],
+  "acceptance": [
+    {
+      "id": "AC-01",
+      "title": "Input and specification contracts",
+      "pass_rule": "Round-trip valid normalized selections; append pre-freeze clarification within one Run; bind frozen_spec_id before scientific execution. Invalid, unknown or non-finite parameters never reach scientific tools."
+    },
+    {
+      "id": "AC-02",
+      "title": "Unambiguous structural identity",
+      "pass_rule": "Preserve model, instance, namespace, mapping, counts, exclusions and input hash. Similar numbering or finite output cannot rescue a wrong object."
+    },
+    {
+      "id": "AC-03",
+      "title": "Superposition and reference frames",
+      "pass_rule": "Agree with a pre-frozen independent reference within tool-specific tolerances. Record R/t convention, fit region F, evaluation region E and det(R)>0. The AdK full-chain value near 7.130700 Å is one regression fixture only."
+    },
+    {
+      "id": "AC-04",
+      "title": "Recomputable contact definition",
+      "pass_rule": "Match atom-pair counts and deduplicated residue counts separately, including units and threshold convention. Do not infer affinity or hydrogen bonds from proximity alone."
+    },
+    {
+      "id": "AC-05",
+      "title": "A checker cannot certify itself",
+      "pass_rule": "Block all injected critical defects from trusted delivery. Disclose shared code/reference dependencies between the runtime validator and external acceptance; add independent recalculation for shared critical logic."
+    },
+    {
+      "id": "AC-06",
+      "title": "Real-model end-to-end completion",
+      "pass_rule": "Meet frozen quality goals using actual model-selected actions and actual observations. Keep all versions, Attempts, failures and costs. Fixed plans and mock models do not satisfy this gate."
+    },
+    {
+      "id": "AC-07",
+      "title": "Ambiguous, invalid and unsupported tasks",
+      "pass_rule": "Ask only decisive questions; apply documented defaults transparently; never invent a capability or silently substitute the goal. Score expected handling against frozen labels."
+    },
+    {
+      "id": "AC-08",
+      "title": "Complete denominators and cost",
+      "pass_rule": "Missing artifacts count as failed Runs. Retries add Attempts and cost, not independent samples. Report UNKNOWN costs and coverage. Corrupted global references produce INVALID_EVALUATION."
+    },
+    {
+      "id": "AC-09",
+      "title": "Normal outputs proceed automatically",
+      "pass_rule": "Authorized new project artifacts and same-permission downloads require no extra approval. Overwrite/export actions cannot masquerade as normal output, and approval cannot enable disabled P0 actions."
+    },
+    {
+      "id": "AC-10",
+      "title": "Real authentication and project isolation",
+      "pass_rule": "Derive actor/project from a trusted server session and authorize every resource. Block cross-project reads, writes and cache borrowing; revoke new access when a session or membership is withdrawn."
+    },
+    {
+      "id": "AC-11",
+      "title": "Untrusted data cannot grant capability",
+      "pass_rule": "Retrieved text cannot alter permissions, registry, budgets or approvals. Keep legitimate branches usable when rejecting an unrelated action. Measure task utility and actual unauthorized effects separately."
+    },
+    {
+      "id": "AC-12",
+      "title": "Fixed execution entry points and effective isolation",
+      "pass_rule": "No arbitrary shell/eval. Enforce read-only inputs, a dedicated output root, no host credentials, network/resource restrictions and process cleanup. Test path-resolution races, not just strings."
+    },
+    {
+      "id": "AC-13",
+      "title": "Atomic cumulative budget",
+      "pass_rule": "The server defines costs and hard limits. Reserve before each action and settle actual use across the entire Run. Resume/replanning cannot reset limits or hide costs; approval cannot override them."
+    },
+    {
+      "id": "AC-14",
+      "title": "Stable identities through retry and recovery",
+      "pass_rule": "Reuse the same operation for the same authenticated scope, idempotency key and payload digest; conflict on changed payload. Preserve every Attempt and prevent duplicate accepted publication."
+    },
+    {
+      "id": "AC-15",
+      "title": "Cancellation and UNKNOWN reflect execution facts",
+      "pass_rule": "Do not claim termination at request time. Reconcile uncertain effects before resubmission and settle resources after actual process/job cleanup. P0 does not claim verified Slurm recovery."
+    },
+    {
+      "id": "AC-16",
+      "title": "Exact high-impact approval",
+      "pass_rule": "Expire approval when a critical field changes; validate approver authority and consume it once. A digest alone grants no authority. Ordinary new reports do not need approval."
+    },
+    {
+      "id": "AC-17",
+      "title": "Credentials and data minimization",
+      "pass_rule": "Inject credentials only in controlled connectors. Exclude them from model context, reports, URLs and normal logs. Private model-bound data must satisfy project policy."
+    },
+    {
+      "id": "AC-18",
+      "title": "Readable and injection-safe reports",
+      "pass_rule": "Show objects, selections, method, units, results, evidence, exclusions and limits. Clearly label inconclusive science. Escape uploaded text/scripts and expose only authorized completed data."
+    },
+    {
+      "id": "AC-19",
+      "title": "Complete provenance and replay",
+      "pass_rule": "Link original TaskRevision, candidate/clarification events, FrozenTaskSpec, PlanRevision and Attempt; retain all critical versions/hashes. Same-contract repair shares a Run; changed science creates a linked new Run. Preserve validation history."
+    },
+    {
+      "id": "AC-20",
+      "title": "Extensions preserve existing capabilities",
+      "pass_rule": "Require scientific purpose, preconditions, I/O, permissions, resource/error semantics, validators and reference tasks. Do not offer an unvalidated capability as READY; prevent severe old-task regressions."
+    },
+    {
+      "id": "AC-21",
+      "title": "Feedback, release and rollback are exercisable",
+      "pass_rule": "Version code/images/configuration/references and acceptance evidence. Stop on severe scientific error, unauthorized effects or major regressions. Preserve feedback history and in-flight versions; a FIXED issue needs regression/fix references and cannot rewrite old scientific outcomes."
+    },
+    {
+      "id": "AC-22",
+      "title": "Performance only under declared load",
+      "pass_rule": "Calibrate and freeze SLOs and hardware after the pilot. P95 acceptance/query latency ≤2 s is a candidate target, excluding model inference and scientific completion; it is not a measured capacity claim."
+    }
+  ],
+  "traceability": {
+    "FR-01": [
+      "AC-10",
+      "AC-14",
+      "AC-19"
+    ],
+    "FR-02": [
+      "AC-01",
+      "AC-02",
+      "AC-12"
+    ],
+    "FR-03": [
+      "AC-02",
+      "AC-19"
+    ],
+    "FR-04": [
+      "AC-01",
+      "AC-06",
+      "AC-07"
+    ],
+    "FR-05": [
+      "AC-01",
+      "AC-07"
+    ],
+    "FR-06": [
+      "AC-11",
+      "AC-12",
+      "AC-20"
+    ],
+    "FR-07": [
+      "AC-01",
+      "AC-11",
+      "AC-12",
+      "AC-13"
+    ],
+    "FR-08": [
+      "AC-02",
+      "AC-03"
+    ],
+    "FR-09": [
+      "AC-03",
+      "AC-05"
+    ],
+    "FR-10": [
+      "AC-04",
+      "AC-05"
+    ],
+    "FR-11": [
+      "AC-09",
+      "AC-12",
+      "AC-13",
+      "AC-14"
+    ],
+    "FR-12": [
+      "AC-05",
+      "AC-08",
+      "AC-14"
+    ],
+    "FR-13": [
+      "AC-14",
+      "AC-15"
+    ],
+    "FR-14": [
+      "AC-05",
+      "AC-06",
+      "AC-18"
+    ],
+    "FR-15": [
+      "AC-18",
+      "AC-19"
+    ],
+    "FR-16": [
+      "AC-09",
+      "AC-10",
+      "AC-19"
+    ],
+    "FR-17": [
+      "AC-11",
+      "AC-16"
+    ],
+    "FR-18": [
+      "AC-10",
+      "AC-11",
+      "AC-17"
+    ],
+    "FR-19": [
+      "AC-08",
+      "AC-13",
+      "AC-17",
+      "AC-19",
+      "AC-22"
+    ],
+    "FR-20": [
+      "AC-06",
+      "AC-08",
+      "AC-17"
+    ],
+    "FR-21": [
+      "AC-19",
+      "AC-21"
+    ],
+    "FR-22": [
+      "AC-12",
+      "AC-20",
+      "AC-21"
+    ],
+    "FR-23": [
+      "AC-05",
+      "AC-06",
+      "AC-07",
+      "AC-08",
+      "AC-21",
+      "AC-22"
+    ],
+    "FR-24": [
+      "AC-05",
+      "AC-08",
+      "AC-21"
+    ]
+  }
+}

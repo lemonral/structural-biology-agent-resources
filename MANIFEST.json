@@ -3,13 +3,14 @@
   "archive_date": "2026-11-14",
   "repository": "lemonral/structural-biology-agent-resources",
   "visibility": "private",
-  "site_file_count": 945,
-  "site_total_bytes": 619186267,
+  "site_file_count": 1124,
+  "site_total_bytes": 628447716,
   "current_presentation": {
-    "path": "site/brief/structbio-agent-landscape-30-20261113.pptx",
+    "path": "site/en/brief/structural-biology-agent-30-en.pptx",
     "pages": 30,
-    "version": "2026-11-13",
-    "sha256": "e4b0be985d6dc9baaf31e787f75efbdd325d7afacb43be0073c0e7504871a36d"
+    "language": "en",
+    "version": "2026-11-14",
+    "sha256": "853944b2005fd648b427a09f0a626035ed79a03f64a404fa1fb08be459594bae"
   },
   "excluded": [
     "macOS metadata",
@@ -18,5 +19,29 @@
     "build caches",
     "intermediate PPT exports",
     "old build directory backups"
-  ]
+  ],
+  "default_language": "en",
+  "languages": [
+    "en",
+    "zh-CN"
+  ],
+  "english_edition": {
+    "language": "en",
+    "edition_date": "2026-11-14",
+    "author": "Yi Zhou (周熠)",
+    "default_entry": "en/",
+    "html_pages": 136,
+    "paper_guides": 80,
+    "project_guides": 39,
+    "engineering_chapters": 8,
+    "presentation_slides": 30,
+    "scope": "English editorial guides and current design/presentation edition. Chinese originals and historical decks are preserved. Paper guides are compact standalone editorial translations, not paragraph-by-paragraph reproductions. Original source-verification dates remain applicable.",
+    "presentation_sha256": "853944b2005fd648b427a09f0a626035ed79a03f64a404fa1fb08be459594bae"
+  },
+  "current_presentation_zh_CN": {
+    "path": "site/brief/structbio-agent-landscape-30-20261113.pptx",
+    "pages": 30,
+    "version": "2026-11-13",
+    "sha256": "e4b0be985d6dc9baaf31e787f75efbdd325d7afacb43be0073c0e7504871a36d"
+  }
 }

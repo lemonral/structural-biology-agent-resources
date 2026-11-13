@@ -1,0 +1,13 @@
+{
+  "language": "en",
+  "edition_date": "2026-11-14",
+  "author": "Yi Zhou (周熠)",
+  "default_entry": "en/",
+  "html_pages": 136,
+  "paper_guides": 80,
+  "project_guides": 39,
+  "engineering_chapters": 8,
+  "presentation_slides": 30,
+  "scope": "English editorial guides and current design/presentation edition. Chinese originals and historical decks are preserved. Paper guides are compact standalone editorial translations, not paragraph-by-paragraph reproductions. Original source-verification dates remain applicable.",
+  "presentation_sha256": "853944b2005fd648b427a09f0a626035ed79a03f64a404fa1fb08be459594bae"
+}

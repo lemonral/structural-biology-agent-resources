@@ -1,178 +1,71 @@
-# 生物学与结构生物学 Agent：代表系统及项目定位
+# Biological and structural agents: research landscape
 
-核验日期：2026-11-13。供 30 页学术汇报的 p7–p10 使用。以下是代表性路线图，**不声称穷尽领域，也不构成统一排行榜**。原论文、代码版本与在线产品可能不同；未实际部署这些系统。
+Author: Yi Zhou (周熠). English edition, 14 November 2026. Based on the archived research notes.
 
-## 可以直接放入 PPT 的四页
+## A Research-Role Map of Biological Agents
 
-### p7｜生物学 Agent 已覆盖多个科研环节，但组织方式并不相同
+Nine examples occupy different research roles: frameworks, research systems and software entry points
 
-**主结论：Agent 的价值从“回答知识问题”扩展到“组织科学工具与反馈”；不同系统围绕不同研究对象建立闭环。**
+- **Knowledge / research**: BioChatter; Biomni
+- **Analysis / experiment choice**: CellAgent; BioDiscoveryAgent
+- **Structure determination**: Phenix AI Agent; CryoNet.Agent; StructAgent
+- **Protein engineering**: ProtAgents; Sparks
 
-建议画成横向科研链条，而不是堆九个 Logo：
+A representative, overlapping classification rather than an exhaustive map or common autonomy ranking. BioChatter is an application framework. Biomni and CellAgent are research systems. Phenix and CryoNet entries use official implementation or capability documentation, which is not comparable to a shared benchmark protocol.
 
-```
-知识与数据接入       数据分析与实验决策        结构解析与质量控制       蛋白工程与假设检验
-BioChatter          Biomni / CellAgent       Phenix AI Agent        ProtAgents
-                    BioDiscoveryAgent       CryoNet.Agent           Sparks
-                                            StructAgent
-```
+- https://www.nature.com/articles/s41587-024-02534-3
+- https://github.com/snap-stanford/Biomni
+- https://arxiv.org/html/2407.09811v1
+- https://arxiv.org/abs/2405.17631
+- https://www.phenix-online.org/documentation/reference/ai_agent.html
+- https://cryonet.ai/agent/
+- https://github.com/bhgtiger/StructAgent
+- https://pubs.rsc.org/en/content/articlehtml/2024/dd/d4dd00013g
+- https://arxiv.org/html/2504.19017v1
 
-| 路线 | 主要对象 | Agent 组织什么 | 应从中学习什么 |
-|---|---|---|---|
-| 生物医学接入框架 | 文献、知识图谱、模型与接口 | 检索、上下文、模型调用 | 知识来源与模型能力解耦 |
-| 通用研究与数据分析 | 生物数据、代码、分析产物 | 选工具、写代码、执行与迭代 | 执行观察必须进入下一轮决策 |
-| 结构实验解析 | 序列、密度图、坐标、精修日志 | 专业程序、质量门控、专家审阅 | 领域约束进入参数和验收标准 |
-| 蛋白工程与发现 | 序列、结构、物理与性质指标 | 生成、预测、模拟、假设修订 | 区分代理评分、模拟证据与实验事实 |
+## Knowledge, Analysis and Experimental Decisions
 
-页底收束：**我们的研究问题：怎样把广泛的结构生物学工具接成可扩展、可验证、可恢复、可追溯的执行系统？** 这是对代表系统的设计归纳，不是“现有系统都不具备”的文献结论。
+These routes change different stages of research and use different kinds of feedback
 
-视觉：四条颜色一致的泳道；每个系统标“框架 / 研究系统 / 工作流平台”；边上用小图标标证据类型“论文基准 / 案例 / 官方功能文档”。不要按不同来源的成功率画比较柱状图。
+- **BioChatter: integration framework**: Knowledge graphs, RAG and model/API chains. Integration needs external fact-checking.
+- **Biomni: research environment**: Retrieve tools/data, plan and execute code. Public cases do not cover every structural task.
+- **CellAgent: analysis workflow**: Plan, execute and evaluate with tool retrieval. Single-cell evidence depends on data and metrics.
+- **BioDiscoveryAgent: experiment choice**: Select the next round from perturbation feedback. Data-based evaluation, not wet-lab automation.
 
-### p8｜从知识接入到执行闭环：四条生物医学路线
+Left: BioChatter author-manuscript Fig. 1, snapshot 2024-02-23, preserving its original meaning. The other three systems do not share this diagram. CellAgent follows the 2024 preprint mechanism, without mixing later-version scores. BioDiscoveryAgent illustrates experimental selection, not an instrument-control protocol.
 
-**主结论：检索、代码执行、质量评价与实验选择，是四种不同能力，不能用一个“多 Agent”标签替代。**
+- https://www.nature.com/articles/s41587-024-02534-3
+- https://biocypher.github.io/biochatter-paper/
+- https://github.com/snap-stanford/Biomni
+- https://arxiv.org/html/2407.09811v1
+- https://arxiv.org/abs/2405.17631
 
-| 系统与定位 | 问题与机制 | 已有证据与边界 | 对本项目的启发 |
-|---|---|---|---|
-| **BioChatter**｜应用接入框架 | 将 LLM、文献 RAG、知识图谱、模型链与评测模块化接入生物医学应用 | 展示知识访问与应用集成；第二 LLM 的事实检查不能替代独立科学验证 | 把知识检索、模型适配、科学工具分层 |
-| **Biomni**｜通用生物医学研究 Agent | 检索工具与数据能力，形成计划，采用代码执行完成分析 | 公开任务集及多种生物医学案例；通用覆盖面不等于任意结构任务已获验证 | 可检索的工具目录 + 可执行环境 + 真实结果回流 |
-| **CellAgent**｜单细胞分析系统 | Planner / Executor / Evaluator 分工；工具文档检索、沙箱执行、评价后迭代 | 单细胞批次校正、细胞类型注释、轨迹推断；结论依赖数据集与评价目标 | 用领域评分驱动改计划，而非仅根据代码是否报错 |
-| **BioDiscoveryAgent**｜实验决策系统 | 根据目标与已有扰动结果提出候选实验，检索知识，接收结果后修订 | 遗传扰动数据的闭环实验选择评价；不等同于自动操作湿实验仪器 | 显式记录“假设—选择—观察—下一轮” |
+## Structural Agents: Software and Quality Gates
 
-图文布局：左半放 BioChatter 作者稿 Fig.1，右半四个能力卡片；每卡用“输入→决策/执行→反馈”三行。**图是接入框架例子，其他三系统不能都画成同一架构。**
+Scientific engines build, fit and refine models. Agents organize steps, constraints and review
 
-图源：`assets/biochatter_overview_author_manuscript_20240223.png`。图注建议：“BioChatter 可组合架构，作者稿 Fig.1（2024-02-23 快照）；各项目机制由对应原文归纳。”
+- **Phenix AI Agent**: Crystallography and cryo-EM; LLM analysis and planning Parameter allowlists, stage gates; Official documentation and cases; Bounded by software and data Final structures need expert review
+- **CryoNet.Agent**: Workflows for maps, FASTA, models; Typed input catalogue Shared session and job entry; Official catalogue and tutorials; An interface is not a blind test Accept individual tools separately
+- **StructAgent**: cryo-EM building and revision; Reasoning with local execution Expert approval for major edits; Cases in the 2026 preprint; Evidence supports bounded tasks Not universal autonomous solving
 
-页间过渡：生物医学通用 Agent 解决了“工具如何连接”；结构研究进一步要求“对象怎样绑定、数值怎样验收、模型改动由谁批准”。
+Phenix documents PERCEIVE, THINK, PLAN, BUILD, VALIDATE and OUTPUT; LLMs mainly participate in THINK and PLAN. CryoNet descriptions use the archived official HTML when live retrieval timed out. StructAgent here is Xiaohu Guo’s cryo-EM system, not the unrelated arXiv:2607.11388 namesake. Cases and product documentation cannot support direct success-rate comparisons.
 
-### p9｜结构解析 Agent：把专业软件、质量指标与专家控制接入闭环
+- https://www.phenix-online.org/documentation/reference/ai_agent.html
+- https://cryonet.ai/agent/
+- https://www.biorxiv.org/content/10.64898/2026.05.18.725842v1
+- https://github.com/bhgtiger/StructAgent
 
-**主结论：LLM 组织步骤；结构建模、拟合、精修和验证仍由专业计算引擎及明确的质量规则承担。**
+## Protein Engineering: Design and Hypothesis Tests
 
-| 系统 | 面向对象 / 任务 | 核心控制机制 | 证据类型与边界 |
-|---|---|---|---|
-| **Phenix AI Agent** | 晶体学 / cryo-EM 结构确定 | PERCEIVE → THINK → PLAN → BUILD → VALIDATE → OUTPUT；LLM 主要参与 THINK / PLAN；程序与参数经过约束，质量门控推进流程 | 官方实现文档与案例；适用程序/流程受版本及环境限制，最终结构仍需专家审查 |
-| **CryoNet.Agent** | 密度图、序列、坐标及搜索对象；建模、发现、分析、精修、验证 | 会话式入口连接明确的工作流；任务目录规定输入类型、必填字段与结果类别 | 官方功能目录与教程；目录证明提供了入口，不等于统一任务基准上的准确率或全自动成功保证 |
-| **StructAgent**（cryo-EM） | 模型构建、精修与局部结构问题 | 领域推理 Agent + 本地执行 Agent；工具观察、状态追踪、失败恢复、来源记录；重大模型修改设专家批准 | 2026 预印本的结构案例，包括蛋白酶体重拟合、金属位点检查、歧义配体拟合；案例证据尚不能推出全面自主能力 |
+Generation, prediction, simulation and experimental validation support different levels of evidence
 
-建议主图：
+- **ProtAgents**: Group chat coordinates planning and critique. Tools combine generation, prediction and physics.; Computational design and physics examples. Compare collaboration at matched budgets.
+- **Sparks**: Generator–reflection pairs organize research. Code and analysis retain or revise hypotheses.; Computational studies of protein properties. Limited by sampling, models and conditions.
 
-```
-序列 / 密度图 / 模型 → 对象检查 → 受约束计划 → 专业程序 → 几何与图模一致性检查 → 结构产物
-                                   ↑                       │
-                              专家批准 / 修订 ← 证据与状态 ─┘
-```
+Left: original ProtAgents Fig. 1, preserving its meaning, not our architecture. ProtAgents demonstrates computational studies rather than a universal scientific benchmark. Sparks combines generation, prediction, secondary-structure/property models and MD. Surrogate scores or simulations do not establish experimental confirmation. External validation remains necessary.
 
-主图应标明“基于代表路线的归纳示意”，不要伪装成某一原论文图。图下三个系统短条各突出：**参数约束 / 工作流契约 / 专家门控**。不要写“系统首次提出这些机制”。
-
-页间过渡：结构解析以“解释已有实验数据”为主；蛋白工程还需要反复生成新候选，并检验性质与假设。
-
-### p10｜蛋白工程 Agent：从任务协作到计算假设的迭代检验
-
-**主结论：Agent 可组合生成模型、结构预测与物理评价，但生成结果和性质分数需要分层解释。**
-
-| | ProtAgents（2024） | Sparks（2025） |
-|---|---|---|
-| 科学目标 | 蛋白质设计与力学性质分析 | 从计算实验中提出并检验蛋白设计规律 |
-| Agent 组织 | 规划、执行、评价等角色，由群聊管理器协调 | 生成与反思成对组织，覆盖假设、编码、分析和报告 |
-| 科学工具 | Chroma、OmegaFold、性质模型与物理模拟等 | 序列生成、折叠、DSSP、力学性质预测与 MD 等 |
-| 可观察证据 | 检索与计算、de novo / 条件设计、振动性质等计算例子 | 肽链长度—二级结构—力学/稳定性关系的计算研究案例 |
-| 结论边界 | 所选工具与任务的示范；多角色优越性仍需同预算对照 | 模拟 / 代理模型支持的规律；须检查采样、假设、模型偏差和外部验证 |
-
-可视化：左侧用 ProtAgents 原论文 Fig.1；右侧画 5 步闭环：
-
-**假设 → 生成候选 → 预测结构与性质 → 模拟 / 对照分析 → 保留、修订或否定假设**
-
-页底用三层证据阶梯：**生成 / 评分产物 → 独立计算或模拟复核 → 实验验证**。阶梯是本汇报的证据分类，不声称每个项目完成全部三层。
-
-图源：`assets/protagents_fig1_arxiv_2024.png`，原论文 Fig.1，不修改图内含义。Sparks 源码链接由原文 Data and code availability 指向官方仓库。
-
-## 本项目定位的三条谨慎结论
-
-1. **广泛接工具不是单独的研究贡献。** 应回答：开放任务范围下，输入对象、参数、执行状态与验收证据能否持续保持一致？
-2. **Agent 框架不是科学正确性的来源。** ReAct / 多角色 / 图编排承担决策组织；几何、数值、图模一致性与方法假设仍需外部检查。
-3. **可扩展与可信需要分开实验。** 新工具接入成本、任务覆盖面、执行完成率、科学有效率、错误检出率、恢复行为、预算和人工介入量，各自对应不同主张。
-
-## 系统身份、原始来源与证据备注
-
-### 1. BioChatter
-
-- 身份：生物医学应用的可组合 Python 框架；不宜直接列成“完成结构解析的通用 Agent”。
-- 来源：[Nature Biotechnology 论文](https://www.nature.com/articles/s41587-024-02534-3)；[作者可读稿及 Fig.1](https://biocypher.github.io/biochatter-paper/)；[官方代码](https://github.com/biocypher/biochatter)。
-- 图版版本：作者站首页明示从 commit `5eaecd1` 于 2024-02-23 生成。正式论文与当前软件已有后续演进，PPT 的图片说明要保留快照日期。
-- 核验要点：框架将知识图谱、向量检索、模型链与接口组合；主响应及辅助检查回路可配置。LLM 检查仍可能共享偏差，不能当作结构真值裁判。
-
-### 2. Biomni
-
-- 身份：通用生物医学研究 Agent；代码型执行和领域环境是核心。
-- 来源：[作者论文 PDF](https://biomni.stanford.edu/paper.pdf)；[官方仓库及环境、示例、评估文档](https://github.com/snap-stanford/Biomni)。
-- 核验要点：检索增强规划与代码执行，示例包括单细胞 / 筛选数据和分子性质分析；公开评价的任务范围应与应用范围分开。仓库也说明部分外部包存在环境依赖 / 冲突问题，不能仅因代码可见就声称一键成熟部署。
-
-### 3. CellAgent
-
-- 身份：领域分析系统；本页采用可直接读取的 2024 原始预印本，不混用后续版本数字。
-- 来源：[arXiv 原文](https://arxiv.org/html/2407.09811v1)；[后续 ICLR 2026 页面](https://openreview.net/forum?id=BsA2GNkJhz)。后者当前抓取触发浏览器校验，页内结论未据此扩展。
-- 核验要点：原文明确 Planner / Executor / Evaluator、记忆管理、工具检索与代码沙箱；评价聚焦批次校正、细胞注释与轨迹。不要把原文“最优”“无人工”措辞外推到所有单细胞、空间组学或结构问题。
-
-### 4. BioDiscoveryAgent
-
-- 身份：遗传扰动实验的计算决策 Agent，不是自动湿实验装置。
-- 来源：[原始论文](https://arxiv.org/abs/2405.17631)；[官方代码](https://github.com/snap-stanford/BioDiscoveryAgent)。
-- 核验要点：把自然语言目标、先验知识和已观察结果用于下一轮实验候选选择。已有公开扰动数据评价，PPT 仅用以说明“决策—观察—修订”闭环；不提供具体生物实验操作流程。
-
-### 5. Phenix AI Agent
-
-- 身份：Phenix 软件生态的领域 Agent 实现，不能与 Phenix 所有算法或传统自动化功能混为一谈。
-- 来源：[官方 AI Agent 文档](https://www.phenix-online.org/documentation/reference/ai_agent.html)。
-- 核验要点：六阶段管线；LLM 参与 THINK / PLAN，其他阶段由代码确定；计划编译为受约束的程序与 PHIL 参数；质量检查控制推进、回退和停止。引用的是当前官方文档，未验证本地安装和完整任务覆盖。
-
-### 6. CryoNet.Agent
-
-- 身份：结构研究的会话式工作流入口；CryoNet M1 / M2 / M3、Fold 等是所接入的科学工具或流程，名称层级要分开。
-- 来源：[官方 Agent 页面](https://cryonet.ai/agent/)；[官方文档](https://cryonet.ai/docs/)。
-- 当前页面在线抓取超时；已核对工作区此前从官方站保存的 `outputs/structbio_research_focus_20261113/research/agent.html` 及 `cryonet_catalog.json`。保存页包含七组任务入口及结构化任务目录，给出 required_file_kinds / required_fields / result_kind。
-- 核验要点：M1 为 map + FASTA；M2 为 map-only backbone；M3 为 map + main-chain PDB；Fold 为 map + FASTA 且需 resolution。它是“契约化目录”实例；没有据此声称工具运行精度、无人值守性能或开源可部署。
-
-### 7. StructAgent（结构版本）
-
-- 身份：Xiaohu Guo 的用户引导 cryo-EM 多 Agent 系统，预印本。
-- 来源：[bioRxiv 摘要与原文入口](https://www.biorxiv.org/content/10.64898/2026.05.18.725842v1)；[官方项目仓库](https://github.com/bhgtiger/StructAgent)。
-- 核验要点：领域推理与执行代理分工；本地软件执行、状态、故障恢复、来源记录；重要模型改动保持专家批准。文章以结构案例说明能力，不能等同大规模盲测结论。
-- **同名排除**：`arXiv:2607.11388` 的 “StructAgent: Harness Long-horizon Digital Agents with Unified Causal Structure” 是另一项数字 Agent 研究，不能作为本结构系统的证据。
-
-### 8. ProtAgents（注意复数）
-
-- 身份：Ghafarollahi / Buehler 的蛋白设计与物理分析多 Agent 工作。
-- 来源：[Digital Discovery 正式论文](https://pubs.rsc.org/en/content/articlehtml/2024/dd/d4dd00013g)；[可读 arXiv 原文](https://arxiv.org/html/2402.04268v1)；[官方仓库](https://github.com/lamm-mit/ProtAgents)。
-- 核验要点：群聊管理器协调 user proxy / planner / assistant / critic；以科学工具完成蛋白设计与分析。原文报告计算示例而非领域通用基准，不能用 Agent 数量推导可靠性。
-
-### 9. Sparks
-
-- 身份：相同作者团队面向计算科学发现的多模态、多 Agent 系统；不是 ProteinAgent 的别名。
-- 来源：[原始预印本全文](https://arxiv.org/html/2504.19017v1)；[原文指向的官方仓库](https://github.com/lamm-mit/Sparks/)。
-- 核验要点：生成—反思配对覆盖假设、计算、分析与报告；蛋白性质计算研究案例使用了结构预测、二级结构分析、性质模型与 MD。区分模型预测、模拟条件下的发现和实验确认，不把计算规律直接说成普适生物学定律。
-
-## 原图素材与使用提示
-
-| 本地文件 | 来源 | 图与版本 | 说明 |
-|---|---|---|---|
-| `assets/biochatter_overview_author_manuscript_20240223.png` | [原图](https://biocypher.github.io/biochatter-paper/images/biochatter_overview.png) | 作者稿 Fig.1，2024-02-23 网页快照 | 已下载并视觉核验；论文插图，用于学术评论，保留作者/文献归属 |
-| `assets/protagents_fig1_arxiv_2024.png` | [原图](https://arxiv.org/html/2402.04268v1/image_agents.png) | arXiv:2402.04268v1 Fig.1 | 已下载并视觉核验；原文页面标 CC BY-NC-ND 4.0，图保持完整含义，勿伪称原创 |
-
-两个图片内容均直接来自原论文 / 作者稿。若为公开视频、商用材料或进一步再分发，应按论文许可及图片权利标识处理。当前任务使用为作者明确要求的研究介绍与学术汇报。
-
-## 禁止写入本次 PPT 的未经支持表述
-
-- “所有系统均已开源 / 可一键部署 / 支持全部结构生物学任务。”
-- “多 Agent 必然优于单 Agent，反思或双 LLM 就能保证正确。”
-- “CellAgent 的单细胞指标能与结构精修成功率直接横向比较。”
-- “CryoNet 有这些按钮，所以这些功能已有统一公开盲测表现。”
-- “Sparks / ProtAgents 的预测分数等同实验验证的功能蛋白。”
-- “StructAgent 的三案例已经证明任意结构问题自主解决。”
-
-## 讲述顺序（每页约一分钟）
-
-1. 先让听众看到科研环节地图，知道九个系统彼此为何不同。
-2. 解释知识接入、数据执行、质量优化、实验选择的能力递进。
-3. 把焦点收回结构研究：对象约束、专业工具、质量门控、专家决策。
-4. 扩展到设计与发现，强调证据层级，再引出本项目的架构与评价。
+- https://pubs.rsc.org/en/content/articlehtml/2024/dd/d4dd00013g
+- https://arxiv.org/html/2402.04268v1
+- https://github.com/lamm-mit/ProtAgents
+- https://arxiv.org/html/2504.19017v1
+- https://github.com/lamm-mit/Sparks/
