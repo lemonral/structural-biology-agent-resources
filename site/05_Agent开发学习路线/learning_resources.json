@@ -1,0 +1,207 @@
+{
+  "verified_at": "2026-10-30",
+  "scope": "学习入口与练习设计；只读核对，未实际运行各仓库",
+  "resources": [
+    {
+      "name": "Hello-Agents（Datawhale）",
+      "url": "https://github.com/datawhalechina/hello-agents",
+      "learn": "从经典Agent循环入门，手写ReAct，再学习记忆、上下文、协议与评测。",
+      "prerequisite": "Python基础，了解LLM及模型调用概念。",
+      "start_url": "https://github.com/datawhalechina/hello-agents/blob/main/docs/chapter1/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%88%9D%E8%AF%86%E6%99%BA%E8%83%BD%E4%BD%93.md",
+      "start_label": "第一章：初识智能体（中文）",
+      "exercise": "把本地mmCIF解析与残基计数封装为工具，给无效输入返回结构化错误，并保存调用参数和日志。",
+      "caution": "通用应用教程；结构科学验收、HPC恢复和生产权限仍需另行实现。",
+      "language": "中文原版，另有英文README",
+      "source_urls": [
+        "https://github.com/datawhalechina/hello-agents",
+        "https://github.com/datawhalechina/hello-agents/blob/main/docs/chapter1/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%88%9D%E8%AF%86%E6%99%BA%E8%83%BD%E4%BD%93.md"
+      ],
+      "verified_at": "2026-10-30",
+      "id": "L01"
+    },
+    {
+      "name": "AI Agents for Beginners（Microsoft）",
+      "url": "https://github.com/microsoft/ai-agents-for-beginners",
+      "learn": "按工具使用、规划、可信性、多Agent和生产化等主题学习设计模式。",
+      "prerequisite": "Python基础；当前Python示例要求3.12+。",
+      "start_url": "https://github.com/microsoft/ai-agents-for-beginners/blob/main/translations/zh-CN/00-course-setup/README.md",
+      "start_label": "第0课：课程设置（简体中文）",
+      "exercise": "将本地结构检查和比对封装为两个工具，要求Agent核对输入类型、记录参数，并按参考计算验收输出。",
+      "caution": "当前示例以MAF与Foundry服务为主，通常需Azure订阅；不是科研计算平台。",
+      "language": "英文原版，提供简体中文等自动译本",
+      "source_urls": [
+        "https://github.com/microsoft/ai-agents-for-beginners",
+        "https://github.com/microsoft/ai-agents-for-beginners/blob/main/translations/zh-CN/README.md",
+        "https://github.com/microsoft/ai-agents-for-beginners/blob/main/translations/zh-CN/00-course-setup/README.md"
+      ],
+      "verified_at": "2026-10-30",
+      "id": "L02"
+    },
+    {
+      "name": "Hugging Face Agents Course",
+      "url": "https://github.com/huggingface/agents-course",
+      "learn": "理解工具、行动与观察，再实践Agent框架、Agentic RAG和自动评测。",
+      "prerequisite": "Python与LLM基础；实践需Hugging Face账号。",
+      "start_url": "https://huggingface.co/learn/agents-course/zh-CN/unit0/introduction",
+      "start_label": "第0单元：课程欢迎与入门（中文）",
+      "exercise": "为普通参考蛋白做一个有停止条件的工具Agent，调用本地几何计算函数，并用参考答案自动验收。",
+      "caution": "中文页部分认证信息仍停留在2025年，以英文原版核对时效；课程成绩不等于科学验收。",
+      "language": "英文原版，课程站提供简体中文译本",
+      "source_urls": [
+        "https://github.com/huggingface/agents-course",
+        "https://huggingface.co/learn/agents-course/zh-CN/unit0/introduction",
+        "https://huggingface.co/learn/agents-course/en/unit0/introduction"
+      ],
+      "verified_at": "2026-10-30",
+      "id": "L03"
+    },
+    {
+      "name": "OpenAI Agents SDK · Python",
+      "url": "https://github.com/openai/openai-agents-python",
+      "learn": "把Python函数变为工具，理解运行循环、调用结果、会话与追踪。",
+      "prerequisite": "会写Python函数、类型注解与基础异步代码。",
+      "start_url": "https://github.com/openai/openai-agents-python/blob/main/examples/basic/tools.py",
+      "start_label": "先读 basic/tools.py，再对照官方 Quickstart",
+      "exercise": "把示例工具替换为结构文件信息读取函数，返回链列表、残基计数及明确的解析错误。",
+      "caution": "真实运行需模型服务配置；示例行为与接口应以所用SDK版本为准。",
+      "language": "英文",
+      "source_urls": [
+        "https://developers.openai.com/api/docs/guides/agents/quickstart?lang=python",
+        "https://github.com/openai/openai-agents-python/blob/main/examples/basic/tools.py"
+      ],
+      "verified_at": "2026-10-30",
+      "id": "L04"
+    },
+    {
+      "name": "Pydantic · 输入输出约束",
+      "url": "https://github.com/pydantic/pydantic",
+      "learn": "使用类型化模型、字段约束、校验和JSON schema描述工具输入输出。",
+      "prerequisite": "Python类、字典与类型注解。",
+      "start_url": "https://pydantic.dev/docs/validation/latest/concepts/models/",
+      "start_label": "官方 Models：先看 Basic model usage",
+      "exercise": "为结构检查任务定义输入文件、模型和链选择；让缺少文件或非法字段返回结构化错误。",
+      "caution": "类型校验不证明对象选对、科学假设成立或结构结果正确。",
+      "language": "英文",
+      "source_urls": [
+        "https://github.com/pydantic/pydantic",
+        "https://pydantic.dev/docs/validation/latest/concepts/models/"
+      ],
+      "verified_at": "2026-10-30",
+      "id": "L05"
+    },
+    {
+      "name": "LangGraph：显式状态与执行分支",
+      "url": "https://github.com/langchain-ai/langgraph",
+      "learn": "从官方计算器示例理解状态、模型节点、工具节点和条件分支。",
+      "prerequisite": "Python基础，理解函数、状态字典和工具调用。",
+      "start_url": "https://docs.langchain.com/oss/python/langgraph/quickstart",
+      "start_label": "官方 Quickstart：Graph API 或 Functional API",
+      "exercise": "用确定性节点先串起结构文件检查、结果验收与失败分支，记录输入输出和步骤状态。",
+      "caution": "按任务选编排框架，无需全学。图状态不能代替外部作业账本；模型示例另需凭据。",
+      "language": "Python",
+      "source_urls": [
+        "https://github.com/langchain-ai/langgraph",
+        "https://docs.langchain.com/oss/python/langgraph/quickstart"
+      ],
+      "verified_at": "2026-10-30",
+      "id": "L06"
+    },
+    {
+      "name": "MCP Python SDK：统一工具接口",
+      "url": "https://github.com/modelcontextprotocol/python-sdk",
+      "learn": "从README当前Documentation入口学习工具、资源、客户端与服务端的标准交互。",
+      "prerequisite": "Python基础，了解函数参数、返回值与客户端服务端。",
+      "start_url": "https://github.com/modelcontextprotocol/python-sdk#documentation",
+      "start_label": "README：Documentation / Get started",
+      "exercise": "为结构文件检查定义输入、结构化结果和错误返回，明确合法对象、单位与产物路径。",
+      "caution": "仅在需统一工具接口时选学。当前README指向v2文档，协议连通不等于科学验收。",
+      "language": "Python（当前README要求3.11+）",
+      "source_urls": [
+        "https://github.com/modelcontextprotocol/python-sdk",
+        "https://github.com/modelcontextprotocol/python-sdk/blob/main/README.md"
+      ],
+      "verified_at": "2026-10-30",
+      "id": "L07"
+    },
+    {
+      "name": "Langfuse Examples：追踪与评价入口",
+      "url": "https://github.com/langfuse/langfuse-examples",
+      "learn": "按README示例目录学习trace、评价、用户反馈与现有应用集成。",
+      "prerequisite": "已有可运行工具或Agent，了解请求和日志。",
+      "start_url": "https://github.com/langfuse/langfuse-examples#usage-examples",
+      "start_label": "README：Usage Examples",
+      "exercise": "为一次科学工具运行记录输入哈希、版本、输出、耗时和验收结果，比较成功与失败轨迹。",
+      "caution": "示例混合社区项目和部署方案，按语言与SDK版本选读，无需全部部署。",
+      "language": "多语言（Java、Go、Ruby等）",
+      "source_urls": [
+        "https://github.com/langfuse/langfuse-examples"
+      ],
+      "verified_at": "2026-10-30",
+      "id": "L08"
+    },
+    {
+      "name": "Temporal Python Samples：持久工作流",
+      "url": "https://github.com/temporalio/samples-python",
+      "learn": "从hello示例理解工作流、活动、重试、取消与异步完成。",
+      "prerequisite": "Python异步基础，理解工作流与外部操作。",
+      "start_url": "https://github.com/temporalio/samples-python#samples",
+      "start_label": "README：hello_activity / hello_activity_retry",
+      "exercise": "把文件检查拆成活动，模拟失败重试和Worker重启，核对产物与外部作业是否重复。",
+      "caution": "仅长作业需要时选用。重试须结合幂等和外部对账，不保证任意系统恰好一次。",
+      "language": "Python（仓库要求3.10+）",
+      "source_urls": [
+        "https://github.com/temporalio/samples-python"
+      ],
+      "verified_at": "2026-10-30",
+      "id": "L09"
+    },
+    {
+      "name": "ToolUniverse",
+      "url": "https://github.com/mims-harvard/ToolUniverse",
+      "learn": "学习科学工具的统一发现、参数描述、调用、组合，以及SDK和MCP之间的分工。",
+      "prerequisite": "Python、JSON Schema与基本MCP概念。",
+      "start_url": "https://github.com/mims-harvard/ToolUniverse/blob/main/README.md",
+      "start_label": "README：Python开发入口与工具扩展",
+      "exercise": "为结构文件校验操作写输入输出schema，分别测试缺路径、错误格式和合法文件，并保存结构化返回。",
+      "caution": "基本安装不包含全部本地科学依赖；远程工具可能另需凭据，登记成功不代表产物正确。",
+      "language": "英文文档，Python与JSON示例",
+      "source_urls": [
+        "https://github.com/mims-harvard/ToolUniverse"
+      ],
+      "verified_at": "2026-10-30",
+      "id": "L10"
+    },
+    {
+      "name": "Biomni",
+      "url": "https://github.com/snap-stanford/Biomni",
+      "learn": "学习科学环境与任务Agent分层、代码级工具组合，以及MCP接入和执行记录。",
+      "prerequisite": "Python、隔离环境；了解函数调用和依赖管理。",
+      "start_url": "https://github.com/snap-stanford/Biomni/blob/main/README.md",
+      "start_label": "README：环境、配置与MCP接入",
+      "exercise": "将本地结构文件校验函数封装为工具，返回哈希、链清单、解析异常和来源记录；先用固定输入测试。",
+      "caution": "完整科学环境存在依赖冲突；模型与部分服务需凭据，装包完成不等于研究任务已复现。",
+      "language": "英文文档，Python示例",
+      "source_urls": [
+        "https://github.com/snap-stanford/Biomni"
+      ],
+      "verified_at": "2026-10-30",
+      "id": "L11"
+    },
+    {
+      "name": "Paper2Agent",
+      "url": "https://github.com/jmiao24/Paper2Agent",
+      "learn": "学习科研代码到MCP工具的包装、隔离环境、测试修复，以及使用说明与复现交付。",
+      "prerequisite": "Python、Git、测试基础和可复现代码材料。",
+      "start_url": "https://github.com/jmiao24/Paper2Agent/blob/main/README.md",
+      "start_label": "README：定向转换、验证与交付说明",
+      "exercise": "选已有的结构元数据读取教程，设计工具接口与参考测试，整理版本、输入示例、预期产物和来源清单。",
+      "caution": "生成接口仍依赖上游代码、数据与环境；教程测试通过不保证新结构输入科学正确。",
+      "language": "英文文档，Python与Shell相关示例",
+      "source_urls": [
+        "https://github.com/jmiao24/Paper2Agent"
+      ],
+      "verified_at": "2026-10-30",
+      "id": "L12"
+    }
+  ]
+}

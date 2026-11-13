@@ -1,0 +1,529 @@
+{
+  "events": [
+    {
+      "case_id": "auto-inspect",
+      "events": [
+        {
+          "sequence": 1,
+          "status": "ALLOW",
+          "reason": "MOCK_PERMIT_RESERVED",
+          "layer": "POLICY",
+          "run_id": "run-demo-001",
+          "operation": "inspect_structure",
+          "action_digest": "815ab7e56b8d706b667f5c43c14d7d273d85ffdf8ca900de58394e4b1e061840",
+          "reserved_units": 1,
+          "remaining_units": 11,
+          "actual_execution": false
+        }
+      ]
+    },
+    {
+      "case_id": "auto-rmsd",
+      "events": [
+        {
+          "sequence": 1,
+          "status": "ALLOW",
+          "reason": "MOCK_PERMIT_RESERVED",
+          "layer": "POLICY",
+          "run_id": "run-demo-001",
+          "operation": "rmsd",
+          "action_digest": "8679cf9553dba7667a5d67bad4a781766fa254380ae489c2f786ed40077875c7",
+          "reserved_units": 4,
+          "remaining_units": 8,
+          "actual_execution": false
+        }
+      ]
+    },
+    {
+      "case_id": "auto-contacts",
+      "events": [
+        {
+          "sequence": 1,
+          "status": "ALLOW",
+          "reason": "MOCK_PERMIT_RESERVED",
+          "layer": "POLICY",
+          "run_id": "run-demo-001",
+          "operation": "contacts",
+          "action_digest": "dbd2147930262a1921ef793792d5e9798087a4d333e399f3490a28c624e232f7",
+          "reserved_units": 4,
+          "remaining_units": 8,
+          "actual_execution": false
+        }
+      ]
+    },
+    {
+      "case_id": "unknown-operation",
+      "events": [
+        {
+          "sequence": 1,
+          "status": "DENY",
+          "reason": "UNKNOWN_OPERATION",
+          "layer": "POLICY",
+          "run_id": "run-demo-001",
+          "operation": "<unregistered>",
+          "action_digest": null,
+          "reserved_units": 0,
+          "remaining_units": 12,
+          "actual_execution": false
+        }
+      ]
+    },
+    {
+      "case_id": "forged-role-field",
+      "events": [
+        {
+          "sequence": 1,
+          "status": "DENY",
+          "reason": "PARAMETER_SCHEMA",
+          "layer": "POLICY",
+          "run_id": "run-demo-001",
+          "operation": "inspect_structure",
+          "action_digest": null,
+          "reserved_units": 0,
+          "remaining_units": 12,
+          "actual_execution": false
+        }
+      ]
+    },
+    {
+      "case_id": "nan-cutoff",
+      "events": [
+        {
+          "sequence": 1,
+          "status": "DENY",
+          "reason": "NONFINITE_OR_INVALID_PARAMETER",
+          "layer": "POLICY",
+          "run_id": "run-demo-001",
+          "operation": "contacts",
+          "action_digest": null,
+          "reserved_units": 0,
+          "remaining_units": 12,
+          "actual_execution": false
+        }
+      ]
+    },
+    {
+      "case_id": "unscoped-object",
+      "events": [
+        {
+          "sequence": 1,
+          "status": "DENY",
+          "reason": "OBJECT_OUTSIDE_SCOPE",
+          "layer": "POLICY",
+          "run_id": "run-demo-001",
+          "operation": "inspect_structure",
+          "action_digest": null,
+          "reserved_units": 0,
+          "remaining_units": 12,
+          "actual_execution": false
+        }
+      ]
+    },
+    {
+      "case_id": "traversal-path",
+      "events": [
+        {
+          "sequence": 1,
+          "status": "DENY",
+          "reason": "PATH_TRAVERSAL",
+          "layer": "POLICY",
+          "run_id": "run-demo-001",
+          "operation": "write_report",
+          "action_digest": null,
+          "reserved_units": 0,
+          "remaining_units": 12,
+          "actual_execution": false
+        }
+      ]
+    },
+    {
+      "case_id": "outside-absolute-path",
+      "events": [
+        {
+          "sequence": 1,
+          "status": "DENY",
+          "reason": "OUTPUT_OUTSIDE_SCOPE",
+          "layer": "POLICY",
+          "run_id": "run-demo-001",
+          "operation": "write_report",
+          "action_digest": null,
+          "reserved_units": 0,
+          "remaining_units": 12,
+          "actual_execution": false
+        }
+      ]
+    },
+    {
+      "case_id": "symlink-outside",
+      "events": [
+        {
+          "sequence": 1,
+          "status": "DENY",
+          "reason": "SYMLINK_COMPONENT",
+          "layer": "POLICY",
+          "run_id": "run-demo-001",
+          "operation": "write_report",
+          "action_digest": null,
+          "reserved_units": 0,
+          "remaining_units": 12,
+          "actual_execution": false
+        }
+      ]
+    },
+    {
+      "case_id": "symlink-inside",
+      "events": [
+        {
+          "sequence": 1,
+          "status": "DENY",
+          "reason": "SYMLINK_COMPONENT",
+          "layer": "POLICY",
+          "run_id": "run-demo-001",
+          "operation": "write_report",
+          "action_digest": null,
+          "reserved_units": 0,
+          "remaining_units": 12,
+          "actual_execution": false
+        }
+      ]
+    },
+    {
+      "case_id": "existing-file",
+      "events": [
+        {
+          "sequence": 1,
+          "status": "DENY",
+          "reason": "OUTPUT_EXISTS",
+          "layer": "POLICY",
+          "run_id": "run-demo-001",
+          "operation": "write_report",
+          "action_digest": null,
+          "reserved_units": 0,
+          "remaining_units": 12,
+          "actual_execution": false
+        }
+      ]
+    },
+    {
+      "case_id": "write-needs-approval",
+      "events": [
+        {
+          "sequence": 1,
+          "status": "NEEDS_APPROVAL",
+          "reason": "EXACT_APPROVAL_REQUIRED",
+          "layer": "POLICY",
+          "run_id": "run-demo-001",
+          "operation": "write_report",
+          "action_digest": "98f75c4d3584cbb7efeee22ebb2cdbf9ce30197f7bc2e73d85e70cfb75ee33bb",
+          "reserved_units": 0,
+          "remaining_units": 12,
+          "actual_execution": false
+        }
+      ]
+    },
+    {
+      "case_id": "exact-write-approved",
+      "events": [
+        {
+          "sequence": 1,
+          "status": "ALLOW",
+          "reason": "MOCK_PERMIT_RESERVED",
+          "layer": "POLICY",
+          "run_id": "run-demo-001",
+          "operation": "write_report",
+          "action_digest": "8b1e804a34e62b767de20ae484afb0843fc75bd06dc553c7aaf925eae9ce6ed3",
+          "reserved_units": 1,
+          "remaining_units": 11,
+          "actual_execution": false
+        }
+      ]
+    },
+    {
+      "case_id": "changed-path-invalidates",
+      "events": [
+        {
+          "sequence": 1,
+          "status": "DENY",
+          "reason": "APPROVAL_MISMATCH",
+          "layer": "POLICY",
+          "run_id": "run-demo-001",
+          "operation": "write_report",
+          "action_digest": "e334e04bb30ff1e8df667cf8702dedfbb0c76016b3ac75400828d7bac5890557",
+          "reserved_units": 0,
+          "remaining_units": 12,
+          "actual_execution": false
+        }
+      ]
+    },
+    {
+      "case_id": "changed-run-invalidates",
+      "events": [
+        {
+          "sequence": 1,
+          "status": "DENY",
+          "reason": "APPROVAL_MISMATCH",
+          "layer": "POLICY",
+          "run_id": "run-demo-002",
+          "operation": "write_report",
+          "action_digest": "f7967692de4d9d19f245d4981425776160127423a2053010aafb60f9f8c4a9c1",
+          "reserved_units": 0,
+          "remaining_units": 12,
+          "actual_execution": false
+        }
+      ]
+    },
+    {
+      "case_id": "changed-policy-invalidates",
+      "events": [
+        {
+          "sequence": 1,
+          "status": "DENY",
+          "reason": "APPROVAL_MISMATCH",
+          "layer": "POLICY",
+          "run_id": "run-demo-001",
+          "operation": "write_report",
+          "action_digest": "a442440d0f3dcb03facca5a1937e06a498b5cff9962217d053dec645929372ec",
+          "reserved_units": 0,
+          "remaining_units": 12,
+          "actual_execution": false
+        }
+      ]
+    },
+    {
+      "case_id": "expired-approval",
+      "events": [
+        {
+          "sequence": 1,
+          "status": "DENY",
+          "reason": "APPROVAL_EXPIRED",
+          "layer": "POLICY",
+          "run_id": "run-demo-001",
+          "operation": "write_report",
+          "action_digest": "560bcde8f3315a9c1d3e9d0490488d34060ad78ad55c3abec96606d4de450e6c",
+          "reserved_units": 0,
+          "remaining_units": 12,
+          "actual_execution": false
+        }
+      ]
+    },
+    {
+      "case_id": "replayed-approval",
+      "events": [
+        {
+          "sequence": 1,
+          "status": "ALLOW",
+          "reason": "MOCK_PERMIT_RESERVED",
+          "layer": "POLICY",
+          "run_id": "run-demo-001",
+          "operation": "write_report",
+          "action_digest": "71e97c5ff6df8d527ad080b74958d3d91ee5cdc5220323da0a41639028ad1daa",
+          "reserved_units": 1,
+          "remaining_units": 11,
+          "actual_execution": false
+        },
+        {
+          "sequence": 2,
+          "status": "DENY",
+          "reason": "APPROVAL_ALREADY_USED",
+          "layer": "POLICY",
+          "run_id": "run-demo-001",
+          "operation": "write_report",
+          "action_digest": "71e97c5ff6df8d527ad080b74958d3d91ee5cdc5220323da0a41639028ad1daa",
+          "reserved_units": 0,
+          "remaining_units": 11,
+          "actual_execution": false
+        }
+      ]
+    },
+    {
+      "case_id": "soft-expensive-needs-approval",
+      "events": [
+        {
+          "sequence": 1,
+          "status": "NEEDS_APPROVAL",
+          "reason": "EXACT_APPROVAL_REQUIRED",
+          "layer": "POLICY",
+          "run_id": "run-demo-001",
+          "operation": "analyze_batch",
+          "action_digest": "cebebe91f5b2adcf4b08b0b82fa7a06f2347ed5849d67fc5a9b8bf71c1289a85",
+          "reserved_units": 0,
+          "remaining_units": 12,
+          "actual_execution": false
+        }
+      ]
+    },
+    {
+      "case_id": "soft-expensive-approved",
+      "events": [
+        {
+          "sequence": 1,
+          "status": "ALLOW",
+          "reason": "MOCK_PERMIT_RESERVED",
+          "layer": "POLICY",
+          "run_id": "run-demo-001",
+          "operation": "analyze_batch",
+          "action_digest": "5cfd341b1da4dd9be4575ba3765b90176ba90470b5dbfccf8f129d6f06ca48df",
+          "reserved_units": 8,
+          "remaining_units": 4,
+          "actual_execution": false
+        }
+      ]
+    },
+    {
+      "case_id": "hard-budget-not-overridable",
+      "events": [
+        {
+          "sequence": 1,
+          "status": "ALLOW",
+          "reason": "MOCK_PERMIT_RESERVED",
+          "layer": "POLICY",
+          "run_id": "run-demo-001",
+          "operation": "inspect_structure",
+          "action_digest": "a19baeb822d7b9645e3cc59a2d938047e5f4bffd4031234594938469194a2dfc",
+          "reserved_units": 1,
+          "remaining_units": 11,
+          "actual_execution": false
+        },
+        {
+          "sequence": 2,
+          "status": "ALLOW",
+          "reason": "MOCK_PERMIT_RESERVED",
+          "layer": "POLICY",
+          "run_id": "run-demo-001",
+          "operation": "inspect_structure",
+          "action_digest": "a19baeb822d7b9645e3cc59a2d938047e5f4bffd4031234594938469194a2dfc",
+          "reserved_units": 1,
+          "remaining_units": 10,
+          "actual_execution": false
+        },
+        {
+          "sequence": 3,
+          "status": "ALLOW",
+          "reason": "MOCK_PERMIT_RESERVED",
+          "layer": "POLICY",
+          "run_id": "run-demo-001",
+          "operation": "inspect_structure",
+          "action_digest": "a19baeb822d7b9645e3cc59a2d938047e5f4bffd4031234594938469194a2dfc",
+          "reserved_units": 1,
+          "remaining_units": 9,
+          "actual_execution": false
+        },
+        {
+          "sequence": 4,
+          "status": "ALLOW",
+          "reason": "MOCK_PERMIT_RESERVED",
+          "layer": "POLICY",
+          "run_id": "run-demo-001",
+          "operation": "inspect_structure",
+          "action_digest": "a19baeb822d7b9645e3cc59a2d938047e5f4bffd4031234594938469194a2dfc",
+          "reserved_units": 1,
+          "remaining_units": 8,
+          "actual_execution": false
+        },
+        {
+          "sequence": 5,
+          "status": "ALLOW",
+          "reason": "MOCK_PERMIT_RESERVED",
+          "layer": "POLICY",
+          "run_id": "run-demo-001",
+          "operation": "inspect_structure",
+          "action_digest": "a19baeb822d7b9645e3cc59a2d938047e5f4bffd4031234594938469194a2dfc",
+          "reserved_units": 1,
+          "remaining_units": 7,
+          "actual_execution": false
+        },
+        {
+          "sequence": 6,
+          "status": "DENY",
+          "reason": "HARD_BUDGET_EXCEEDED",
+          "layer": "POLICY",
+          "run_id": "run-demo-001",
+          "operation": "analyze_batch",
+          "action_digest": "f1f38cc21f3092ab33654abd36bf4334704c3133cb48ae46d9e899b622863779",
+          "reserved_units": 0,
+          "remaining_units": 7,
+          "actual_execution": false
+        }
+      ]
+    },
+    {
+      "case_id": "document-cannot-authorize-write",
+      "events": [
+        {
+          "sequence": 1,
+          "status": "NEEDS_APPROVAL",
+          "reason": "EXACT_APPROVAL_REQUIRED",
+          "layer": "POLICY",
+          "run_id": "run-demo-001",
+          "operation": "write_report",
+          "action_digest": "008c2c797e7cf5c7142502bf8e19a8aa6209a2a7e3f47368cae50eea3445785d",
+          "reserved_units": 0,
+          "remaining_units": 12,
+          "actual_execution": false,
+          "untrusted_document_digest": "9afecfe08b5fa18ad360dc0620e235c2b8f52931a0daa7dc2ef91ad575fe6a34"
+        }
+      ]
+    },
+    {
+      "case_id": "document-cannot-grant-tool",
+      "events": [
+        {
+          "sequence": 1,
+          "status": "DENY",
+          "reason": "OPERATION_NOT_GRANTED",
+          "layer": "POLICY",
+          "run_id": "run-demo-001",
+          "operation": "write_report",
+          "action_digest": null,
+          "reserved_units": 0,
+          "remaining_units": 12,
+          "actual_execution": false,
+          "untrusted_document_digest": "9afecfe08b5fa18ad360dc0620e235c2b8f52931a0daa7dc2ef91ad575fe6a34"
+        }
+      ]
+    },
+    {
+      "case_id": "unlisted-export-destination",
+      "events": [
+        {
+          "sequence": 1,
+          "status": "DENY",
+          "reason": "DESTINATION_OUTSIDE_SCOPE",
+          "layer": "POLICY",
+          "run_id": "run-demo-001",
+          "operation": "export_report",
+          "action_digest": null,
+          "reserved_units": 0,
+          "remaining_units": 12,
+          "actual_execution": false
+        }
+      ]
+    },
+    {
+      "case_id": "exact-export-approved",
+      "events": [
+        {
+          "sequence": 1,
+          "status": "ALLOW",
+          "reason": "MOCK_PERMIT_RESERVED",
+          "layer": "POLICY",
+          "run_id": "run-demo-001",
+          "operation": "export_report",
+          "action_digest": "9da26d5fc8886f513398c52d8bd7aa35bffe83b361c663e809c22413ffee02a3",
+          "reserved_units": 1,
+          "remaining_units": 11,
+          "actual_execution": false
+        }
+      ]
+    }
+  ],
+  "synthetic_redaction_example": {
+    "run_id": "run-demo",
+    "token": "[REDACTED]",
+    "nested": {
+      "authorization": "[REDACTED]",
+      "status": "ALLOW"
+    }
+  },
+  "note": "Only synthetic tokens used. Structured redaction is not a general secret detector."
+}

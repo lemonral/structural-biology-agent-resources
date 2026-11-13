@@ -1,0 +1,4 @@
+jsonschema==4.26.0
+openapi-spec-validator==0.7.2
+pglast==7.22
+PyYAML==6.0.3

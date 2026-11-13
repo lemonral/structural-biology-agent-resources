@@ -1,0 +1,1316 @@
+{
+  "title": "Agent 工程实现、可靠运行与评价研究底稿",
+  "cutoff_date": "2026-10-27",
+  "language": "zh-CN",
+  "purpose": "服务四板块整合报告的第二板块，提供问题—实现—失败例子—验收的叙事骨架。",
+  "evidence_policy": "论文结论、官方工程机制和本文针对 NBDB 的实现建议分开；建议不表示已部署。预印本身份沿用可核实一手来源，不把 under review 当作录用。",
+  "editorial_order": [
+    "从交付目标和简单基线开始，解释运行循环；",
+    "讲清状态、契约、上下文和异步计算怎样组合成可运行系统；",
+    "用失败例子解释恢复、幂等、对象一致性与权限；",
+    "单列执行验收与科学验证；",
+    "给分层评测、费用和发布门槛；",
+    "最后讨论训练、自我改进的前提。"
+  ],
+  "architecture": {
+    "thesis": "模型负责在约束内提出下一步；执行平台负责真实状态、权限、资源与产物；领域验证负责判断计算和结论是否成立。",
+    "scope_note": "这是可实施的目标架构与验收建议，并非 NBDB 当前系统盘点或已经部署的承诺。",
+    "layers": [
+      {
+        "name": "交互与任务契约",
+        "responsibility": "自然语言、表单和三维对象选择进入同一版本化任务；展示计划、状态、费用和产物。",
+        "records": [
+          "task_id",
+          "goal",
+          "constraints",
+          "input_artifact_ids",
+          "selection_version",
+          "budget",
+          "acceptance_criteria"
+        ]
+      },
+      {
+        "name": "Agent 运行与上下文",
+        "responsibility": "检索能力、提出动作、读取执行反馈、维护摘要、按终止条件结束；保留 checkpoint。",
+        "records": [
+          "run_id",
+          "step_id",
+          "prompt_version",
+          "model_id",
+          "context_refs",
+          "plan",
+          "checkpoint_id"
+        ]
+      },
+      {
+        "name": "策略与工具契约",
+        "responsibility": "权限、schema、领域前提和预算检查；选择连接器及相应运行环境。",
+        "records": [
+          "tool_version",
+          "schema_version",
+          "permission_scope",
+          "input_hashes",
+          "operation_id",
+          "idempotency_key"
+        ]
+      },
+      {
+        "name": "执行与调度",
+        "responsibility": "API/CLI/容器/Notebook/GUI 适配器和 CPU/GPU/Slurm 后端；异步状态、日志、取消与恢复。",
+        "records": [
+          "external_job_id",
+          "container_digest",
+          "resources",
+          "status",
+          "attempt",
+          "started_at",
+          "finished_at"
+        ]
+      },
+      {
+        "name": "产物与验证",
+        "responsibility": "文件入库、血缘关系、执行验收、科学质控和候选对照；分开保存未验证与通过验证的结果。",
+        "records": [
+          "artifact_id",
+          "sha256",
+          "parent_ids",
+          "validator_version",
+          "qc_metrics",
+          "verdict",
+          "limitations"
+        ]
+      },
+      {
+        "name": "观测、评测与发布",
+        "responsibility": "串联 trace、成本、故障分析和离线回归；对模型、工具、提示词和工作流版本发布或回滚。",
+        "records": [
+          "trace_id",
+          "error_class",
+          "cost",
+          "eval_suite_version",
+          "release_id",
+          "comparison_report"
+        ]
+      }
+    ],
+    "execution_flow": [
+      "明确目标与验收",
+      "绑定输入及共享对象版本",
+      "检索并筛选可执行工具",
+      "生成或选择工作流",
+      "执行器校验参数、权限和预算",
+      "短调用执行或长作业提交",
+      "状态事件驱动后续步骤",
+      "产物登记及执行验证",
+      "独立科学验证、对照与回退",
+      "报告证据、限制与可复跑配置"
+    ],
+    "state_model": [
+      "draft",
+      "ready",
+      "running",
+      "waiting_for_job",
+      "waiting_for_input",
+      "validating",
+      "completed",
+      "failed",
+      "cancelled",
+      "budget_exhausted"
+    ],
+    "job_state_note": "上述为平台逻辑状态示例，不能直接替代 Slurm 的完整原生状态；映射需保留原始 job state 和 reason。",
+    "critical_boundaries": [
+      "模型的工具调用提议不能绕过执行器的 schema、权限和预算判断。",
+      "持久化一次动作的意图、外部回执和产物引用，不能宣称外部系统天然 exactly-once。",
+      "COMPLETED 作业仍需产物与科学验收；不确定状态不应伪装成失败或成功。",
+      "恢复任务使用原始输入和兼容版本；必要的版本升级应形成新分支和新验证。"
+    ]
+  },
+  "issues": [
+    {
+      "id": "E01",
+      "title": "先定义能交付什么，再设计运行循环",
+      "question": "怎样避免 Agent 一直思考、调用工具，却没有可验收结果？",
+      "why": "目标必须落到环境状态和产物。文字说“完成”不等于文件、数据库或作业真正达到目标。",
+      "implementation": [
+        "任务入口保存目标、输入引用、约束、预算、预期产物和完成判据。",
+        "循环明确区分观察、候选动作、参数校验、权限检查、执行、结果验证、继续或终止。",
+        "完成、失败、等待输入、等待作业、取消和预算耗尽分别建模；给步骤数、同类错误次数、费用和时长上限。"
+      ],
+      "failure_example": "Agent 连续调整对接参数，生成一堆文件后回复“找到高亲和力配体”，却没有声明哪个文件、什么评分和哪些验证支持这句话。",
+      "acceptance": [
+        "对每项交付物检查存在性、文件类型、来源和任务关联。",
+        "用缺输入、不可解任务和重复错误案例测试终止条件，确认状态与实际环境一致。"
+      ],
+      "source_ids": [
+        "D09",
+        "D10"
+      ],
+      "paper_ids": [
+        "P20",
+        "P22"
+      ],
+      "status": "本文工程建议；未声称 NBDB 已实现"
+    },
+    {
+      "id": "E02",
+      "title": "分开 Agent 状态、长时作业与文件产物",
+      "question": "如何在服务重启、浏览器关闭后继续？",
+      "why": "对话历史、工作流检查点和科学大文件有不同生命周期；把三者混成一段消息无法可靠恢复。",
+      "implementation": [
+        "数据库保存 task_id、run_id、step_id、状态版本、作业引用和已验证输入输出；对象存储保存结构、密度图、轨迹与图表。",
+        "每个可恢复边界写检查点；保存提示词、工具契约、容器和工作流版本，恢复时检查兼容性。",
+        "记忆库仅保存可跨任务复用的偏好与经验证经验；检查点负责当前任务，不能用向量检索取代账本。"
+      ],
+      "failure_example": "GPU 任务仍在跑，网页刷新后会话丢失；Agent 把用户重发的问题视为新任务，重新提交一份。",
+      "acceptance": [
+        "在提交前、提交后、产物登记前分别杀死 Worker，恢复后能找到原任务并继续。",
+        "已完成步骤不丢失，恢复不绕过权限或预算，产物的父子关系完整。"
+      ],
+      "source_ids": [
+        "D01",
+        "D02"
+      ],
+      "paper_ids": [
+        "P10",
+        "P27"
+      ],
+      "status": "本文工程建议；未声称 NBDB 已实现"
+    },
+    {
+      "id": "E03",
+      "title": "工具契约要表达科学含义",
+      "question": "接上 MCP 或函数调用，是否就算工具可用了？",
+      "why": "协议只能说明如何通信。结构生物学还需要约定链、残基、单位、参考坐标、模型来源和输出含义。",
+      "implementation": [
+        "工具输入输出使用 schema；补充输入文件类型、结构实体、单位、默认值、适用条件、前置依赖和失败码。",
+        "文件用 artifact_id 与哈希引用；返回结果摘要、可解析指标、原始日志和产物链接。",
+        "包装器做参数范围、文件解析、序列/链匹配检查；软件操作、复合工作流和自然语言技能分层管理。"
+      ],
+      "failure_example": "把 author chain A 与 label chain A 混用，或将能量分数当作实验亲和力；命令能跑完但对象和解释都错。",
+      "acceptance": [
+        "正常、边界、无效输入均有契约案例；输入错误产生可行动的结构化错误。",
+        "改名链、缺残基、含插入码、多模型、非标准残基案例能被正确映射或明确拒绝。"
+      ],
+      "source_ids": [
+        "D03"
+      ],
+      "paper_ids": [
+        "P01",
+        "P04",
+        "P23"
+      ],
+      "status": "本文工程建议；未声称 NBDB 已实现"
+    },
+    {
+      "id": "E04",
+      "title": "工具发现不能只按文本相似度",
+      "question": "工具很多时，怎样选出真正可以连起来的一组？",
+      "why": "语义相关的工具可能依赖不同文件、环境、许可、数据状态和资源。选型应同时满足能力与可执行性。",
+      "implementation": [
+        "先用任务与元数据检索少量候选，再按输入输出类型、前置条件、资源、许可和当前可用性过滤。",
+        "把转换器、预处理器和验证器也登记为能力；把常用、已验证链路保存为版本化工作流。",
+        "工具 schema 只按当前需要加载；失败反馈区分找不到能力、当前不可用和参数不合法。"
+      ],
+      "failure_example": "Agent 找到一个只支持 GPU 的预测器，却在 CPU Worker 中调用；或把 X-ray 的精修输入直接送入不兼容流程。",
+      "acceptance": [
+        "以召回率、合法候选率、完整链路成功率分别评价检索与执行。",
+        "隐藏熟悉工具、替换等价工具、加入同名近义工具，检查是否仍能完成或正确说明能力缺口。"
+      ],
+      "source_ids": [
+        "D03",
+        "D08"
+      ],
+      "paper_ids": [
+        "P20",
+        "P23",
+        "P19"
+      ],
+      "status": "本文工程建议；未声称 NBDB 已实现"
+    },
+    {
+      "id": "E05",
+      "title": "长时 HPC 作业采用异步契约",
+      "question": "几分钟到数天的计算，如何放进 Agent？",
+      "why": "长作业超过一次模型和 HTTP 请求的生命周期；排队、运行、进程完成和科学验收是不同状态。",
+      "implementation": [
+        "工具分为 submit、status、logs、cancel、collect；提交立即返回平台 operation_id 和调度器 job_id。",
+        "事件或退避轮询驱动后续步骤；平台记录队列、配额、CPU/GPU、内存、walltime、许可证和预计成本。",
+        "调度器 COMPLETED 后先收集和解析产物，再进入验证；用户可关闭页面后继续查看和取消。"
+      ],
+      "failure_example": "一次结构预测排队 2 小时，Agent 把等待当成失败不断重试；或 Slurm 退出码为 0，但脚本只生成空输出。",
+      "acceptance": [
+        "模拟 PENDING、TIMEOUT、OUT_OF_MEMORY、节点故障和取消，状态映射、通知与资源账单正确。",
+        "断线后能重新绑定作业；完成结果必须经过独立产物验收。"
+      ],
+      "source_ids": [
+        "D05",
+        "D06"
+      ],
+      "paper_ids": [
+        "P01",
+        "P21"
+      ],
+      "status": "本文工程建议；未声称 NBDB 已实现"
+    },
+    {
+      "id": "E06",
+      "title": "重试前先辨别失败类型与不确定状态",
+      "question": "如何防止恢复机制烧掉更多算力？",
+      "why": "网络超时可能发生在服务已接受请求之后；相同参数重试科学软件也可能完全无效。",
+      "implementation": [
+        "错误分为瞬时网络/限流、资源、输入、软件、权限、科学前提和质量不达标；每类定义可重试条件。",
+        "对逻辑操作生成稳定幂等键，账本记录意图与外部回执；提交超时先查已提交作业，不能直接假设失败。",
+        "有界退避、抖动、总预算和熔断；只有已证明可续跑的任务从正确检查点恢复。"
+      ],
+      "failure_example": "sbatch 已接受任务但客户端没收到响应；新的随机 request_id 导致重复提交三份 GPU 作业。",
+      "acceptance": [
+        "注入“外部已成功、响应丢失”和重复事件，最终只出现一次逻辑副作用。",
+        "OOM 不无脑重跑同样配置，输入错误不消耗全部重试；重试记录可解释。"
+      ],
+      "source_ids": [
+        "D02",
+        "D05"
+      ],
+      "paper_ids": [
+        "P27"
+      ],
+      "status": "本文工程建议；未声称 NBDB 已实现"
+    },
+    {
+      "id": "E07",
+      "title": "上下文要有引用和摘要层次",
+      "question": "日志、文件、工具说明越放越多，如何保持准确？",
+      "why": "可用上下文是有限资源；原始日志和大文件直接塞给模型会淹没任务约束，也增加费用。",
+      "implementation": [
+        "保留目标、约束、当前计划、已验证事实、未解决问题和 artifact 引用组成任务摘要。",
+        "大日志、结构和轨迹保存在文件层；按需查询局部内容，摘要保留可回到原始证据的指针。",
+        "压缩前后检查关键约束不丢失；外部文本与用户指令保留来源区别，经验召回标出适用版本和证据。"
+      ],
+      "failure_example": "压缩会话时丢掉“只分析链 B、保留金属离子”的条件，后续分析在全结构上执行。",
+      "acceptance": [
+        "长轨迹、摘要后恢复、冲突经验测试，检查目标、对象、版本和禁用项是否保持。",
+        "比较检索准确率、上下文 token、延迟和端到端质量，避免只追求更短。"
+      ],
+      "source_ids": [
+        "D08"
+      ],
+      "paper_ids": [
+        "P19",
+        "P27"
+      ],
+      "status": "本文工程建议；未声称 NBDB 已实现"
+    },
+    {
+      "id": "E08",
+      "title": "用户界面和 Agent 必须共享对象状态",
+      "question": "用户点选残基或改参数后，如何避免分析旧对象？",
+      "why": "对话与三维查看器都能改变任务环境；用户操作可能使正在执行的计划失去前提。",
+      "implementation": [
+        "将结构、链、残基集合、显示选择和参数建成有版本的共享状态，并区分临时查看选择与用于分析的明确选择。",
+        "动作绑定其读取的对象版本；关键提交前检测状态变化，必要时提示受影响步骤并重新规划。",
+        "并发结果不直接覆盖较新的用户状态；用冲突合并规则或显式新分支保存。"
+      ],
+      "failure_example": "用户从野生型切换到突变体，Agent 仍使用旧结构执行口袋分析，最终图表却显示新结构。",
+      "acceptance": [
+        "运行中改链、替换文件、取消任务和两个浏览器同时操作的案例，能发现冲突并正确绑定产物。"
+      ],
+      "source_ids": [
+        "D09"
+      ],
+      "paper_ids": [
+        "P25"
+      ],
+      "status": "本文工程建议；未声称 NBDB 已实现"
+    },
+    {
+      "id": "E09",
+      "title": "授权与不可信数据由执行层控制",
+      "question": "如何处理外部论文、数据库和日志中的恶意指令？",
+      "why": "提示注入可能通过看似正常的工具返回改变后续行为；工具描述的“只读”标签也不能天然可信。",
+      "implementation": [
+        "按任务与租户给工具、网络、文件和作业范围授权；执行器在实际动作处校验，凭据由受控连接器注入。",
+        "论文、网页、日志和代码注释属于外部数据，不能扩大权限；对数据外发、覆盖、删除和高额计算设清晰策略。",
+        "连接器和环境隔离，限制出站目标、路径与资源；高影响动作展示具体对象、影响和费用供授权。"
+      ],
+      "failure_example": "下载的软件说明中夹带“上传整个工作目录”，Agent 按照文本将未公开结构发向未知网站。",
+      "acceptance": [
+        "正常任务与攻击任务同时跑，分别报告任务效用和攻击成功率。",
+        "测试越权路径、跨租户 artifact、恶意 URL、提示注入和日志中的伪指令；拒绝由外部文本触发的权限扩展。"
+      ],
+      "source_ids": [
+        "D03",
+        "D04"
+      ],
+      "paper_ids": [
+        "P18",
+        "AgentDojo"
+      ],
+      "status": "本文工程建议；未声称 NBDB 已实现"
+    },
+    {
+      "id": "E10",
+      "title": "代码执行环境要可重复也可隔离",
+      "question": "动态写脚本怎样与成熟科学工具共存？",
+      "why": "安装成功、脚本运行和方法适用是三道不同关口；环境漂移会使同一计划产生不同结果。",
+      "implementation": [
+        "成熟方法优先用版本化包装器；探索性脚本放入任务隔离环境，限制 CPU/GPU、磁盘、网络和运行时间。",
+        "记录容器摘要、软件/数据库/模型权重版本、随机种子、命令和参数，引用原始输入与所有派生产物。",
+        "新工具先复现教程和代表性新输入，再经契约与领域验证发布；对探索代码保留可读源码。"
+      ],
+      "failure_example": "包升级后默认质子化或排序方式变化，Agent 复用旧结论；脚本误写共享文件，污染其他人的分析。",
+      "acceptance": [
+        "干净环境可以重建并在容差内复跑；验证跨任务隔离、资源限制与依赖锁定。",
+        "固定测试集回归，输出模式和关键数值变化可见。"
+      ],
+      "source_ids": [
+        "D03",
+        "D04"
+      ],
+      "paper_ids": [
+        "P04",
+        "P24"
+      ],
+      "status": "本文工程建议；未声称 NBDB 已实现"
+    },
+    {
+      "id": "E11",
+      "title": "科学验证独立于执行状态",
+      "question": "运行完成，怎样判断结论能否用于研究？",
+      "why": "退出码只能说明执行；科学有效性还取决于输入、前提、指标、对照和不确定性。",
+      "implementation": [
+        "执行验证检查进程、日志、文件、解析和数值范围；科学验证按任务检查结构质量、目标对应、对照和适用条件。",
+        "预测结构检查局部与相对位置置信度；实验结构区分几何、全局拟合与局部数据支持。",
+        "报告将工具直接结果、本文计算、模型推断和待实验检验的假设分别标明，并链接可复核产物。"
+      ],
+      "failure_example": "对接正常完成且评分更低，就写成“已证实结合更强”；或只看平均置信度，忽略界面位置不可靠。",
+      "acceptance": [
+        "设置能正常运行但对象错、指标越界或局部质量变差的反例，必须触发失败或降级结论。",
+        "专家抽检结论与证据是否对应；不能用同一个模型的自信程度替代领域质控。"
+      ],
+      "source_ids": [
+        "D11",
+        "D12"
+      ],
+      "paper_ids": [
+        "P01",
+        "P24",
+        "P22"
+      ],
+      "status": "本文工程建议；未声称 NBDB 已实现"
+    },
+    {
+      "id": "E12",
+      "title": "观测链路要能定位第一处错误",
+      "question": "用户说结果错了，如何知道错在哪里？",
+      "why": "只保存最后回答无法区分模型、检索、工具、调度器、数据和解释错误。",
+      "implementation": [
+        "以 trace_id 串起任务、模型、工具、作业和验证；保存版本、时间、输入输出引用、错误类别和成本。",
+        "可见决策摘要说明为何选择动作；不把私有推理文本作为复现前提。原始日志与展示摘要分层保留。",
+        "模型与工具调用可映射 OTel spans；敏感参数脱敏，科学文件用受控引用，设置保留与访问策略。"
+      ],
+      "failure_example": "最终界面只写“工具失败”；工程师无法判断是错链号、软件崩溃、GPU OOM 还是 API 限流。",
+      "acceptance": [
+        "从一条结论追溯到输入哈希、命令、软件版本、作业与验证结果。",
+        "故障注入后可在轨迹中定位根因；日志中不出现凭据与跨租户内容。"
+      ],
+      "source_ids": [
+        "D07"
+      ],
+      "paper_ids": [
+        "P27",
+        "P26"
+      ],
+      "status": "本文工程建议；未声称 NBDB 已实现"
+    },
+    {
+      "id": "E13",
+      "title": "多 Agent 必须证明带来净收益",
+      "question": "什么时候值得增加规划者、执行者和审查者？",
+      "why": "角色越多，交接与共享状态的错误面越大；模拟讨论并不天然提高答案可信度。",
+      "implementation": [
+        "先建立单 Agent 加工具和固定工作流基线；只有可独立验证、可并行或需要不同权限的子任务才拆分。",
+        "交接内容定义输入版本、产物、约束、完成判据和证据；共享状态由协调器管理。",
+        "分开审查与生产权限；审查者需要真实验证工具，不能仅认可另一个模型的文字。"
+      ],
+      "failure_example": "结构分析者和文献分析者用不同突变编号，汇总 Agent 没检查就把两套证据合并。",
+      "acceptance": [
+        "相同模型、预算和工具条件下对比成功率、成本、延迟与错误类别。",
+        "记录交接丢失、目标偏移、冲突与过度对话，只有收益稳定才保留角色。"
+      ],
+      "source_ids": [
+        "D10"
+      ],
+      "paper_ids": [
+        "P26",
+        "P22"
+      ],
+      "status": "本文工程建议；未声称 NBDB 已实现"
+    },
+    {
+      "id": "E14",
+      "title": "预算是任务约束而非账单备注",
+      "question": "怎样同时评价准确、速度、费用与算力？",
+      "why": "最佳文本答案可能依赖昂贵重试或长 GPU 作业；只比较 token 费用会低估科研成本。",
+      "implementation": [
+        "用户可选快速探索和精细分析预算；执行前估计费用与资源，运行中按实际消耗更新。",
+        "总成本包含模型/API、CPU/GPU、存储传输、失败重跑和专家复核；区分排队、执行与交互时长。",
+        "路由、缓存、并行和候选裁剪在相同成功标准下优化；缓存键绑定输入哈希、参数、工具和数据库版本。"
+      ],
+      "failure_example": "一条“批量预测”展开成数千个 GPU 子任务；页面只显示很低的 LLM 费用。",
+      "acceptance": [
+        "画质量—费用—时延曲线，按任务类型报告成功一次的总成本。",
+        "预算触顶不会暗中继续提交，任务取消能阻断尚未开始的子作业。"
+      ],
+      "source_ids": [
+        "D05",
+        "D09"
+      ],
+      "paper_ids": [
+        "P09",
+        "P22"
+      ],
+      "status": "本文工程建议；未声称 NBDB 已实现"
+    },
+    {
+      "id": "E15",
+      "title": "评测要固定环境、版本与对照",
+      "question": "不同模型与框架的排行榜能直接比较吗？",
+      "why": "工具访问、预算、任务修复、模型版本和评分器的不同，可能比框架差异影响更大。",
+      "implementation": [
+        "锁定任务、数据、工具、提示词、模型、harness、预算和 grader 版本；每个 trial 使用干净环境。",
+        "设固定工作流、单 Agent、当前版本与候选版本对照；按简单调用、跨工具、长时作业、异常与交互分层。",
+        "多次运行并报告样本量和区间；数据、蛋白家族、工具版本和工作流模板适当隔离，避免只测训练时见过的例子。"
+      ],
+      "failure_example": "新系统用了更强模型、多一倍预算和新工具，却把涨分全归因于多 Agent；评分器修复后还沿用旧榜单分数。",
+      "acceptance": [
+        "同一任务能按保存配置重放评分，基线与候选可公平并列。",
+        "对失败样本复核评分器；明确 pass@k 的至少一次成功与 pass^k 的 k 次全成功不同。"
+      ],
+      "source_ids": [
+        "D09"
+      ],
+      "paper_ids": [
+        "P22",
+        "P24",
+        "P25",
+        "P19"
+      ],
+      "status": "本文工程建议；未声称 NBDB 已实现"
+    },
+    {
+      "id": "E16",
+      "title": "训练与自改要在稳定执行和奖励之后",
+      "question": "何时需要 SFT、RL 或经验演化？",
+      "why": "训练无法代替坏接口、丢失状态或错误评分器；不可靠奖励只会优化错误目标。",
+      "implementation": [
+        "先通过工具契约、工作流与上下文减少可修复错误，再检查是否存在稳定且有价值的模型策略瓶颈。",
+        "收集可复跑的成功/失败轨迹、可信验证信号和版本信息；先轻量回放与离线实验，保留独立测试集。",
+        "训练沿用实际运行框架；经验与工具修改以候选版本进入隔离评测，通过后发布并保留回滚。"
+      ],
+      "failure_example": "用 Agent 自评“做得好”作奖励，它学会写更肯定的结论而不执行；或为了减少步骤跳过质控。",
+      "acceptance": [
+        "奖励能抵御跳过工具、伪造产物和迎合评委的捷径；独立任务质量提升且成本在预算内。",
+        "对照相同数据和模型基线，分别测域内、未见工具与版本变化，避免把训练环境胜率当作科研能力。"
+      ],
+      "source_ids": [
+        "D09"
+      ],
+      "paper_ids": [
+        "P10",
+        "P17",
+        "P19",
+        "P24"
+      ],
+      "status": "本文工程建议；未声称 NBDB 已实现"
+    }
+  ],
+  "evaluation_design": {
+    "main_rule": "分开量测“是否做成任务”“是否执行正确”“是否科学有效”“是否可靠安全”“花了多少资源”，不用单一对话分数代替。",
+    "layers": [
+      {
+        "name": "工具契约",
+        "question": "工具是否按约定接受和返回数据？",
+        "grader": "schema、边界值、错误码、输入输出解析、对象与单位检查",
+        "examples": [
+          "不存在链 ID",
+          "残基插入码",
+          "空输出",
+          "接口版本变化"
+        ],
+        "source_ids": [
+          "D03"
+        ],
+        "paper_ids": [
+          "P23"
+        ]
+      },
+      {
+        "name": "运行可靠性",
+        "question": "故障和长时任务下能否安全完成？",
+        "grader": "状态机断言、幂等账本、作业回执、取消与恢复检查",
+        "examples": [
+          "提交后响应丢失",
+          "Worker 重启",
+          "队列长等待",
+          "OOM",
+          "重复 webhook"
+        ],
+        "source_ids": [
+          "D01",
+          "D02",
+          "D05",
+          "D06"
+        ],
+        "paper_ids": [
+          "P27"
+        ]
+      },
+      {
+        "name": "端到端交付",
+        "question": "真实环境是否达到用户目标？",
+        "grader": "环境终态与文件/数据库断言；允许多条有效执行路径",
+        "examples": [
+          "有可解析的模型和指标报告",
+          "输出绑定指定结构和链",
+          "交互后选择版本一致"
+        ],
+        "source_ids": [
+          "D09"
+        ],
+        "paper_ids": [
+          "P20",
+          "P21",
+          "P25"
+        ]
+      },
+      {
+        "name": "科学有效性",
+        "question": "方法、对象、结果解释是否有证据？",
+        "grader": "独立领域工具、参考结果、对照、数值容差、专家盲审",
+        "examples": [
+          "结构质量与局部置信度",
+          "对齐中的残基映射",
+          "候选相对基线的改善与退化",
+          "结论不超出证据"
+        ],
+        "source_ids": [
+          "D11",
+          "D12"
+        ],
+        "paper_ids": [
+          "P01",
+          "P24"
+        ]
+      },
+      {
+        "name": "泛化与安全",
+        "question": "新工具、新表达与恶意数据下是否保持边界？",
+        "grader": "未见版本/模板/蛋白家族测试、受控扰动、攻击与干净任务配对",
+        "examples": [
+          "工具重命名",
+          "字段变化",
+          "异常日志",
+          "跨租户文件",
+          "注入式论文说明"
+        ],
+        "source_ids": [
+          "D04"
+        ],
+        "paper_ids": [
+          "P19",
+          "P18",
+          "AgentDojo"
+        ]
+      },
+      {
+        "name": "效率与用户价值",
+        "question": "在可接受预算内是否减少真实研究工作？",
+        "grader": "任务分层的费用、P50/P95 时延、GPU 小时、重试、人工干预与修正时间",
+        "examples": [
+          "相同预算下质量",
+          "每个通过科学验收任务的总成本",
+          "从输入到可复核报告的时间"
+        ],
+        "source_ids": [
+          "D09"
+        ],
+        "paper_ids": [
+          "P09",
+          "P22"
+        ]
+      }
+    ],
+    "pilot_suite": {
+      "note": "以下为建议的起步方案和相对比例，不是已完成测试或行业统一标准。先用真实需求校准，再扩大至稳定回归集。",
+      "size": "先整理约 50 个专家确认、可重置的真实任务，每题至少 3 次独立 trial；昂贵任务可用小规模代表集与轻量冒烟测试分层。",
+      "composition": [
+        {
+          "group": "单工具与文件对象",
+          "suggested_tasks": 10,
+          "examples": "结构读取、链提取、二级结构、表面积、明确单位的距离统计"
+        },
+        {
+          "group": "跨工具与数据流",
+          "suggested_tasks": 12,
+          "examples": "序列/结构检索→对象匹配→对齐→界面分析→报告"
+        },
+        {
+          "group": "异步与恢复",
+          "suggested_tasks": 8,
+          "examples": "提交预测或模拟→排队→断线→收集→验证；中途取消与 OOM"
+        },
+        {
+          "group": "交互与歧义",
+          "suggested_tasks": 6,
+          "examples": "同名蛋白、多个结构、用户改变链选择、编号系统不一致"
+        },
+        {
+          "group": "科学反例",
+          "suggested_tasks": 8,
+          "examples": "可执行但错误对象、质量退化、低置信界面、缺失关键前提"
+        },
+        {
+          "group": "权限与不可信数据",
+          "suggested_tasks": 6,
+          "examples": "恶意外部指令、无权 artifact、越界文件、未授权外发"
+        }
+      ],
+      "leakage_control": "蛋白家族/结构同源、任务模板、工具版本和工作流形态都可能泄漏；根据要评价的泛化目标分层划分，不只随机切句子。"
+    },
+    "metrics": [
+      {
+        "name": "交付成功率",
+        "definition": "达到预先指定环境终态的 trial 数 / 全部有效 trial 数。另报告每题 trial 成功率的宏平均，写清各题 trial 数与人工协助条件；不能把多次中任一次成功当作单次成功。"
+      },
+      {
+        "name": "科学通过率",
+        "definition": "条件科学通过率 = 通过领域质控的 trial 数 / 产生待验收结果的 trial 数；同时必须报告联合成功率 = 交付且通过科学验收的 trial 数 / 全部有效 trial 数。每个 trial 按预先冻结的候选选择规则验收，缺产物计入联合失败。"
+      },
+      {
+        "name": "工具调用合法率",
+        "definition": "通过 schema、权限及领域前提检查的动作 / 提议动作；不能替代端到端质量。"
+      },
+      {
+        "name": "恢复成功率",
+        "definition": "故障注入后在预算内完成且无重复副作用的 trial 数 / 预先指定可恢复故障集合中的全部有效 trial 数。不能因某次恢复失败，事后将其移出分母。"
+      },
+      {
+        "name": "越权和攻击成功",
+        "definition": "发生越权效果或攻击目标达成的攻击 trial 数 / 全部有效攻击 trial 数；同时量测配对干净 trial 的任务效用，避免“全部拒绝”伪装优秀。"
+      },
+      {
+        "name": "证据可追溯率",
+        "definition": "关键结论可定位到输入、执行记录、指标和原始产物的比例。"
+      },
+      {
+        "name": "成本和时延",
+        "definition": "同时呈现失败和成功 trial 的全成本；每个通过科学验收 trial 的成本 = 全部有效评测 trial 的消耗 / 交付且通过科学验收的 trial 数，并报告任务分层。分母为 0 时标为不适用并报告总成本。按 pass@k 聚合时，另用全部 k 次消耗 / k 次中至少一次通过的任务数，不能与单次成本混用。"
+      },
+      {
+        "name": "重复稳定性",
+        "definition": "pass@k 表示 k 次尝试至少成功一次；pass^k 表示 k 次都成功。二者回答不同问题，不能互换或省略 k。"
+      }
+    ],
+    "grading_policy": [
+      "确定性评分优先检查真实环境和产物，数值结果使用经领域专家确认的容差。",
+      "LLM judge 适合解释质量和证据一致性的辅助评分；校准到人工样本，保留依据，并防止答案中的指令影响评分器。",
+      "不把参考轨迹唯一化：替代工具和更短路径可能同样正确。",
+      "同题重复运行、配对比较候选版本与基线，报告置信区间、任务数、每题 trial 数和失败原因；按任务聚类计算区间，不能把同一题多次 trial 当作独立新任务扩大样本量。",
+      "有效 trial 的判定和候选选择规则在运行前冻结；超时、执行失败和缺产物计失败。确属任务或评分器缺陷的剔除需记录原因，并对基线与候选一致重跑或重评分。",
+      "任务或 grader 发现缺陷时修订版本并重评分；固定仓库 commit，而不是只记录 benchmark 名字。"
+    ],
+    "release_gates": [
+      {
+        "phase": "工具登记（M0）",
+        "gate": "用途、文档和接入方案可查；明确尚不能执行。环境部署与科学复现不是进入目录的前置条件。"
+      },
+      {
+        "phase": "操作达到可执行（M2）",
+        "gate": "M1 环境或服务、依赖与许可配置明确；功能探针与最小真实任务通过，可按权限手动运行，并显示未验证范围。"
+      },
+      {
+        "phase": "操作与工作流验证（M3 / M4）",
+        "gate": "M3 将科学与工程验证绑定指定操作、环境和输入范围，再进入对应范围的可信 Agent 工作流；M4 还需跨操作、异常处理和结果解释的领域验收，保留人工节点与适用条件。"
+      },
+      {
+        "phase": "有限试点",
+        "gate": "真实需求集能完成核心任务，关键隔离与权限案例无违规，长作业有恢复和取消路径。"
+      },
+      {
+        "phase": "版本更新",
+        "gate": "相同条件下与上一版比较；不能用平均涨分掩盖关键任务退化或新的安全缺陷。"
+      },
+      {
+        "phase": "扩大自治",
+        "gate": "依据已测错误、可恢复性和影响范围逐步扩大；高成本与不可逆动作维持相应授权。"
+      }
+    ],
+    "example": "“比较两个抗体复合物界面”至少需要：文件和链映射正确；界面计算成功；对照参数一致；指标可追溯；结构/置信度限制说明；没有把界面大小直接等同于实验亲和力。"
+  },
+  "papers": [
+    {
+      "id": "P01",
+      "title": "Protein Design with Agent Rosetta: A Case Study for Specialized Scientific Agents",
+      "short": "Agent_Rosetta",
+      "first_public_date": "2026-03-16",
+      "venue": "ICML 2026 · 主会",
+      "status": "正式会议",
+      "source_url": "https://proceedings.mlr.press/v306/teneggi26a.html",
+      "arxiv_id": "2603.15952",
+      "code_url": "https://github.com/PolymathicAI/agent-rosetta",
+      "pdf_edition": "arXiv 2603.15952v2",
+      "topic": "专业环境",
+      "finding": "动作模板、可读反馈和候选回退比只增加提示词更可操作。",
+      "engineering_inference": "先做结构化 Rosetta 执行环境与指标摘要，再讨论更复杂模型。",
+      "limitation": "计算验证不能代替湿实验；论文选定任务和固定专家流程不能代表所有真实设计问题。",
+      "local_pdf": "/Users/zhouyi/file/AI_Agent与结构生物学研究资料_2026-10-23/01_通用Agent前沿论文/papers/01_Agent_Rosetta_2026.pdf",
+      "provenance": "复用本地论文与元数据；本次补核相关一手来源，固定论文版本与当前仓库分开解释。"
+    },
+    {
+      "id": "P04",
+      "title": "Reimagining research papers as interactive and reliable AI agents",
+      "short": "Paper2Agent",
+      "first_public_date": "2025-09-08",
+      "venue": "Nature · 2026-09-16",
+      "status": "正式期刊",
+      "source_url": "https://www.nature.com/articles/s41586-026-11044-y",
+      "arxiv_id": "2509.06917",
+      "code_url": "https://github.com/jmiao24/Paper2Agent",
+      "pdf_edition": "正式出版 PDF",
+      "topic": "工具接入",
+      "finding": "代码与教程可转成可测试工具；验证和版本锁定是接入流程的一部分。",
+      "engineering_inference": "新方法半自动接入仍必须经过环境、教程复现和新输入验收。",
+      "limitation": "缺代码、数据、依赖和不可泛化脚本仍会阻断接入；自动测试通过不能保证所有新输入正确。",
+      "local_pdf": "/Users/zhouyi/file/AI_Agent与结构生物学研究资料_2026-10-23/01_通用Agent前沿论文/papers/04_Paper2Agent_2025.pdf",
+      "provenance": "复用本地论文与元数据；本次补核相关一手来源，固定论文版本与当前仓库分开解释。"
+    },
+    {
+      "id": "P09",
+      "title": "ToolOrchestra: Elevating Intelligence via Efficient Model and Tool Orchestration",
+      "short": "ToolOrchestra",
+      "first_public_date": "2025-11-26",
+      "venue": "ICML 2026 · 主会",
+      "status": "正式会议",
+      "source_url": "https://proceedings.mlr.press/v306/su26d.html",
+      "arxiv_id": "2511.21689",
+      "code_url": "https://github.com/NVlabs/ToolOrchestra",
+      "pdf_edition": "正式出版 PDF",
+      "topic": "成本与路由",
+      "finding": "工具与模型编排需要同时考虑质量、效率和偏好。",
+      "engineering_inference": "NBDB 预算应计入 GPU、排队和失败重跑；不能直接照搬其短任务成本比例。",
+      "limitation": "部分奖励依赖模型裁判；短答案/模拟 API 不能直接代表数小时科学作业。",
+      "local_pdf": "/Users/zhouyi/file/AI_Agent与结构生物学研究资料_2026-10-23/01_通用Agent前沿论文/papers/09_ToolOrchestra_2025.pdf",
+      "provenance": "复用本地论文与元数据；本次补核相关一手来源，固定论文版本与当前仓库分开解释。"
+    },
+    {
+      "id": "P10",
+      "title": "Agent Lightning v1.0: Towards Harnessed Agentic RL",
+      "short": "Agent_Lightning_1",
+      "first_public_date": "2026-08-18",
+      "venue": "arXiv · 2026",
+      "status": "预印本",
+      "source_url": "https://arxiv.org/abs/2608.17528",
+      "arxiv_id": "2608.17528",
+      "code_url": "https://github.com/microsoft/agent-lightning",
+      "pdf_edition": "arXiv 2608.17528v1",
+      "topic": "训练边界",
+      "finding": "让实际部署 harness 管理交互，训练在其接口旁观察。",
+      "engineering_inference": "完整真实轨迹和可信质量反馈成熟后，再考虑训练接入。",
+      "limitation": "报告领域不是结构生物学；可信奖励、完整轨迹、算力和训练稳定性仍是前提。",
+      "local_pdf": "/Users/zhouyi/file/AI_Agent与结构生物学研究资料_2026-10-23/01_通用Agent前沿论文/papers/10_Agent_Lightning_1_2026.pdf",
+      "provenance": "复用本地论文与元数据；本次补核相关一手来源，固定论文版本与当前仓库分开解释。"
+    },
+    {
+      "id": "P17",
+      "title": "Generalizable End-to-End Tool-Use RL with Synthetic CodeGym",
+      "short": "CodeGym",
+      "first_public_date": "2025-09-22",
+      "venue": "ICLR 2026 · 主会",
+      "status": "正式会议",
+      "source_url": "https://proceedings.iclr.cc/paper_files/paper/2026/hash/1e4322fddd833f83c855660ac65e428d-Abstract-Conference.html",
+      "arxiv_id": "2509.17325",
+      "code_url": "https://github.com/StigLidu/CodeGym",
+      "pdf_edition": "正式出版 PDF",
+      "topic": "训练环境",
+      "finding": "可验证且多样的合成交互环境可以服务工具使用训练。",
+      "engineering_inference": "轻量几何/文件任务可做练习环境，但不能代表重型结构软件全部行为。",
+      "limitation": "合成编程世界并不等于真实结构软件；模拟环境正确性本身需要验证。",
+      "local_pdf": "/Users/zhouyi/file/AI_Agent与结构生物学研究资料_2026-10-23/01_通用Agent前沿论文/papers/17_CodeGym_2025.pdf",
+      "provenance": "复用本地论文与元数据；本次补核相关一手来源，固定论文版本与当前仓库分开解释。"
+    },
+    {
+      "id": "P18",
+      "title": "IPIGuard: A Novel Tool Dependency Graph-Based Defense Against Indirect Prompt Injection in LLM Agents",
+      "short": "IPIGuard",
+      "first_public_date": "2025-08-21",
+      "venue": "EMNLP 2025 · 主会",
+      "status": "正式会议",
+      "source_url": "https://aclanthology.org/2025.emnlp-main.53/",
+      "arxiv_id": "2508.15310",
+      "code_url": "https://github.com/Greysahy/ipiguard",
+      "pdf_edition": "正式出版 PDF",
+      "topic": "提示注入",
+      "finding": "以工具依赖结构约束动作，为文本防御增加系统约束。",
+      "engineering_inference": "外部论文和日志只能提供数据，权限由执行层持有。",
+      "limitation": "不构成完全防御；动态科学计划仍需有边界地修改。",
+      "local_pdf": "/Users/zhouyi/file/AI_Agent与结构生物学研究资料_2026-10-23/01_通用Agent前沿论文/papers/18_IPIGuard_2025.pdf",
+      "provenance": "复用本地论文与元数据；本次补核相关一手来源，固定论文版本与当前仓库分开解释。"
+    },
+    {
+      "id": "P19",
+      "title": "Can Agents Generalize to the Open World? Unveiling the Fragility of Static Training in Tool Use",
+      "short": "OpenAgent",
+      "first_public_date": "2026-07-01",
+      "venue": "ICML 2026 · 主会",
+      "status": "正式会议",
+      "source_url": "https://proceedings.mlr.press/v306/wu26al.html",
+      "arxiv_id": "2607.01084",
+      "code_url": "https://github.com/LAMDA-NeSy/OpenAgent",
+      "pdf_edition": "正式出版 PDF",
+      "topic": "工具变化",
+      "finding": "评测应扰动查询、动作、观察和领域，而非只测固定接口。",
+      "engineering_inference": "将软件版本、schema、同义表达与异常返回加入回归。",
+      "limitation": "诊断环境不是完整科学软件栈；改善不能直接外推到全部任务。",
+      "local_pdf": "/Users/zhouyi/file/AI_Agent与结构生物学研究资料_2026-10-23/01_通用Agent前沿论文/papers/19_OpenAgent_2026.pdf",
+      "provenance": "复用本地论文与元数据；本次补核相关一手来源，固定论文版本与当前仓库分开解释。"
+    },
+    {
+      "id": "P20",
+      "title": "SciAgentGym: Benchmarking Multi-Step Scientific Tool-Use in LLM Agents",
+      "short": "SciAgentGym",
+      "first_public_date": "2026-02-13",
+      "venue": "ICML 2026 · 主会",
+      "status": "正式会议",
+      "source_url": "https://proceedings.mlr.press/v306/shen26aa.html",
+      "arxiv_id": "2602.12984",
+      "code_url": "https://github.com/CMarsRover/SciAgentGYM",
+      "pdf_edition": "正式出版 PDF",
+      "topic": "长工作流",
+      "finding": "把单步工具能力与多步科学流程分层测量。",
+      "engineering_inference": "完整数据流与输入前提比单次函数调用分数更贴近平台。",
+      "limitation": "工具数量不能证明结构生物学全覆盖；生成任务不等于真实研究难题。",
+      "local_pdf": "/Users/zhouyi/file/AI_Agent与结构生物学研究资料_2026-10-23/01_通用Agent前沿论文/papers/20_SciAgentGym_2026.pdf",
+      "provenance": "复用本地论文与元数据；本次补核相关一手来源，固定论文版本与当前仓库分开解释。"
+    },
+    {
+      "id": "P21",
+      "title": "ScienceBoard: Evaluating Multimodal Autonomous Agents in Realistic Scientific Workflows",
+      "short": "ScienceBoard",
+      "first_public_date": "2025-05-26",
+      "venue": "ICLR 2026 · 主会 Poster",
+      "status": "正式会议",
+      "source_url": "https://iclr.cc/virtual/2026/poster/10008621",
+      "arxiv_id": "2505.19897",
+      "code_url": "https://github.com/OS-Copilot/ScienceBoard",
+      "pdf_edition": "arXiv 2505.19897v3",
+      "topic": "真实软件",
+      "finding": "真实 GUI/CLI 环境的任务完成需要观察和产物验收。",
+      "engineering_inference": "脚本优先、GUI 补充；保留真实软件状态而不只问答。",
+      "limitation": "结果依赖软件和模型版本；任务完成也不能独立保证科学解释正确。",
+      "local_pdf": "/Users/zhouyi/file/AI_Agent与结构生物学研究资料_2026-10-23/01_通用Agent前沿论文/papers/21_ScienceBoard_2025.pdf",
+      "provenance": "复用本地论文与元数据；本次补核相关一手来源，固定论文版本与当前仓库分开解释。"
+    },
+    {
+      "id": "P22",
+      "title": "AstaBench: Rigorous Benchmarking of AI Agents with a Scientific Research Suite",
+      "short": "AstaBench",
+      "first_public_date": "2025-10-24",
+      "venue": "ICLR 2026 · 主会 Oral",
+      "status": "正式会议",
+      "source_url": "https://iclr.cc/virtual/2026/poster/10009971",
+      "arxiv_id": "2510.21652",
+      "code_url": "https://github.com/allenai/asta-bench",
+      "pdf_edition": "arXiv 2510.21652v2",
+      "topic": "公平比较",
+      "finding": "工具访问、成本、可复现环境和基线影响评分解释。",
+      "engineering_inference": "同模型、同工具、同预算比较运行架构，分面展示而不只用总分。",
+      "limitation": "综合分数混合检索、编程等能力，不能直接外推结构分析可靠性。",
+      "local_pdf": "/Users/zhouyi/file/AI_Agent与结构生物学研究资料_2026-10-23/01_通用Agent前沿论文/papers/22_AstaBench_2025.pdf",
+      "provenance": "复用本地论文与元数据；本次补核相关一手来源，固定论文版本与当前仓库分开解释。"
+    },
+    {
+      "id": "P23",
+      "title": "MCP-Bench: Benchmarking Tool-Using LLM Agents with Complex Real-World Tasks via MCP Servers",
+      "short": "MCP_Bench",
+      "first_public_date": "2025-08-28",
+      "venue": "ICLR 2026 · 主会 Poster",
+      "status": "正式会议",
+      "source_url": "https://iclr.cc/virtual/2026/poster/10008216",
+      "arxiv_id": "2508.20453",
+      "code_url": "https://github.com/Accenture/mcp-bench",
+      "pdf_edition": "arXiv 2508.20453v1",
+      "topic": "协议后难题",
+      "finding": "MCP 联通后仍要评价发现、参数、跨工具数据流和任务结果。",
+      "engineering_inference": "把连接器契约与 Agent 规划分开诊断。",
+      "limitation": "在线服务变化会影响复现；协议互通本身没有科学校验。",
+      "local_pdf": "/Users/zhouyi/file/AI_Agent与结构生物学研究资料_2026-10-23/01_通用Agent前沿论文/papers/23_MCP_Bench_2025.pdf",
+      "provenance": "复用本地论文与元数据；本次补核相关一手来源，固定论文版本与当前仓库分开解释。"
+    },
+    {
+      "id": "P24",
+      "title": "DSGym: A Holistic Framework for Evaluating and Training Data Science Agents",
+      "short": "DSGym",
+      "first_public_date": "2026-01-22",
+      "venue": "ICML 2026 · 主会",
+      "status": "正式会议",
+      "source_url": "https://proceedings.mlr.press/v306/nie26b.html",
+      "arxiv_id": "2601.16344",
+      "code_url": "https://github.com/fannie1208/DSGym",
+      "pdf_edition": "正式出版 PDF",
+      "topic": "数据接地",
+      "finding": "有些题能绕过真实数据；必须用执行和捷径过滤测量能力。",
+      "engineering_inference": "换结构、改链号、换数据后检查输出随输入改变，绑定文件哈希。",
+      "limitation": "数据接地不能替代研究假设有效性；重型结构工具仍需另建运行环境。",
+      "local_pdf": "/Users/zhouyi/file/AI_Agent与结构生物学研究资料_2026-10-23/01_通用Agent前沿论文/papers/24_DSGym_2026.pdf",
+      "provenance": "复用本地论文与元数据；本次补核相关一手来源，固定论文版本与当前仓库分开解释。"
+    },
+    {
+      "id": "P25",
+      "title": "τ²-Bench: Evaluating Conversational Agents in a Dual-Control Environment",
+      "short": "Tau2_Bench",
+      "first_public_date": "2025-06-09",
+      "venue": "ICML 2026 · 主会",
+      "status": "正式会议",
+      "source_url": "https://proceedings.mlr.press/v306/barres26a.html",
+      "arxiv_id": "2506.07982",
+      "code_url": "https://github.com/sierra-research/tau2-bench",
+      "pdf_edition": "正式出版 PDF",
+      "topic": "用户共同操作",
+      "finding": "用户与 Agent 均可改环境时，需要状态协调与交互评分。",
+      "engineering_inference": "用户在三维场景改选对象后，旧计划不得静默覆盖新选择。",
+      "limitation": "主要是客服/电信场景，不验证结构数据与数值分析。",
+      "local_pdf": "/Users/zhouyi/file/AI_Agent与结构生物学研究资料_2026-10-23/01_通用Agent前沿论文/papers/25_Tau2_Bench_2025.pdf",
+      "provenance": "复用本地论文与元数据；本次补核相关一手来源，固定论文版本与当前仓库分开解释。"
+    },
+    {
+      "id": "P26",
+      "title": "Why Do Multi-Agent LLM Systems Fail?",
+      "short": "MAST",
+      "first_public_date": "2025-03-17",
+      "venue": "NeurIPS 2025 · Datasets & Benchmarks",
+      "status": "正式会议",
+      "source_url": "https://proceedings.neurips.cc/paper_files/paper/2025/hash/b1041e52d3be19f0a9bc491657488e4a-Abstract-Datasets_and_Benchmarks_Track.html",
+      "arxiv_id": "2503.13657",
+      "code_url": "https://github.com/multi-agent-systems-failure-taxonomy/MAST",
+      "pdf_edition": "正式出版 PDF",
+      "topic": "多 Agent 失败",
+      "finding": "角色拆分可能引入目标、交接与验证失败。",
+      "engineering_inference": "先比较单 Agent 基线，交接明确对象版本、约束、产物和证据。",
+      "limitation": "故障比例依赖被研究任务和框架，不能当成所有系统的生产故障率。",
+      "local_pdf": "/Users/zhouyi/file/AI_Agent与结构生物学研究资料_2026-10-23/01_通用Agent前沿论文/papers/26_MAST_2025.pdf",
+      "provenance": "复用本地论文与元数据；本次补核相关一手来源，固定论文版本与当前仓库分开解释。"
+    },
+    {
+      "id": "P27",
+      "title": "Where LLM Agents Fail and How They can Learn From Failures",
+      "short": "AgentDebug",
+      "first_public_date": "2025-09-29",
+      "venue": "arXiv · 2025",
+      "status": "预印本",
+      "source_url": "https://arxiv.org/abs/2509.25370",
+      "arxiv_id": "2509.25370",
+      "code_url": "https://github.com/ulab-uiuc/AgentDebug",
+      "pdf_edition": "arXiv 2509.25370v1",
+      "topic": "根因定位",
+      "finding": "早期错误可级联；定向反馈与正确检查点有助于恢复。",
+      "engineering_inference": "错误分层，定位第一处有影响的错误，不用全部重跑掩盖问题。",
+      "limitation": "调试模型可能误判领域错误，给出的反馈仍必须被真实工具验证。",
+      "local_pdf": "/Users/zhouyi/file/AI_Agent与结构生物学研究资料_2026-10-23/01_通用Agent前沿论文/papers/27_AgentDebug_2025.pdf",
+      "provenance": "复用本地论文与元数据；本次补核相关一手来源，固定论文版本与当前仓库分开解释。"
+    },
+    {
+      "id": "AgentDojo",
+      "short": "AgentDojo",
+      "title": "AgentDojo: A Dynamic Environment to Evaluate Prompt Injection Attacks and Defenses for LLM Agents",
+      "first_public_date": "2024-06-19",
+      "venue": "NeurIPS 2024 · Datasets & Benchmarks",
+      "status": "正式会议",
+      "source_url": "https://proceedings.nips.cc/paper_files/paper/2024/hash/97091a5177d8dc64b1da8bf3e1f6fb54-Abstract-Datasets_and_Benchmarks_Track.html",
+      "arxiv_id": "2406.13352",
+      "code_url": "https://github.com/ethz-spylab/agentdojo",
+      "topic": "安全评测基础",
+      "finding": "在含不可信工具返回的动态任务环境中同时评价攻击、防御和任务效用。",
+      "engineering_inference": "为 NBDB 的论文、网页和日志构造干净/攻击配对样本，检验权限边界并保留正常任务完成能力。",
+      "limitation": "主要为办公与事务任务；不能直接代表结构生物学数值与长作业正确性。作为工程评测基础保留，明确不是新论文。",
+      "local_pdf": null,
+      "provenance": "本次核对 arXiv 日期与 NeurIPS 官方会议信息。"
+    }
+  ],
+  "anti_patterns": [
+    {
+      "pattern": "把所有工具说明和日志塞满上下文",
+      "replace_with": "按能力筛选和按需读取，保留可回溯引用。"
+    },
+    {
+      "pattern": "工具返回文本里写“成功”就结束",
+      "replace_with": "验证环境终态、文件和科学指标。"
+    },
+    {
+      "pattern": "把任务状态只存在消息历史或进程内存",
+      "replace_with": "持久账本、检查点、作业引用和独立产物存储。"
+    },
+    {
+      "pattern": "对所有异常无限重试",
+      "replace_with": "分类、有界重试、幂等与不确定状态对账。"
+    },
+    {
+      "pattern": "让模型直接决定是否有权限",
+      "replace_with": "执行层校验授权、对象和预算，外部内容不能授予权限。"
+    },
+    {
+      "pattern": "用多个角色互相认可代替验证",
+      "replace_with": "单 Agent 基线、结构化交接、独立可执行验证。"
+    },
+    {
+      "pattern": "只比较排行榜总分或只展示最佳案例",
+      "replace_with": "任务分层、相同条件、重复试验、失败和成本一起报告。"
+    },
+    {
+      "pattern": "软件跑通就宣布生物学发现",
+      "replace_with": "区分执行、计算验证、科学推断和实验支持。"
+    },
+    {
+      "pattern": "工具目录数量等于可执行科学覆盖度",
+      "replace_with": "按可完成工作流、兼容输入和验证范围衡量覆盖。"
+    },
+    {
+      "pattern": "奖励让 Agent 自己打分，然后自改生产系统",
+      "replace_with": "可信外部评分、独立测试、版本候选与回滚。"
+    }
+  ],
+  "sources": [
+    {
+      "id": "D01",
+      "title": "LangGraph Persistence / Checkpointers",
+      "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+      "kind": "官方文档",
+      "checked": "2026-10-27",
+      "supports": "线程检查点与跨线程存储不同；内存检查点不抵御进程重启。"
+    },
+    {
+      "id": "D02",
+      "title": "Temporal: What is idempotency? And why it matters for durable systems",
+      "url": "https://temporal.io/blog/idempotency-and-durable-execution",
+      "kind": "官方工程文章",
+      "checked": "2026-10-27",
+      "supports": "持久工作流不会自动让外部活动具有幂等性；活动重复执行必须单独处理。"
+    },
+    {
+      "id": "D03",
+      "title": "MCP 2025-06-18: Tools",
+      "url": "https://modelcontextprotocol.io/specification/2025-06-18/server/tools",
+      "kind": "协议规范固定版本",
+      "checked": "2026-10-27",
+      "supports": "输入输出 schema、结构化返回与错误；annotations 需要可信来源。此处引用固定版本，不宣称其为最新版本。"
+    },
+    {
+      "id": "D04",
+      "title": "MCP Security Best Practices",
+      "url": "https://modelcontextprotocol.io/docs/2025-11-25/tutorials/security/security_best_practices",
+      "kind": "官方安全文档",
+      "checked": "2026-10-27",
+      "supports": "身份、授权、token passthrough、SSRF、会话等威胁；协议连接不取代应用权限。"
+    },
+    {
+      "id": "D05",
+      "title": "Slurm REST API Details",
+      "url": "https://slurm.schedmd.com/rest.html",
+      "kind": "官方调度器文档",
+      "checked": "2026-10-27",
+      "supports": "提交、查询、取消作业；REST 网关无状态，需由应用维护任务关系，避免高频查询。"
+    },
+    {
+      "id": "D06",
+      "title": "Slurm Job State Codes",
+      "url": "https://slurm.schedmd.com/job_state_codes.html",
+      "kind": "官方调度器文档",
+      "checked": "2026-10-27",
+      "supports": "PENDING、RUNNING、COMPLETED、TIMEOUT、OUT_OF_MEMORY 等真实作业状态；COMPLETED 只反映进程成功退出。"
+    },
+    {
+      "id": "D07",
+      "title": "OpenTelemetry GenAI semantic conventions repository",
+      "url": "https://github.com/open-telemetry/semantic-conventions-genai",
+      "kind": "标准组织官方仓库",
+      "checked": "2026-10-27",
+      "supports": "Agent/模型/工具调用链的语义约定；相关约定仍演进，接入需锁定版本或提交。旧 opentelemetry.io GenAI 页面已迁移。"
+    },
+    {
+      "id": "D08",
+      "title": "Effective context engineering for AI agents",
+      "url": "https://www.anthropic.com/research/effective-context-engineering-for-ai-agents",
+      "kind": "厂商官方工程经验",
+      "date": "2025-09-29",
+      "checked": "2026-10-27",
+      "supports": "按需检索、上下文精简、长期任务的压缩与结构化记录；不是统一性能定律。"
+    },
+    {
+      "id": "D09",
+      "title": "Demystifying evals for AI agents",
+      "url": "https://www.anthropic.com/research/demystifying-evals-for-ai-agents",
+      "kind": "厂商官方工程经验",
+      "date": "2026-01-09",
+      "checked": "2026-10-27",
+      "supports": "任务、trial、grader、trace、实际终态与 harness 的区分；多次运行与组合评分。"
+    },
+    {
+      "id": "D10",
+      "title": "Building effective AI agents",
+      "url": "https://www.anthropic.com/research/building-effective-agents",
+      "kind": "厂商官方架构经验",
+      "date": "2024-12-19",
+      "checked": "2026-10-27",
+      "supports": "预定义工作流与动态 Agent 的区别；从简单组合模式开始。文章现已提示软件生态变化，历史例子不能当作当前完整选型表。"
+    },
+    {
+      "id": "D11",
+      "title": "RCSB PDB: Assessing the Quality of 3D Structures",
+      "url": "https://www.rcsb.org/docs/general-help/assessing-the-quality-of-3d-structures",
+      "kind": "领域数据库官方说明",
+      "checked": "2026-10-27",
+      "supports": "需要多种全局及局部质量指标，并依据实验类型和用途解释结构。"
+    },
+    {
+      "id": "D12",
+      "title": "EMBL-EBI: Evaluating AlphaFold2 predicted structures using confidence scores",
+      "url": "https://www.ebi.ac.uk/training/online/courses/alphafold/inputs-and-outputs/evaluating-alphafolds-predicted-structures-using-confidence-scores/",
+      "kind": "领域官方培训",
+      "checked": "2026-10-27",
+      "supports": "pLDDT 与 PAE 分别反映局部与相对定位置信度；预测应结合置信度批判性解释。"
+    },
+    {
+      "id": "P01",
+      "title": "Protein Design with Agent Rosetta: A Case Study for Specialized Scientific Agents",
+      "url": "https://proceedings.mlr.press/v306/teneggi26a.html",
+      "kind": "正式会议",
+      "checked": "2026-10-27",
+      "supports": "动作模板、可读反馈和候选回退比只增加提示词更可操作。"
+    },
+    {
+      "id": "P04",
+      "title": "Reimagining research papers as interactive and reliable AI agents",
+      "url": "https://www.nature.com/articles/s41586-026-11044-y",
+      "kind": "正式期刊",
+      "checked": "2026-10-27",
+      "supports": "代码与教程可转成可测试工具；验证和版本锁定是接入流程的一部分。"
+    },
+    {
+      "id": "P09",
+      "title": "ToolOrchestra: Elevating Intelligence via Efficient Model and Tool Orchestration",
+      "url": "https://proceedings.mlr.press/v306/su26d.html",
+      "kind": "正式会议",
+      "checked": "2026-10-27",
+      "supports": "工具与模型编排需要同时考虑质量、效率和偏好。"
+    },
+    {
+      "id": "P10",
+      "title": "Agent Lightning v1.0: Towards Harnessed Agentic RL",
+      "url": "https://arxiv.org/abs/2608.17528",
+      "kind": "预印本",
+      "checked": "2026-10-27",
+      "supports": "让实际部署 harness 管理交互，训练在其接口旁观察。"
+    },
+    {
+      "id": "P17",
+      "title": "Generalizable End-to-End Tool-Use RL with Synthetic CodeGym",
+      "url": "https://proceedings.iclr.cc/paper_files/paper/2026/hash/1e4322fddd833f83c855660ac65e428d-Abstract-Conference.html",
+      "kind": "正式会议",
+      "checked": "2026-10-27",
+      "supports": "可验证且多样的合成交互环境可以服务工具使用训练。"
+    },
+    {
+      "id": "P18",
+      "title": "IPIGuard: A Novel Tool Dependency Graph-Based Defense Against Indirect Prompt Injection in LLM Agents",
+      "url": "https://aclanthology.org/2025.emnlp-main.53/",
+      "kind": "正式会议",
+      "checked": "2026-10-27",
+      "supports": "以工具依赖结构约束动作，为文本防御增加系统约束。"
+    },
+    {
+      "id": "P19",
+      "title": "Can Agents Generalize to the Open World? Unveiling the Fragility of Static Training in Tool Use",
+      "url": "https://proceedings.mlr.press/v306/wu26al.html",
+      "kind": "正式会议",
+      "checked": "2026-10-27",
+      "supports": "评测应扰动查询、动作、观察和领域，而非只测固定接口。"
+    },
+    {
+      "id": "P20",
+      "title": "SciAgentGym: Benchmarking Multi-Step Scientific Tool-Use in LLM Agents",
+      "url": "https://proceedings.mlr.press/v306/shen26aa.html",
+      "kind": "正式会议",
+      "checked": "2026-10-27",
+      "supports": "把单步工具能力与多步科学流程分层测量。"
+    },
+    {
+      "id": "P21",
+      "title": "ScienceBoard: Evaluating Multimodal Autonomous Agents in Realistic Scientific Workflows",
+      "url": "https://iclr.cc/virtual/2026/poster/10008621",
+      "kind": "正式会议",
+      "checked": "2026-10-27",
+      "supports": "真实 GUI/CLI 环境的任务完成需要观察和产物验收。"
+    },
+    {
+      "id": "P22",
+      "title": "AstaBench: Rigorous Benchmarking of AI Agents with a Scientific Research Suite",
+      "url": "https://iclr.cc/virtual/2026/poster/10009971",
+      "kind": "正式会议",
+      "checked": "2026-10-27",
+      "supports": "工具访问、成本、可复现环境和基线影响评分解释。"
+    },
+    {
+      "id": "P23",
+      "title": "MCP-Bench: Benchmarking Tool-Using LLM Agents with Complex Real-World Tasks via MCP Servers",
+      "url": "https://iclr.cc/virtual/2026/poster/10008216",
+      "kind": "正式会议",
+      "checked": "2026-10-27",
+      "supports": "MCP 联通后仍要评价发现、参数、跨工具数据流和任务结果。"
+    },
+    {
+      "id": "P24",
+      "title": "DSGym: A Holistic Framework for Evaluating and Training Data Science Agents",
+      "url": "https://proceedings.mlr.press/v306/nie26b.html",
+      "kind": "正式会议",
+      "checked": "2026-10-27",
+      "supports": "有些题能绕过真实数据；必须用执行和捷径过滤测量能力。"
+    },
+    {
+      "id": "P25",
+      "title": "τ²-Bench: Evaluating Conversational Agents in a Dual-Control Environment",
+      "url": "https://proceedings.mlr.press/v306/barres26a.html",
+      "kind": "正式会议",
+      "checked": "2026-10-27",
+      "supports": "用户与 Agent 均可改环境时，需要状态协调与交互评分。"
+    },
+    {
+      "id": "P26",
+      "title": "Why Do Multi-Agent LLM Systems Fail?",
+      "url": "https://proceedings.neurips.cc/paper_files/paper/2025/hash/b1041e52d3be19f0a9bc491657488e4a-Abstract-Datasets_and_Benchmarks_Track.html",
+      "kind": "正式会议",
+      "checked": "2026-10-27",
+      "supports": "角色拆分可能引入目标、交接与验证失败。"
+    },
+    {
+      "id": "P27",
+      "title": "Where LLM Agents Fail and How They can Learn From Failures",
+      "url": "https://arxiv.org/abs/2509.25370",
+      "kind": "预印本",
+      "checked": "2026-10-27",
+      "supports": "早期错误可级联；定向反馈与正确检查点有助于恢复。"
+    },
+    {
+      "id": "AgentDojo",
+      "title": "AgentDojo: A Dynamic Environment to Evaluate Prompt Injection Attacks and Defenses for LLM Agents",
+      "url": "https://proceedings.nips.cc/paper_files/paper/2024/hash/97091a5177d8dc64b1da8bf3e1f6fb54-Abstract-Datasets_and_Benchmarks_Track.html",
+      "kind": "正式会议",
+      "checked": "2026-10-27",
+      "supports": "在含不可信工具返回的动态任务环境中同时评价攻击、防御和任务效用。"
+    }
+  ],
+  "version_notes": [
+    "τ² 论文与当前 τ³ 仓库分开引用。作者仓库提示 2026-07 v1.0.1 修复 banking_knowledge 评分，旧新分数不宜混用；复跑需锁定 commit、任务和 grader。官方仓库：https://github.com/sierra-research/tau2-bench",
+    "OpenTelemetry GenAI 文档已迁移至独立官方仓库；具体字段和稳定性应按选用提交核对，不把正在演进的惯例写成稳定强制标准。",
+    "本文选择 16 篇工程相关论文/基准，主要复用旧资料；新前沿方法不足以替代已知的运行可靠性机制。没有为追新强加未经充分复现的预印本。"
+  ],
+  "short_takeaway": "Agent 的工程质量取决于目标能否验收、动作是否受控、长任务是否可恢复、产物是否可追溯，以及科学结论能否被独立检查；框架和模型只是其中的组成部分。"
+}

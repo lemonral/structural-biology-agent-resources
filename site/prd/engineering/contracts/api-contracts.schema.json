@@ -1,0 +1,4993 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:structbio-agent:api-contracts:0.2",
+  "$defs": {
+    "UUID": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "SHA256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "Timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "UTC RFC3339，服务端输出Z后缀。"
+    },
+    "StepID": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+      "description": "Plan内逻辑步骤名，非全局实体UUID；由(plan_id,step_id)定位。"
+    },
+    "ProjectRole": {
+      "type": "string",
+      "enum": [
+        "viewer",
+        "researcher",
+        "maintainer",
+        "owner"
+      ]
+    },
+    "BudgetMetric": {
+      "type": "string",
+      "enum": [
+        "input_tokens",
+        "output_tokens",
+        "model_calls",
+        "cpu_ms",
+        "tool_attempts",
+        "money_microunits"
+      ]
+    },
+    "RequestedLimits": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "input_tokens": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "output_tokens": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "model_calls": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "cpu_ms": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "tool_attempts": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "money_microunits": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "wall_seconds": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 86400
+        },
+        "max_repairs": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10
+        },
+        "max_transient_retries_per_step": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10
+        }
+      },
+      "required": [],
+      "description": "仅为请求上限，省略取服务器策略；服务器取更严格值并原子预留，不接受currency、价格或权限字段。"
+    },
+    "EffectiveLimits": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "input_tokens": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "output_tokens": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "model_calls": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "cpu_ms": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "tool_attempts": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "money_microunits": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "wall_seconds": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "max_repairs": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "max_transient_retries_per_step": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$"
+        },
+        "price_version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "policy_version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        }
+      },
+      "required": [
+        "input_tokens",
+        "output_tokens",
+        "model_calls",
+        "cpu_ms",
+        "tool_attempts",
+        "money_microunits",
+        "wall_seconds",
+        "max_repairs",
+        "max_transient_retries_per_step",
+        "currency",
+        "price_version",
+        "policy_version"
+      ],
+      "description": "microunits为1e-6所声明currency；一项目一币种，提供方报价同币种。reference模式也指向明确的零模型成本配置版本，不能用缺价代替零费用。"
+    },
+    "UsageCounter": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "metric": {
+          "$ref": "#/$defs/BudgetMetric"
+        },
+        "estimated": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "confirmed": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reserved": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "unknown_requests": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "ESTIMATED",
+            "CONFIRMED",
+            "UNKNOWN"
+          ]
+        }
+      },
+      "required": [
+        "metric",
+        "estimated",
+        "confirmed",
+        "reserved",
+        "unknown_requests",
+        "status"
+      ],
+      "description": "estimated与confirmed不是相加项；reserved包含未决预留。NULL或UNKNOWN不能在报表里强转0。"
+    },
+    "FieldError": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "field": {
+          "type": "string",
+          "maxLength": 256
+        },
+        "reason_code": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "message": {
+          "type": "string",
+          "maxLength": 512
+        }
+      },
+      "required": [
+        "field",
+        "reason_code",
+        "message"
+      ]
+    },
+    "Error": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "type": "string",
+          "enum": [
+            "REQUEST_SCHEMA_INVALID",
+            "REQUEST_TOO_LARGE",
+            "UNSUPPORTED_MEDIA",
+            "UNAUTHENTICATED",
+            "CSRF_REQUIRED",
+            "RESOURCE_NOT_FOUND",
+            "POLICY_DENIED",
+            "IDEMPOTENCY_CONFLICT",
+            "IDEMPOTENCY_IN_PROGRESS",
+            "REVISION_CONFLICT",
+            "STATE_VERSION_CONFLICT",
+            "INVALID_STATE_TRANSITION",
+            "CURSOR_INVALID",
+            "CURSOR_AHEAD",
+            "EVENT_CURSOR_EXPIRED",
+            "RATE_LIMITED",
+            "PROJECT_QUOTA_EXCEEDED",
+            "RUN_BUDGET_EXCEEDED",
+            "MODEL_NOT_CONFIGURED",
+            "MODEL_DATA_POLICY_DENIED",
+            "PROVIDER_PRICE_UNAVAILABLE",
+            "IMPORT_UNAVAILABLE",
+            "IMPORT_FAILED",
+            "ARTIFACT_NOT_READY",
+            "SPEC_NOT_FROZEN",
+            "SCIENTIFIC_REJECTED",
+            "CAPABILITY_UNAVAILABLE",
+            "RUN_DEADLINE_EXCEEDED",
+            "RUN_STATE_UNKNOWN",
+            "P1_FEATURE_DISABLED",
+            "INTERNAL_ERROR"
+          ]
+        },
+        "message": {
+          "type": "string",
+          "maxLength": 1024
+        },
+        "retryable": {
+          "type": "boolean"
+        },
+        "safe_next_action": {
+          "type": "string",
+          "enum": [
+            "EDIT_REQUEST",
+            "REAUTHENTICATE",
+            "WAIT_AND_RETRY",
+            "FETCH_SNAPSHOT",
+            "CREATE_NEW_REVISION",
+            "INSPECT_RUN",
+            "CONTACT_MAINTAINER"
+          ]
+        },
+        "field_errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FieldError"
+          },
+          "maxItems": 32
+        },
+        "min_available_seq": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "snapshot_url": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 512
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "code",
+        "message",
+        "retryable",
+        "safe_next_action",
+        "field_errors",
+        "min_available_seq",
+        "snapshot_url"
+      ]
+    },
+    "ErrorEnvelope": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "request_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "run_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/UUID"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "$ref": "#/$defs/Error"
+        }
+      },
+      "required": [
+        "request_id",
+        "run_id",
+        "error"
+      ]
+    },
+    "Project": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "project_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "role": {
+          "$ref": "#/$defs/ProjectRole"
+        },
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$"
+        },
+        "policy_version": {
+          "type": "string",
+          "maxLength": 128
+        }
+      },
+      "required": [
+        "project_id",
+        "name",
+        "role",
+        "currency",
+        "policy_version"
+      ]
+    },
+    "ProjectPage": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Project"
+          },
+          "maxItems": 100
+        },
+        "next_cursor": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 1024
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "items",
+        "next_cursor"
+      ]
+    },
+    "Source": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "UPLOAD",
+            "RCSB"
+          ]
+        },
+        "source_label": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "entry_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 32
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "retrieved_at": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Timestamp"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "canonical_url": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 512
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "kind",
+        "source_label",
+        "entry_id",
+        "retrieved_at",
+        "canonical_url"
+      ]
+    },
+    "Artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "project_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "kind": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_.-]{1,63}$"
+        },
+        "sha256": {
+          "$ref": "#/$defs/SHA256"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "media_type": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "storage_state": {
+          "type": "string",
+          "enum": [
+            "STAGED",
+            "AVAILABLE",
+            "MISSING",
+            "TOMBSTONED"
+          ]
+        },
+        "latest_validation_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/UUID"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "scientific_status": {
+          "type": "string",
+          "enum": [
+            "NOT_EVALUATED",
+            "VALIDATING",
+            "ACCEPTED",
+            "REJECTED",
+            "INCONCLUSIVE",
+            "NOT_APPLICABLE"
+          ]
+        },
+        "data_classification": {
+          "type": "string",
+          "enum": [
+            "PUBLIC",
+            "PROJECT_RESTRICTED"
+          ]
+        },
+        "producer_attempt_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/UUID"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "source": {
+          "$ref": "#/$defs/Source"
+        },
+        "created_at": {
+          "$ref": "#/$defs/Timestamp"
+        },
+        "content_url": {
+          "type": "string",
+          "maxLength": 512
+        }
+      },
+      "required": [
+        "artifact_id",
+        "project_id",
+        "kind",
+        "sha256",
+        "bytes",
+        "media_type",
+        "storage_state",
+        "latest_validation_id",
+        "scientific_status",
+        "data_classification",
+        "producer_attempt_id",
+        "source",
+        "created_at",
+        "content_url"
+      ],
+      "description": "不返回宿主文件路径、存储凭证或外部公开下载URL。注册成功不证明科学有效。"
+    },
+    "ArtifactPage": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Artifact"
+          },
+          "maxItems": 100
+        },
+        "next_cursor": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 1024
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "items",
+        "next_cursor"
+      ]
+    },
+    "UploadForm": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "file": {
+          "type": "string",
+          "format": "binary",
+          "description": "仅PDB/mmCIF原始字节，单文件；P0拒绝压缩包，按流累计大小，不信任扩展名。"
+        },
+        "source_label": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "requested_data_classification": {
+          "type": "string",
+          "enum": [
+            "PUBLIC",
+            "PROJECT_RESTRICTED"
+          ]
+        }
+      },
+      "required": [
+        "file"
+      ],
+      "description": "数据分类仅是用户请求；服务端按项目规则取更严格等级。上传不携actor/tenant/role/output_path。"
+    },
+    "ImportRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "entry_id": {
+          "type": "string",
+          "pattern": "^(?:[A-Za-z0-9]{4}|pdb_[0-9A-Za-z]{8})$"
+        },
+        "coordinate_set": {
+          "type": "string",
+          "enum": [
+            "deposited_model"
+          ]
+        }
+      },
+      "required": [
+        "entry_id",
+        "coordinate_set"
+      ],
+      "description": "ID规范化后由服务器构造固定RCSB来源，P0不支持任意URL或自动生成装配体。"
+    },
+    "Import": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "import_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "project_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "entry_id": {
+          "type": "string",
+          "maxLength": 32
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "PENDING",
+            "FETCHING",
+            "REGISTERED",
+            "FAILED"
+          ]
+        },
+        "artifact_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/UUID"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "attempt_count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "created_at": {
+          "$ref": "#/$defs/Timestamp"
+        },
+        "completed_at": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Timestamp"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error_code": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "REQUEST_SCHEMA_INVALID",
+                "REQUEST_TOO_LARGE",
+                "UNSUPPORTED_MEDIA",
+                "UNAUTHENTICATED",
+                "CSRF_REQUIRED",
+                "RESOURCE_NOT_FOUND",
+                "POLICY_DENIED",
+                "IDEMPOTENCY_CONFLICT",
+                "IDEMPOTENCY_IN_PROGRESS",
+                "REVISION_CONFLICT",
+                "STATE_VERSION_CONFLICT",
+                "INVALID_STATE_TRANSITION",
+                "CURSOR_INVALID",
+                "CURSOR_AHEAD",
+                "EVENT_CURSOR_EXPIRED",
+                "RATE_LIMITED",
+                "PROJECT_QUOTA_EXCEEDED",
+                "RUN_BUDGET_EXCEEDED",
+                "MODEL_NOT_CONFIGURED",
+                "MODEL_DATA_POLICY_DENIED",
+                "PROVIDER_PRICE_UNAVAILABLE",
+                "IMPORT_UNAVAILABLE",
+                "IMPORT_FAILED",
+                "ARTIFACT_NOT_READY",
+                "SPEC_NOT_FROZEN",
+                "SCIENTIFIC_REJECTED",
+                "CAPABILITY_UNAVAILABLE",
+                "RUN_DEADLINE_EXCEEDED",
+                "RUN_STATE_UNKNOWN",
+                "P1_FEATURE_DISABLED",
+                "INTERNAL_ERROR"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "status_url": {
+          "type": "string",
+          "maxLength": 512
+        }
+      },
+      "required": [
+        "import_id",
+        "project_id",
+        "entry_id",
+        "status",
+        "artifact_id",
+        "attempt_count",
+        "created_at",
+        "completed_at",
+        "error_code",
+        "status_url"
+      ]
+    },
+    "ResidueRange": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "chain_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "start_auth_seq_id": {
+          "type": "integer"
+        },
+        "start_insertion_code": {
+          "type": "string",
+          "maxLength": 4
+        },
+        "end_auth_seq_id": {
+          "type": "integer"
+        },
+        "end_insertion_code": {
+          "type": "string",
+          "maxLength": 4
+        }
+      },
+      "required": [
+        "chain_id",
+        "start_auth_seq_id",
+        "end_auth_seq_id"
+      ],
+      "description": "只声明候选范围；实际包含关系和插入码由真实对象清单核对，不能靠编号相同推定跨结构对应。"
+    },
+    "SelectionHint": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "reference",
+            "moving",
+            "protein",
+            "ligand",
+            "subject"
+          ]
+        },
+        "model_index_zero_based": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "chain_namespace": {
+          "type": "string",
+          "enum": [
+            "auth",
+            "label"
+          ]
+        },
+        "chain_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "minItems": 1,
+          "maxItems": 64,
+          "uniqueItems": true
+        },
+        "atom_names": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 8
+          },
+          "minItems": 1,
+          "maxItems": 16,
+          "uniqueItems": true
+        },
+        "residue_ranges": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ResidueRange"
+          },
+          "maxItems": 64
+        }
+      },
+      "required": [
+        "artifact_id",
+        "role"
+      ],
+      "description": "候选选择不是已验证选区；缺决定性字段进入澄清，不能静默取首链。"
+    },
+    "TaskRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "question": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 12000
+        },
+        "input_artifact_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/UUID"
+          },
+          "minItems": 1,
+          "maxItems": 4,
+          "uniqueItems": true
+        },
+        "selection_hints": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SelectionHint"
+          },
+          "maxItems": 8
+        },
+        "requested_limits": {
+          "$ref": "#/$defs/RequestedLimits"
+        }
+      },
+      "required": [
+        "question",
+        "input_artifact_ids"
+      ],
+      "examples": [
+        {
+          "question": "比较4AKE与1AKE首个模型auth链A的Cα，全链拟合并给RMSD与逐位偏差。",
+          "input_artifact_ids": [
+            "00000008-0008-4008-8008-000000000008",
+            "00000009-0009-4009-8009-000000000009"
+          ],
+          "selection_hints": [
+            {
+              "artifact_id": "00000008-0008-4008-8008-000000000008",
+              "role": "reference",
+              "model_index_zero_based": 0,
+              "chain_namespace": "auth",
+              "chain_ids": [
+                "A"
+              ],
+              "atom_names": [
+                "CA"
+              ]
+            },
+            {
+              "artifact_id": "00000009-0009-4009-8009-000000000009",
+              "role": "moving",
+              "model_index_zero_based": 0,
+              "chain_namespace": "auth",
+              "chain_ids": [
+                "A"
+              ],
+              "atom_names": [
+                "CA"
+              ]
+            }
+          ],
+          "requested_limits": {
+            "input_tokens": 12000,
+            "output_tokens": 6000,
+            "model_calls": 8,
+            "cpu_ms": 300000,
+            "tool_attempts": 12,
+            "money_microunits": 2000000,
+            "wall_seconds": 900,
+            "max_repairs": 2,
+            "max_transient_retries_per_step": 2
+          }
+        }
+      ]
+    },
+    "TaskRevision": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "task_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "project_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "question": {
+          "type": "string",
+          "maxLength": 12000
+        },
+        "input_artifact_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/UUID"
+          },
+          "minItems": 1,
+          "maxItems": 4,
+          "uniqueItems": true
+        },
+        "selection_hints": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SelectionHint"
+          },
+          "maxItems": 8
+        },
+        "request_state": {
+          "type": "string",
+          "enum": [
+            "ACTIVE",
+            "SUPERSEDED",
+            "ARCHIVED"
+          ]
+        },
+        "payload_sha256": {
+          "$ref": "#/$defs/SHA256"
+        },
+        "created_by": {
+          "$ref": "#/$defs/UUID"
+        },
+        "created_at": {
+          "$ref": "#/$defs/Timestamp"
+        },
+        "source_run_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/UUID"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "task_id",
+        "revision",
+        "project_id",
+        "question",
+        "input_artifact_ids",
+        "selection_hints",
+        "request_state",
+        "payload_sha256",
+        "created_by",
+        "created_at",
+        "source_run_id"
+      ],
+      "description": "原始请求payload不可变；request_state为独立生命周期。Run内候选规格和澄清事件不覆盖原始请求。"
+    },
+    "RunSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "run_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "purpose": {
+          "type": "string",
+          "enum": [
+            "ANALYZE",
+            "INSPECT"
+          ]
+        },
+        "mode": {
+          "type": "string",
+          "enum": [
+            "agent",
+            "reference"
+          ]
+        },
+        "execution_state": {
+          "type": "string",
+          "enum": [
+            "QUEUED",
+            "RUNNING",
+            "WAITING_INPUT",
+            "WAITING_APPROVAL",
+            "RECONCILING",
+            "CANCEL_REQUESTED",
+            "UNKNOWN",
+            "COMPLETED",
+            "FAILED",
+            "CANCELLED"
+          ]
+        },
+        "phase": {
+          "type": "string",
+          "enum": [
+            "INSPECTING",
+            "SPECIFYING",
+            "PLANNING",
+            "EXECUTING",
+            "VALIDATING",
+            "REPORTING"
+          ]
+        },
+        "scientific_status": {
+          "type": "string",
+          "enum": [
+            "NOT_EVALUATED",
+            "VALIDATING",
+            "ACCEPTED",
+            "REJECTED",
+            "INCONCLUSIVE",
+            "NOT_APPLICABLE"
+          ]
+        },
+        "created_at": {
+          "$ref": "#/$defs/Timestamp"
+        }
+      },
+      "required": [
+        "run_id",
+        "purpose",
+        "mode",
+        "execution_state",
+        "phase",
+        "scientific_status",
+        "created_at"
+      ]
+    },
+    "TaskDetail": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "task": {
+          "$ref": "#/$defs/TaskRevision"
+        },
+        "head_revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "runs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/RunSummary"
+          },
+          "maxItems": 100
+        },
+        "runs_next_cursor": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 1024
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "task",
+        "head_revision",
+        "runs",
+        "runs_next_cursor"
+      ]
+    },
+    "CreateRevisionRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "expected_revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "request": {
+          "$ref": "#/$defs/TaskRequest"
+        },
+        "source_run_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/UUID"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "expected_revision",
+        "request"
+      ],
+      "description": "只创建新原始请求修订，不自动建Run；与head_revision做CAS。新合同运行由createRun或同一显式amend事务创建。"
+    },
+    "CreateRunRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "task_revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "purpose": {
+          "type": "string",
+          "enum": [
+            "ANALYZE",
+            "INSPECT"
+          ]
+        },
+        "mode": {
+          "type": "string",
+          "enum": [
+            "agent",
+            "reference"
+          ]
+        },
+        "model_profile_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/UUID"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "requested_limits": {
+          "$ref": "#/$defs/RequestedLimits"
+        }
+      },
+      "required": [
+        "task_revision",
+        "purpose",
+        "mode"
+      ],
+      "description": "agent需当前已批准model_profile且已知价格/数据策略；INSPECT是固定预处理、mode=reference且model_profile_id=null。服务器在调模型前持久化Run、scope和预算。",
+      "examples": [
+        {
+          "task_revision": 1,
+          "purpose": "ANALYZE",
+          "mode": "agent",
+          "model_profile_id": "0000000d-000d-400d-800d-00000000000d",
+          "requested_limits": {
+            "input_tokens": 12000,
+            "output_tokens": 6000,
+            "model_calls": 8,
+            "cpu_ms": 300000,
+            "tool_attempts": 12,
+            "money_microunits": 2000000,
+            "wall_seconds": 900,
+            "max_repairs": 2,
+            "max_transient_retries_per_step": 2
+          }
+        }
+      ]
+    },
+    "RunAccepted": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "run_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "task_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "task_revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "execution_state": {
+          "type": "string",
+          "enum": [
+            "QUEUED",
+            "RUNNING",
+            "WAITING_INPUT",
+            "WAITING_APPROVAL",
+            "RECONCILING",
+            "CANCEL_REQUESTED",
+            "UNKNOWN",
+            "COMPLETED",
+            "FAILED",
+            "CANCELLED"
+          ]
+        },
+        "phase": {
+          "type": "string",
+          "enum": [
+            "INSPECTING",
+            "SPECIFYING",
+            "PLANNING",
+            "EXECUTING",
+            "VALIDATING",
+            "REPORTING"
+          ]
+        },
+        "scientific_status": {
+          "type": "string",
+          "enum": [
+            "NOT_EVALUATED",
+            "VALIDATING",
+            "ACCEPTED",
+            "REJECTED",
+            "INCONCLUSIVE",
+            "NOT_APPLICABLE"
+          ]
+        },
+        "state_version": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "effective_limits": {
+          "$ref": "#/$defs/EffectiveLimits"
+        },
+        "event_url": {
+          "type": "string",
+          "maxLength": 512
+        },
+        "status_url": {
+          "type": "string",
+          "maxLength": 512
+        }
+      },
+      "required": [
+        "run_id",
+        "task_id",
+        "task_revision",
+        "execution_state",
+        "phase",
+        "scientific_status",
+        "state_version",
+        "effective_limits",
+        "event_url",
+        "status_url"
+      ]
+    },
+    "BlockingQuestion": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "question_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "field_ref": {
+          "type": "string",
+          "maxLength": 256
+        },
+        "message": {
+          "type": "string",
+          "maxLength": 1024
+        },
+        "answer_type": {
+          "type": "string",
+          "enum": [
+            "string",
+            "integer",
+            "boolean",
+            "selection_hint"
+          ]
+        },
+        "allowed_values": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 128
+          },
+          "maxItems": 64
+        },
+        "required": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "question_id",
+        "field_ref",
+        "message",
+        "answer_type",
+        "allowed_values",
+        "required"
+      ],
+      "description": "可返回有界候选，回答还须核对真实对象和作用域，不能凭客户端类型取代语义检查。"
+    },
+    "TypedAnswer": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "question_id": {
+              "$ref": "#/$defs/UUID"
+            },
+            "answer_type": {
+              "type": "string",
+              "enum": [
+                "string"
+              ]
+            },
+            "value": {
+              "type": "string",
+              "maxLength": 2000
+            }
+          },
+          "required": [
+            "question_id",
+            "answer_type",
+            "value"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "question_id": {
+              "$ref": "#/$defs/UUID"
+            },
+            "answer_type": {
+              "type": "string",
+              "enum": [
+                "integer"
+              ]
+            },
+            "value": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "question_id",
+            "answer_type",
+            "value"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "question_id": {
+              "$ref": "#/$defs/UUID"
+            },
+            "answer_type": {
+              "type": "string",
+              "enum": [
+                "boolean"
+              ]
+            },
+            "value": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "question_id",
+            "answer_type",
+            "value"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "question_id": {
+              "$ref": "#/$defs/UUID"
+            },
+            "answer_type": {
+              "type": "string",
+              "enum": [
+                "selection_hint"
+              ]
+            },
+            "value": {
+              "$ref": "#/$defs/SelectionHint"
+            }
+          },
+          "required": [
+            "question_id",
+            "answer_type",
+            "value"
+          ]
+        }
+      ]
+    },
+    "ScientificChanges": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "goal": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 12000
+        },
+        "input_artifact_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/UUID"
+          },
+          "minItems": 1,
+          "maxItems": 4,
+          "uniqueItems": true
+        },
+        "selection_hints": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SelectionHint"
+          },
+          "maxItems": 8
+        },
+        "fit_region": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ResidueRange"
+          },
+          "minItems": 1,
+          "maxItems": 64
+        },
+        "evaluation_region": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ResidueRange"
+          },
+          "minItems": 1,
+          "maxItems": 64
+        },
+        "contact_cutoff_angstrom": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 20
+        }
+      },
+      "required": [],
+      "minProperties": 1,
+      "description": "每项为显式候选变更；完整重新编译新合同，不能降低系统接受政策或扩大权限。数值必须在JSON解析及领域层拒绝NaN/Inf。"
+    },
+    "ClarificationRequest": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "answer"
+              ]
+            },
+            "expected_state_version": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "answers": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/TypedAnswer"
+              },
+              "minItems": 1,
+              "maxItems": 16
+            }
+          },
+          "required": [
+            "kind",
+            "expected_state_version",
+            "answers"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "amend_scientific_contract"
+              ]
+            },
+            "expected_state_version": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "expected_task_revision": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "scientific_changes": {
+              "$ref": "#/$defs/ScientificChanges"
+            },
+            "requested_new_run_limits": {
+              "$ref": "#/$defs/RequestedLimits"
+            }
+          },
+          "required": [
+            "kind",
+            "expected_state_version",
+            "expected_task_revision",
+            "scientific_changes"
+          ]
+        }
+      ],
+      "description": "冻结前answer追加同Run事件，不重置预算；冻结后实质改变通过amend创建新revision与新Run，关联source_run_id。"
+    },
+    "ClarificationResult": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "answer"
+              ]
+            },
+            "run_id": {
+              "$ref": "#/$defs/UUID"
+            },
+            "state_version": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "candidate_spec_state": {
+              "type": "string",
+              "enum": [
+                "DRAFT",
+                "NEEDS_CLARIFICATION",
+                "FROZEN",
+                "DISCARDED"
+              ]
+            },
+            "remaining_questions": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/BlockingQuestion"
+              },
+              "maxItems": 16
+            }
+          },
+          "required": [
+            "kind",
+            "run_id",
+            "state_version",
+            "candidate_spec_state",
+            "remaining_questions"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "amend_scientific_contract"
+              ]
+            },
+            "source_run_id": {
+              "$ref": "#/$defs/UUID"
+            },
+            "task_revision": {
+              "$ref": "#/$defs/TaskRevision"
+            },
+            "new_run": {
+              "$ref": "#/$defs/RunAccepted"
+            }
+          },
+          "required": [
+            "kind",
+            "source_run_id",
+            "task_revision",
+            "new_run"
+          ]
+        }
+      ]
+    },
+    "ResumeRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "expected_state_version": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "expected_state_version"
+      ]
+    },
+    "CancelRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "reason": {
+          "type": "string",
+          "maxLength": 1000
+        }
+      },
+      "required": []
+    },
+    "AttemptSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "attempt_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "plan_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/UUID"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "step_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/StepID"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "operation_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "operation_kind": {
+          "type": "string",
+          "enum": [
+            "MODEL",
+            "PREFLIGHT",
+            "TOOL",
+            "IMPORT"
+          ]
+        },
+        "capability_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 128
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "tool_version": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 128
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "state": {
+          "type": "string",
+          "enum": [
+            "CREATED",
+            "AUTHORIZED",
+            "CLAIMED",
+            "RUNNING",
+            "SUCCEEDED",
+            "FAILED",
+            "CANCEL_REQUESTED",
+            "CANCELLED",
+            "UNKNOWN"
+          ]
+        },
+        "lease_epoch": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "error_code": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[A-Z][A-Z0-9_]{1,63}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "attempt_id",
+        "plan_id",
+        "step_id",
+        "operation_id",
+        "operation_kind",
+        "capability_id",
+        "tool_version",
+        "state",
+        "lease_epoch",
+        "error_code"
+      ],
+      "description": "MODEL可在规格冻结前运行；PREFLIGHT仅已注册inspect_structure版本，可无plan_id/step_id/frozen_spec_id，仍核权限/预算/实际字节。普通科学TOOL必须绑定PASSED Plan/Step/FrozenSpec；这些跨资源条件在服务/DB层执行。所有尝试仍属于同Run并计全量成本。"
+    },
+    "RunDetail": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "run_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "project_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "task_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "task_revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "purpose": {
+          "type": "string",
+          "enum": [
+            "ANALYZE",
+            "INSPECT"
+          ]
+        },
+        "mode": {
+          "type": "string",
+          "enum": [
+            "agent",
+            "reference"
+          ]
+        },
+        "frozen_spec_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/UUID"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "candidate_spec_state": {
+          "type": "string",
+          "enum": [
+            "DRAFT",
+            "NEEDS_CLARIFICATION",
+            "FROZEN",
+            "DISCARDED"
+          ]
+        },
+        "phase": {
+          "type": "string",
+          "enum": [
+            "INSPECTING",
+            "SPECIFYING",
+            "PLANNING",
+            "EXECUTING",
+            "VALIDATING",
+            "REPORTING"
+          ]
+        },
+        "execution_state": {
+          "type": "string",
+          "enum": [
+            "QUEUED",
+            "RUNNING",
+            "WAITING_INPUT",
+            "WAITING_APPROVAL",
+            "RECONCILING",
+            "CANCEL_REQUESTED",
+            "UNKNOWN",
+            "COMPLETED",
+            "FAILED",
+            "CANCELLED"
+          ]
+        },
+        "scientific_status": {
+          "type": "string",
+          "enum": [
+            "NOT_EVALUATED",
+            "VALIDATING",
+            "ACCEPTED",
+            "REJECTED",
+            "INCONCLUSIVE",
+            "NOT_APPLICABLE"
+          ]
+        },
+        "state_version": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "initial_plan_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/UUID"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "current_plan_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/UUID"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "effective_limits": {
+          "$ref": "#/$defs/EffectiveLimits"
+        },
+        "usage": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/UsageCounter"
+          },
+          "minItems": 6,
+          "maxItems": 6
+        },
+        "attempts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/AttemptSummary"
+          },
+          "maxItems": 100
+        },
+        "attempts_next_cursor": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 1024
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "blocking_questions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/BlockingQuestion"
+          },
+          "maxItems": 16
+        },
+        "last_event_seq": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "reason_code": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "REQUEST_SCHEMA_INVALID",
+                "REQUEST_TOO_LARGE",
+                "UNSUPPORTED_MEDIA",
+                "UNAUTHENTICATED",
+                "CSRF_REQUIRED",
+                "RESOURCE_NOT_FOUND",
+                "POLICY_DENIED",
+                "IDEMPOTENCY_CONFLICT",
+                "IDEMPOTENCY_IN_PROGRESS",
+                "REVISION_CONFLICT",
+                "STATE_VERSION_CONFLICT",
+                "INVALID_STATE_TRANSITION",
+                "CURSOR_INVALID",
+                "CURSOR_AHEAD",
+                "EVENT_CURSOR_EXPIRED",
+                "RATE_LIMITED",
+                "PROJECT_QUOTA_EXCEEDED",
+                "RUN_BUDGET_EXCEEDED",
+                "MODEL_NOT_CONFIGURED",
+                "MODEL_DATA_POLICY_DENIED",
+                "PROVIDER_PRICE_UNAVAILABLE",
+                "IMPORT_UNAVAILABLE",
+                "IMPORT_FAILED",
+                "ARTIFACT_NOT_READY",
+                "SPEC_NOT_FROZEN",
+                "SCIENTIFIC_REJECTED",
+                "CAPABILITY_UNAVAILABLE",
+                "RUN_DEADLINE_EXCEEDED",
+                "RUN_STATE_UNKNOWN",
+                "P1_FEATURE_DISABLED",
+                "INTERNAL_ERROR"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "created_at": {
+          "$ref": "#/$defs/Timestamp"
+        },
+        "updated_at": {
+          "$ref": "#/$defs/Timestamp"
+        },
+        "spec_artifact_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/UUID"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "spec_schema_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "urn:structbio-agent:spec:comparison:1",
+                "urn:structbio-agent:spec:contacts:1",
+                "urn:structbio-agent:spec:geometry-workflow:1"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "run_id",
+        "project_id",
+        "task_id",
+        "task_revision",
+        "purpose",
+        "mode",
+        "frozen_spec_id",
+        "candidate_spec_state",
+        "phase",
+        "execution_state",
+        "scientific_status",
+        "state_version",
+        "initial_plan_id",
+        "current_plan_id",
+        "effective_limits",
+        "usage",
+        "attempts",
+        "attempts_next_cursor",
+        "blocking_questions",
+        "last_event_seq",
+        "reason_code",
+        "created_at",
+        "updated_at",
+        "spec_artifact_id",
+        "spec_schema_id"
+      ],
+      "description": "usage六个metric各恰好一次由服务层检查；应用不得仅根据COMPLETED显示科学接受。 未冻结时frozen_spec_id/spec_artifact_id/spec_schema_id均null；冻结后均非null，由GET Artifact当前ACL读取不可变JSON，并按本地固定registry选择schema。schema_id不得由用户/模型改写为URL，也不在线下载任意schema。 未冻结时frozen_spec_id/spec_artifact_id/spec_schema_id均null；冻结后均非null，由GET Artifact当前ACL读取不可变JSON，并按本地固定registry选择schema。schema_id不得由用户/模型改写为URL，也不在线下载任意schema。"
+    },
+    "StepInput": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "parameter": {
+              "type": "string",
+              "maxLength": 128
+            },
+            "artifact_id": {
+              "$ref": "#/$defs/UUID"
+            }
+          },
+          "required": [
+            "parameter",
+            "artifact_id"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "parameter": {
+              "type": "string",
+              "maxLength": 128
+            },
+            "upstream_step_id": {
+              "$ref": "#/$defs/StepID"
+            },
+            "output_name": {
+              "type": "string",
+              "maxLength": 128
+            }
+          },
+          "required": [
+            "parameter",
+            "upstream_step_id",
+            "output_name"
+          ]
+        }
+      ]
+    },
+    "PlanStep": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "step_id": {
+          "$ref": "#/$defs/StepID"
+        },
+        "capability_id": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "tool_version": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "depends_on": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/StepID"
+          },
+          "maxItems": 32,
+          "uniqueItems": true
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/StepInput"
+          },
+          "maxItems": 32
+        },
+        "parameter_artifact_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "expected_output_kinds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "maxItems": 16
+        }
+      },
+      "required": [
+        "step_id",
+        "capability_id",
+        "tool_version",
+        "depends_on",
+        "inputs",
+        "parameter_artifact_id",
+        "expected_output_kinds"
+      ],
+      "description": "参数工件受具体能力request_schema校验；不能通过此API传任意args/shell/python。"
+    },
+    "Plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "plan_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "run_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "frozen_spec_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "parent_plan_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/UUID"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "compile_status": {
+          "type": "string",
+          "enum": [
+            "PASSED",
+            "REJECTED"
+          ]
+        },
+        "compiler_version": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "capability_catalogue_version": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "decision_summary": {
+          "type": "string",
+          "maxLength": 2000
+        },
+        "steps": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PlanStep"
+          },
+          "minItems": 1,
+          "maxItems": 32
+        },
+        "compile_errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FieldError"
+          },
+          "maxItems": 32
+        },
+        "created_at": {
+          "$ref": "#/$defs/Timestamp"
+        }
+      },
+      "required": [
+        "plan_id",
+        "run_id",
+        "frozen_spec_id",
+        "parent_plan_id",
+        "compile_status",
+        "compiler_version",
+        "capability_catalogue_version",
+        "decision_summary",
+        "steps",
+        "compile_errors",
+        "created_at"
+      ],
+      "description": "每次计划修复新plan_id；Attempt绑定实际版本，Run总预算不重置。编译还查无环、引用存在、对象语义、权限和资源。"
+    },
+    "RunEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "run_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "seq": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "run.accepted",
+            "phase.changed",
+            "clarification.requested",
+            "clarification.answered",
+            "spec.frozen",
+            "plan.compiled",
+            "attempt.started",
+            "attempt.finished",
+            "artifact.registered",
+            "validation.finished",
+            "budget.updated",
+            "run.cancel_requested",
+            "run.completed",
+            "run.failed",
+            "run.cancelled",
+            "run.unknown",
+            "feedback.created"
+          ]
+        },
+        "occurred_at": {
+          "$ref": "#/$defs/Timestamp"
+        },
+        "state_version": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "summary": {
+          "type": "string",
+          "maxLength": 1024
+        },
+        "entity_refs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "entity_type": {
+                "type": "string",
+                "enum": [
+                  "task",
+                  "spec",
+                  "plan",
+                  "attempt",
+                  "artifact",
+                  "validation",
+                  "feedback"
+                ]
+              },
+              "entity_id": {
+                "$ref": "#/$defs/UUID"
+              }
+            },
+            "required": [
+              "entity_type",
+              "entity_id"
+            ]
+          },
+          "maxItems": 16
+        }
+      },
+      "required": [
+        "event_id",
+        "run_id",
+        "seq",
+        "type",
+        "occurred_at",
+        "state_version",
+        "summary",
+        "entity_refs"
+      ],
+      "description": "SSE data中的信封；id为run_id:seq。P0事件仅有安全摘要和实体引用，不串入秘密、完整私有对话或模型思维链。"
+    },
+    "EvidenceRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "field_pointer": {
+          "type": "string",
+          "maxLength": 512
+        },
+        "validation_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/UUID"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "artifact_id",
+        "field_pointer"
+      ]
+    },
+    "ReportMetric": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "value": {
+          "type": "number"
+        },
+        "units": {
+          "type": "string",
+          "enum": [
+            "angstrom",
+            "count",
+            "fraction"
+          ]
+        },
+        "evidence": {
+          "$ref": "#/$defs/EvidenceRef"
+        }
+      },
+      "required": [
+        "name",
+        "value",
+        "units",
+        "evidence"
+      ],
+      "description": "服务端JSON编码禁止NaN/Inf，数值取验收工件，不能取模型生成文本。"
+    },
+    "Report": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "report_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "run_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "frozen_spec_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/UUID"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "report_version": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "delivery_state": {
+          "type": "string",
+          "enum": [
+            "VERIFIED_DELIVERY",
+            "INSPECTION_ONLY",
+            "PARTIAL",
+            "FAILED",
+            "INCONCLUSIVE",
+            "PENDING"
+          ]
+        },
+        "execution_state": {
+          "type": "string",
+          "enum": [
+            "QUEUED",
+            "RUNNING",
+            "WAITING_INPUT",
+            "WAITING_APPROVAL",
+            "RECONCILING",
+            "CANCEL_REQUESTED",
+            "UNKNOWN",
+            "COMPLETED",
+            "FAILED",
+            "CANCELLED"
+          ]
+        },
+        "scientific_status": {
+          "type": "string",
+          "enum": [
+            "NOT_EVALUATED",
+            "VALIDATING",
+            "ACCEPTED",
+            "REJECTED",
+            "INCONCLUSIVE",
+            "NOT_APPLICABLE"
+          ]
+        },
+        "question": {
+          "type": "string",
+          "maxLength": 12000
+        },
+        "methods": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "maxItems": 32
+        },
+        "metrics": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ReportMetric"
+          },
+          "maxItems": 128
+        },
+        "conclusions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "text": {
+                "type": "string",
+                "maxLength": 3000
+              },
+              "evidence_refs": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/EvidenceRef"
+                },
+                "maxItems": 32
+              }
+            },
+            "required": [
+              "text",
+              "evidence_refs"
+            ]
+          },
+          "maxItems": 32
+        },
+        "limitations": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "maxItems": 32
+        },
+        "unfinished_items": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 1000
+          },
+          "maxItems": 32
+        },
+        "artifact_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/UUID"
+          },
+          "maxItems": 128,
+          "uniqueItems": true
+        },
+        "created_at": {
+          "$ref": "#/$defs/Timestamp"
+        }
+      },
+      "required": [
+        "report_id",
+        "run_id",
+        "frozen_spec_id",
+        "report_version",
+        "delivery_state",
+        "execution_state",
+        "scientific_status",
+        "question",
+        "methods",
+        "metrics",
+        "conclusions",
+        "limitations",
+        "unfinished_items",
+        "artifact_ids",
+        "created_at"
+      ],
+      "description": "JSON结构报告供安全渲染。PENDING/FAILED等没有科学数值时metrics可空；任何状态都不能由模型措辞提升为VERIFIED_DELIVERY。"
+    },
+    "Capability": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "capability_id": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "version": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 2000
+        },
+        "supports": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 512
+          },
+          "maxItems": 32
+        },
+        "request_schema_id": {
+          "type": "string",
+          "maxLength": 256
+        },
+        "response_schema_id": {
+          "type": "string",
+          "maxLength": 256
+        },
+        "artifact_kinds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "maxItems": 16
+        },
+        "health": {
+          "type": "string",
+          "enum": [
+            "READY"
+          ]
+        },
+        "acceptance_protocol_version": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "execution_profile_version": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "automatic_under_current_scope": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "capability_id",
+        "version",
+        "description",
+        "supports",
+        "request_schema_id",
+        "response_schema_id",
+        "artifact_kinds",
+        "health",
+        "acceptance_protocol_version",
+        "execution_profile_version",
+        "automatic_under_current_scope"
+      ],
+      "description": "只返回当前项目已授权且健康通过准入的能力。schema_id是受信目录标识，不能让模型选择任意URL动态装schema。"
+    },
+    "CapabilityPage": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Capability"
+          },
+          "maxItems": 100
+        },
+        "next_cursor": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 1024
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "items",
+        "next_cursor"
+      ]
+    },
+    "FeedbackCreate": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "category": {
+          "type": "string",
+          "enum": [
+            "SCIENTIFIC_ERROR",
+            "OBJECT_SELECTION",
+            "REPORT_EVIDENCE",
+            "EXECUTION_FAILURE",
+            "USABILITY",
+            "OTHER"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000
+        },
+        "artifact_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/UUID"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "report_version": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "field_ref": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 512
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "category",
+        "description"
+      ]
+    },
+    "Feedback": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "feedback_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "run_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "project_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "frozen_spec_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/UUID"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "category": {
+          "type": "string",
+          "enum": [
+            "SCIENTIFIC_ERROR",
+            "OBJECT_SELECTION",
+            "REPORT_EVIDENCE",
+            "EXECUTION_FAILURE",
+            "USABILITY",
+            "OTHER"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 4000
+        },
+        "artifact_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/UUID"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "report_version": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "field_ref": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 512
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "NEEDS_REPRODUCTION",
+            "REPRODUCED",
+            "DISPUTED",
+            "RESOLVED"
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "created_by": {
+          "$ref": "#/$defs/UUID"
+        },
+        "created_at": {
+          "$ref": "#/$defs/Timestamp"
+        },
+        "updated_at": {
+          "$ref": "#/$defs/Timestamp"
+        },
+        "history": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "version": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 9007199254740991
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "NEEDS_REPRODUCTION",
+                  "REPRODUCED",
+                  "DISPUTED",
+                  "RESOLVED"
+                ]
+              },
+              "actor_id": {
+                "$ref": "#/$defs/UUID"
+              },
+              "reason": {
+                "type": "string",
+                "maxLength": 4000
+              },
+              "evidence_refs": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/EvidenceRef"
+                },
+                "maxItems": 32
+              },
+              "regression_case_id": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "maxLength": 128
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "fix_version": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "maxLength": 128
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "occurred_at": {
+                "$ref": "#/$defs/Timestamp"
+              },
+              "resolution_type": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "enum": [
+                      "FIXED",
+                      "NOT_A_DEFECT",
+                      "DUPLICATE"
+                    ]
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "version",
+              "status",
+              "actor_id",
+              "reason",
+              "evidence_refs",
+              "regression_case_id",
+              "fix_version",
+              "occurred_at",
+              "resolution_type"
+            ],
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "status": {
+                      "const": "RESOLVED"
+                    }
+                  },
+                  "required": [
+                    "status"
+                  ]
+                },
+                "then": {
+                  "properties": {
+                    "resolution_type": {
+                      "type": "string",
+                      "enum": [
+                        "FIXED",
+                        "NOT_A_DEFECT",
+                        "DUPLICATE"
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "maxItems": 100
+        },
+        "resolution_type": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "FIXED",
+                "NOT_A_DEFECT",
+                "DUPLICATE"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "feedback_id",
+        "run_id",
+        "project_id",
+        "frozen_spec_id",
+        "category",
+        "description",
+        "artifact_id",
+        "report_version",
+        "field_ref",
+        "status",
+        "version",
+        "created_by",
+        "created_at",
+        "updated_at",
+        "history",
+        "resolution_type"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "RESOLVED"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "resolution_type": {
+                "type": "string",
+                "enum": [
+                  "FIXED",
+                  "NOT_A_DEFECT",
+                  "DUPLICATE"
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "description": "完整响应总包含resolution_type（尚未解决通常null）。RESOLVED必须为FIXED/NOT_A_DEFECT/DUPLICATE；每条历史保存当时类型。FIXED所需回归/修复字段由FeedbackPatch和事务检查，其他解决类型不伪造修复。"
+    },
+    "FeedbackPage": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Feedback"
+          },
+          "maxItems": 100
+        },
+        "next_cursor": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 1024
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "items",
+        "next_cursor"
+      ]
+    },
+    "FeedbackPatch": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "expected_version": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "NEEDS_REPRODUCTION",
+            "REPRODUCED",
+            "DISPUTED",
+            "RESOLVED"
+          ]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/EvidenceRef"
+          },
+          "maxItems": 32
+        },
+        "resolution_type": {
+          "type": "string",
+          "enum": [
+            "FIXED",
+            "NOT_A_DEFECT",
+            "DUPLICATE"
+          ]
+        },
+        "regression_case_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "fix_version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        }
+      },
+      "required": [
+        "expected_version",
+        "status",
+        "reason",
+        "evidence_refs"
+      ],
+      "description": "maintainer/owner才可写；REPRODUCED/DISPUTED/RESOLVED需至少一项可访问证据，RESOLVED需resolution_type，FIXED需regression_case_id与fix_version。这些条件在JSON schema与服务层共同检查。",
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "enum": [
+                  "REPRODUCED",
+                  "DISPUTED",
+                  "RESOLVED"
+                ]
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "evidence_refs": {
+                "minItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "RESOLVED"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "resolution_type"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "resolution_type": {
+                "const": "FIXED"
+              }
+            },
+            "required": [
+              "resolution_type"
+            ]
+          },
+          "then": {
+            "required": [
+              "regression_case_id",
+              "fix_version"
+            ]
+          }
+        }
+      ]
+    },
+    "ApprovalRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "decision": {
+          "type": "string",
+          "enum": [
+            "approve",
+            "deny"
+          ]
+        },
+        "expected_digest": {
+          "$ref": "#/$defs/SHA256"
+        }
+      },
+      "required": [
+        "decision",
+        "expected_digest"
+      ]
+    },
+    "Approval": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "approval_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "action_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "APPROVED",
+            "DENIED"
+          ]
+        },
+        "action_digest": {
+          "$ref": "#/$defs/SHA256"
+        },
+        "expires_at": {
+          "$ref": "#/$defs/Timestamp"
+        },
+        "approver_id": {
+          "$ref": "#/$defs/UUID"
+        }
+      },
+      "required": [
+        "approval_id",
+        "action_id",
+        "status",
+        "action_digest",
+        "expires_at",
+        "approver_id"
+      ],
+      "description": "P1预留，不含可重用执行token；批准不覆盖当前已撤销权限或硬预算。"
+    },
+    "SpecInput": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "role": {
+          "type": "string",
+          "enum": [
+            "reference",
+            "moving",
+            "protein",
+            "ligand",
+            "subject"
+          ]
+        },
+        "artifact_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "sha256": {
+          "$ref": "#/$defs/SHA256"
+        },
+        "format": {
+          "type": "string",
+          "enum": [
+            "pdb",
+            "mmcif"
+          ]
+        }
+      },
+      "required": [
+        "role",
+        "artifact_id",
+        "sha256",
+        "format"
+      ]
+    },
+    "SpecSelection": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "coordinate_set": {
+          "type": "string",
+          "enum": [
+            "deposited_model"
+          ]
+        },
+        "model_index_zero_based": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "chain_namespace": {
+          "type": "string",
+          "enum": [
+            "auth",
+            "label"
+          ]
+        },
+        "reference_chain": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "moving_chain": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "polymer_type": {
+          "type": "string",
+          "enum": [
+            "protein"
+          ]
+        },
+        "atom_names": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 8
+          },
+          "minItems": 1,
+          "maxItems": 16,
+          "uniqueItems": true
+        },
+        "include_hetero": {
+          "type": "boolean"
+        },
+        "include_water": {
+          "type": "boolean"
+        },
+        "altloc_policy": {
+          "type": "string",
+          "enum": [
+            "reject_ambiguous",
+            "explicit_selected"
+          ]
+        },
+        "missing_policy": {
+          "type": "string",
+          "enum": [
+            "reject_unmatched",
+            "explicit_intersection"
+          ]
+        }
+      },
+      "required": [
+        "coordinate_set",
+        "model_index_zero_based",
+        "chain_namespace",
+        "reference_chain",
+        "moving_chain",
+        "polymer_type",
+        "atom_names",
+        "include_hetero",
+        "include_water",
+        "altloc_policy",
+        "missing_policy"
+      ]
+    },
+    "SpecMapping": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "strategy": {
+          "type": "string",
+          "enum": [
+            "explicit_atom_pairs",
+            "verified_sequence_correspondence",
+            "same_auth_residue_and_name"
+          ]
+        },
+        "mapping_artifact_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/UUID"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "applicability_policy": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "required_pairs": {
+          "type": "integer",
+          "minimum": 3,
+          "maximum": 9007199254740991
+        },
+        "trim_outliers": {
+          "const": false
+        }
+      },
+      "required": [
+        "strategy",
+        "mapping_artifact_id",
+        "applicability_policy",
+        "required_pairs",
+        "trim_outliers"
+      ],
+      "description": "same_auth_residue_and_name仅允许经参考/来源证明适用的对象对；不是通用自动同源对应。实际一对一、原子存在、覆盖和几何非退化由独立语义检查器验证。 已有显式映射可引用artifact_id；由映射规则待计算时为null。FrozenSpec先固定策略/适用范围，计划之后产生实际Mapping，编译器只把已核对生成关系的工件传给Worker。 已有显式映射可引用artifact_id；由映射规则待计算时为null。FrozenSpec先固定策略/适用范围，计划之后产生实际Mapping，编译器只把已核对生成关系的工件传给Worker。"
+    },
+    "ComparisonMeasurement": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "method": {
+          "type": "string",
+          "enum": [
+            "kabsch_right_handed"
+          ]
+        },
+        "coordinate_convention": {
+          "type": "string",
+          "enum": [
+            "row_vectors_X_at_R_plus_t"
+          ]
+        },
+        "weighting": {
+          "type": "string",
+          "enum": [
+            "uniform"
+          ]
+        },
+        "fit_pair_index_artifact_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/UUID"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "evaluation_pair_index_artifact_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/UUID"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "fit_region_label": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "evaluation_region_label": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "units": {
+          "type": "string",
+          "enum": [
+            "angstrom"
+          ]
+        },
+        "region_policy_version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        }
+      },
+      "required": [
+        "method",
+        "coordinate_convention",
+        "weighting",
+        "fit_pair_index_artifact_id",
+        "evaluation_pair_index_artifact_id",
+        "fit_region_label",
+        "evaluation_region_label",
+        "units",
+        "region_policy_version"
+      ],
+      "description": "冻结拟合与评价的逻辑区域；已存在的索引工件可引用，否则null并依据已冻结区域意图在同Run物化。Worker的RmsdParams仍要求实际非null UUID，实际派发前必须解析、验证索引/映射/来源，不把null传入Worker。"
+    },
+    "FrozenTaskSpec": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "type": "string",
+          "enum": [
+            "task-spec.v1"
+          ]
+        },
+        "task_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "task_revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "run_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "frozen_spec_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "spec_state": {
+          "type": "string",
+          "enum": [
+            "FROZEN"
+          ]
+        },
+        "task_type": {
+          "type": "string",
+          "enum": [
+            "structure_comparison"
+          ]
+        },
+        "goal": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 12000
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SpecInput"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "selection": {
+          "$ref": "#/$defs/SpecSelection"
+        },
+        "mapping": {
+          "$ref": "#/$defs/SpecMapping"
+        },
+        "measurement": {
+          "$ref": "#/$defs/ComparisonMeasurement"
+        },
+        "requested_outputs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "minItems": 1,
+          "maxItems": 16,
+          "uniqueItems": true
+        },
+        "acceptance_policy": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "field_provenance": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "field_pointer": {
+                "type": "string",
+                "maxLength": 256
+              },
+              "source_type": {
+                "type": "string",
+                "enum": [
+                  "USER_REQUEST",
+                  "INSPECTOR",
+                  "CLARIFICATION",
+                  "REGISTERED_POLICY"
+                ]
+              },
+              "source_ref": {
+                "type": "string",
+                "maxLength": 256
+              }
+            },
+            "required": [
+              "field_pointer",
+              "source_type",
+              "source_ref"
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 128
+        }
+      },
+      "required": [
+        "schema_version",
+        "task_id",
+        "task_revision",
+        "run_id",
+        "frozen_spec_id",
+        "spec_state",
+        "task_type",
+        "goal",
+        "inputs",
+        "selection",
+        "mapping",
+        "measurement",
+        "requested_outputs",
+        "acceptance_policy",
+        "field_provenance"
+      ],
+      "description": "仅structure_comparison正式规格profile，不是所有结构任务的通用payload。冻结的是对象、对应规则、拟合/评价意图与接受政策；派生Mapping/Selection/F-E索引工件可在冻结后由计划产生。其实际UUID经受控参数物化器绑定到Worker输入，不能令冻结前必须执行mapping。仅structure_comparison正式规格profile，不是所有结构任务的通用payload。冻结的是对象、对应规则、拟合/评价意图与接受政策；派生Mapping/Selection/F-E索引工件可在冻结后由计划产生。其实际UUID经受控参数物化器绑定到Worker输入，不能令冻结前必须执行mapping。P0结构比较正式合同的具体schema。接触/检查的具体领域合同由对应能力schema登记，不能将此合同的CA/双结构假设套到接触分析。spec_sha256为排除自身字段后的规范JSON摘要；字段来源必须可回溯。",
+      "title": "StructureComparisonFrozenTaskSpec — comparison profile only"
+    },
+    "ResultArtifactRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "kind": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "producer_attempt_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "sha256": {
+          "$ref": "#/$defs/SHA256"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "content_url": {
+          "type": "string",
+          "maxLength": 512
+        }
+      },
+      "required": [
+        "artifact_id",
+        "kind",
+        "producer_attempt_id",
+        "sha256",
+        "bytes",
+        "content_url"
+      ]
+    },
+    "ResultValidation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "validation_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "checker_version": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "acceptance_policy": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "result": {
+          "type": "string",
+          "enum": [
+            "ACCEPTED",
+            "REJECTED",
+            "INCONCLUSIVE"
+          ]
+        },
+        "checked_input_identity": {
+          "type": "boolean"
+        },
+        "checked_mapping": {
+          "type": "boolean"
+        },
+        "checked_finite_units": {
+          "type": "boolean"
+        },
+        "checked_independent_reference": {
+          "type": "boolean"
+        },
+        "evidence_artifact_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/UUID"
+          },
+          "minItems": 1,
+          "maxItems": 32
+        }
+      },
+      "required": [
+        "validation_id",
+        "checker_version",
+        "acceptance_policy",
+        "result",
+        "checked_input_identity",
+        "checked_mapping",
+        "checked_finite_units",
+        "checked_independent_reference",
+        "evidence_artifact_ids"
+      ],
+      "description": "由独立Validator产生；WorkerFinish候选输出只可NOT_EVALUATED/NOT_APPLICABLE，不能自行填写ACCEPTED。"
+    },
+    "ResultManifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "type": "string",
+          "enum": [
+            "result-manifest.v1"
+          ]
+        },
+        "task_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "task_revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "run_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "frozen_spec_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "plan_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "mode": {
+          "type": "string",
+          "enum": [
+            "agent",
+            "reference"
+          ]
+        },
+        "execution_state": {
+          "type": "string",
+          "enum": [
+            "COMPLETED",
+            "FAILED",
+            "CANCELLED",
+            "UNKNOWN"
+          ]
+        },
+        "scientific_status": {
+          "type": "string",
+          "enum": [
+            "NOT_EVALUATED",
+            "ACCEPTED",
+            "REJECTED",
+            "INCONCLUSIVE",
+            "NOT_APPLICABLE"
+          ]
+        },
+        "method": {
+          "$ref": "#/$defs/ComparisonMeasurement"
+        },
+        "input_artifacts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "artifact_id": {
+                "$ref": "#/$defs/UUID"
+              },
+              "sha256": {
+                "$ref": "#/$defs/SHA256"
+              }
+            },
+            "required": [
+              "artifact_id",
+              "sha256"
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 4
+        },
+        "object_summary": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "model_index_zero_based": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "chain_namespace": {
+              "type": "string",
+              "enum": [
+                "auth",
+                "label"
+              ]
+            },
+            "reference_chain": {
+              "type": "string",
+              "maxLength": 64
+            },
+            "moving_chain": {
+              "type": "string",
+              "maxLength": 64
+            },
+            "atom_name": {
+              "type": "string",
+              "enum": [
+                "CA"
+              ]
+            },
+            "matched_atoms": {
+              "type": "integer",
+              "minimum": 3,
+              "maximum": 9007199254740991
+            },
+            "mapping_policy": {
+              "type": "string",
+              "maxLength": 128
+            },
+            "excluded_hetero": {
+              "type": "boolean"
+            },
+            "excluded_water": {
+              "type": "boolean"
+            },
+            "outlier_trimming": {
+              "const": false
+            }
+          },
+          "required": [
+            "model_index_zero_based",
+            "chain_namespace",
+            "reference_chain",
+            "moving_chain",
+            "atom_name",
+            "matched_atoms",
+            "mapping_policy",
+            "excluded_hetero",
+            "excluded_water",
+            "outlier_trimming"
+          ]
+        },
+        "metrics": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "type": "string",
+                "enum": [
+                  "rmsd"
+                ]
+              },
+              "value": {
+                "type": "number",
+                "minimum": 0
+              },
+              "units": {
+                "type": "string",
+                "enum": [
+                  "angstrom"
+                ]
+              },
+              "fit_atom_count": {
+                "type": "integer",
+                "minimum": 3,
+                "maximum": 9007199254740991
+              },
+              "evaluation_atom_count": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 9007199254740991
+              },
+              "source_artifact_id": {
+                "$ref": "#/$defs/UUID"
+              }
+            },
+            "required": [
+              "name",
+              "value",
+              "units",
+              "fit_atom_count",
+              "evaluation_atom_count",
+              "source_artifact_id"
+            ]
+          },
+          "minItems": 0,
+          "maxItems": 32
+        },
+        "artifacts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ResultArtifactRef"
+          },
+          "maxItems": 128
+        },
+        "validation": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ResultValidation"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "limitations": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "maxItems": 32
+        },
+        "reproduction_manifest_artifact_id": {
+          "$ref": "#/$defs/UUID"
+        }
+      },
+      "required": [
+        "schema_version",
+        "task_id",
+        "task_revision",
+        "run_id",
+        "frozen_spec_id",
+        "plan_id",
+        "mode",
+        "execution_state",
+        "scientific_status",
+        "method",
+        "input_artifacts",
+        "object_summary",
+        "metrics",
+        "artifacts",
+        "validation",
+        "limitations",
+        "reproduction_manifest_artifact_id"
+      ],
+      "description": "P0结构比较结果清单；与Run、FrozenSpec、实际Attempt和不可变工件关联。合同仅规定形状，关键ID同属项目/Run、内容摘要、选择与方法一致、数值有限和交付条件仍由服务语义层核验。"
+    },
+    "FrozenTaskSpecContractExample": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "type": "string",
+          "enum": [
+            "task-spec.v1"
+          ]
+        },
+        "task_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "task_revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "run_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "frozen_spec_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "spec_state": {
+          "type": "string",
+          "enum": [
+            "FROZEN"
+          ]
+        },
+        "task_type": {
+          "type": "string",
+          "enum": [
+            "structure_comparison"
+          ]
+        },
+        "goal": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 12000
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SpecInput"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "selection": {
+          "$ref": "#/$defs/SpecSelection"
+        },
+        "mapping": {
+          "$ref": "#/$defs/SpecMapping"
+        },
+        "measurement": {
+          "$ref": "#/$defs/ComparisonMeasurement"
+        },
+        "requested_outputs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "minItems": 1,
+          "maxItems": 16,
+          "uniqueItems": true
+        },
+        "acceptance_policy": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "field_provenance": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "field_pointer": {
+                "type": "string",
+                "maxLength": 256
+              },
+              "source_type": {
+                "type": "string",
+                "enum": [
+                  "USER_REQUEST",
+                  "INSPECTOR",
+                  "CLARIFICATION",
+                  "REGISTERED_POLICY"
+                ]
+              },
+              "source_ref": {
+                "type": "string",
+                "maxLength": 256
+              }
+            },
+            "required": [
+              "field_pointer",
+              "source_type",
+              "source_ref"
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 128
+        },
+        "synthetic": {
+          "const": true
+        },
+        "evidence_status": {
+          "type": "string",
+          "enum": [
+            "CONTRACT_EXAMPLE_NOT_NEW_EXECUTION"
+          ]
+        }
+      },
+      "required": [
+        "schema_version",
+        "task_id",
+        "task_revision",
+        "run_id",
+        "frozen_spec_id",
+        "spec_state",
+        "task_type",
+        "goal",
+        "inputs",
+        "selection",
+        "mapping",
+        "measurement",
+        "requested_outputs",
+        "acceptance_policy",
+        "field_provenance",
+        "synthetic",
+        "evidence_status"
+      ],
+      "description": "文档示例专用schema；生产DTO不接受synthetic/evidence_status。仅structure_comparison正式规格profile，不是所有结构任务的通用payload。冻结的是对象、对应规则、拟合/评价意图与接受政策；派生Mapping/Selection/F-E索引工件可在冻结后由计划产生。其实际UUID经受控参数物化器绑定到Worker输入，不能令冻结前必须执行mapping。仅structure_comparison正式规格profile，不是所有结构任务的通用payload。冻结的是对象、对应规则、拟合/评价意图与接受政策；派生Mapping/Selection/F-E索引工件可在冻结后由计划产生。其实际UUID经受控参数物化器绑定到Worker输入，不能令冻结前必须执行mapping。P0结构比较正式合同的具体schema。接触/检查的具体领域合同由对应能力schema登记，不能将此合同的CA/双结构假设套到接触分析。spec_sha256为排除自身字段后的规范JSON摘要；字段来源必须可回溯。",
+      "title": "StructureComparisonFrozenTaskSpec — comparison profile only",
+      "examples": [
+        {
+          "schema_version": "task-spec.v1",
+          "task_id": "00000003-0003-4003-8003-000000000003",
+          "task_revision": 1,
+          "run_id": "00000004-0004-4004-8004-000000000004",
+          "frozen_spec_id": "00000005-0005-4005-8005-000000000005",
+          "spec_state": "FROZEN",
+          "task_type": "structure_comparison",
+          "goal": "比较4AKE与1AKE首模型auth A的214对Cα，全链求右手Kabsch变换并评价同一区域。",
+          "inputs": [
+            {
+              "role": "reference",
+              "artifact_id": "00000008-0008-4008-8008-000000000008",
+              "sha256": "fcb2ff49a3e255797fee277ce28e0acace67f6e6ddf432841f8451f00cbde9e9",
+              "format": "mmcif"
+            },
+            {
+              "role": "moving",
+              "artifact_id": "00000009-0009-4009-8009-000000000009",
+              "sha256": "01f41b1b42318a1a5df7f650dbab881677aa0e8d825f7c42dd26ae16a94c0948",
+              "format": "mmcif"
+            }
+          ],
+          "selection": {
+            "coordinate_set": "deposited_model",
+            "model_index_zero_based": 0,
+            "chain_namespace": "auth",
+            "reference_chain": "A",
+            "moving_chain": "A",
+            "polymer_type": "protein",
+            "atom_names": [
+              "CA"
+            ],
+            "include_hetero": false,
+            "include_water": false,
+            "altloc_policy": "reject_ambiguous",
+            "missing_policy": "reject_unmatched"
+          },
+          "mapping": {
+            "strategy": "same_auth_residue_and_name",
+            "mapping_artifact_id": "0000001e-001e-401e-801e-00000000001e",
+            "applicability_policy": "verified_AdK_reference_pair@1",
+            "required_pairs": 214,
+            "trim_outliers": false
+          },
+          "measurement": {
+            "method": "kabsch_right_handed",
+            "coordinate_convention": "row_vectors_X_at_R_plus_t",
+            "weighting": "uniform",
+            "fit_pair_index_artifact_id": "0000001f-001f-401f-801f-00000000001f",
+            "evaluation_pair_index_artifact_id": "00000020-0020-4020-8020-000000000020",
+            "fit_region_label": "all_214_matched_CA",
+            "evaluation_region_label": "all_214_matched_CA",
+            "units": "angstrom",
+            "region_policy_version": "verified_AdK_all_matched@1"
+          },
+          "requested_outputs": [
+            "residue_mapping",
+            "rigid_transform",
+            "rmsd_summary",
+            "per_residue_displacement",
+            "validation",
+            "evidence_report",
+            "reproduction_manifest"
+          ],
+          "acceptance_policy": "p0_structure_comparison@1",
+          "field_provenance": [
+            {
+              "field_pointer": "/goal",
+              "source_type": "USER_REQUEST",
+              "source_ref": "fictional-user-request"
+            },
+            {
+              "field_pointer": "/selection",
+              "source_type": "INSPECTOR",
+              "source_ref": "existing-offline-AdK-reference"
+            },
+            {
+              "field_pointer": "/mapping",
+              "source_type": "REGISTERED_POLICY",
+              "source_ref": "verified_AdK_reference_pair@1"
+            }
+          ],
+          "synthetic": true,
+          "evidence_status": "CONTRACT_EXAMPLE_NOT_NEW_EXECUTION"
+        }
+      ]
+    },
+    "ResultManifestContractExample": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "type": "string",
+          "enum": [
+            "result-manifest.v1"
+          ]
+        },
+        "task_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "task_revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "run_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "frozen_spec_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "plan_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "mode": {
+          "type": "string",
+          "enum": [
+            "agent",
+            "reference"
+          ]
+        },
+        "execution_state": {
+          "type": "string",
+          "enum": [
+            "COMPLETED",
+            "FAILED",
+            "CANCELLED",
+            "UNKNOWN"
+          ]
+        },
+        "scientific_status": {
+          "type": "string",
+          "enum": [
+            "NOT_EVALUATED",
+            "ACCEPTED",
+            "REJECTED",
+            "INCONCLUSIVE",
+            "NOT_APPLICABLE"
+          ]
+        },
+        "method": {
+          "$ref": "#/$defs/ComparisonMeasurement"
+        },
+        "input_artifacts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "artifact_id": {
+                "$ref": "#/$defs/UUID"
+              },
+              "sha256": {
+                "$ref": "#/$defs/SHA256"
+              }
+            },
+            "required": [
+              "artifact_id",
+              "sha256"
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 4
+        },
+        "object_summary": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "model_index_zero_based": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "chain_namespace": {
+              "type": "string",
+              "enum": [
+                "auth",
+                "label"
+              ]
+            },
+            "reference_chain": {
+              "type": "string",
+              "maxLength": 64
+            },
+            "moving_chain": {
+              "type": "string",
+              "maxLength": 64
+            },
+            "atom_name": {
+              "type": "string",
+              "enum": [
+                "CA"
+              ]
+            },
+            "matched_atoms": {
+              "type": "integer",
+              "minimum": 3,
+              "maximum": 9007199254740991
+            },
+            "mapping_policy": {
+              "type": "string",
+              "maxLength": 128
+            },
+            "excluded_hetero": {
+              "type": "boolean"
+            },
+            "excluded_water": {
+              "type": "boolean"
+            },
+            "outlier_trimming": {
+              "const": false
+            }
+          },
+          "required": [
+            "model_index_zero_based",
+            "chain_namespace",
+            "reference_chain",
+            "moving_chain",
+            "atom_name",
+            "matched_atoms",
+            "mapping_policy",
+            "excluded_hetero",
+            "excluded_water",
+            "outlier_trimming"
+          ]
+        },
+        "metrics": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "type": "string",
+                "enum": [
+                  "rmsd"
+                ]
+              },
+              "value": {
+                "type": "number",
+                "minimum": 0
+              },
+              "units": {
+                "type": "string",
+                "enum": [
+                  "angstrom"
+                ]
+              },
+              "fit_atom_count": {
+                "type": "integer",
+                "minimum": 3,
+                "maximum": 9007199254740991
+              },
+              "evaluation_atom_count": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 9007199254740991
+              },
+              "source_artifact_id": {
+                "$ref": "#/$defs/UUID"
+              }
+            },
+            "required": [
+              "name",
+              "value",
+              "units",
+              "fit_atom_count",
+              "evaluation_atom_count",
+              "source_artifact_id"
+            ]
+          },
+          "minItems": 0,
+          "maxItems": 32
+        },
+        "artifacts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ResultArtifactRef"
+          },
+          "maxItems": 128
+        },
+        "validation": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ResultValidation"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "limitations": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "maxItems": 32
+        },
+        "reproduction_manifest_artifact_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "synthetic": {
+          "const": true
+        },
+        "evidence_status": {
+          "type": "string",
+          "enum": [
+            "CONTRACT_EXAMPLE_NOT_NEW_EXECUTION"
+          ]
+        }
+      },
+      "required": [
+        "schema_version",
+        "task_id",
+        "task_revision",
+        "run_id",
+        "frozen_spec_id",
+        "plan_id",
+        "mode",
+        "execution_state",
+        "scientific_status",
+        "method",
+        "input_artifacts",
+        "object_summary",
+        "metrics",
+        "artifacts",
+        "validation",
+        "limitations",
+        "reproduction_manifest_artifact_id",
+        "synthetic",
+        "evidence_status"
+      ],
+      "description": "文档示例专用schema；生产DTO不接受synthetic/evidence_status。P0结构比较结果清单；与Run、FrozenSpec、实际Attempt和不可变工件关联。合同仅规定形状，关键ID同属项目/Run、内容摘要、选择与方法一致、数值有限和交付条件仍由服务语义层核验。",
+      "examples": [
+        {
+          "schema_version": "result-manifest.v1",
+          "task_id": "00000003-0003-4003-8003-000000000003",
+          "task_revision": 1,
+          "run_id": "00000004-0004-4004-8004-000000000004",
+          "frozen_spec_id": "00000005-0005-4005-8005-000000000005",
+          "plan_id": "00000006-0006-4006-8006-000000000006",
+          "mode": "reference",
+          "execution_state": "COMPLETED",
+          "scientific_status": "NOT_EVALUATED",
+          "method": {
+            "method": "kabsch_right_handed",
+            "coordinate_convention": "row_vectors_X_at_R_plus_t",
+            "weighting": "uniform",
+            "fit_pair_index_artifact_id": "0000001f-001f-401f-801f-00000000001f",
+            "evaluation_pair_index_artifact_id": "00000020-0020-4020-8020-000000000020",
+            "fit_region_label": "all_214_matched_CA",
+            "evaluation_region_label": "all_214_matched_CA",
+            "units": "angstrom",
+            "region_policy_version": "verified_AdK_all_matched@1"
+          },
+          "input_artifacts": [
+            {
+              "artifact_id": "00000008-0008-4008-8008-000000000008",
+              "sha256": "fcb2ff49a3e255797fee277ce28e0acace67f6e6ddf432841f8451f00cbde9e9"
+            },
+            {
+              "artifact_id": "00000009-0009-4009-8009-000000000009",
+              "sha256": "01f41b1b42318a1a5df7f650dbab881677aa0e8d825f7c42dd26ae16a94c0948"
+            }
+          ],
+          "object_summary": {
+            "model_index_zero_based": 0,
+            "chain_namespace": "auth",
+            "reference_chain": "A",
+            "moving_chain": "A",
+            "atom_name": "CA",
+            "matched_atoms": 214,
+            "mapping_policy": "verified_AdK_reference_pair@1",
+            "excluded_hetero": true,
+            "excluded_water": true,
+            "outlier_trimming": false
+          },
+          "metrics": [
+            {
+              "name": "rmsd",
+              "value": 7.130700222878167,
+              "units": "angstrom",
+              "fit_atom_count": 214,
+              "evaluation_atom_count": 214,
+              "source_artifact_id": "0000000a-000a-400a-800a-00000000000a"
+            }
+          ],
+          "artifacts": [
+            {
+              "artifact_id": "0000000a-000a-400a-800a-00000000000a",
+              "kind": "coordinate-result.v1",
+              "producer_attempt_id": "00000007-0007-4007-8007-000000000007",
+              "sha256": "876bd154cbe3860c9322ab2cb7490a729868321fcdafd071c6257c93ff2d9814",
+              "bytes": 23700,
+              "content_url": "/api/v1/artifacts/0000000a-000a-400a-800a-00000000000a/content"
+            }
+          ],
+          "validation": null,
+          "limitations": [
+            "这份带synthetic标记的清单只演示未来接口形状；所有UUID、Validator记录和版本身份均为虚构。",
+            "数值及原始输出字节摘要沿用已有固定计划AdK教学结果；当前API/Worker/独立检查器并未实际运行。",
+            "原教学验证器与评分共用validate，正式生产验收仍需独立参考；本例保留NOT_EVALUATED且validation=null，不声称新检查器通过。",
+            "静态坐标几何差异不自动证明亲和力、动力学或因果机制。"
+          ],
+          "reproduction_manifest_artifact_id": "00000023-0023-4023-8023-000000000023",
+          "synthetic": true,
+          "evidence_status": "CONTRACT_EXAMPLE_NOT_NEW_EXECUTION"
+        }
+      ]
+    },
+    "FrozenResidueID": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "seq_id": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "insertion_code": {
+          "type": "string",
+          "maxLength": 4
+        }
+      },
+      "required": [
+        "seq_id",
+        "insertion_code"
+      ]
+    },
+    "FrozenSelectionIntent": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "input_artifact_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "reference",
+            "moving",
+            "protein",
+            "ligand"
+          ]
+        },
+        "model_index_zero_based": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "chain_namespace": {
+          "type": "string",
+          "enum": [
+            "auth",
+            "label"
+          ]
+        },
+        "chain_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "component_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 16
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "residue_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FrozenResidueID"
+          },
+          "maxItems": 100000
+        },
+        "atom_set": {
+          "type": "string",
+          "enum": [
+            "protein_ca",
+            "protein_heavy",
+            "ligand_heavy"
+          ]
+        },
+        "altloc_policy": {
+          "type": "string",
+          "enum": [
+            "reject_ambiguous",
+            "explicit_selected"
+          ]
+        },
+        "altloc_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 8
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "include_water": {
+          "const": false
+        }
+      },
+      "required": [
+        "input_artifact_id",
+        "role",
+        "model_index_zero_based",
+        "chain_namespace",
+        "chain_id",
+        "component_id",
+        "residue_ids",
+        "atom_set",
+        "altloc_policy",
+        "altloc_id",
+        "include_water"
+      ],
+      "description": "来自当前受控StructureManifest的显式选区意图。protein整链可residue_ids=[]；ligand必须指定comp与完整残基身份以区分同auth链下的蛋白/配体。编译器依据清单物化严格SelectionArtifact并保留来源/坐标框架，再给Worker真实UUID。",
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "role": {
+                "const": "ligand"
+              }
+            },
+            "required": [
+              "role"
+            ]
+          },
+          "then": {
+            "properties": {
+              "component_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "residue_ids": {
+                "minItems": 1
+              },
+              "atom_set": {
+                "const": "ligand_heavy"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "altloc_policy": {
+                "const": "explicit_selected"
+              }
+            },
+            "required": [
+              "altloc_policy"
+            ]
+          },
+          "then": {
+            "properties": {
+              "altloc_id": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    "ContactsMeasurement": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "capability_id": {
+          "const": "geometric_contacts"
+        },
+        "cutoff_angstrom": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "distance_comparison": {
+          "const": "le"
+        },
+        "include_hydrogen": {
+          "const": false
+        },
+        "coordinate_frame_policy": {
+          "const": "same_deposited_model_no_symmetry"
+        }
+      },
+      "required": [
+        "capability_id",
+        "cutoff_angstrom",
+        "distance_comparison",
+        "include_hydrogen",
+        "coordinate_frame_policy"
+      ],
+      "description": "与Worker ContactsParams的cutoff_angstrom/distance_comparison/include_hydrogen同语义；SelectionArtifact UUID由单独protein/ligand选择意图物化。按元素排H/D，欧氏距离<=阈值；P0不静默加入PBC/晶体对称或装配体。阈值还须在运行时检查finite和服务器支持范围。"
+    },
+    "ContactsFrozenTaskSpec": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "task_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "task_revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "run_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "frozen_spec_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "spec_state": {
+          "type": "string",
+          "enum": [
+            "FROZEN"
+          ]
+        },
+        "goal": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 12000
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SpecInput"
+          },
+          "minItems": 1,
+          "maxItems": 4
+        },
+        "requested_outputs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "minItems": 1,
+          "maxItems": 16,
+          "uniqueItems": true
+        },
+        "acceptance_policy": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "field_provenance": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "field_pointer": {
+                "type": "string",
+                "maxLength": 256
+              },
+              "source_type": {
+                "type": "string",
+                "enum": [
+                  "USER_REQUEST",
+                  "INSPECTOR",
+                  "CLARIFICATION",
+                  "REGISTERED_POLICY"
+                ]
+              },
+              "source_ref": {
+                "type": "string",
+                "maxLength": 256
+              }
+            },
+            "required": [
+              "field_pointer",
+              "source_type",
+              "source_ref"
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 128
+        },
+        "schema_version": {
+          "type": "string",
+          "enum": [
+            "contacts-task-spec.v1"
+          ]
+        },
+        "task_type": {
+          "type": "string",
+          "enum": [
+            "geometric_contacts"
+          ]
+        },
+        "protein_selection": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/FrozenSelectionIntent"
+            },
+            {
+              "properties": {
+                "role": {
+                  "const": "protein"
+                },
+                "atom_set": {
+                  "const": "protein_heavy"
+                }
+              }
+            }
+          ]
+        },
+        "ligand_selection": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/FrozenSelectionIntent"
+            },
+            {
+              "properties": {
+                "role": {
+                  "const": "ligand"
+                },
+                "atom_set": {
+                  "const": "ligand_heavy"
+                }
+              }
+            }
+          ]
+        },
+        "measurement": {
+          "$ref": "#/$defs/ContactsMeasurement"
+        }
+      },
+      "required": [
+        "task_id",
+        "task_revision",
+        "run_id",
+        "frozen_spec_id",
+        "spec_state",
+        "goal",
+        "inputs",
+        "requested_outputs",
+        "acceptance_policy",
+        "field_provenance",
+        "schema_version",
+        "task_type",
+        "protein_selection",
+        "ligand_selection",
+        "measurement"
+      ],
+      "description": "P0几何接触正式规格profile。服务层要求protein_selection.role=protein、atom_set=protein_heavy，ligand_selection.role=ligand、atom_set=ligand_heavy；两个选择引用本规格输入、同一沉积model坐标框架，无隐式拟合/对称变换；同一原始结构文件可以含两种实例。冻结前inspect清单核对模型/链/comp/残基/altloc；冻结后仅物化已固定意图，不改阈值刷通过。"
+    },
+    "GeometryComparisonIntent": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "measurement_id": {
+          "$ref": "#/$defs/StepID"
+        },
+        "kind": {
+          "const": "structure_comparison"
+        },
+        "depends_on": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/StepID"
+          },
+          "maxItems": 32,
+          "uniqueItems": true
+        },
+        "selection": {
+          "$ref": "#/$defs/SpecSelection"
+        },
+        "mapping": {
+          "$ref": "#/$defs/SpecMapping"
+        },
+        "measurement": {
+          "$ref": "#/$defs/ComparisonMeasurement"
+        }
+      },
+      "required": [
+        "measurement_id",
+        "kind",
+        "depends_on",
+        "selection",
+        "mapping",
+        "measurement"
+      ],
+      "description": "组合规格中的比较意图，共享顶层输入、Run和FrozenSpec；这里的ID是逻辑measurement名，不是新Run。"
+    },
+    "GeometryContactsIntent": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "measurement_id": {
+          "$ref": "#/$defs/StepID"
+        },
+        "kind": {
+          "const": "geometric_contacts"
+        },
+        "depends_on": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/StepID"
+          },
+          "maxItems": 32,
+          "uniqueItems": true
+        },
+        "protein_selection": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/FrozenSelectionIntent"
+            },
+            {
+              "properties": {
+                "role": {
+                  "const": "protein"
+                },
+                "atom_set": {
+                  "const": "protein_heavy"
+                }
+              }
+            }
+          ]
+        },
+        "ligand_selection": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/FrozenSelectionIntent"
+            },
+            {
+              "properties": {
+                "role": {
+                  "const": "ligand"
+                },
+                "atom_set": {
+                  "const": "ligand_heavy"
+                }
+              }
+            }
+          ]
+        },
+        "measurement": {
+          "$ref": "#/$defs/ContactsMeasurement"
+        }
+      },
+      "required": [
+        "measurement_id",
+        "kind",
+        "depends_on",
+        "protein_selection",
+        "ligand_selection",
+        "measurement"
+      ],
+      "description": "组合规格中的接触意图；其依赖不允许暗中把只拟合蛋白后的坐标与未变换配体混用。P0此profile固定沉积model框架。"
+    },
+    "GeometryWorkflowSpec": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "task_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "task_revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "run_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "frozen_spec_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "spec_state": {
+          "type": "string",
+          "enum": [
+            "FROZEN"
+          ]
+        },
+        "goal": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 12000
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SpecInput"
+          },
+          "minItems": 1,
+          "maxItems": 4
+        },
+        "requested_outputs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "minItems": 1,
+          "maxItems": 16,
+          "uniqueItems": true
+        },
+        "acceptance_policy": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "field_provenance": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "field_pointer": {
+                "type": "string",
+                "maxLength": 256
+              },
+              "source_type": {
+                "type": "string",
+                "enum": [
+                  "USER_REQUEST",
+                  "INSPECTOR",
+                  "CLARIFICATION",
+                  "REGISTERED_POLICY"
+                ]
+              },
+              "source_ref": {
+                "type": "string",
+                "maxLength": 256
+              }
+            },
+            "required": [
+              "field_pointer",
+              "source_type",
+              "source_ref"
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 128
+        },
+        "schema_version": {
+          "type": "string",
+          "enum": [
+            "geometry-workflow-spec.v1"
+          ]
+        },
+        "task_type": {
+          "type": "string",
+          "enum": [
+            "geometry_workflow"
+          ]
+        },
+        "measurements": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "#/$defs/GeometryComparisonIntent"
+              },
+              {
+                "$ref": "#/$defs/GeometryContactsIntent"
+              }
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 16
+        }
+      },
+      "required": [
+        "task_id",
+        "task_revision",
+        "run_id",
+        "frozen_spec_id",
+        "spec_state",
+        "goal",
+        "inputs",
+        "requested_outputs",
+        "acceptance_policy",
+        "field_provenance",
+        "schema_version",
+        "task_type",
+        "measurements"
+      ],
+      "description": "同一个冻结目标下组合现有P0比较与几何接触，不新增工具或任意代码。编译器检查measurement_id唯一、depends_on存在/无自依赖/无环，并展开为受信typed Plan。Artifact输出类型与frame/单位逐边核对；所有步骤、计划修订、模型费用共用一个Run预算。全部要求的科学measurement均接受才给全局ACCEPTED，部分成功只能PARTIAL并列出未完成项。"
+    }
+  }
+}

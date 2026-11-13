@@ -1,0 +1,9 @@
+{
+  "passed": false,
+  "failure_codes": [
+    "UNIT"
+  ],
+  "numeric_tolerance_A": 1e-05,
+  "reference_implementation": "MMCIF2Dict atom-table + Bio.SVDSuperimposer",
+  "independence_limit": "Separate selection and transform code, shared input files, mmCIF conventions and Bio.PDB dependency. Expert object review remains necessary."
+}

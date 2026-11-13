@@ -1,0 +1,2494 @@
+{
+  "integration_date": "2026-10-28",
+  "identity_policy": "按规范化方法简称合并已核实同一论文；同名不同工作保留不同简称；PDF按内容hash区分版本，原文件保留。",
+  "papers": [
+    {
+      "key": "cot",
+      "short": "CoT",
+      "title": "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models",
+      "first_public_date": "2022-01-28",
+      "publication_status": "正式会议",
+      "sources": [
+        {
+          "collection": "框架发展与选型",
+          "original_short": "CoT"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/补充框架论文_2026-10-27/papers/CoT_2022.pdf",
+          "sha256": "880df0b46e8b4f77248d92a639dca69b96e57cad626e6fad0b4f5d746b930bd5",
+          "pages": 14,
+          "version": "具体版本见原文首页",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [
+        "基础推理"
+      ],
+      "venue": "NeurIPS 2022 · Main Track",
+      "source_url": "https://proceedings.neurips.cc/paper/2022/hash/9d5609613524ecf4f15af0f7b31abca4-Abstract.html",
+      "date_note": "首发字段采用已核实的 arXiv v1 日期；正式会议年份另列，不以论文更新年份冒充首发。",
+      "arxiv_id": "2201.11903",
+      "id": "R001"
+    },
+    {
+      "key": "react",
+      "short": "ReAct",
+      "title": "ReAct: Synergizing Reasoning and Acting in Language Models",
+      "first_public_date": "2022-10-06",
+      "publication_status": "正式会议",
+      "sources": [
+        {
+          "collection": "经典学习包",
+          "original_short": "ReAct"
+        },
+        {
+          "collection": "框架发展与选型",
+          "original_short": "ReAct"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/04_经典Agent论文/02_工具调用与执行编排/03_ReAct_2022.pdf",
+          "sha256": "f285b0971ae4a790e402fb93966bed3adde2cf0a04977d08b2b40d6ab0cace69",
+          "pages": 33,
+          "version": "v3",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [
+        "反馈闭环"
+      ],
+      "source_url": "https://arxiv.org/abs/2210.03629",
+      "code_url": "https://react-lm.github.io/",
+      "arxiv_id": "2210.03629",
+      "venue": "ICLR 2023 · 主会",
+      "date_note": "arXiv v1 2022-10-06；v3 明确为 ICLR camera-ready 版本，正式发表年份为2023。",
+      "id": "R002"
+    },
+    {
+      "key": "toolformer",
+      "short": "Toolformer",
+      "title": "Toolformer: Language Models Can Teach Themselves to Use Tools",
+      "first_public_date": "2023-02-09",
+      "publication_status": "正式会议",
+      "sources": [
+        {
+          "collection": "经典学习包",
+          "original_short": "Toolformer"
+        },
+        {
+          "collection": "框架发展与选型",
+          "original_short": "Toolformer"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/04_经典Agent论文/02_工具调用与执行编排/04_Toolformer_2023.pdf",
+          "sha256": "6d7483d94653008e40c2058a1c22441c92e3713dae278b6361e8efc447c99522",
+          "pages": 17,
+          "version": "v1",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [
+        "工具学习"
+      ],
+      "source_url": "https://proceedings.neurips.cc/paper_files/paper/2023/hash/d842425e4bf79ba039352da0f658a906-Abstract-Conference.html",
+      "arxiv_id": "2302.04761",
+      "venue": "NeurIPS 2023 · Main Track",
+      "date_note": "首发字段采用已核实的 arXiv v1 日期；正式会议年份另列，不以论文更新年份冒充首发。",
+      "id": "R003"
+    },
+    {
+      "key": "reflexion",
+      "short": "Reflexion",
+      "title": "Reflexion: Language Agents with Verbal Reinforcement Learning",
+      "first_public_date": "2023-03-20",
+      "publication_status": "正式会议",
+      "sources": [
+        {
+          "collection": "经典学习包",
+          "original_short": "Reflexion"
+        },
+        {
+          "collection": "框架发展与选型",
+          "original_short": "Reflexion"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/04_经典Agent论文/02_工具调用与执行编排/05_Reflexion_2023.pdf",
+          "sha256": "6059b6f89fea9959bd3dab553fbb97756a3dfb1b15e3cbab2fbf3ab6664333bd",
+          "pages": 19,
+          "version": "v4",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [
+        "记忆与经验"
+      ],
+      "source_url": "https://proceedings.neurips.cc/paper_files/paper/2023/hash/1b44b878bb782e6954cd888628510e90-Abstract-Conference.html",
+      "code_url": "https://github.com/noahshinn024/reflexion",
+      "arxiv_id": "2303.11366",
+      "venue": "NeurIPS 2023 · Main Track",
+      "date_note": "首发字段采用已核实的 arXiv v1 日期；正式会议年份另列，不以论文更新年份冒充首发。",
+      "id": "R004"
+    },
+    {
+      "key": "generativeagents",
+      "short": "Generative_Agents",
+      "title": "Generative Agents: Interactive Simulacra of Human Behavior",
+      "first_public_date": "2023-04-07",
+      "publication_status": "正式会议",
+      "sources": [
+        {
+          "collection": "框架发展与选型",
+          "original_short": "Generative_Agents"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/补充框架论文_2026-10-27/papers/Generative_Agents_2023.pdf",
+          "sha256": "1b31e77fb24d25d7598f2c49e955d12a28b95a6dabad34acdac40f44bfb7a139",
+          "pages": 22,
+          "version": [
+            "2304.03442v2"
+          ],
+          "alternate_paths": []
+        }
+      ],
+      "topics": [
+        "记忆与经验"
+      ],
+      "venue": "ACM UIST 2023",
+      "source_url": "https://doi.org/10.1145/3586183.3606763",
+      "code_url": "https://github.com/joonspk-research/generative_agents",
+      "date_note": "首发字段采用已核实的 arXiv v1 日期；正式会议年份另列，不以论文更新年份冒充首发。",
+      "arxiv_id": "2304.03442",
+      "id": "R005"
+    },
+    {
+      "key": "planandsolve",
+      "short": "Plan_and_Solve",
+      "title": "Plan-and-Solve Prompting: Improving Zero-Shot Chain-of-Thought Reasoning by Large Language Models",
+      "first_public_date": "2023-05-06",
+      "publication_status": "正式会议",
+      "sources": [
+        {
+          "collection": "框架发展与选型",
+          "original_short": "Plan_and_Solve"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/补充框架论文_2026-10-27/papers/Plan_and_Solve_2023.pdf",
+          "sha256": "32015300a65ade88ebef9be64767a6851328af17315006a9aa0e3327ba527477",
+          "pages": 26,
+          "version": "具体版本见原文首页",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [
+        "计划与并行"
+      ],
+      "venue": "ACL 2023 · Long Papers",
+      "source_url": "https://aclanthology.org/2023.acl-long.147/",
+      "code_url": "https://github.com/AGI-Edgerunners/Plan-and-Solve-Prompting",
+      "date_note": "首发字段采用已核实的 arXiv v1 日期；正式会议年份另列，不以论文更新年份冒充首发。",
+      "arxiv_id": "2305.04091",
+      "id": "R006"
+    },
+    {
+      "key": "rewoo",
+      "short": "ReWOO",
+      "title": "ReWOO: Decoupling Reasoning from Observations for Efficient Augmented Language Models",
+      "first_public_date": "2023-05-23",
+      "publication_status": "预印本",
+      "sources": [
+        {
+          "collection": "框架发展与选型",
+          "original_short": "ReWOO"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/补充框架论文_2026-10-27/papers/ReWOO_2023.pdf",
+          "sha256": "1847bb42b9efb3a2860ca48edc962ee9c9b7d3e0359887ea596e1b23084de9ff",
+          "pages": 25,
+          "version": [
+            "2305.18323v1"
+          ],
+          "alternate_paths": []
+        }
+      ],
+      "topics": [
+        "计划与并行"
+      ],
+      "venue": "arXiv · 2023",
+      "source_url": "https://arxiv.org/abs/2305.18323",
+      "code_url": "https://github.com/billxbf/ReWOO",
+      "date_note": "首发字段采用已核实的 arXiv v1 日期；正式会议年份另列，不以论文更新年份冒充首发。",
+      "arxiv_id": "2305.18323",
+      "id": "R007"
+    },
+    {
+      "key": "voyager",
+      "short": "Voyager",
+      "title": "Voyager: An Open-Ended Embodied Agent with Large Language Models",
+      "first_public_date": "2023-05-25",
+      "publication_status": "正式期刊",
+      "sources": [
+        {
+          "collection": "经典学习包",
+          "original_short": "Voyager"
+        },
+        {
+          "collection": "框架发展与选型",
+          "original_short": "Voyager"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/04_经典Agent论文/02_工具调用与执行编排/10_Voyager_2023.pdf",
+          "sha256": "769a4e33ddeeb73870849232eece49afe882c2d146362e33917ccb432ba0efb8",
+          "pages": 42,
+          "version": "v2",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [
+        "记忆与经验"
+      ],
+      "source_url": "https://openreview.net/forum?id=ehfRiF0R3a",
+      "code_url": "https://github.com/MineDojo/Voyager",
+      "arxiv_id": "2305.16291",
+      "venue": "TMLR 2024",
+      "date_note": "首个预印本2023-05-25；TMLR正式版本2024，本文保留两种年份。",
+      "id": "R008"
+    },
+    {
+      "key": "toolllm",
+      "short": "ToolLLM",
+      "title": "ToolLLM: Facilitating Large Language Models to Master 16000+ Real-world APIs",
+      "first_public_date": "2023-07-31",
+      "publication_status": "正式会议",
+      "sources": [
+        {
+          "collection": "经典学习包",
+          "original_short": "ToolLLM"
+        },
+        {
+          "collection": "框架发展与选型",
+          "original_short": "ToolLLM"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/04_经典Agent论文/02_工具调用与执行编排/07_ToolLLM_2023.pdf",
+          "sha256": "295299721d67b250661fb6598bee86a2e9fe766241fdc08dd7cf389e984b4d1a",
+          "pages": 24,
+          "version": "v2",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [
+        "工具学习"
+      ],
+      "source_url": "https://proceedings.iclr.cc/paper_files/paper/2024/hash/28e50ee5b72e90b50e7196fde8ea260e-Abstract-Conference.html",
+      "code_url": "https://github.com/OpenBMB/ToolBench",
+      "arxiv_id": "2307.16789",
+      "venue": "ICLR 2024 · 主会",
+      "date_note": "首发字段采用已核实的 arXiv v1 日期；正式会议年份另列，不以论文更新年份冒充首发。",
+      "id": "R009"
+    },
+    {
+      "key": "metagpt",
+      "short": "MetaGPT",
+      "title": "MetaGPT: Meta Programming for A Multi-Agent Collaborative Framework",
+      "first_public_date": "2023-08-01",
+      "publication_status": "正式会议",
+      "sources": [
+        {
+          "collection": "框架发展与选型",
+          "original_short": "MetaGPT"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/补充框架论文_2026-10-27/papers/MetaGPT_2023.pdf",
+          "sha256": "76d733b2c9e04ea0ade6c845c55b52bb784c894358f872e63733aaa65fb69b39",
+          "pages": 29,
+          "version": "具体版本见原文首页",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [
+        "多Agent协作"
+      ],
+      "venue": "ICLR 2024 · 主会",
+      "source_url": "https://proceedings.iclr.cc/paper_files/paper/2024/hash/6507b115562bb0a305f1958ccc87355a-Abstract-Conference.html",
+      "code_url": "https://github.com/FoundationAgents/MetaGPT",
+      "date_note": "2023-08-01预印本；ICLR2024。原作者仓库geekan/MetaGPT现可重定向至FoundationAgents/MetaGPT。",
+      "arxiv_id": "2308.00352",
+      "id": "R010"
+    },
+    {
+      "key": "autogen",
+      "short": "AutoGen",
+      "title": "AutoGen: Enabling Next-Gen LLM Applications via Multi-Agent Conversation",
+      "first_public_date": "2023-08-16",
+      "publication_status": "正式会议",
+      "sources": [
+        {
+          "collection": "经典学习包",
+          "original_short": "AutoGen"
+        },
+        {
+          "collection": "框架发展与选型",
+          "original_short": "AutoGen"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/04_经典Agent论文/02_工具调用与执行编排/09_AutoGen_2023.pdf",
+          "sha256": "fcf8b1acae6b1bd6f14c92463caa9726828bf998234ba9f10c2411087897c96b",
+          "pages": 43,
+          "version": "v2",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [
+        "多Agent协作"
+      ],
+      "source_url": "https://www.microsoft.com/en-us/research/publication/autogen-enabling-next-gen-llm-applications-via-multi-agent-conversation-framework/",
+      "code_url": "https://github.com/microsoft/autogen",
+      "arxiv_id": "2308.08155",
+      "venue": "COLM 2024 · 主会",
+      "date_note": "论文首发2023-08-16；正式COLM2024。论文中的API和今天软件版本要分开看。",
+      "id": "R011"
+    },
+    {
+      "key": "dspy",
+      "short": "DSPy",
+      "title": "DSPy: Compiling Declarative Language Model Calls into State-of-the-Art Pipelines",
+      "first_public_date": "2023-10-05",
+      "publication_status": "正式会议",
+      "sources": [
+        {
+          "collection": "框架发展与选型",
+          "original_short": "DSPy"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/补充框架论文_2026-10-27/papers/DSPy_2023.pdf",
+          "sha256": "0592d139b3a40ba26c6669012339242b59d88ac1c2ed2bf8250429446b9d487b",
+          "pages": 31,
+          "version": "具体版本见原文首页",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [
+        "自动设计与优化"
+      ],
+      "venue": "ICLR 2024 · 主会",
+      "source_url": "https://proceedings.iclr.cc/paper_files/paper/2024/hash/f1cf02ce09757f57c3b93c0db83181e0-Abstract-Conference.html",
+      "code_url": "https://github.com/stanfordnlp/dspy",
+      "date_note": "arXiv首发题名结尾为Self-Improving Pipelines，正式ICLR题名为State-of-the-Art Pipelines；属于同一工作，不能重复计数。",
+      "arxiv_id": "2310.03714",
+      "id": "R012"
+    },
+    {
+      "key": "lats",
+      "short": "LATS",
+      "title": "Language Agent Tree Search Unifies Reasoning, Acting, and Planning in Language Models",
+      "first_public_date": "2023-10-06",
+      "publication_status": "正式会议",
+      "sources": [
+        {
+          "collection": "框架发展与选型",
+          "original_short": "LATS"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/补充框架论文_2026-10-27/papers/LATS_2023.pdf",
+          "sha256": "a6b84613eeeaa3beb979ac3e34cbb3575bceb7ccf6050a2c2fc677d5e3a3ab19",
+          "pages": 23,
+          "version": "具体版本见原文首页",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [
+        "计划与并行"
+      ],
+      "venue": "ICML 2024 · 主会",
+      "source_url": "https://proceedings.mlr.press/v235/zhou24r.html",
+      "code_url": "https://github.com/andyz245/LanguageAgentTreeSearch",
+      "date_note": "首发字段采用已核实的 arXiv v1 日期；正式会议年份另列，不以论文更新年份冒充首发。",
+      "arxiv_id": "2310.04406",
+      "id": "R013"
+    },
+    {
+      "key": "memgpt",
+      "short": "MemGPT",
+      "title": "MemGPT: Towards LLMs as Operating Systems",
+      "first_public_date": "2023-10-12",
+      "publication_status": "预印本",
+      "sources": [
+        {
+          "collection": "框架发展与选型",
+          "original_short": "MemGPT"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/补充框架论文_2026-10-27/papers/MemGPT_2023.pdf",
+          "sha256": "9f674bcff69c86f11c813dcfad613d8841f5f8ed17979e3c4df06a91df7762e0",
+          "pages": 13,
+          "version": [
+            "2310.08560v2"
+          ],
+          "alternate_paths": []
+        }
+      ],
+      "topics": [
+        "记忆与经验"
+      ],
+      "venue": "arXiv · 2023/2024 v2",
+      "source_url": "https://arxiv.org/abs/2310.08560",
+      "code_url": "https://research.memgpt.ai/",
+      "date_note": "首发字段采用已核实的 arXiv v1 日期；正式会议年份另列，不以论文更新年份冒充首发。",
+      "arxiv_id": "2310.08560",
+      "id": "R014"
+    },
+    {
+      "key": "llmcompiler",
+      "short": "LLMCompiler",
+      "title": "An LLM Compiler for Parallel Function Calling",
+      "first_public_date": "2023-12-07",
+      "publication_status": "正式会议",
+      "sources": [
+        {
+          "collection": "经典学习包",
+          "original_short": "LLMCompiler"
+        },
+        {
+          "collection": "框架发展与选型",
+          "original_short": "LLMCompiler"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/04_经典Agent论文/02_工具调用与执行编排/08_LLMCompiler_2023.pdf",
+          "sha256": "0cdd58b7cc35852aa7ecf5766e4d88a10716867f1f7aca30591189c85c54605e",
+          "pages": 22,
+          "version": "v3",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [
+        "计划与并行"
+      ],
+      "source_url": "https://proceedings.mlr.press/v235/kim24y.html",
+      "code_url": "https://github.com/SqueezeAILab/LLMCompiler",
+      "arxiv_id": "2312.04511",
+      "venue": "ICML 2024 · 主会",
+      "date_note": "首发字段采用已核实的 arXiv v1 日期；正式会议年份另列，不以论文更新年份冒充首发。",
+      "id": "R015"
+    },
+    {
+      "key": "protagents",
+      "short": "ProtAgents",
+      "title": "ProtAgents: protein discovery via large language model multi-agent collaborations combining physics and machine learning",
+      "first_public_date": "2024-01-27",
+      "publication_status": "正式期刊",
+      "sources": [
+        {
+          "collection": "领域综述",
+          "original_short": "ProtAgents"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/02_生物学与结构生物学Agent/papers/B26_ProtAgents_2024.pdf",
+          "sha256": "2c1da086d14fa90e0c80ae44f90a7de0a2c5ae842c5b7bb606cc738a149e9a98",
+          "pages": 24,
+          "version": "arXiv 预印本",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [],
+      "venue": "Digital Discovery · 3:1389–1409 · 2024-05-17",
+      "source_url": "https://pubs.rsc.org/doi/d4dd00013g",
+      "code_url": "https://github.com/lamm-mit/ProtAgents",
+      "date_note": "2024 经典背景。arXiv 页面标 Submitted on 27 Jan 2024，RSC 标 First published 17 May 2024；本报告不把搜索到的 ICLR 页眉当成主会正式收录依据。",
+      "arxiv_id": "2402.04268",
+      "id": "R016"
+    },
+    {
+      "key": "cellagent",
+      "short": "CellAgent",
+      "title": "CellAgent: LLM-Driven Multi-Agent Framework for Natural Language-Based Single-Cell Analysis",
+      "first_public_date": "2024-05-15",
+      "publication_status": "正式会议",
+      "sources": [
+        {
+          "collection": "领域综述",
+          "original_short": "CellAgent"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/02_生物学与结构生物学Agent/papers/B06_CellAgent_2024.pdf",
+          "sha256": "5becc0d924080e192ca084024e9ded46977f1202ae73f6123ea7ace433ca50b7",
+          "pages": 25,
+          "version": "bioRxiv 预印本",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [],
+      "venue": "ICLR 2026 · 主会",
+      "source_url": "https://openreview.net/forum?id=BsA2GNkJhz",
+      "code_url": "https://anonymous.4open.science/r/CellAgent-3633",
+      "date_note": "前身首发 bioRxiv Posted 2024-05-15；不是 DOI 中的 05.13，也早于 arXiv 2024-07-13。2026 会议版题名和范围扩展，下载若回退到旧版须标明。代码为论文所列匿名仓库；另检到 cellagent659/cellagent，未独立确认其完整发布对应关系。",
+      "id": "R017"
+    },
+    {
+      "key": "biodiscoveryagent",
+      "short": "BioDiscoveryAgent",
+      "title": "BioDiscoveryAgent: An AI Agent for Designing Genetic Perturbation Experiments",
+      "first_public_date": "2024-05-27",
+      "publication_status": "正式会议",
+      "sources": [
+        {
+          "collection": "经典学习包",
+          "original_short": "BioDiscoveryAgent"
+        },
+        {
+          "collection": "领域综述",
+          "original_short": "BioDiscoveryAgent"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/04_经典Agent论文/03_科研与生命科学Agent/13_BioDiscoveryAgent_2024.pdf",
+          "sha256": "dd94d80ec75c9bb84ec3989c910a313ef1a7aec57c772d3dd35ecadd250132a7",
+          "pages": 50,
+          "version": "v3",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [],
+      "source_url": "https://openreview.net/forum?id=HAwZGLcye3",
+      "code_url": "https://github.com/snap-stanford/BioDiscoveryAgent",
+      "arxiv_id": "2405.17631",
+      "venue": "ICLR 2025 · 主会",
+      "date_note": "保留为重要 2024 首发工作；2025 正式发表，不包装成 2025/2026 新方法。",
+      "id": "R018"
+    },
+    {
+      "key": "agentdojo",
+      "short": "AgentDojo",
+      "title": "AgentDojo: A Dynamic Environment to Evaluate Prompt Injection Attacks and Defenses for LLM Agents",
+      "first_public_date": "2024-06-19",
+      "publication_status": "正式会议",
+      "sources": [
+        {
+          "collection": "工程实现与评价",
+          "original_short": "AgentDojo"
+        }
+      ],
+      "editions": [],
+      "topics": [],
+      "venue": "NeurIPS 2024 · Datasets & Benchmarks",
+      "source_url": "https://proceedings.nips.cc/paper_files/paper/2024/hash/97091a5177d8dc64b1da8bf3e1f6fb54-Abstract-Datasets_and_Benchmarks_Track.html",
+      "code_url": "https://github.com/ethz-spylab/agentdojo",
+      "arxiv_id": "2406.13352",
+      "id": "R019"
+    },
+    {
+      "key": "adas",
+      "short": "ADAS",
+      "title": "Automated Design of Agentic Systems",
+      "first_public_date": "2024-08-15",
+      "publication_status": "正式会议",
+      "sources": [
+        {
+          "collection": "框架发展与选型",
+          "original_short": "ADAS"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/补充框架论文_2026-10-27/papers/ADAS_2024.pdf",
+          "sha256": "993e4211a244e2f4ad911e01427a60a16875f340fe1aaf3d125a7a71cf28c3fe",
+          "pages": 34,
+          "version": "具体版本见原文首页",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [
+        "自动设计与优化"
+      ],
+      "venue": "ICLR 2025 · 主会",
+      "source_url": "https://proceedings.iclr.cc/paper_files/paper/2025/hash/36b7acf6f6010652b3f2a433774a66fe-Abstract-Conference.html",
+      "code_url": "https://github.com/ShengranHu/ADAS",
+      "date_note": "首发字段采用已核实的 arXiv v1 日期；正式会议年份另列，不以论文更新年份冒充首发。",
+      "arxiv_id": "2408.08435",
+      "id": "R020"
+    },
+    {
+      "key": "aflow",
+      "short": "AFlow",
+      "title": "AFlow: Automating Agentic Workflow Generation",
+      "first_public_date": "2024-10-14",
+      "publication_status": "正式会议",
+      "sources": [
+        {
+          "collection": "框架发展与选型",
+          "original_short": "AFlow"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/补充框架论文_2026-10-27/papers/AFlow_2024.pdf",
+          "sha256": "f12044d2924fa23487835758cf7ed65102490ae016e750997b4d509d2ea0ea01",
+          "pages": 38,
+          "version": "具体版本见原文首页",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [
+        "自动设计与优化"
+      ],
+      "venue": "ICLR 2025 · 主会",
+      "source_url": "https://proceedings.iclr.cc/paper_files/paper/2025/hash/5492ecbce4439401798dcd2c90be94cd-Abstract-Conference.html",
+      "code_url": "https://github.com/FoundationAgents/AFlow",
+      "date_note": "首发字段采用已核实的 arXiv v1 日期；正式会议年份另列，不以论文更新年份冒充首发。 本轮按正式PDF修正代码入口，MetaGPT仓库不是本论文专属复现入口。",
+      "arxiv_id": "2410.10762",
+      "id": "R021"
+    },
+    {
+      "key": "virtuallab",
+      "short": "Virtual_Lab",
+      "title": "The Virtual Lab of AI agents designs new SARS-CoV-2 nanobodies",
+      "first_public_date": "2024-11-12",
+      "publication_status": "正式期刊",
+      "sources": [
+        {
+          "collection": "经典学习包",
+          "original_short": "Virtual_Lab"
+        },
+        {
+          "collection": "领域综述",
+          "original_short": "Virtual_Lab"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/04_经典Agent论文/03_科研与生命科学Agent/16_Virtual_Lab_2024.pdf",
+          "sha256": "6f86d21e7e39a7c4c16aca0fe1dc21de65b4f07c8530df9e52f724a6b62a67c3",
+          "pages": 22,
+          "version": "具体版本见原文首页",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [],
+      "source_url": "https://www.nature.com/articles/s41586-025-09442-9",
+      "code_url": "https://github.com/zou-group/virtual-lab",
+      "venue": "Nature · 646:716–723 · 2025-07-29",
+      "date_note": "旧经典包已有经校验的正式出版 PDF（公开学术教学副本），可复用。首次预印本 Posted November 12, 2024；Nature 2025-07-29 online，2025-10 卷期，不把卷期日期当首次公开。",
+      "id": "R022"
+    },
+    {
+      "key": "scitoolagent",
+      "short": "SciToolAgent",
+      "title": "SciToolAgent: a knowledge-graph-driven scientific agent for multitool integration",
+      "first_public_date": "2025-01-24",
+      "publication_status": "正式期刊",
+      "sources": [
+        {
+          "collection": "前沿快照",
+          "original_short": "SciToolAgent"
+        },
+        {
+          "collection": "领域综述",
+          "original_short": "SciToolAgent"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/01_通用Agent前沿论文/papers/03_SciToolAgent_2025.pdf",
+          "sha256": "b5e3bb2c805802be6deb60e5917dfc034180aa9dd0dccadd67b76c464edb08e1",
+          "pages": 21,
+          "version": "arXiv 2507.20280v1",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [],
+      "venue": "Nature Computational Science · 2025-08-20",
+      "source_url": "https://www.nature.com/articles/s43588-025-00849-y",
+      "code_url": "https://github.com/HICAI-ZJU/SciToolAgent",
+      "date_note": "首次公开据 Research Square；旧包为公开 arXiv 预印本，不能视为与正式全文逐字一致。",
+      "arxiv_id": "2507.20280",
+      "id": "R023"
+    },
+    {
+      "key": "amem",
+      "short": "A_Mem",
+      "title": "A-Mem: Agentic Memory for LLM Agents",
+      "first_public_date": "2025-02-17",
+      "publication_status": "正式会议",
+      "sources": [
+        {
+          "collection": "前沿快照",
+          "original_short": "A_Mem"
+        },
+        {
+          "collection": "框架发展与选型",
+          "original_short": "A_Mem"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/01_通用Agent前沿论文/papers/14_A_Mem_2025.pdf",
+          "sha256": "c3a1ab47a15868d91ecbcfb10e0e2dde41342f79939a23a405f54e60ca7c9b52",
+          "pages": 28,
+          "version": "正式出版 PDF",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [
+        "记忆与经验"
+      ],
+      "venue": "NeurIPS 2025 · Main Track",
+      "source_url": "https://proceedings.neurips.cc/paper_files/paper/2025/hash/19909c36f51abc4856b4560aff3d36d6-Abstract-Conference.html",
+      "code_url": "https://github.com/WujiangXu/AgenticMemory",
+      "arxiv_id": "2502.12110",
+      "date_note": "首发字段采用已核实的 arXiv v1 日期；正式会议年份另列，不以论文更新年份冒充首发。 本轮按PDF区分评测代码AgenticMemory与系统A-mem-sys。",
+      "id": "R024",
+      "system_code_url": "https://github.com/WujiangXu/A-mem-sys"
+    },
+    {
+      "key": "coscientist",
+      "short": "Google Co-Scientist",
+      "title": "Accelerating scientific discovery with Co-Scientist",
+      "first_public_date": "2025-02-19",
+      "publication_status": "正式期刊",
+      "sources": [
+        {
+          "collection": "经典学习包",
+          "original_short": "Coscientist"
+        },
+        {
+          "collection": "领域综述",
+          "original_short": "CoScientist"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/02_生物学与结构生物学Agent/papers/B09_CoScientist_2025.pdf",
+          "sha256": "351f49d89d2f4f4ed84eed4225c09cc95470c41aa3becd0aa3e06b3bd8ba54c3",
+          "pages": 28,
+          "version": "期刊 PDF",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [],
+      "source_url": "https://www.nature.com/articles/s41586-026-10644-y",
+      "code_url": "",
+      "venue": "Nature · 2026-05-19",
+      "date_note": "官方发布 2025-02-19；arXiv 2025-02-26。Nature 正式 2026-05-19，不能将 2026 出版年当首发。第三方 open-coscientist 不等于作者官方实现。 本轮身份审计：2023 Gomes Coscientist不是本研究，已独立为R080；未确认Google系统官方公开代码，不沿用Gomes仓库。",
+      "id": "R025"
+    },
+    {
+      "key": "searchr1",
+      "short": "Search_R1",
+      "title": "Search-R1: Training LLMs to Reason and Leverage Search Engines with Reinforcement Learning",
+      "first_public_date": "2025-03-12",
+      "publication_status": "正式会议",
+      "sources": [
+        {
+          "collection": "前沿快照",
+          "original_short": "Search_R1"
+        },
+        {
+          "collection": "框架发展与选型",
+          "original_short": "Search_R1"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/01_通用Agent前沿论文/papers/15_Search_R1_2025.pdf",
+          "sha256": "524306de91f80d7755c43f8daad11eb463832762ba1debe0f37788bdbb3a6a0d",
+          "pages": 31,
+          "version": "arXiv 2503.09516v5",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [
+        "工具学习"
+      ],
+      "venue": "COLM 2025 · 主会",
+      "source_url": "https://openreview.net/forum?id=Rwhi91ideu",
+      "code_url": "https://github.com/PeterGriffinJin/Search-R1",
+      "date_note": "arXiv 与会议摘要部分数字不同，报告不引用该增幅。",
+      "arxiv_id": "2503.09516",
+      "id": "R026"
+    },
+    {
+      "key": "mast",
+      "short": "MAST",
+      "title": "Why Do Multi-Agent LLM Systems Fail?",
+      "first_public_date": "2025-03-17",
+      "publication_status": "正式会议",
+      "sources": [
+        {
+          "collection": "前沿快照",
+          "original_short": "MAST"
+        },
+        {
+          "collection": "工程实现与评价",
+          "original_short": "MAST"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/01_通用Agent前沿论文/papers/26_MAST_2025.pdf",
+          "sha256": "6aff168d6e201217d3f79611f6ad024590a599a03b97ac2aeb0b0b128bac374c",
+          "pages": 54,
+          "version": "正式出版 PDF",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [],
+      "venue": "NeurIPS 2025 · Datasets & Benchmarks",
+      "source_url": "https://proceedings.neurips.cc/paper_files/paper/2025/hash/b1041e52d3be19f0a9bc491657488e4a-Abstract-Datasets_and_Benchmarks_Track.html",
+      "code_url": "https://github.com/multi-agent-systems-failure-taxonomy/MAST",
+      "arxiv_id": "2503.13657",
+      "id": "R027"
+    },
+    {
+      "key": "spatialagent",
+      "short": "SpatialAgent",
+      "title": "SpatialAgent: An Autonomous AI Agent for Spatial Biology",
+      "first_public_date": "2025-04-06",
+      "publication_status": "预印本",
+      "sources": [
+        {
+          "collection": "领域综述",
+          "original_short": "SpatialAgent"
+        }
+      ],
+      "editions": [],
+      "topics": [],
+      "venue": "bioRxiv · 2026-08-12 v2",
+      "source_url": "https://www.biorxiv.org/content/10.1101/2025.04.03.646459v2",
+      "code_url": "https://github.com/Genentech/SpatialAgent",
+      "date_note": "2025 首发、2026 v2 扩展，不能当成 2026 全新方法。首发日期据作者公开 v1 PDF。仓库 README 的旧 BibTeX DOI 有笔误，应以 bioRxiv 正文 DOI 为准。",
+      "id": "R028"
+    },
+    {
+      "key": "retool",
+      "short": "ReTool",
+      "title": "ReTool: Reinforcement Learning for Strategic Tool Use in LLMs",
+      "first_public_date": "2025-04-15",
+      "publication_status": "正式会议",
+      "sources": [
+        {
+          "collection": "前沿快照",
+          "original_short": "ReTool"
+        },
+        {
+          "collection": "框架发展与选型",
+          "original_short": "ReTool"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/01_通用Agent前沿论文/papers/12_ReTool_2025.pdf",
+          "sha256": "ac275224903b2b65f97e5036aece0b439dfd073fa6882c2dff72428129662dda",
+          "pages": 18,
+          "version": "正式出版 PDF",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [
+        "工具学习"
+      ],
+      "venue": "ICLR 2026 · 主会",
+      "source_url": "https://proceedings.iclr.cc/paper_files/paper/2026/hash/4038c9208dfc22644c60ad39c24e5c53-Abstract-Conference.html",
+      "code_url": "https://github.com/ReTool-RL/ReTool",
+      "arxiv_id": "2504.11536",
+      "date_note": "首发字段采用已核实的 arXiv v1 日期；正式会议年份另列，不以论文更新年份冒充首发。",
+      "id": "R029"
+    },
+    {
+      "key": "toolrl",
+      "short": "ToolRL",
+      "title": "ToolRL: Reward is All Tool Learning Needs",
+      "first_public_date": "2025-04-16",
+      "publication_status": "正式会议",
+      "sources": [
+        {
+          "collection": "前沿快照",
+          "original_short": "ToolRL"
+        },
+        {
+          "collection": "框架发展与选型",
+          "original_short": "ToolRL"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/01_通用Agent前沿论文/papers/13_ToolRL_2025.pdf",
+          "sha256": "419096b066d6f28493033e6f388c5be378d72a079778ef8bfa712627f73a4639",
+          "pages": 31,
+          "version": "正式出版 PDF",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [
+        "工具学习"
+      ],
+      "venue": "NeurIPS 2025 · Main Track",
+      "source_url": "https://proceedings.neurips.cc/paper_files/paper/2025/hash/97c5b2707228e7e3fb67e4ecc2e0e607-Abstract-Conference.html",
+      "code_url": "https://github.com/qiancheng0/ToolRL",
+      "arxiv_id": "2504.13958",
+      "date_note": "首发字段采用已核实的 arXiv v1 日期；正式会议年份另列，不以论文更新年份冒充首发。",
+      "id": "R030"
+    },
+    {
+      "key": "robin",
+      "short": "Robin",
+      "title": "A multi-agent system for automating scientific discovery",
+      "first_public_date": "2025-05-19",
+      "publication_status": "正式期刊",
+      "sources": [
+        {
+          "collection": "领域综述",
+          "original_short": "Robin"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/02_生物学与结构生物学Agent/papers/B10_Robin_2025.pdf",
+          "sha256": "336d4e3f9065f42918cec8053e020d12c8d8c8031eb4c180764a349d1efa1794",
+          "pages": 30,
+          "version": "arXiv 预印本",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [],
+      "venue": "Nature · 2026-05-19",
+      "source_url": "https://www.nature.com/articles/s41586-026-10652-y",
+      "code_url": "https://github.com/Future-House/robin",
+      "date_note": "2025 首发题名含 Robin；Nature 2026 为正式扩展版本。可复用框架不代表所有 FutureHouse 托管检索服务都可本地替换。",
+      "id": "R031"
+    },
+    {
+      "key": "scienceboard",
+      "short": "ScienceBoard",
+      "title": "ScienceBoard: Evaluating Multimodal Autonomous Agents in Realistic Scientific Workflows",
+      "first_public_date": "2025-05-26",
+      "publication_status": "正式会议",
+      "sources": [
+        {
+          "collection": "前沿快照",
+          "original_short": "ScienceBoard"
+        },
+        {
+          "collection": "工程实现与评价",
+          "original_short": "ScienceBoard"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/01_通用Agent前沿论文/papers/21_ScienceBoard_2025.pdf",
+          "sha256": "80039151d6227377845e179bf8a1e972e9aec280687f840fb56a7a51b9f68ee4",
+          "pages": 38,
+          "version": "arXiv 2505.19897v3",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [],
+      "venue": "ICLR 2026 · 主会 Poster",
+      "source_url": "https://iclr.cc/virtual/2026/poster/10008621",
+      "code_url": "https://github.com/OS-Copilot/ScienceBoard",
+      "arxiv_id": "2505.19897",
+      "id": "R032"
+    },
+    {
+      "key": "biomni",
+      "short": "Biomni",
+      "title": "Autonomous biomedical research with an artificial intelligence agent",
+      "first_public_date": "2025-06-02",
+      "publication_status": "正式期刊",
+      "sources": [
+        {
+          "collection": "经典学习包",
+          "original_short": "Biomni"
+        },
+        {
+          "collection": "前沿快照",
+          "original_short": "Biomni"
+        },
+        {
+          "collection": "领域综述",
+          "original_short": "Biomni"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/04_经典Agent论文/03_科研与生命科学Agent/14_Biomni_2025.pdf",
+          "sha256": "1c1ca1c891c7eb285f806b180e9bfd38a73d2e455a4fdfe8be299a92662a67f9",
+          "pages": 88,
+          "version": "具体版本见原文首页",
+          "alternate_paths": [
+            "_资料来源与原文/01_通用Agent前沿论文/papers/06_Biomni_2025.pdf"
+          ]
+        }
+      ],
+      "topics": [],
+      "source_url": "https://www.science.org/doi/10.1126/science.adz4351",
+      "code_url": "https://github.com/snap-stanford/Biomni",
+      "venue": "Science · 2026",
+      "date_note": "首发标题为 Biomni: A General-Purpose Biomedical AI Agent；本地旧包为作者公开预印本，不是 Science 正式全文。正式出版具体日不同索引有差异，本表仅标 Science 2026。",
+      "id": "R033"
+    },
+    {
+      "key": "tau2bench",
+      "short": "Tau2_Bench",
+      "title": "τ²-Bench: Evaluating Conversational Agents in a Dual-Control Environment",
+      "first_public_date": "2025-06-09",
+      "publication_status": "正式会议",
+      "sources": [
+        {
+          "collection": "前沿快照",
+          "original_short": "Tau2_Bench"
+        },
+        {
+          "collection": "工程实现与评价",
+          "original_short": "Tau2_Bench"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/01_通用Agent前沿论文/papers/25_Tau2_Bench_2025.pdf",
+          "sha256": "a79068b7e4db091e303e4fbb9c660ceb85f787ae372306e02b898b24aa894eb9",
+          "pages": 47,
+          "version": "正式出版 PDF",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [],
+      "venue": "ICML 2026 · 主会",
+      "source_url": "https://proceedings.mlr.press/v306/barres26a.html",
+      "code_url": "https://github.com/sierra-research/tau2-bench",
+      "date_note": "仓库后续 τ³ 演进和评分修复不能与旧结果直接混用。",
+      "arxiv_id": "2506.07982",
+      "id": "R034"
+    },
+    {
+      "key": "plancaching",
+      "short": "Plan_Caching",
+      "title": "Agentic Plan Caching: Test-Time Memory for Fast and Cost-Efficient LLM Agents",
+      "first_public_date": "2025-06-17",
+      "publication_status": "正式会议",
+      "sources": [
+        {
+          "collection": "框架发展与选型",
+          "original_short": "Plan_Caching"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/补充框架论文_2026-10-27/papers/Plan_Caching_2025.pdf",
+          "sha256": "f3968cfa5142fdf55adc834e8ada19b1ab1ccc81c7a3291b9166b4ca52e6637f",
+          "pages": 27,
+          "version": "具体版本见原文首页",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [
+        "记忆与经验"
+      ],
+      "venue": "NeurIPS 2025 · Main Track",
+      "source_url": "https://proceedings.neurips.cc/paper_files/paper/2025/hash/9549f7d06700f0966d5f938f1d11022a-Abstract-Conference.html",
+      "date_note": "arXiv v1题名为Cost-Efficient Serving of LLM Agents via Test-Time Plan Caching；正式会议改题名，2026 v2是更新版本，仍是2025工作。",
+      "arxiv_id": "2506.14852",
+      "id": "R035"
+    },
+    {
+      "key": "metaagent",
+      "short": "MetaAgent",
+      "title": "MetaAgent: Automatically Constructing Multi-Agent Systems Based on Finite State Machines",
+      "first_public_date": "2025-07",
+      "publication_status": "正式会议",
+      "sources": [
+        {
+          "collection": "框架发展与选型",
+          "original_short": "MetaAgent"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/补充框架论文_2026-10-27/papers/MetaAgent_2025.pdf",
+          "sha256": "b195cbde523be900b258057ac1b0ced5900bf3d3b8ca692a34ac1862dc78d130",
+          "pages": 28,
+          "version": "具体版本见原文首页",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [
+        "多Agent协作"
+      ],
+      "venue": "ICML 2025 · 主会",
+      "source_url": "https://proceedings.mlr.press/v267/zhang25bc.html",
+      "date_note": "最早已核实公开来源是ICML2025正式论文集（2025-07）；arXiv v1为2025-07-30。未核实更早OpenReview公开日期，因此不把arXiv日期称为绝对首发。",
+      "arxiv_id": "2507.22606",
+      "id": "R036"
+    },
+    {
+      "key": "ipiguard",
+      "short": "IPIGuard",
+      "title": "IPIGuard: A Novel Tool Dependency Graph-Based Defense Against Indirect Prompt Injection in LLM Agents",
+      "first_public_date": "2025-08-21",
+      "publication_status": "正式会议",
+      "sources": [
+        {
+          "collection": "前沿快照",
+          "original_short": "IPIGuard"
+        },
+        {
+          "collection": "工程实现与评价",
+          "original_short": "IPIGuard"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/01_通用Agent前沿论文/papers/18_IPIGuard_2025.pdf",
+          "sha256": "49eb0a6e4b068dc861f2d1cc23788a13b7319fe4ec2bc3c1b0ef6fdee154ef48",
+          "pages": 17,
+          "version": "正式出版 PDF",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [],
+      "venue": "EMNLP 2025 · 主会",
+      "source_url": "https://aclanthology.org/2025.emnlp-main.53/",
+      "code_url": "https://github.com/Greysahy/ipiguard",
+      "arxiv_id": "2508.15310",
+      "id": "R037"
+    },
+    {
+      "key": "mcpbench",
+      "short": "MCP_Bench",
+      "title": "MCP-Bench: Benchmarking Tool-Using LLM Agents with Complex Real-World Tasks via MCP Servers",
+      "first_public_date": "2025-08-28",
+      "publication_status": "正式会议",
+      "sources": [
+        {
+          "collection": "前沿快照",
+          "original_short": "MCP_Bench"
+        },
+        {
+          "collection": "工程实现与评价",
+          "original_short": "MCP_Bench"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/01_通用Agent前沿论文/papers/23_MCP_Bench_2025.pdf",
+          "sha256": "5c247cd60f1260ff1f5eaa6bc1731ea700f61edbfb2c40c3a983f100dd56ae54",
+          "pages": 52,
+          "version": "arXiv 2508.20453v1",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [],
+      "venue": "ICLR 2026 · 主会 Poster",
+      "source_url": "https://iclr.cc/virtual/2026/poster/10008216",
+      "code_url": "https://github.com/Accenture/mcp-bench",
+      "date_note": "特指 Accenture 的 2508.20453，区别于其他同名基准。",
+      "arxiv_id": "2508.20453",
+      "id": "R038"
+    },
+    {
+      "key": "paper2agent",
+      "short": "Paper2Agent",
+      "title": "Reimagining research papers as interactive and reliable AI agents",
+      "first_public_date": "2025-09-08",
+      "publication_status": "正式期刊",
+      "sources": [
+        {
+          "collection": "经典学习包",
+          "original_short": "Paper2Agent"
+        },
+        {
+          "collection": "前沿快照",
+          "original_short": "Paper2Agent"
+        },
+        {
+          "collection": "领域综述",
+          "original_short": "Paper2Agent"
+        },
+        {
+          "collection": "工程实现与评价",
+          "original_short": "Paper2Agent"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/04_经典Agent论文/03_科研与生命科学Agent/15_Paper2Agent_2025.pdf",
+          "sha256": "40aa69655396d272826cf97400f05722712ab583260fb4a3e57cf495994ab58e",
+          "pages": 25,
+          "version": "v2",
+          "alternate_paths": []
+        },
+        {
+          "path": "_资料来源与原文/01_通用Agent前沿论文/papers/04_Paper2Agent_2025.pdf",
+          "sha256": "6727ef9ca72cfffb1e032a2f07c7b9a4a2b235154bdd779b135c3518433677bf",
+          "pages": 18,
+          "version": "正式出版 PDF",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [],
+      "source_url": "https://www.nature.com/articles/s41586-026-11044-y",
+      "code_url": "https://github.com/jmiao24/Paper2Agent",
+      "arxiv_id": "2509.06917",
+      "venue": "Nature · 2026-09-16",
+      "date_note": "2025 方法首发、2026 正式证据扩展；旧包已有正式 PDF，可复用。",
+      "id": "R039"
+    },
+    {
+      "key": "codegym",
+      "short": "CodeGym",
+      "title": "Generalizable End-to-End Tool-Use RL with Synthetic CodeGym",
+      "first_public_date": "2025-09-22",
+      "publication_status": "正式会议",
+      "sources": [
+        {
+          "collection": "前沿快照",
+          "original_short": "CodeGym"
+        },
+        {
+          "collection": "框架发展与选型",
+          "original_short": "CodeGym"
+        },
+        {
+          "collection": "工程实现与评价",
+          "original_short": "CodeGym"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/01_通用Agent前沿论文/papers/17_CodeGym_2025.pdf",
+          "sha256": "f6daf9186c63c192bcaad12fe9eda7a3e9c85e34321c980b4dd2ca517dfc56cc",
+          "pages": 24,
+          "version": "正式出版 PDF",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [
+        "工具学习"
+      ],
+      "venue": "ICLR 2026 · 主会",
+      "source_url": "https://proceedings.iclr.cc/paper_files/paper/2026/hash/1e4322fddd833f83c855660ac65e428d-Abstract-Conference.html",
+      "code_url": "https://github.com/StigLidu/CodeGym",
+      "arxiv_id": "2509.17325",
+      "date_note": "首发字段采用已核实的 arXiv v1 日期；正式会议年份另列，不以论文更新年份冒充首发。",
+      "id": "R040"
+    },
+    {
+      "key": "tooluniverse",
+      "short": "ToolUniverse",
+      "title": "ToolUniverse: An open platform for democratizing AI scientists",
+      "first_public_date": "2025-09-27",
+      "publication_status": "预印本",
+      "sources": [
+        {
+          "collection": "前沿快照",
+          "original_short": "ToolUniverse"
+        },
+        {
+          "collection": "领域综述",
+          "original_short": "ToolUniverse"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/01_通用Agent前沿论文/papers/02_ToolUniverse_2025.pdf",
+          "sha256": "4a7b4d1ca03c5f7cf9cbb50cdf2bfaa2e05c289652536fd1b7cb165f95297e32",
+          "pages": 46,
+          "version": "arXiv 2509.23426v3",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [],
+      "venue": "arXiv · 2026-08-07 v3",
+      "source_url": "https://arxiv.org/abs/2509.23426",
+      "code_url": "https://github.com/mims-harvard/ToolUniverse",
+      "date_note": "2025 首发、2026 v3 更新，原题 Democratizing AI scientists using ToolUniverse；未核到正式期刊发表，不标成 Nature 论文。",
+      "arxiv_id": "2509.23426",
+      "id": "R041"
+    },
+    {
+      "key": "agentdebug",
+      "short": "AgentDebug",
+      "title": "Where LLM Agents Fail and How They can Learn From Failures",
+      "first_public_date": "2025-09-29",
+      "publication_status": "预印本",
+      "sources": [
+        {
+          "collection": "前沿快照",
+          "original_short": "AgentDebug"
+        },
+        {
+          "collection": "工程实现与评价",
+          "original_short": "AgentDebug"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/01_通用Agent前沿论文/papers/27_AgentDebug_2025.pdf",
+          "sha256": "5dea81aa176cf3993123c46f2cef3e70c49a4fe5f2a5c6794c4b9fbc8f532a6b",
+          "pages": 32,
+          "version": "arXiv 2509.25370v1",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [],
+      "venue": "arXiv · 2025",
+      "source_url": "https://arxiv.org/abs/2509.25370",
+      "code_url": "https://github.com/ulab-uiuc/AgentDebug",
+      "date_note": "未核实正式接收；旧 ICLR under review PDF 不能作录用证据。",
+      "arxiv_id": "2509.25370",
+      "id": "R042"
+    },
+    {
+      "key": "speaktoaprotein",
+      "short": "Speak_to_a_Protein",
+      "title": "Speak to a Protein: An Interactive Multimodal Co-Scientist for Protein Analysis",
+      "first_public_date": "2025-10-01",
+      "publication_status": "正式期刊",
+      "sources": [
+        {
+          "collection": "前沿快照",
+          "original_short": "Speak_to_a_Protein"
+        },
+        {
+          "collection": "领域综述",
+          "original_short": "Speak_to_a_Protein"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/01_通用Agent前沿论文/papers/05_Speak_to_a_Protein_2025.pdf",
+          "sha256": "3a432350d1af456bc2f42966ab76519a285e79c6aebeacf51d9887a96da10fff",
+          "pages": 30,
+          "version": "arXiv 2510.17826v2",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [],
+      "venue": "Journal of Chemical Information and Modeling · 2026-10-12",
+      "source_url": "https://doi.org/10.1021/acs.jcim.6c01738",
+      "code_url": "https://github.com/Acellera/speak-to-a-protein",
+      "date_note": "2025 首发，2026-10-06 arXiv v2，2026-10-12 正式发表；本地前沿包已有 v2。不要把期刊版日期误写成方法首发。",
+      "arxiv_id": "2510.17826",
+      "id": "R043"
+    },
+    {
+      "key": "ace",
+      "short": "ACE",
+      "title": "Agentic Context Engineering: Evolving Contexts for Self-Improving Language Models",
+      "first_public_date": "2025-10-06",
+      "publication_status": "正式会议",
+      "sources": [
+        {
+          "collection": "框架发展与选型",
+          "original_short": "ACE"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/补充框架论文_2026-10-27/papers/ACE_2025.pdf",
+          "sha256": "a8e5a5d2cb6a58a2be17d015aa5f964f5c2e13f9a6add4793e2fef01f230c34a",
+          "pages": 32,
+          "version": "具体版本见原文首页",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [
+        "记忆与经验"
+      ],
+      "venue": "ICLR 2026 · 主会",
+      "source_url": "https://proceedings.iclr.cc/paper_files/paper/2026/hash/8a94ff6f922d995d7d3f4ebf4143e442-Abstract-Conference.html",
+      "code_url": "https://github.com/ace-agent/ace",
+      "date_note": "2025-10-06首发，2026-03-29 v3；正式ICLR2026，不能按会议年份写成2026首发。",
+      "arxiv_id": "2510.04618",
+      "id": "R044"
+    },
+    {
+      "key": "goat",
+      "short": "GOAT",
+      "title": "GOAT: A Training Framework for Goal-Oriented Agent with Tools",
+      "first_public_date": "2025-10-14",
+      "publication_status": "正式会议",
+      "sources": [
+        {
+          "collection": "前沿快照",
+          "original_short": "GOAT"
+        },
+        {
+          "collection": "框架发展与选型",
+          "original_short": "GOAT"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/01_通用Agent前沿论文/papers/16_GOAT_2025.pdf",
+          "sha256": "37fe8625337918cc7f8c0c2c8e1f6a570cc1f7aedd4aa20b46b91c5b26b81a00",
+          "pages": 30,
+          "version": "正式出版 PDF",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [
+        "工具学习"
+      ],
+      "venue": "ACL 2026 · Findings",
+      "source_url": "https://aclanthology.org/2026.findings-acl.1150/",
+      "code_url": "https://github.com/KU-MIIL/GOAT",
+      "date_note": "正式状态为 ACL Findings，不标成 ACL 主会。",
+      "arxiv_id": "2510.12218",
+      "id": "R045"
+    },
+    {
+      "key": "astabench",
+      "short": "AstaBench",
+      "title": "AstaBench: Rigorous Benchmarking of AI Agents with a Scientific Research Suite",
+      "first_public_date": "2025-10-24",
+      "publication_status": "正式会议",
+      "sources": [
+        {
+          "collection": "前沿快照",
+          "original_short": "AstaBench"
+        },
+        {
+          "collection": "工程实现与评价",
+          "original_short": "AstaBench"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/01_通用Agent前沿论文/papers/22_AstaBench_2025.pdf",
+          "sha256": "5bf79b03472bfb22b7826c62206bd0dfafaa849920888210c1ae31c0eed2df33",
+          "pages": 88,
+          "version": "arXiv 2510.21652v2",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [],
+      "venue": "ICLR 2026 · 主会 Oral",
+      "source_url": "https://iclr.cc/virtual/2026/poster/10009971",
+      "code_url": "https://github.com/allenai/asta-bench",
+      "arxiv_id": "2510.21652",
+      "id": "R046"
+    },
+    {
+      "key": "toolorchestra",
+      "short": "ToolOrchestra",
+      "title": "ToolOrchestra: Elevating Intelligence via Efficient Model and Tool Orchestration",
+      "first_public_date": "2025-11-26",
+      "publication_status": "正式会议",
+      "sources": [
+        {
+          "collection": "前沿快照",
+          "original_short": "ToolOrchestra"
+        },
+        {
+          "collection": "框架发展与选型",
+          "original_short": "ToolOrchestra"
+        },
+        {
+          "collection": "工程实现与评价",
+          "original_short": "ToolOrchestra"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/01_通用Agent前沿论文/papers/09_ToolOrchestra_2025.pdf",
+          "sha256": "64ffb41b88994da3a1bb18bff4fc20cd5ce45e3acc830027d1e6b7e22396db93",
+          "pages": 23,
+          "version": "正式出版 PDF",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [
+        "资源调度与持续演化"
+      ],
+      "venue": "ICML 2026 · 主会",
+      "source_url": "https://proceedings.mlr.press/v306/su26d.html",
+      "code_url": "https://github.com/NVlabs/ToolOrchestra",
+      "date_note": "正式发表为 ICML 2026；旧 ICLR under review 页面不是录用依据。",
+      "arxiv_id": "2511.21689",
+      "id": "R047"
+    },
+    {
+      "key": "memrl",
+      "short": "MemRL",
+      "title": "MemRL: Self-Evolving Agents via Runtime Reinforcement Learning on Episodic Memory",
+      "first_public_date": "2026-01-06",
+      "publication_status": "预印本",
+      "sources": [
+        {
+          "collection": "前沿快照",
+          "original_short": "MemRL"
+        },
+        {
+          "collection": "框架发展与选型",
+          "original_short": "MemRL"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/01_通用Agent前沿论文/papers/11_MemRL_2026.pdf",
+          "sha256": "4567d8e740a56d72d242e0038f54c20db76dee5716876b8c4afd5cc91d469571",
+          "pages": 41,
+          "version": "arXiv 2601.03192v2",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [
+        "记忆与经验"
+      ],
+      "venue": "arXiv · 2026",
+      "source_url": "https://arxiv.org/abs/2601.03192",
+      "code_url": "https://github.com/MemTensor/MemRL",
+      "date_note": "2026-02-12 v2；未核到正式主会收录。",
+      "arxiv_id": "2601.03192",
+      "id": "R048"
+    },
+    {
+      "key": "dsgym",
+      "short": "DSGym",
+      "title": "DSGym: A Holistic Framework for Evaluating and Training Data Science Agents",
+      "first_public_date": "2026-01-22",
+      "publication_status": "正式会议",
+      "sources": [
+        {
+          "collection": "前沿快照",
+          "original_short": "DSGym"
+        },
+        {
+          "collection": "工程实现与评价",
+          "original_short": "DSGym"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/01_通用Agent前沿论文/papers/24_DSGym_2026.pdf",
+          "sha256": "b4f13fcb6cd51ba163b542b58bc00f851c0d0d4e932a89237f8a827ce030391b",
+          "pages": 38,
+          "version": "正式出版 PDF",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [],
+      "venue": "ICML 2026 · 主会",
+      "source_url": "https://proceedings.mlr.press/v306/nie26b.html",
+      "code_url": "https://github.com/fannie1208/DSGym",
+      "arxiv_id": "2601.16344",
+      "id": "R049"
+    },
+    {
+      "key": "bioagentbench",
+      "short": "BioAgent_Bench",
+      "title": "BioAgent Bench: An AI Agent Evaluation Suite for Bioinformatics",
+      "first_public_date": "2026-01-29",
+      "publication_status": "正式会议",
+      "sources": [
+        {
+          "collection": "领域综述",
+          "original_short": "BioAgent_Bench"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/02_生物学与结构生物学Agent/papers/B13_BioAgent_Bench_2026.pdf",
+          "sha256": "d9b35be543920c9436e7d6d768f4622909194bcc03770dbe57e361ff3be822e9",
+          "pages": 18,
+          "version": "会议论文集 PDF",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [],
+      "venue": "ICML 2026 · 主会",
+      "source_url": "https://proceedings.mlr.press/v306/fa26a.html",
+      "code_url": "https://github.com/bioagent-bench/bioagent-bench",
+      "date_note": "已核 PMLR 306:28566–28583 主会正式条目；arXiv v4 2026-08-06，首发 2026-01-29。",
+      "id": "R050"
+    },
+    {
+      "key": "agentomics",
+      "short": "Agentomics",
+      "title": "Agentomics: an agentic system that autonomously develops novel state-of-the-art solutions for biomedical machine learning tasks",
+      "first_public_date": "2026-01-30",
+      "publication_status": "正式期刊",
+      "sources": [
+        {
+          "collection": "领域综述",
+          "original_short": "Agentomics"
+        }
+      ],
+      "editions": [],
+      "topics": [],
+      "venue": "Bioinformatics · 2026-07-07",
+      "source_url": "https://doi.org/10.1093/bioinformatics/btag250",
+      "code_url": "https://github.com/BioGeMT/Agentomics-ML",
+      "date_note": "bioRxiv DOI 含 2026.01.27，实际 Posted 2026-01-30；正式版 Bioinformatics 42(Supplement_1):btag250。若下载预印本需标版本。",
+      "id": "R051"
+    },
+    {
+      "key": "sciagentgym",
+      "short": "SciAgentGym",
+      "title": "SciAgentGym: Benchmarking Multi-Step Scientific Tool-Use in LLM Agents",
+      "first_public_date": "2026-02-13",
+      "publication_status": "正式会议",
+      "sources": [
+        {
+          "collection": "前沿快照",
+          "original_short": "SciAgentGym"
+        },
+        {
+          "collection": "工程实现与评价",
+          "original_short": "SciAgentGym"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/01_通用Agent前沿论文/papers/20_SciAgentGym_2026.pdf",
+          "sha256": "9c0709bea2ff2c8ecbaf3400f8d2ea7750361dea7a23cc4df9f708c4fea9e916",
+          "pages": 25,
+          "version": "正式出版 PDF",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [],
+      "venue": "ICML 2026 · 主会",
+      "source_url": "https://proceedings.mlr.press/v306/shen26aa.html",
+      "code_url": "https://github.com/CMarsRover/SciAgentGYM",
+      "date_note": "2026 首发及 ICML 正式论文。",
+      "arxiv_id": "2602.12984",
+      "id": "R052"
+    },
+    {
+      "key": "proteinmcp",
+      "short": "ProteinMCP",
+      "title": "ProteinMCP: An agentic AI framework for autonomous protein engineering",
+      "first_public_date": "2026-03-14",
+      "publication_status": "正式期刊",
+      "sources": [
+        {
+          "collection": "领域综述",
+          "original_short": "ProteinMCP"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/02_生物学与结构生物学Agent/papers/B19_ProteinMCP_2026.pdf",
+          "sha256": "d58d44198f181dd85c736fc692d75f387dc576f2c8aa23b611c778d8d9b69ecd",
+          "pages": 35,
+          "version": "bioRxiv 预印本",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [],
+      "venue": "Protein Science · 35(4):e70547 · 2026-03-25",
+      "source_url": "https://onlinelibrary.wiley.com/doi/full/10.1002/pro.70547",
+      "code_url": "https://github.com/charlesxu90/ProteinMCP",
+      "date_note": "bioRxiv 原始页面 Posted March 14, 2026；正式版 Wiley 标 First published March 25, 2026。PDF 若回退到预印本需注明版本。",
+      "id": "R053"
+    },
+    {
+      "key": "agentrosetta",
+      "short": "Agent_Rosetta",
+      "title": "Protein Design with Agent Rosetta: A Case Study for Specialized Scientific Agents",
+      "first_public_date": "2026-03-16",
+      "publication_status": "正式会议",
+      "sources": [
+        {
+          "collection": "前沿快照",
+          "original_short": "Agent_Rosetta"
+        },
+        {
+          "collection": "领域综述",
+          "original_short": "Agent_Rosetta"
+        },
+        {
+          "collection": "工程实现与评价",
+          "original_short": "Agent_Rosetta"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/01_通用Agent前沿论文/papers/01_Agent_Rosetta_2026.pdf",
+          "sha256": "1ee4528746bd73fb6de2aadce95fca518dd1a2bf71f5f335d1b2529c2114b6af",
+          "pages": 73,
+          "version": "arXiv 2603.15952v2",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [],
+      "venue": "ICML 2026 · 主会",
+      "source_url": "https://proceedings.mlr.press/v306/teneggi26a.html",
+      "code_url": "https://github.com/PolymathicAI/agent-rosetta",
+      "date_note": "前沿包已有 arXiv v2，可复用 PDF；正式会议身份由 PMLR 核验。",
+      "arxiv_id": "2603.15952",
+      "id": "R054"
+    },
+    {
+      "key": "structagent",
+      "short": "StructAgent",
+      "title": "StructAgent: Orchestrating Cryo-EM Model Building and Refinement with a Multi-Agent LLM System",
+      "first_public_date": "2026-05-18",
+      "publication_status": "预印本",
+      "sources": [
+        {
+          "collection": "领域综述",
+          "original_short": "StructAgent"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/02_生物学与结构生物学Agent/papers/B17_StructAgent_2026.pdf",
+          "sha256": "5c9ef13c67281ab1925fcfeda10554884c55e13c69a26f6a739d9c71c6793542",
+          "pages": 54,
+          "version": "bioRxiv 预印本",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [],
+      "venue": "bioRxiv · 2026-05-18",
+      "source_url": "https://www.biorxiv.org/content/10.64898/2026.05.18.725842v1",
+      "code_url": "https://github.com/bhgtiger/StructAgent",
+      "date_note": "作者为 Xiaohu Guo，题名和公开日期以 bioRxiv 原文为准。仓库引用短题为 StructAgent: a two-agent system for cryo-EM structural biology，且示例 BibTeX 作者为 Maintainers，不应覆盖原文元数据。不要与同名通用数字 Agent 混淆。",
+      "id": "R055"
+    },
+    {
+      "key": "mutexagpt",
+      "short": "MutexaGPT",
+      "title": "MutexaGPT: an intuition-to-design translator for physics-based enzyme engineering",
+      "first_public_date": "2026-06-19",
+      "publication_status": "正式期刊",
+      "sources": [
+        {
+          "collection": "领域综述",
+          "original_short": "MutexaGPT"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/02_生物学与结构生物学Agent/papers/B20_MutexaGPT_2026.pdf",
+          "sha256": "b61a9fe5d6e185481dd72193a8dbf3ed9bd8837f162732d4168c3a769be9f74c",
+          "pages": 16,
+          "version": "期刊 PDF",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [],
+      "venue": "Nature Computational Science · 2026-09-10",
+      "source_url": "https://www.nature.com/articles/s43588-026-01049-y",
+      "code_url": "https://github.com/ChemBioHTP/EnzyHTP-GPT",
+      "date_note": "首次 Research Square 预印本标 Posted June 19, 2026；正式版 Published September 10, 2026。代码及 LLM 评估公开，输入与评估数据另有 Zenodo 存档。",
+      "id": "R056"
+    },
+    {
+      "key": "protopilot",
+      "short": "ProtoPilot",
+      "title": "A Self-Evolving Agentic System for Automated Generation and Execution of Biological Protocols",
+      "first_public_date": "2026-06-30",
+      "publication_status": "预印本",
+      "sources": [
+        {
+          "collection": "领域综述",
+          "original_short": "ProtoPilot"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/02_生物学与结构生物学Agent/papers/B12_ProtoPilot_2026.pdf",
+          "sha256": "2f8c9e5b974e39f9da7c930a89cad51a35efaadab37ca02e54701b11a1357c02",
+          "pages": 28,
+          "version": "arXiv 预印本",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [],
+      "venue": "arXiv · 2026-07-02 v2",
+      "source_url": "https://arxiv.org/abs/2606.31763",
+      "date_note": "2026 真正首发；arXiv 摘要与 v2 HTML 对 overall gate pass rate 数字不一致，本报告不引用该百分比，也不把过程得分当实验成功率。",
+      "id": "R057"
+    },
+    {
+      "key": "openagent",
+      "short": "OpenAgent",
+      "title": "Can Agents Generalize to the Open World? Unveiling the Fragility of Static Training in Tool Use",
+      "first_public_date": "2026-07-01",
+      "publication_status": "正式会议",
+      "sources": [
+        {
+          "collection": "前沿快照",
+          "original_short": "OpenAgent"
+        },
+        {
+          "collection": "框架发展与选型",
+          "original_short": "OpenAgent"
+        },
+        {
+          "collection": "工程实现与评价",
+          "original_short": "OpenAgent"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/01_通用Agent前沿论文/papers/19_OpenAgent_2026.pdf",
+          "sha256": "c0b1c9ed683cc93bd8eae091b083a283a834ac9058b42a3f1228e6d081e33226",
+          "pages": 43,
+          "version": "正式出版 PDF",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [
+        "资源调度与持续演化"
+      ],
+      "venue": "ICML 2026 · 主会",
+      "source_url": "https://proceedings.mlr.press/v306/wu26al.html",
+      "code_url": "https://github.com/LAMDA-NeSy/OpenAgent",
+      "arxiv_id": "2607.01084",
+      "date_note": "首发字段采用已核实的 arXiv v1 日期；正式会议年份另列，不以论文更新年份冒充首发。",
+      "id": "R058"
+    },
+    {
+      "key": "scitoolagentevo",
+      "short": "SciToolAgent_Evo",
+      "title": "SciToolAgent-Evo: An Ontology-Aware Self-Evolving Agent for Open-World Scientific Tool Acquisition",
+      "first_public_date": "2026-07-30",
+      "publication_status": "预印本",
+      "sources": [
+        {
+          "collection": "前沿快照",
+          "original_short": "SciToolAgent_Evo"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/01_通用Agent前沿论文/papers/07_SciToolAgent_Evo_2026.pdf",
+          "sha256": "7852909c5ba3f404bd73c44363a26f1387c76bf1babc8f44ee1421b16080939b",
+          "pages": 19,
+          "version": "arXiv 2607.28692v1",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [],
+      "venue": "arXiv · 2026",
+      "source_url": "https://arxiv.org/abs/2607.28692",
+      "date_note": "2026 首发；未核到完整作者开源仓库。",
+      "arxiv_id": "2607.28692",
+      "id": "R059"
+    },
+    {
+      "key": "agentlightning1",
+      "short": "Agent_Lightning_1",
+      "title": "Agent Lightning v1.0: Towards Harnessed Agentic RL",
+      "first_public_date": "2026-08-18",
+      "publication_status": "预印本",
+      "sources": [
+        {
+          "collection": "前沿快照",
+          "original_short": "Agent_Lightning_1"
+        },
+        {
+          "collection": "框架发展与选型",
+          "original_short": "Agent_Lightning_1"
+        },
+        {
+          "collection": "工程实现与评价",
+          "original_short": "Agent_Lightning_1"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/01_通用Agent前沿论文/papers/10_Agent_Lightning_1_2026.pdf",
+          "sha256": "e6ff9c9ba6fcd096a4ed629570742527fade34e790aac7164742825a1375fc3e",
+          "pages": 21,
+          "version": "arXiv 2608.17528v1",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [
+        "资源调度与持续演化"
+      ],
+      "venue": "arXiv · 2026",
+      "source_url": "https://arxiv.org/abs/2608.17528",
+      "code_url": "https://github.com/microsoft/agent-lightning",
+      "date_note": "2026 独立技术报告；不同于 2025 的 Agent Lightning 首篇。",
+      "arxiv_id": "2608.17528",
+      "id": "R060"
+    },
+    {
+      "key": "agentfoldprotein",
+      "short": "AgentFold_Protein",
+      "title": "AgentFold: Closed-Loop Agentic Search for Protein Folding Model Design",
+      "first_public_date": "2026-08-27",
+      "publication_status": "预印本",
+      "sources": [
+        {
+          "collection": "领域综述",
+          "original_short": "AgentFold_Protein"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/02_生物学与结构生物学Agent/papers/B22_AgentFold_Protein_2026.pdf",
+          "sha256": "66c90bf59e6be7ceb90900e7306b24a7680f468f6d2327153d364910f8da1b6f",
+          "pages": 29,
+          "version": "arXiv 预印本",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [],
+      "venue": "arXiv · 2026-08-27 · v2 2026-08-28",
+      "source_url": "https://arxiv.org/abs/2608.26747",
+      "code_url": "https://github.com/lmqfly/AgentFold",
+      "date_note": "2026 蛋白折叠研究，别与同名网页 Agent 上下文压缩工作混淆。代码明确 note 为 Preprint；不标作正式会议论文。",
+      "arxiv_id": "2608.26747",
+      "id": "R061"
+    },
+    {
+      "key": "biabench",
+      "short": "BIABench",
+      "title": "BIABench: Evaluating AI agents on real-world bioimage analysis tasks",
+      "first_public_date": "2026-09-28",
+      "publication_status": "预印本",
+      "sources": [
+        {
+          "collection": "领域综述",
+          "original_short": "BIABench"
+        }
+      ],
+      "editions": [],
+      "topics": [],
+      "venue": "arXiv · 2026",
+      "source_url": "https://arxiv.org/abs/2609.34274",
+      "code_url": "https://github.com/BIABench/BIABench",
+      "date_note": "2026-09-28 首发的新证据；将过程评分和科学结果正确性分开是关键阅读点。",
+      "id": "R062"
+    },
+    {
+      "key": "elms",
+      "short": "ELMS",
+      "title": "Evaluator-in-the-Loop Monte Carlo Tree Search via LLM Agents for Motif Scaffolding in Protein Design",
+      "first_public_date": "2026-10-02",
+      "publication_status": "预印本",
+      "sources": [
+        {
+          "collection": "领域综述",
+          "original_short": "ELMS"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/02_生物学与结构生物学Agent/papers/B24_ELMS_2026.pdf",
+          "sha256": "44d4ea7306e6432f741cf82c79ce80eed079bd3e6fe99cfbe60f7e76778e4462",
+          "pages": 11,
+          "version": "arXiv 预印本",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [],
+      "venue": "arXiv · 2026-10-02",
+      "source_url": "https://arxiv.org/abs/2610.02924",
+      "date_note": "2026-10-02 首发；代码字段留空代表未核到，而非断言不存在代码。",
+      "arxiv_id": "2610.02924",
+      "id": "R063"
+    },
+    {
+      "key": "agentevolver2026",
+      "short": "AgentEvolver_2026",
+      "title": "AgentEvolver: System-Wide Self-Evolution Through Task Execution",
+      "first_public_date": "2026-10-08",
+      "publication_status": "预印本",
+      "sources": [
+        {
+          "collection": "前沿快照",
+          "original_short": "AgentEvolver_2026"
+        },
+        {
+          "collection": "框架发展与选型",
+          "original_short": "AgentEvolver_2026"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/01_通用Agent前沿论文/papers/28_AgentEvolver_2026_2026.pdf",
+          "sha256": "7a06f086d25c438e9a965cc654d6e5f28514e717d548d8237a0090e7a69cadde",
+          "pages": 44,
+          "version": "arXiv 2610.11613v1",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [
+        "资源调度与持续演化"
+      ],
+      "venue": "arXiv · 2026-10-08",
+      "source_url": "https://arxiv.org/abs/2610.11613",
+      "code_url": "https://github.com/DVampire/AgentEvolver",
+      "date_note": "2026 新论文，Wentao Zhang 等；不同于 2025 modelscope 的同名 AgentEvolver。",
+      "arxiv_id": "2610.11613",
+      "id": "R064"
+    },
+    {
+      "key": "structuralrefinement",
+      "short": "Structural_Refinement",
+      "title": "AI agent supervision of structural model building and refinement",
+      "first_public_date": "2026-10-08",
+      "publication_status": "预印本",
+      "sources": [
+        {
+          "collection": "前沿快照",
+          "original_short": "Structural_Refinement"
+        },
+        {
+          "collection": "领域综述",
+          "original_short": "Structural_Refinement"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/02_生物学与结构生物学Agent/papers/B18_Structural_Refinement_2026.pdf",
+          "sha256": "97360e4c8c82a3a4e44ed58b8a1df090163e3e1f5bdb362bfb2e55672616369b",
+          "pages": 13,
+          "version": "bioRxiv 预印本",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [],
+      "venue": "bioRxiv · 2026-10-08",
+      "source_url": "https://www.biorxiv.org/content/10.64898/2026.10.05.756902v1.full",
+      "date_note": "前沿包已有元数据但 PDF 下载失败，可重试官方公开 PDF；若仍受访问限制应保留在线入口。DOI 日期 2026.10.05 与公开日期不同。",
+      "id": "R065"
+    },
+    {
+      "key": "chaperone",
+      "short": "Chaperone",
+      "title": "Reliable and Efficient Agentic Protein Design with Toolset Harnessing",
+      "first_public_date": "2026-10-20",
+      "publication_status": "预印本",
+      "sources": [
+        {
+          "collection": "领域综述",
+          "original_short": "Chaperone"
+        }
+      ],
+      "editions": [],
+      "topics": [],
+      "venue": "bioRxiv · 2026-10-20",
+      "source_url": "https://www.biorxiv.org/content/10.64898/2026.10.19.759896v1",
+      "code_url": "https://github.com/RosettaCommons/chaperone",
+      "date_note": "截至 2026-10-23 的新预印本。DOI 中的 2026.10.19 不是公开日期，原始页面标 Posted October 20, 2026。仓库为可复用 harness，受控科学软件及权重需另行取得。",
+      "id": "R066"
+    },
+    {
+      "key": "agentbench",
+      "short": "AgentBench",
+      "title": "AgentBench: Evaluating LLMs as Agents",
+      "first_public_date": null,
+      "publication_status": "正式会议",
+      "sources": [
+        {
+          "collection": "经典学习包",
+          "original_short": "AgentBench"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/04_经典Agent论文/04_评测与可靠性/18_AgentBench_2023.pdf",
+          "sha256": "9c780e35fc0b2de6c2e21e0572f6aaaadcf7ecdd56d63cfaae2b415bc0dc83c3",
+          "pages": 58,
+          "version": "v3",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [],
+      "source_url": "https://arxiv.org/abs/2308.03688",
+      "code_url": "https://github.com/THUDM/AgentBench",
+      "arxiv_id": "2308.03688",
+      "id": "R067",
+      "venue": "ICLR 2024",
+      "date_note": " 本轮依据本地PDF首页Published as a conference paper at ICLR 2024补正正式身份；首发日期不从会议年份推定。"
+    },
+    {
+      "key": "agentsurvey",
+      "short": "Agent_Survey",
+      "title": "A Survey on Large Language Model based Autonomous Agents",
+      "first_public_date": null,
+      "publication_status": "正式期刊",
+      "sources": [
+        {
+          "collection": "经典学习包",
+          "original_short": "Agent_Survey"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/04_经典Agent论文/01_综述与全局框架/01_Agent_Survey_2023.pdf",
+          "sha256": "8709507742c260a5a92b4690ffc0459a0ab9af16dc7a5478d253a6e7b57bf23a",
+          "pages": 42,
+          "version": "v7",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [],
+      "source_url": "https://doi.org/10.1007/s11704-024-40231-1",
+      "code_url": "https://github.com/Paitesanshi/LLM-Agent-Survey",
+      "arxiv_id": "2308.11432",
+      "id": "R068",
+      "venue": "Frontiers of Computer Science · 2025",
+      "date_note": " 本地PDF首页为Front. Comput. Sci. 2025版式、标arXiv v7；本轮据首页补正期刊身份，不自行补未核实卷期页码。"
+    },
+    {
+      "key": "biomedagent",
+      "short": "BioMedAgent",
+      "title": "Empowering AI data scientists using a multi-agent LLM framework with self-evolving capabilities for autonomous, tool-aware biomedical data analyses",
+      "first_public_date": null,
+      "publication_status": "正式期刊",
+      "sources": [
+        {
+          "collection": "领域综述",
+          "original_short": "BioMedAgent"
+        }
+      ],
+      "editions": [],
+      "topics": [],
+      "venue": "Nature Biomedical Engineering · 2026-03-30",
+      "source_url": "https://www.nature.com/articles/s41551-026-01634-6",
+      "code_url": "https://github.com/BOBQWERA/BioMedAgent",
+      "date_note": "已核正式公开日 2026-03-30；尚未核实更早论文预印本，故首发字段留空。官方仓库含 2025-02-27 demo 记录，不将软件 demo 日期直接等同论文首发。正式全文有订阅限制，仅提供原文入口与官方代码。",
+      "id": "R069"
+    },
+    {
+      "key": "chemcrow",
+      "short": "ChemCrow",
+      "title": "ChemCrow: Augmenting large-language models with chemistry tools",
+      "first_public_date": null,
+      "publication_status": "历史条目未补核",
+      "sources": [
+        {
+          "collection": "经典学习包",
+          "original_short": "ChemCrow"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/04_经典Agent论文/03_科研与生命科学Agent/11_ChemCrow_2023.pdf",
+          "sha256": "28be4990cf5fc5fa50b379684a9d4c31c3a0ad36aeab1759d324ee428b29de16",
+          "pages": 38,
+          "version": "v5",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [],
+      "source_url": "https://arxiv.org/abs/2304.05376",
+      "code_url": "https://github.com/ur-whitelab/chemcrow-public",
+      "arxiv_id": "2304.05376",
+      "id": "R070"
+    },
+    {
+      "key": "pdagentprotein",
+      "short": "PDAgent_Protein",
+      "title": "PDAgent: An LLM-Driven Autonomous Agent Framework Towards In Silico Protein Design via Directed Mutation",
+      "first_public_date": null,
+      "publication_status": "正式会议",
+      "sources": [
+        {
+          "collection": "领域综述",
+          "original_short": "PDAgent_Protein"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/02_生物学与结构生物学Agent/papers/B23_PDAgent_Protein_unkn.pdf",
+          "sha256": "9af57c45736ec95a99f90a8691c5927650fa7237528150c06b17f14a404c917d",
+          "pages": 27,
+          "version": "会议论文集 PDF",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [],
+      "venue": "ICML 2026 · 主会 · PMLR 306:95170–95196",
+      "source_url": "https://proceedings.mlr.press/v306/ouyang26a.html",
+      "code_url": "https://github.com/Gift-OYS/PDAgent",
+      "date_note": "正式会议收录由 PMLR 核验，首发日期未核实；不可与芯片物理设计领域 PDAgent-Bench 混淆。",
+      "id": "R071"
+    },
+    {
+      "key": "paperbench",
+      "short": "PaperBench",
+      "title": "PaperBench: Evaluating AI's Ability to Replicate AI Research",
+      "first_public_date": null,
+      "publication_status": "历史条目未补核",
+      "sources": [
+        {
+          "collection": "经典学习包",
+          "original_short": "PaperBench"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/04_经典Agent论文/04_评测与可靠性/22_PaperBench_2025.pdf",
+          "sha256": "2f58f1a6581af9d99432422dccf3cf61f5c263377c1e4550e7333c4a22d7184d",
+          "pages": 30,
+          "version": "v3",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [],
+      "source_url": "https://arxiv.org/abs/2504.01848",
+      "code_url": "https://github.com/openai/frontier-evals/tree/main/project/paperbench",
+      "arxiv_id": "2504.01848",
+      "id": "R072"
+    },
+    {
+      "key": "paperqa2",
+      "short": "PaperQA2",
+      "title": "Language agents achieve superhuman synthesis of scientific knowledge",
+      "first_public_date": null,
+      "publication_status": "历史条目未补核",
+      "sources": [
+        {
+          "collection": "经典学习包",
+          "original_short": "PaperQA2"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/04_经典Agent论文/03_科研与生命科学Agent/17_PaperQA2_2024.pdf",
+          "sha256": "7d45adf85d98a9a2f4e619f4f6c0e380c8ad842d678d50497ab5a20b6ae79f9c",
+          "pages": 25,
+          "version": "v2",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [],
+      "source_url": "https://arxiv.org/abs/2409.13740",
+      "code_url": "https://github.com/Future-House/paper-qa",
+      "arxiv_id": "2409.13740",
+      "id": "R073"
+    },
+    {
+      "key": "scienceagentbench",
+      "short": "ScienceAgentBench",
+      "title": "ScienceAgentBench: Toward Rigorous Assessment of Language Agents for Data-Driven Scientific Discovery",
+      "first_public_date": null,
+      "publication_status": "历史条目未补核",
+      "sources": [
+        {
+          "collection": "经典学习包",
+          "original_short": "ScienceAgentBench"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/04_经典Agent论文/04_评测与可靠性/21_ScienceAgentBench_2024.pdf",
+          "sha256": "da5b44b1d7ff4992127ce32daf5343031a109b7104d743bb18f0803fc904da7b",
+          "pages": 60,
+          "version": "v3",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [],
+      "source_url": "https://arxiv.org/abs/2410.05080",
+      "code_url": "https://github.com/OSU-NLP-Group/ScienceAgentBench",
+      "arxiv_id": "2410.05080",
+      "id": "R074"
+    },
+    {
+      "key": "scientificagentssurvey",
+      "short": "Scientific_Agents_Survey",
+      "title": "Towards Scientific Intelligence: A Survey of LLM-based Scientific Agents",
+      "first_public_date": null,
+      "publication_status": "历史条目未补核",
+      "sources": [
+        {
+          "collection": "经典学习包",
+          "original_short": "Scientific_Agents_Survey"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/04_经典Agent论文/01_综述与全局框架/02_Scientific_Agents_Survey_2025.pdf",
+          "sha256": "0091c33932764e85c269746f813dd78582bc524f48d8a890ee1bbb1fea06865f",
+          "pages": 68,
+          "version": "v3",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [],
+      "source_url": "https://arxiv.org/abs/2503.24047",
+      "arxiv_id": "2503.24047",
+      "id": "R075"
+    },
+    {
+      "key": "taskmatrixai",
+      "short": "TaskMatrix_AI",
+      "title": "TaskMatrix.AI: Completing Tasks by Connecting Foundation Models with Millions of APIs",
+      "first_public_date": null,
+      "publication_status": "历史条目未补核",
+      "sources": [
+        {
+          "collection": "经典学习包",
+          "original_short": "TaskMatrix_AI"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/04_经典Agent论文/02_工具调用与执行编排/06_TaskMatrix_AI_2023.pdf",
+          "sha256": "dcc67f2911d6c2652ec736ccfb8663923145028a9501a11356b3dd12b5bc7fb0",
+          "pages": 27,
+          "version": "v1",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [],
+      "source_url": "https://arxiv.org/abs/2303.16434",
+      "arxiv_id": "2303.16434",
+      "id": "R076"
+    },
+    {
+      "key": "taubench",
+      "short": "Tau_Bench",
+      "title": "τ-bench: A Benchmark for Tool-Agent-User Interaction in Real-World Domains",
+      "first_public_date": null,
+      "publication_status": "历史条目未补核",
+      "sources": [
+        {
+          "collection": "经典学习包",
+          "original_short": "Tau_Bench"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/04_经典Agent论文/04_评测与可靠性/20_Tau_Bench_2024.pdf",
+          "sha256": "0ce66a1763d698c61bb311c3c874bf593d1e9a5bfff11bb35f6f72b981f6da56",
+          "pages": 50,
+          "version": "v1",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [],
+      "source_url": "https://arxiv.org/abs/2406.12045",
+      "code_url": "https://github.com/sierra-research/tau-bench",
+      "arxiv_id": "2406.12045",
+      "id": "R077"
+    },
+    {
+      "key": "toolsandbox",
+      "short": "ToolSandbox",
+      "title": "ToolSandbox: A Stateful, Conversational, Interactive Evaluation Benchmark for LLM Tool Use Capabilities",
+      "first_public_date": null,
+      "publication_status": "历史条目未补核",
+      "sources": [
+        {
+          "collection": "经典学习包",
+          "original_short": "ToolSandbox"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/04_经典Agent论文/04_评测与可靠性/19_ToolSandbox_2024.pdf",
+          "sha256": "3449baed1d8e0f4c07dbc859621899685eed8a6a0445a1ae8909c178e6b6173e",
+          "pages": 24,
+          "version": "v2",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [],
+      "source_url": "https://arxiv.org/abs/2408.04682",
+      "code_url": "https://github.com/apple-aiml-research/ToolSandbox",
+      "arxiv_id": "2408.04682",
+      "id": "R078"
+    },
+    {
+      "key": "proteingeobench",
+      "short": "ProteinGeoBench",
+      "title": "ProteinGeoBench: Frontier Structural-Biology Agents Are Fluent at Lookup but Lost in Geometry",
+      "first_public_date": "2026-10-19",
+      "publication_status": "预印本",
+      "sources": [
+        {
+          "collection": "深度版补充",
+          "original_short": "ProteinGeoBench"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/补充领域论文_2026-10-28/papers/ProteinGeoBench_2026.pdf",
+          "sha256": "03a5c2ea6ac1856346fc0aeb3d8de85eaa1b3f7b743db4e99646674294c116a8",
+          "pages": 24,
+          "version": "arXiv v1，2026-10-19",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [
+        "结构几何与 Agent 评测"
+      ],
+      "venue": "arXiv · 2026-10-19 v1",
+      "source_url": "https://arxiv.org/abs/2610.26829",
+      "code_url": "https://github.com/Protege-AI/ProteinGeoBench",
+      "date_note": "2026-10-19 首次公开；科研与几何测评的预印本，结果受任务集合、模型、运行设置和尝试次数限制。",
+      "arxiv_id": "2610.26829",
+      "id": "R079"
+    },
+    {
+      "id": "R080",
+      "key": "coscientist_gomes_2023",
+      "short": "Coscientist (Gomes)",
+      "title": "Autonomous chemical research with large language models",
+      "first_public_date": null,
+      "publication_status": "正式期刊",
+      "sources": [
+        {
+          "collection": "原目录身份拆分校正",
+          "original_short": "Coscientist_2023"
+        }
+      ],
+      "editions": [
+        {
+          "path": "_资料来源与原文/04_经典Agent论文/03_科研与生命科学Agent/12_Coscientist_2023.pdf",
+          "sha256": "09cfaa1ccf4c951eebc347bab909e1e495d6701be38d3808c38016dff35dbd4e",
+          "pages": 13,
+          "version": "具体版本见原文首页",
+          "alternate_paths": []
+        }
+      ],
+      "topics": [
+        "科学工具与研究平台",
+        "化学自动化"
+      ],
+      "venue": "Nature · 624 · 2023",
+      "source_url": "https://www.nature.com/articles/s41586-023-06792-0",
+      "code_url": "https://github.com/gomesgroup/coscientist",
+      "date_note": "2023年Nature正式发表；更早公开日期本轮未核实。原索引将其与Google Co-Scientist合并，本轮按作者、标题和PDF拆分。"
+    }
+  ],
+  "paper_count": 80,
+  "physical_pdf_files": 76,
+  "distinct_pdf_contents": 75
+}

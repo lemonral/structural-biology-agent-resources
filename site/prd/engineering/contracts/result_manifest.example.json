@@ -1,0 +1,74 @@
+{
+  "schema_version": "result-manifest.v1",
+  "task_id": "00000003-0003-4003-8003-000000000003",
+  "task_revision": 1,
+  "run_id": "00000004-0004-4004-8004-000000000004",
+  "frozen_spec_id": "00000005-0005-4005-8005-000000000005",
+  "plan_id": "00000006-0006-4006-8006-000000000006",
+  "mode": "reference",
+  "execution_state": "COMPLETED",
+  "scientific_status": "NOT_EVALUATED",
+  "method": {
+    "method": "kabsch_right_handed",
+    "coordinate_convention": "row_vectors_X_at_R_plus_t",
+    "weighting": "uniform",
+    "fit_pair_index_artifact_id": "0000001f-001f-401f-801f-00000000001f",
+    "evaluation_pair_index_artifact_id": "00000020-0020-4020-8020-000000000020",
+    "fit_region_label": "all_214_matched_CA",
+    "evaluation_region_label": "all_214_matched_CA",
+    "units": "angstrom",
+    "region_policy_version": "verified_AdK_all_matched@1"
+  },
+  "input_artifacts": [
+    {
+      "artifact_id": "00000008-0008-4008-8008-000000000008",
+      "sha256": "fcb2ff49a3e255797fee277ce28e0acace67f6e6ddf432841f8451f00cbde9e9"
+    },
+    {
+      "artifact_id": "00000009-0009-4009-8009-000000000009",
+      "sha256": "01f41b1b42318a1a5df7f650dbab881677aa0e8d825f7c42dd26ae16a94c0948"
+    }
+  ],
+  "object_summary": {
+    "model_index_zero_based": 0,
+    "chain_namespace": "auth",
+    "reference_chain": "A",
+    "moving_chain": "A",
+    "atom_name": "CA",
+    "matched_atoms": 214,
+    "mapping_policy": "verified_AdK_reference_pair@1",
+    "excluded_hetero": true,
+    "excluded_water": true,
+    "outlier_trimming": false
+  },
+  "metrics": [
+    {
+      "name": "rmsd",
+      "value": 7.130700222878167,
+      "units": "angstrom",
+      "fit_atom_count": 214,
+      "evaluation_atom_count": 214,
+      "source_artifact_id": "0000000a-000a-400a-800a-00000000000a"
+    }
+  ],
+  "artifacts": [
+    {
+      "artifact_id": "0000000a-000a-400a-800a-00000000000a",
+      "kind": "coordinate-result.v1",
+      "producer_attempt_id": "00000007-0007-4007-8007-000000000007",
+      "sha256": "876bd154cbe3860c9322ab2cb7490a729868321fcdafd071c6257c93ff2d9814",
+      "bytes": 23700,
+      "content_url": "/api/v1/artifacts/0000000a-000a-400a-800a-00000000000a/content"
+    }
+  ],
+  "validation": null,
+  "limitations": [
+    "这份带synthetic标记的清单只演示未来接口形状；所有UUID、Validator记录和版本身份均为虚构。",
+    "数值及原始输出字节摘要沿用已有固定计划AdK教学结果；当前API/Worker/独立检查器并未实际运行。",
+    "原教学验证器与评分共用validate，正式生产验收仍需独立参考；本例保留NOT_EVALUATED且validation=null，不声称新检查器通过。",
+    "静态坐标几何差异不自动证明亲和力、动力学或因果机制。"
+  ],
+  "reproduction_manifest_artifact_id": "00000023-0023-4023-8023-000000000023",
+  "synthetic": true,
+  "evidence_status": "CONTRACT_EXAMPLE_NOT_NEW_EXECUTION"
+}

@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "zip": {
+    "name": "policy_lab_offline.zip",
+    "bytes": 27448,
+    "sha256": "23ee011aabd68498b0e21b3319c6de67f76cd3ad57a9d370600b57923e8f7cf7",
+    "member_count": 11
+  },
+  "package_manifest": {
+    "name": "package_manifest.json",
+    "bytes": 2370,
+    "sha256": "1985117f04a8d8b33ecf80df392098c8c5ad492a34d316fb7c883847093dd8c4"
+  },
+  "installed_files": [
+    "audit_examples.json",
+    "case_results.json",
+    "download_manifest.json",
+    "fixtures.py",
+    "gateway.py",
+    "index.html",
+    "package_manifest.json",
+    "policy_lab_manifest.json",
+    "policy_lab_offline.zip",
+    "run_policy_lab.py",
+    "run_tests.py",
+    "test_evidence.json",
+    "tests/test_gateway.py"
+  ],
+  "zip_members": [
+    "audit_examples.json",
+    "case_results.json",
+    "fixtures.py",
+    "gateway.py",
+    "index.html",
+    "package_manifest.json",
+    "policy_lab_manifest.json",
+    "run_policy_lab.py",
+    "run_tests.py",
+    "test_evidence.json",
+    "tests/test_gateway.py"
+  ],
+  "note": "ZIP/package checksums are integrity evidence, not authenticity signatures."
+}

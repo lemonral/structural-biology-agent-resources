@@ -1,0 +1,677 @@
+{
+  "label": "SIMULATED_ABSTRACT_TEACHING_DATA_NO_AGENT_RUNS",
+  "rows": [
+    {
+      "object_group": "abstract_cluster_0",
+      "task_id": "0_0",
+      "repeat_id": 0,
+      "system_id": "A",
+      "scientific_pass": 0
+    },
+    {
+      "object_group": "abstract_cluster_0",
+      "task_id": "0_0",
+      "repeat_id": 0,
+      "system_id": "B",
+      "scientific_pass": 0
+    },
+    {
+      "object_group": "abstract_cluster_0",
+      "task_id": "0_0",
+      "repeat_id": 1,
+      "system_id": "A",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_0",
+      "task_id": "0_0",
+      "repeat_id": 1,
+      "system_id": "B",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_0",
+      "task_id": "0_1",
+      "repeat_id": 0,
+      "system_id": "A",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_0",
+      "task_id": "0_1",
+      "repeat_id": 0,
+      "system_id": "B",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_0",
+      "task_id": "0_1",
+      "repeat_id": 1,
+      "system_id": "A",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_0",
+      "task_id": "0_1",
+      "repeat_id": 1,
+      "system_id": "B",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_0",
+      "task_id": "0_2",
+      "repeat_id": 0,
+      "system_id": "A",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_0",
+      "task_id": "0_2",
+      "repeat_id": 0,
+      "system_id": "B",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_0",
+      "task_id": "0_2",
+      "repeat_id": 1,
+      "system_id": "A",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_0",
+      "task_id": "0_2",
+      "repeat_id": 1,
+      "system_id": "B",
+      "scientific_pass": 0
+    },
+    {
+      "object_group": "abstract_cluster_1",
+      "task_id": "1_0",
+      "repeat_id": 0,
+      "system_id": "A",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_1",
+      "task_id": "1_0",
+      "repeat_id": 0,
+      "system_id": "B",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_1",
+      "task_id": "1_0",
+      "repeat_id": 1,
+      "system_id": "A",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_1",
+      "task_id": "1_0",
+      "repeat_id": 1,
+      "system_id": "B",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_1",
+      "task_id": "1_1",
+      "repeat_id": 0,
+      "system_id": "A",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_1",
+      "task_id": "1_1",
+      "repeat_id": 0,
+      "system_id": "B",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_1",
+      "task_id": "1_1",
+      "repeat_id": 1,
+      "system_id": "A",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_1",
+      "task_id": "1_1",
+      "repeat_id": 1,
+      "system_id": "B",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_1",
+      "task_id": "1_2",
+      "repeat_id": 0,
+      "system_id": "A",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_1",
+      "task_id": "1_2",
+      "repeat_id": 0,
+      "system_id": "B",
+      "scientific_pass": 0
+    },
+    {
+      "object_group": "abstract_cluster_1",
+      "task_id": "1_2",
+      "repeat_id": 1,
+      "system_id": "A",
+      "scientific_pass": 0
+    },
+    {
+      "object_group": "abstract_cluster_1",
+      "task_id": "1_2",
+      "repeat_id": 1,
+      "system_id": "B",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_2",
+      "task_id": "2_0",
+      "repeat_id": 0,
+      "system_id": "A",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_2",
+      "task_id": "2_0",
+      "repeat_id": 0,
+      "system_id": "B",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_2",
+      "task_id": "2_0",
+      "repeat_id": 1,
+      "system_id": "A",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_2",
+      "task_id": "2_0",
+      "repeat_id": 1,
+      "system_id": "B",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_2",
+      "task_id": "2_1",
+      "repeat_id": 0,
+      "system_id": "A",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_2",
+      "task_id": "2_1",
+      "repeat_id": 0,
+      "system_id": "B",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_2",
+      "task_id": "2_1",
+      "repeat_id": 1,
+      "system_id": "A",
+      "scientific_pass": 0
+    },
+    {
+      "object_group": "abstract_cluster_2",
+      "task_id": "2_1",
+      "repeat_id": 1,
+      "system_id": "B",
+      "scientific_pass": 0
+    },
+    {
+      "object_group": "abstract_cluster_2",
+      "task_id": "2_2",
+      "repeat_id": 0,
+      "system_id": "A",
+      "scientific_pass": 0
+    },
+    {
+      "object_group": "abstract_cluster_2",
+      "task_id": "2_2",
+      "repeat_id": 0,
+      "system_id": "B",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_2",
+      "task_id": "2_2",
+      "repeat_id": 1,
+      "system_id": "A",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_2",
+      "task_id": "2_2",
+      "repeat_id": 1,
+      "system_id": "B",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_3",
+      "task_id": "3_0",
+      "repeat_id": 0,
+      "system_id": "A",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_3",
+      "task_id": "3_0",
+      "repeat_id": 0,
+      "system_id": "B",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_3",
+      "task_id": "3_0",
+      "repeat_id": 1,
+      "system_id": "A",
+      "scientific_pass": 0
+    },
+    {
+      "object_group": "abstract_cluster_3",
+      "task_id": "3_0",
+      "repeat_id": 1,
+      "system_id": "B",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_3",
+      "task_id": "3_1",
+      "repeat_id": 0,
+      "system_id": "A",
+      "scientific_pass": 0
+    },
+    {
+      "object_group": "abstract_cluster_3",
+      "task_id": "3_1",
+      "repeat_id": 0,
+      "system_id": "B",
+      "scientific_pass": 0
+    },
+    {
+      "object_group": "abstract_cluster_3",
+      "task_id": "3_1",
+      "repeat_id": 1,
+      "system_id": "A",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_3",
+      "task_id": "3_1",
+      "repeat_id": 1,
+      "system_id": "B",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_3",
+      "task_id": "3_2",
+      "repeat_id": 0,
+      "system_id": "A",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_3",
+      "task_id": "3_2",
+      "repeat_id": 0,
+      "system_id": "B",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_3",
+      "task_id": "3_2",
+      "repeat_id": 1,
+      "system_id": "A",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_3",
+      "task_id": "3_2",
+      "repeat_id": 1,
+      "system_id": "B",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_4",
+      "task_id": "4_0",
+      "repeat_id": 0,
+      "system_id": "A",
+      "scientific_pass": 0
+    },
+    {
+      "object_group": "abstract_cluster_4",
+      "task_id": "4_0",
+      "repeat_id": 0,
+      "system_id": "B",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_4",
+      "task_id": "4_0",
+      "repeat_id": 1,
+      "system_id": "A",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_4",
+      "task_id": "4_0",
+      "repeat_id": 1,
+      "system_id": "B",
+      "scientific_pass": 0
+    },
+    {
+      "object_group": "abstract_cluster_4",
+      "task_id": "4_1",
+      "repeat_id": 0,
+      "system_id": "A",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_4",
+      "task_id": "4_1",
+      "repeat_id": 0,
+      "system_id": "B",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_4",
+      "task_id": "4_1",
+      "repeat_id": 1,
+      "system_id": "A",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_4",
+      "task_id": "4_1",
+      "repeat_id": 1,
+      "system_id": "B",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_4",
+      "task_id": "4_2",
+      "repeat_id": 0,
+      "system_id": "A",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_4",
+      "task_id": "4_2",
+      "repeat_id": 0,
+      "system_id": "B",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_4",
+      "task_id": "4_2",
+      "repeat_id": 1,
+      "system_id": "A",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_4",
+      "task_id": "4_2",
+      "repeat_id": 1,
+      "system_id": "B",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_5",
+      "task_id": "5_0",
+      "repeat_id": 0,
+      "system_id": "A",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_5",
+      "task_id": "5_0",
+      "repeat_id": 0,
+      "system_id": "B",
+      "scientific_pass": 0
+    },
+    {
+      "object_group": "abstract_cluster_5",
+      "task_id": "5_0",
+      "repeat_id": 1,
+      "system_id": "A",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_5",
+      "task_id": "5_0",
+      "repeat_id": 1,
+      "system_id": "B",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_5",
+      "task_id": "5_1",
+      "repeat_id": 0,
+      "system_id": "A",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_5",
+      "task_id": "5_1",
+      "repeat_id": 0,
+      "system_id": "B",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_5",
+      "task_id": "5_1",
+      "repeat_id": 1,
+      "system_id": "A",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_5",
+      "task_id": "5_1",
+      "repeat_id": 1,
+      "system_id": "B",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_5",
+      "task_id": "5_2",
+      "repeat_id": 0,
+      "system_id": "A",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_5",
+      "task_id": "5_2",
+      "repeat_id": 0,
+      "system_id": "B",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_5",
+      "task_id": "5_2",
+      "repeat_id": 1,
+      "system_id": "A",
+      "scientific_pass": 0
+    },
+    {
+      "object_group": "abstract_cluster_5",
+      "task_id": "5_2",
+      "repeat_id": 1,
+      "system_id": "B",
+      "scientific_pass": 0
+    },
+    {
+      "object_group": "abstract_cluster_6",
+      "task_id": "6_0",
+      "repeat_id": 0,
+      "system_id": "A",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_6",
+      "task_id": "6_0",
+      "repeat_id": 0,
+      "system_id": "B",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_6",
+      "task_id": "6_0",
+      "repeat_id": 1,
+      "system_id": "A",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_6",
+      "task_id": "6_0",
+      "repeat_id": 1,
+      "system_id": "B",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_6",
+      "task_id": "6_1",
+      "repeat_id": 0,
+      "system_id": "A",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_6",
+      "task_id": "6_1",
+      "repeat_id": 0,
+      "system_id": "B",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_6",
+      "task_id": "6_1",
+      "repeat_id": 1,
+      "system_id": "A",
+      "scientific_pass": 0
+    },
+    {
+      "object_group": "abstract_cluster_6",
+      "task_id": "6_1",
+      "repeat_id": 1,
+      "system_id": "B",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_6",
+      "task_id": "6_2",
+      "repeat_id": 0,
+      "system_id": "A",
+      "scientific_pass": 0
+    },
+    {
+      "object_group": "abstract_cluster_6",
+      "task_id": "6_2",
+      "repeat_id": 0,
+      "system_id": "B",
+      "scientific_pass": 0
+    },
+    {
+      "object_group": "abstract_cluster_6",
+      "task_id": "6_2",
+      "repeat_id": 1,
+      "system_id": "A",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_6",
+      "task_id": "6_2",
+      "repeat_id": 1,
+      "system_id": "B",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_7",
+      "task_id": "7_0",
+      "repeat_id": 0,
+      "system_id": "A",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_7",
+      "task_id": "7_0",
+      "repeat_id": 0,
+      "system_id": "B",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_7",
+      "task_id": "7_0",
+      "repeat_id": 1,
+      "system_id": "A",
+      "scientific_pass": 0
+    },
+    {
+      "object_group": "abstract_cluster_7",
+      "task_id": "7_0",
+      "repeat_id": 1,
+      "system_id": "B",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_7",
+      "task_id": "7_1",
+      "repeat_id": 0,
+      "system_id": "A",
+      "scientific_pass": 0
+    },
+    {
+      "object_group": "abstract_cluster_7",
+      "task_id": "7_1",
+      "repeat_id": 0,
+      "system_id": "B",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_7",
+      "task_id": "7_1",
+      "repeat_id": 1,
+      "system_id": "A",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_7",
+      "task_id": "7_1",
+      "repeat_id": 1,
+      "system_id": "B",
+      "scientific_pass": 0
+    },
+    {
+      "object_group": "abstract_cluster_7",
+      "task_id": "7_2",
+      "repeat_id": 0,
+      "system_id": "A",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_7",
+      "task_id": "7_2",
+      "repeat_id": 0,
+      "system_id": "B",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_7",
+      "task_id": "7_2",
+      "repeat_id": 1,
+      "system_id": "A",
+      "scientific_pass": 1
+    },
+    {
+      "object_group": "abstract_cluster_7",
+      "task_id": "7_2",
+      "repeat_id": 1,
+      "system_id": "B",
+      "scientific_pass": 1
+    }
+  ]
+}

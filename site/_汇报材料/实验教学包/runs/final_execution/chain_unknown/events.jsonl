@@ -1,0 +1,7 @@
+{"contains_llm": false, "event": "RUN_CREATED", "policy": "fixed_teaching_plan@1", "run_id": "chain_unknown", "sequence": 1, "time_utc": "2026-11-01T11:50:10.165991+00:00"}
+{"artifact": "task.json", "attempt_id": "input", "content_id": "ce49ee001645aae650e229f5f9c0ff1d5d4122b273958eb759509dda1127be99", "event": "ARTIFACT_CREATED", "run_id": "chain_unknown", "sequence": 2, "time_utc": "2026-11-01T11:50:10.166265+00:00"}
+{"artifact": "plan.json", "attempt_id": "planner:fixed", "content_id": "9f97378a6bf48636220abbe270183ece44e225ccc227169109ed23644c82da3c", "event": "ARTIFACT_CREATED", "run_id": "chain_unknown", "sequence": 3, "time_utc": "2026-11-01T11:50:10.166452+00:00"}
+{"event": "PLAN_COMPILED", "run_id": "chain_unknown", "sequence": 4, "time_utc": "2026-11-01T11:50:10.166503+00:00", "version": 1}
+{"attempt_id": "chain_unknown:inspect:1", "event": "TOOL_STARTED", "run_id": "chain_unknown", "sequence": 5, "state": "RUNNING", "step_id": "inspect", "time_utc": "2026-11-01T11:50:10.166557+00:00", "tool_id": "inspect_coordinates@1"}
+{"code": "UNKNOWN_CHAIN", "detail": "Requested auth chain is not in ['A', 'B']", "event": "CONTRACT_RESPONSE", "run_id": "chain_unknown", "sequence": 6, "state": "REJECTED", "time_utc": "2026-11-01T11:50:10.231834+00:00"}
+{"event": "RUN_FINISHED", "run_id": "chain_unknown", "sequence": 7, "state": "REJECTED", "time_utc": "2026-11-01T11:50:10.232650+00:00", "tool_attempt_count": 1}

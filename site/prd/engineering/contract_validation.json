@@ -1,0 +1,304 @@
+{
+  "status": "static_contract_checks_pass",
+  "checked_on": "2026-11-04",
+  "openapi": {
+    "version": "3.1.1",
+    "operations": 22,
+    "schemas": 70,
+    "validation": "openapi-spec-validator + Draft202012 schema checks"
+  },
+  "schema_examples": {
+    "positive_cases": 23,
+    "negative_cases": 25,
+    "all_passed": true
+  },
+  "sql": {
+    "parser": "pglast",
+    "statements": 75,
+    "tables": 29,
+    "foreign_keys_checked_by_ast": 60,
+    "database_executed": false
+  },
+  "config": {
+    "yaml_parsed": true,
+    "agent_runtime_enabled": false,
+    "contains_credentials": false
+  },
+  "invariants": {
+    "budget_metrics": [
+      "cpu_ms",
+      "input_tokens",
+      "model_calls",
+      "money_microunits",
+      "output_tokens",
+      "tool_attempts"
+    ],
+    "fencing": "lease_epoch",
+    "uuid_format_checks": true,
+    "wire_integer_max": 9007199254740991,
+    "fr_ac_references": "resolved"
+  },
+  "not_verified": [
+    "PostgreSQL server migration, PL/pgSQL runtime, FK/trigger negative tests, transactions and concurrency",
+    "Real API/Worker implementation, authentication, OS isolation and cancellation",
+    "LLM planning/repair quality, scientific acceptance of new implementation, performance and provider charges"
+  ],
+  "detailed_cases": [
+    {
+      "name": "task_spec.example.json document",
+      "expected": "accept",
+      "passed": true
+    },
+    {
+      "name": "task_spec.example.json rejected as raw production DTO",
+      "expected": "reject",
+      "passed": true
+    },
+    {
+      "name": "task_spec.example.json production shape without document metadata",
+      "expected": "accept",
+      "passed": true
+    },
+    {
+      "name": "result_manifest.example.json document",
+      "expected": "accept",
+      "passed": true
+    },
+    {
+      "name": "result_manifest.example.json rejected as raw production DTO",
+      "expected": "reject",
+      "passed": true
+    },
+    {
+      "name": "result_manifest.example.json production shape without document metadata",
+      "expected": "accept",
+      "passed": true
+    },
+    {
+      "name": "worker-dispatch.example.json",
+      "expected": "accept",
+      "passed": true
+    },
+    {
+      "name": "worker-dispatch.example.json unexpected authority field",
+      "expected": "reject",
+      "passed": true
+    },
+    {
+      "name": "worker-dispatch.example.json negative fencing epoch",
+      "expected": "reject",
+      "passed": true
+    },
+    {
+      "name": "worker-dispatch.example.json bad run UUID",
+      "expected": "reject",
+      "passed": true
+    },
+    {
+      "name": "worker-dispatch.example.json unsafe wire integer",
+      "expected": "reject",
+      "passed": true
+    },
+    {
+      "name": "worker-finish.example.json",
+      "expected": "accept",
+      "passed": true
+    },
+    {
+      "name": "worker-finish.example.json unexpected authority field",
+      "expected": "reject",
+      "passed": true
+    },
+    {
+      "name": "worker-finish.example.json negative fencing epoch",
+      "expected": "reject",
+      "passed": true
+    },
+    {
+      "name": "worker-finish.example.json bad run UUID",
+      "expected": "reject",
+      "passed": true
+    },
+    {
+      "name": "worker-finish.example.json unsafe wire integer",
+      "expected": "reject",
+      "passed": true
+    },
+    {
+      "name": "worker-heartbeat.example.json",
+      "expected": "accept",
+      "passed": true
+    },
+    {
+      "name": "worker-heartbeat.example.json unexpected authority field",
+      "expected": "reject",
+      "passed": true
+    },
+    {
+      "name": "worker-heartbeat.example.json negative fencing epoch",
+      "expected": "reject",
+      "passed": true
+    },
+    {
+      "name": "worker-heartbeat.example.json bad run UUID",
+      "expected": "reject",
+      "passed": true
+    },
+    {
+      "name": "worker-heartbeat.example.json unsafe wire integer",
+      "expected": "reject",
+      "passed": true
+    },
+    {
+      "name": "worker-preflight.example.json",
+      "expected": "accept",
+      "passed": true
+    },
+    {
+      "name": "worker-preflight.example.json unexpected authority field",
+      "expected": "reject",
+      "passed": true
+    },
+    {
+      "name": "worker-preflight.example.json negative fencing epoch",
+      "expected": "reject",
+      "passed": true
+    },
+    {
+      "name": "worker-preflight.example.json bad run UUID",
+      "expected": "reject",
+      "passed": true
+    },
+    {
+      "name": "worker-preflight.example.json unsafe wire integer",
+      "expected": "reject",
+      "passed": true
+    },
+    {
+      "name": "scientific dispatch cannot use preflight-null identity",
+      "expected": "reject",
+      "passed": true
+    },
+    {
+      "name": "capability example 0",
+      "expected": "accept",
+      "passed": true
+    },
+    {
+      "name": "capability rejects arbitrary shell field 0",
+      "expected": "reject",
+      "passed": true
+    },
+    {
+      "name": "task_request",
+      "expected": "accept",
+      "passed": true
+    },
+    {
+      "name": "create_run",
+      "expected": "accept",
+      "passed": true
+    },
+    {
+      "name": "request_error",
+      "expected": "accept",
+      "passed": true
+    },
+    {
+      "name": "HTTP-EX-01 request",
+      "expected": "accept",
+      "passed": true
+    },
+    {
+      "name": "HTTP-EX-01 response",
+      "expected": "accept",
+      "passed": true
+    },
+    {
+      "name": "HTTP-EX-02 request",
+      "expected": "accept",
+      "passed": true
+    },
+    {
+      "name": "HTTP-EX-02 response",
+      "expected": "accept",
+      "passed": true
+    },
+    {
+      "name": "HTTP-EX-03 request",
+      "expected": "accept",
+      "passed": true
+    },
+    {
+      "name": "HTTP-EX-03 response",
+      "expected": "accept",
+      "passed": true
+    },
+    {
+      "name": "HTTP-EX-04 request",
+      "expected": "accept",
+      "passed": true
+    },
+    {
+      "name": "HTTP-EX-04 response",
+      "expected": "accept",
+      "passed": true
+    },
+    {
+      "name": "task_request cannot self grant actor",
+      "expected": "reject",
+      "passed": true
+    },
+    {
+      "name": "create_run cannot self grant actor",
+      "expected": "reject",
+      "passed": true
+    },
+    {
+      "name": "feedback NOT_A_DEFECT resolves without fabricated fix",
+      "expected": "accept",
+      "passed": true
+    },
+    {
+      "name": "feedback DUPLICATE resolves without fabricated fix",
+      "expected": "accept",
+      "passed": true
+    },
+    {
+      "name": "feedback FIXED with regression and version",
+      "expected": "accept",
+      "passed": true
+    },
+    {
+      "name": "feedback FIXED rejects missing fix evidence",
+      "expected": "reject",
+      "passed": true
+    },
+    {
+      "name": "feedback RESOLVED rejects missing resolution type",
+      "expected": "reject",
+      "passed": true
+    },
+    {
+      "name": "feedback resolution rejects absent evidence",
+      "expected": "reject",
+      "passed": true
+    }
+  ],
+  "files": {
+    "contracts/001_core.sql": "26a7d9555cf7ee3dbb0d27844dcfde6c2d817ae65d46ea6f0746eaba57a3ee9b",
+    "contracts/001_core.validation.json": "c8147bc1447d7dbe30f87d0dd6c8b6f64b88b92206d13e8cd4e72c3ede88ae73",
+    "contracts/api-contracts.schema.json": "fcbbce124a04dd5af24d39f74832594413f7ac51ba453bd6b76158bbfe120ce4",
+    "contracts/capability.schema.json": "867b978993c28dbcbd1d8bc6ec4e74750443817dd368c2c4a3f57ab70ee1dc56",
+    "contracts/openapi.json": "ccdc9290a7dc70232d49027eeb745da32b973b50a863c50ab8e63ef3e80bf00e",
+    "contracts/result_manifest.example.json": "43e33c4ea1b5818518dd2c69c6e11354ebdbc2aae5f576b8aa4c6912733b5fd8",
+    "contracts/task_spec.example.json": "c14e9550037336aee914ae95e27f8573c4a17ac12164fb9110f89e483a9eb387",
+    "contracts/worker-dispatch.example.json": "8a2ecc618134639d73e3346f9ef9650b4b43f96be7ad480c8d41e10b08a8b093",
+    "contracts/worker-finish.example.json": "79be25ce583439287950ba89bc35c9290d87960ce1524f931ce955c83c190dfc",
+    "contracts/worker-heartbeat.example.json": "df64ce244ef17c2f0f454a65e5203c8c255e4a86960d095956e015a592aeb683",
+    "contracts/worker-preflight.example.json": "13090d7edf22ad8223426ba3f18f0b870fb4d437482c990b82ae7dec166c97c8",
+    "contracts/worker-protocol.schema.json": "50ff0795cb435e66addd97d30b5dee4aed5a6f641019c4c8e9b12ea3f1713dc4",
+    "contracts/worker-scientific-null.invalid.json": "f61f6479b238d8f1946e72c7c394bf30299bc5805b1ee3beb438fa2c15428b20",
+    "ops/config.example.yaml": "d3ed19c70a275763b90762448d7a9339d296cebd3ff1313ae4cd63c9b068b586"
+  }
+}

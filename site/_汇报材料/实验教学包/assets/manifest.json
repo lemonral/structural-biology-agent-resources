@@ -1,0 +1,16 @@
+{
+  "frozen_date": "2026-11-01",
+  "files": {
+    "1AKE": {
+      "filename": "1AKE.cif",
+      "url": "https://files.rcsb.org/download/1AKE.cif",
+      "sha256": "01f41b1b42318a1a5df7f650dbab881677aa0e8d825f7c42dd26ae16a94c0948"
+    },
+    "4AKE": {
+      "filename": "4AKE.cif",
+      "url": "https://files.rcsb.org/download/4AKE.cif",
+      "sha256": "fcb2ff49a3e255797fee277ce28e0acace67f6e6ddf432841f8451f00cbde9e9"
+    }
+  },
+  "region_source": "https://docs.mdanalysis.org/stable/_modules/MDAnalysis/analysis/rms.html"
+}

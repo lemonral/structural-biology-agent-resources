@@ -1,0 +1,7 @@
+{"contains_llm": false, "event": "RUN_CREATED", "policy": "fixed_teaching_plan@1", "run_id": "unit_unsupported", "sequence": 1, "time_utc": "2026-11-01T11:50:10.234744+00:00"}
+{"artifact": "task.json", "attempt_id": "input", "content_id": "30d3cdd807bb0c66bdd8d5e49176733ae57dfb48b4e784d78d093102e39fb407", "event": "ARTIFACT_CREATED", "run_id": "unit_unsupported", "sequence": 2, "time_utc": "2026-11-01T11:50:10.235004+00:00"}
+{"artifact": "plan.json", "attempt_id": "planner:fixed", "content_id": "9f97378a6bf48636220abbe270183ece44e225ccc227169109ed23644c82da3c", "event": "ARTIFACT_CREATED", "run_id": "unit_unsupported", "sequence": 3, "time_utc": "2026-11-01T11:50:10.235194+00:00"}
+{"event": "PLAN_COMPILED", "run_id": "unit_unsupported", "sequence": 4, "time_utc": "2026-11-01T11:50:10.235251+00:00", "version": 1}
+{"attempt_id": "unit_unsupported:inspect:1", "event": "TOOL_STARTED", "run_id": "unit_unsupported", "sequence": 5, "state": "RUNNING", "step_id": "inspect", "time_utc": "2026-11-01T11:50:10.235336+00:00", "tool_id": "inspect_coordinates@1"}
+{"code": "UNSUPPORTED_UNIT", "detail": "This capability only emits angstrom; nm itself is a valid unit", "event": "CONTRACT_RESPONSE", "run_id": "unit_unsupported", "sequence": 6, "state": "REJECTED", "time_utc": "2026-11-01T11:50:10.235453+00:00"}
+{"event": "RUN_FINISHED", "run_id": "unit_unsupported", "sequence": 7, "state": "REJECTED", "time_utc": "2026-11-01T11:50:10.235523+00:00", "tool_attempt_count": 1}

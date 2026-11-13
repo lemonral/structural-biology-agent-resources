@@ -1,0 +1,33 @@
+{
+  "case_id": "fixture_unknown_unresolved",
+  "task_id": "fixture_unknown_unresolved",
+  "policy": "fixed_teaching_plan@1",
+  "contains_llm": false,
+  "fault_fixture": "unknown_unresolved",
+  "attempts": [
+    {
+      "attempt_id": "fixture_unknown_unresolved:inspect:1",
+      "step_id": "inspect",
+      "tool_id": "inspect_coordinates@1",
+      "state": "COMPLETED"
+    },
+    {
+      "attempt_id": "fixture_unknown_unresolved:mapping:1",
+      "step_id": "mapping",
+      "tool_id": "map_residues@1",
+      "state": "COMPLETED"
+    },
+    {
+      "attempt_id": "fixture_unknown_unresolved:measure:1",
+      "step_id": "measure",
+      "tool_id": "calculate_rmsd@1",
+      "state": "UNKNOWN"
+    }
+  ],
+  "artifacts": {},
+  "state": "UNKNOWN",
+  "reason": "No unique external fact; no blind resubmission",
+  "actual_scientific_calculations": 0,
+  "simulated_external_submissions": 1,
+  "tool_attempt_count": 3
+}

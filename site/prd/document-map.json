@@ -1,0 +1,189 @@
+{
+  "schema_version": "structbio-document-map.v1",
+  "baseline_id": "structbio-current-20261110",
+  "baseline_label": "当前开发基线 · 2026-11-10",
+  "organized_on": "2026-11-10",
+  "canonical_entry": "/prd/",
+  "design_status": "CURRENT_DESIGN_BASELINE_PENDING_REVIEW_NOT_IMPLEMENTED",
+  "content_versions": {
+    "product": "0.2",
+    "engineering": "0.2",
+    "api_contract": "0.2.0-draft"
+  },
+  "reading_order": [
+    "product",
+    "design-teaching",
+    "engineering",
+    "implementation"
+  ],
+  "authority_rule": "同一项目按文档职责分工。产品需求管范围与FR/AC；精确API/Worker/SQL字段管对应技术合同；设计教学与参考资料用于解释。日期更新不自动修改需求；发现冲突须显式复核和修正。",
+  "documents": [
+    {
+      "id": "product",
+      "title": "产品需求与验收",
+      "role": "产品需求",
+      "canonical_path": "/prd/",
+      "status": "当前",
+      "baseline_id": "structbio-current-20261110",
+      "content_version": "0.2",
+      "authoritative_scope": "产品目标、P0/P1/P2范围、用户旅程、FR、AC与产品里程碑；当前开发统一入口。",
+      "reading_order": 1
+    },
+    {
+      "id": "design-teaching",
+      "title": "Agent 架构与框架设计",
+      "role": "设计教学",
+      "canonical_path": "/architecture/",
+      "status": "教学",
+      "baseline_id": "structbio-current-20261110",
+      "content_version": "architecture-20261109",
+      "authoritative_scope": "解释当前需求的框架、模块、状态与执行设计；不另定义产品需求或协议字段。",
+      "reading_order": 2
+    },
+    {
+      "id": "engineering",
+      "title": "当前 PRD 的技术规格",
+      "role": "技术规格",
+      "canonical_path": "/prd/engineering/",
+      "status": "当前",
+      "baseline_id": "structbio-current-20261110",
+      "content_version": "0.2",
+      "authoritative_scope": "模块、事务、预算、科学适配器、故障、联调和开发任务；精确字段指向同基线机器合同。",
+      "reading_order": 3
+    },
+    {
+      "id": "implementation",
+      "title": "实施任务与工程验收",
+      "role": "实施与验收",
+      "canonical_path": "/prd/engineering/#backlog",
+      "status": "当前",
+      "baseline_id": "structbio-current-20261110",
+      "content_version": "0.2",
+      "authoritative_scope": "开发Issue、依赖与DoD；产品验收仍关联 /prd/#acceptance，工程测试关联 verification。",
+      "reading_order": 4,
+      "related_paths": [
+        "/prd/#delivery",
+        "/prd/#acceptance",
+        "/prd/engineering/#verification"
+      ]
+    },
+    {
+      "id": "openapi",
+      "title": "API 合同",
+      "role": "机器合同",
+      "canonical_path": "/prd/engineering/contracts/openapi.json",
+      "status": "当前",
+      "baseline_id": "structbio-current-20261110",
+      "content_version": "0.2.0-draft",
+      "authoritative_scope": "请求、响应、权限、状态码、SSE与文件读取等对外API字段；合同草案，尚未启用运行服务。"
+    },
+    {
+      "id": "worker",
+      "title": "Worker 消息合同",
+      "role": "机器合同",
+      "canonical_path": "/prd/engineering/contracts/worker-protocol.schema.json",
+      "status": "当前",
+      "baseline_id": "structbio-current-20261110",
+      "content_version": "worker.v1",
+      "authoritative_scope": "派发、心跳和完成消息；PREFLIGHT/TOOL、lease_epoch、输入输出与资源字段。"
+    },
+    {
+      "id": "database",
+      "title": "数据库合同",
+      "role": "机器合同",
+      "canonical_path": "/prd/engineering/contracts/001_core.sql",
+      "status": "当前",
+      "baseline_id": "structbio-current-20261110",
+      "content_version": "0.2",
+      "authoritative_scope": "物理表、约束与不可变记录的设计迁移；未应用于现有资料站或NBDB数据库。"
+    },
+    {
+      "id": "product-data",
+      "title": "产品需求结构化数据",
+      "role": "产品需求数据",
+      "canonical_path": "/prd/prd.json",
+      "status": "当前",
+      "baseline_id": "structbio-current-20261110",
+      "content_version": "0.2",
+      "authoritative_scope": "当前产品需求、科学接受条件和追踪关系的结构化副本；工程精确合同由canonical_contracts引用。"
+    },
+    {
+      "id": "requirements-data",
+      "title": "需求与验收索引",
+      "role": "需求与验收数据",
+      "canonical_path": "/prd/requirements.json",
+      "status": "当前",
+      "baseline_id": "structbio-current-20261110",
+      "content_version": "0.2",
+      "authoritative_scope": "FR、AC与里程碑结构化索引，不新增独立PRD版本。"
+    },
+    {
+      "id": "engineering-data",
+      "title": "技术规格结构化数据",
+      "role": "技术规格数据",
+      "canonical_path": "/prd/engineering/engineering-spec.json",
+      "status": "当前",
+      "baseline_id": "structbio-current-20261110",
+      "content_version": "0.2",
+      "authoritative_scope": "当前技术规格的结构化章节、任务和合同引用。"
+    },
+    {
+      "id": "reference-materials",
+      "title": "课程、教学包与外部依据",
+      "role": "参考资料",
+      "canonical_path": "/prd/#supporting-resources",
+      "status": "教学",
+      "baseline_id": "structbio-current-20261110",
+      "content_version": "按各资料原版本",
+      "authoritative_scope": "帮助理解与复算，不替代当前FR/AC或机器合同；原资料日期与证据边界保留。"
+    },
+    {
+      "id": "history",
+      "title": "历史归档",
+      "role": "历史索引",
+      "canonical_path": "/prd/history/",
+      "status": "历史",
+      "baseline_id": "structbio-current-20261110",
+      "content_version": "archive-index",
+      "authoritative_scope": "集中查阅旧版原始文件；开始开发返回 /prd/。",
+      "lifecycle": "superseded_materials_only"
+    },
+    {
+      "id": "prd-v0.1-archive",
+      "title": "PRD 0.1 原始文件包",
+      "role": "历史原件",
+      "canonical_path": "/prd/history/prd-v0.1.zip",
+      "status": "历史",
+      "baseline_id": "structbio-current-20261110",
+      "content_version": "0.1",
+      "authoritative_scope": "2026-11-03原始文件，只供追溯；不作为当前开发需求或接口依据。",
+      "lifecycle": "superseded",
+      "superseded_by": "/prd/",
+      "sha256": "49a7e665ad6cd3816d979a98b2e996484eb0b5ac44aa12c1e14b313ba3955b5e"
+    },
+    {
+      "id": "prd-v0.1-json",
+      "title": "PRD 0.1 原始 JSON",
+      "role": "历史原件",
+      "canonical_path": "/prd/history/prd-v0.1.json",
+      "status": "历史",
+      "baseline_id": "structbio-current-20261110",
+      "content_version": "0.1",
+      "authoritative_scope": "从旧版原始ZIP按字节提取，不改旧版本号、日期或正文。",
+      "lifecycle": "superseded",
+      "superseded_by": "/prd/",
+      "sha256": "720cddd69af994b1fc521878ef61deda1f50a59ecebd9ed569169d20da34b76d"
+    }
+  ],
+  "current_presentation": {
+    "path": "_汇报材料/Structural_Biology_Agent_Design_Implementation_Course_2026-11-10.pptx",
+    "sha256": "c137a62103c9ae6657b462606ee427fc56f1a0b2b8f201716992f081011b9a28",
+    "slides": 168,
+    "design_chapter": [
+      60,
+      81
+    ],
+    "preview": "preview/",
+    "speaker": "speaker/"
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "kind": "OFFLINE_POLICY_FIXTURE_ONLY",
+  "contains_llm": false,
+  "contains_actual_executor": false,
+  "policy_manifest_sha256": "78d7e1ff632fcc31c50321ae4a3a85aa89959b86f2d36e0e1a23f97d138c6594",
+  "unit_tests": {
+    "tests_run": 30,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "successful": true
+  },
+  "scenario_summary": {
+    "total": 26,
+    "passed": 26,
+    "failed": 0,
+    "actual_execution_count": 0,
+    "science_evaluation_count": 0
+  },
+  "files": {
+    "audit_examples.json": {
+      "sha256": "f06f4162bdf5280951573d49937b2c07864cc3fc111c7bb8d71da06bf510ecbd",
+      "bytes": 15256
+    },
+    "case_results.json": {
+      "sha256": "fac237d4b619719566c547b9549ac9696c4a26743a5f6b53fa83bcbae5dc9ae9",
+      "bytes": 15297
+    },
+    "fixtures.py": {
+      "sha256": "d162619121e27754040d06677c1ed0085fc0f32c6ae2e9311db45a245dbd2fcb",
+      "bytes": 2241
+    },
+    "gateway.py": {
+      "sha256": "2e36642006440f49d2e8a4e42d5d7ab18519b7a70fe5cd006f55940106fdcfde",
+      "bytes": 12239
+    },
+    "index.html": {
+      "sha256": "458d4f776081f80af21d35c8a3ebe7bee2980bbe9bc4191004cbbc2a5ea88b65",
+      "bytes": 14197
+    },
+    "policy_lab_manifest.json": {
+      "sha256": "78d7e1ff632fcc31c50321ae4a3a85aa89959b86f2d36e0e1a23f97d138c6594",
+      "bytes": 3664
+    },
+    "run_policy_lab.py": {
+      "sha256": "08579fda92bd64b8e6337312e4cd33932466fdb9dd663166e5f6543c3945fddf",
+      "bytes": 7332
+    },
+    "run_tests.py": {
+      "sha256": "50a9a69677d7fadacafe0f3d1d94a57e6758d935f7da82a97cf17be06900efa8",
+      "bytes": 1827
+    },
+    "test_evidence.json": {
+      "sha256": "93b0c56755036fbddc9e7ce8092e4c9c7d308fea39a98c9878df572b6a2df9b9",
+      "bytes": 5066
+    },
+    "tests/test_gateway.py": {
+      "sha256": "8785f3b3584eec72df673f575558a7c8c2b07b5a8c8644258680c2d2326707d0",
+      "bytes": 12957
+    }
+  },
+  "zip_name": "policy_lab_offline.zip",
+  "zip_members": [
+    "audit_examples.json",
+    "case_results.json",
+    "fixtures.py",
+    "gateway.py",
+    "index.html",
+    "package_manifest.json",
+    "policy_lab_manifest.json",
+    "run_policy_lab.py",
+    "run_tests.py",
+    "test_evidence.json",
+    "tests/test_gateway.py"
+  ],
+  "note": "files excludes this self-referential manifest. ZIP contains its exact bytes; download_manifest.json records ZIP and package-manifest hashes."
+}

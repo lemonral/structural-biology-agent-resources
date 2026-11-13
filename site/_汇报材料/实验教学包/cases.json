@@ -1,0 +1,285 @@
+{
+  "label": "fixed plan examples, not natural-language Agent benchmark",
+  "cases": [
+    {
+      "case_id": "global",
+      "task": {
+        "task_id": "global",
+        "question": "Compare coordinate geometry with declared selections.",
+        "reference": "4AKE",
+        "moving": "1AKE",
+        "chain": "A",
+        "mode": "global",
+        "units": "angstrom",
+        "model_index": 0,
+        "mapping": "same_auth_residue_and_name",
+        "region_policy": "MDAnalysis_AdK_tutorial_v1",
+        "ligand": "AP5",
+        "cutoff_A": 4.0
+      }
+    },
+    {
+      "case_id": "local",
+      "task": {
+        "task_id": "local",
+        "question": "Compare coordinate geometry with declared selections.",
+        "reference": "4AKE",
+        "moving": "1AKE",
+        "chain": "A",
+        "mode": "local",
+        "units": "angstrom",
+        "model_index": 0,
+        "mapping": "same_auth_residue_and_name",
+        "region_policy": "MDAnalysis_AdK_tutorial_v1",
+        "ligand": "AP5",
+        "cutoff_A": 4.0
+      }
+    },
+    {
+      "case_id": "core_reference",
+      "task": {
+        "task_id": "core_reference",
+        "question": "Compare coordinate geometry with declared selections.",
+        "reference": "4AKE",
+        "moving": "1AKE",
+        "chain": "A",
+        "mode": "core_reference",
+        "units": "angstrom",
+        "model_index": 0,
+        "mapping": "same_auth_residue_and_name",
+        "region_policy": "MDAnalysis_AdK_tutorial_v1",
+        "ligand": "AP5",
+        "cutoff_A": 4.0
+      }
+    },
+    {
+      "case_id": "ligand_contacts",
+      "task": {
+        "task_id": "ligand_contacts",
+        "question": "Find protein residues with any heavy atom within inclusive 4 angstrom of chain A AP5.",
+        "reference": "1AKE",
+        "moving": null,
+        "chain": "A",
+        "mode": "contacts",
+        "units": "angstrom",
+        "model_index": 0,
+        "mapping": "same_auth_residue_and_name",
+        "region_policy": "MDAnalysis_AdK_tutorial_v1",
+        "ligand": "AP5",
+        "cutoff_A": 4.0
+      }
+    },
+    {
+      "case_id": "chain_missing",
+      "task": {
+        "task_id": "chain_missing",
+        "question": "Compare coordinate geometry with declared selections.",
+        "reference": "4AKE",
+        "moving": "1AKE",
+        "chain": null,
+        "mode": "global",
+        "units": "angstrom",
+        "model_index": 0,
+        "mapping": "same_auth_residue_and_name",
+        "region_policy": "MDAnalysis_AdK_tutorial_v1",
+        "ligand": "AP5",
+        "cutoff_A": 4.0
+      }
+    },
+    {
+      "case_id": "chain_unknown",
+      "task": {
+        "task_id": "chain_unknown",
+        "question": "Compare coordinate geometry with declared selections.",
+        "reference": "4AKE",
+        "moving": "1AKE",
+        "chain": "Z",
+        "mode": "global",
+        "units": "angstrom",
+        "model_index": 0,
+        "mapping": "same_auth_residue_and_name",
+        "region_policy": "MDAnalysis_AdK_tutorial_v1",
+        "ligand": "AP5",
+        "cutoff_A": 4.0
+      }
+    },
+    {
+      "case_id": "file_missing",
+      "task": {
+        "task_id": "file_missing",
+        "question": "Compare coordinate geometry with declared selections.",
+        "reference": "MISSING",
+        "moving": "1AKE",
+        "chain": "A",
+        "mode": "global",
+        "units": "angstrom",
+        "model_index": 0,
+        "mapping": "same_auth_residue_and_name",
+        "region_policy": "MDAnalysis_AdK_tutorial_v1",
+        "ligand": "AP5",
+        "cutoff_A": 4.0
+      }
+    },
+    {
+      "case_id": "unit_unsupported",
+      "task": {
+        "task_id": "unit_unsupported",
+        "question": "Compare coordinate geometry with declared selections.",
+        "reference": "4AKE",
+        "moving": "1AKE",
+        "chain": "A",
+        "mode": "global",
+        "units": "nm",
+        "model_index": 0,
+        "mapping": "same_auth_residue_and_name",
+        "region_policy": "MDAnalysis_AdK_tutorial_v1",
+        "ligand": "AP5",
+        "cutoff_A": 4.0
+      }
+    },
+    {
+      "case_id": "fixture_wrong_object",
+      "task": {
+        "task_id": "fixture_wrong_object",
+        "question": "Compare coordinate geometry with declared selections.",
+        "reference": "4AKE",
+        "moving": "1AKE",
+        "chain": "A",
+        "mode": "global",
+        "units": "angstrom",
+        "model_index": 0,
+        "mapping": "same_auth_residue_and_name",
+        "region_policy": "MDAnalysis_AdK_tutorial_v1",
+        "ligand": "AP5",
+        "cutoff_A": 4.0
+      },
+      "fault": "wrong_object"
+    },
+    {
+      "case_id": "fixture_wrong_metric",
+      "task": {
+        "task_id": "fixture_wrong_metric",
+        "question": "Compare coordinate geometry with declared selections.",
+        "reference": "4AKE",
+        "moving": "1AKE",
+        "chain": "A",
+        "mode": "global",
+        "units": "angstrom",
+        "model_index": 0,
+        "mapping": "same_auth_residue_and_name",
+        "region_policy": "MDAnalysis_AdK_tutorial_v1",
+        "ligand": "AP5",
+        "cutoff_A": 4.0
+      },
+      "fault": "wrong_metric"
+    },
+    {
+      "case_id": "fixture_wrong_unit",
+      "task": {
+        "task_id": "fixture_wrong_unit",
+        "question": "Compare coordinate geometry with declared selections.",
+        "reference": "4AKE",
+        "moving": "1AKE",
+        "chain": "A",
+        "mode": "global",
+        "units": "angstrom",
+        "model_index": 0,
+        "mapping": "same_auth_residue_and_name",
+        "region_policy": "MDAnalysis_AdK_tutorial_v1",
+        "ligand": "AP5",
+        "cutoff_A": 4.0
+      },
+      "fault": "wrong_unit"
+    },
+    {
+      "case_id": "fixture_duplicate_delivery",
+      "task": {
+        "task_id": "fixture_duplicate_delivery",
+        "question": "Compare coordinate geometry with declared selections.",
+        "reference": "4AKE",
+        "moving": "1AKE",
+        "chain": "A",
+        "mode": "global",
+        "units": "angstrom",
+        "model_index": 0,
+        "mapping": "same_auth_residue_and_name",
+        "region_policy": "MDAnalysis_AdK_tutorial_v1",
+        "ligand": "AP5",
+        "cutoff_A": 4.0
+      },
+      "fault": "duplicate_delivery"
+    },
+    {
+      "case_id": "fixture_simulated_timeout",
+      "task": {
+        "task_id": "fixture_simulated_timeout",
+        "question": "Compare coordinate geometry with declared selections.",
+        "reference": "4AKE",
+        "moving": "1AKE",
+        "chain": "A",
+        "mode": "global",
+        "units": "angstrom",
+        "model_index": 0,
+        "mapping": "same_auth_residue_and_name",
+        "region_policy": "MDAnalysis_AdK_tutorial_v1",
+        "ligand": "AP5",
+        "cutoff_A": 4.0
+      },
+      "fault": "simulated_timeout"
+    },
+    {
+      "case_id": "fixture_unknown_reconciled",
+      "task": {
+        "task_id": "fixture_unknown_reconciled",
+        "question": "Compare coordinate geometry with declared selections.",
+        "reference": "4AKE",
+        "moving": "1AKE",
+        "chain": "A",
+        "mode": "global",
+        "units": "angstrom",
+        "model_index": 0,
+        "mapping": "same_auth_residue_and_name",
+        "region_policy": "MDAnalysis_AdK_tutorial_v1",
+        "ligand": "AP5",
+        "cutoff_A": 4.0
+      },
+      "fault": "unknown_reconciled"
+    },
+    {
+      "case_id": "fixture_unknown_unresolved",
+      "task": {
+        "task_id": "fixture_unknown_unresolved",
+        "question": "Compare coordinate geometry with declared selections.",
+        "reference": "4AKE",
+        "moving": "1AKE",
+        "chain": "A",
+        "mode": "global",
+        "units": "angstrom",
+        "model_index": 0,
+        "mapping": "same_auth_residue_and_name",
+        "region_policy": "MDAnalysis_AdK_tutorial_v1",
+        "ligand": "AP5",
+        "cutoff_A": 4.0
+      },
+      "fault": "unknown_unresolved"
+    },
+    {
+      "case_id": "fixture_cancel_unconfirmed",
+      "task": {
+        "task_id": "fixture_cancel_unconfirmed",
+        "question": "Compare coordinate geometry with declared selections.",
+        "reference": "4AKE",
+        "moving": "1AKE",
+        "chain": "A",
+        "mode": "global",
+        "units": "angstrom",
+        "model_index": 0,
+        "mapping": "same_auth_residue_and_name",
+        "region_policy": "MDAnalysis_AdK_tutorial_v1",
+        "ligand": "AP5",
+        "cutoff_A": 4.0
+      },
+      "fault": "cancel_unconfirmed"
+    }
+  ]
+}

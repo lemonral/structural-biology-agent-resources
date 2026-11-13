@@ -1,0 +1,44 @@
+{
+  "case_id": "global",
+  "task_id": "global",
+  "policy": "fixed_teaching_plan@1",
+  "contains_llm": false,
+  "fault_fixture": null,
+  "attempts": [
+    {
+      "attempt_id": "global:inspect:1",
+      "step_id": "inspect",
+      "tool_id": "inspect_coordinates@1",
+      "state": "COMPLETED"
+    },
+    {
+      "attempt_id": "global:mapping:1",
+      "step_id": "mapping",
+      "tool_id": "map_residues@1",
+      "state": "COMPLETED"
+    },
+    {
+      "attempt_id": "global:measure:1",
+      "step_id": "measure",
+      "tool_id": "calculate_rmsd@1",
+      "state": "COMPLETED"
+    }
+  ],
+  "artifacts": {
+    "result": {
+      "filename": "result.json",
+      "content_id": "f4474637167b95c54586970c8098144814e1c065ed5c8d91a9f1deb49dc865d0",
+      "attempt_id": "global:measure:1"
+    },
+    "validation": {
+      "filename": "validation.json",
+      "content_id": "aee9d9596209cfe2fd4f4896e6e3622fbf9871d50c4a13e7c0fe6cdc418474b1",
+      "attempt_id": "validator:1"
+    }
+  },
+  "state": "COMPLETED",
+  "reason": null,
+  "actual_scientific_calculations": 1,
+  "simulated_external_submissions": 0,
+  "tool_attempt_count": 3
+}

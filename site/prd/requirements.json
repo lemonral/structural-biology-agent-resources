@@ -1,0 +1,1233 @@
+{
+  "version": "0.2",
+  "status": "PROPOSED",
+  "requirements": [
+    {
+      "id": "FR-01",
+      "priority": "P0",
+      "name": "项目与任务身份",
+      "trigger": "用户新建或继续任务。",
+      "inputs": [
+        "服务端actor/project",
+        "问题",
+        "已授权输入引用"
+      ],
+      "behavior": [
+        "生成稳定task_id和不可变原始请求TaskRevision；每次评测/执行预分配Run，原请求、输入引用和模型配置形成快照。",
+        "ANALYZE Run在原始请求的候选规格仍为DRAFT时即可创建，模型解析、澄清、规划、修复、执行和报告均计同一Run总预算；内部重试不是新Run。"
+      ],
+      "artifacts": [
+        "Task/原始请求TaskRevision",
+        "Run及原请求/输入/配置快照"
+      ],
+      "failure_behavior": [
+        "权限不足不创建；重复提交按幂等请求身份处理。"
+      ],
+      "acceptance": [
+        "重复创建请求只产生一个Task。",
+        "列表、详情和下载均拒绝跨项目身份。"
+      ],
+      "boundary": "",
+      "acceptance_ids": [
+        "AC-10",
+        "AC-14",
+        "AC-19"
+      ],
+      "engineering_refs": [
+        "engineering/#blueprint",
+        "engineering/#data-model",
+        "engineering/#transactions"
+      ]
+    },
+    {
+      "id": "FR-02",
+      "priority": "P0",
+      "name": "受控输入导入",
+      "trigger": "输入结构ID或上传文件。",
+      "inputs": [
+        "允许来源ID或PDB/mmCIF字节",
+        "来源与数据类别"
+      ],
+      "behavior": [
+        "检查大小、格式、解析和权限，保存不可变原始字节与SHA-256。",
+        "下载限配置来源；文件内容仅为数据。"
+      ],
+      "artifacts": [
+        "InputArtifact",
+        "来源/取得时间/hash/解析状态"
+      ],
+      "failure_behavior": [
+        "超限、空下载、格式不符或权限不明明确拒绝，不静默换文件。"
+      ],
+      "acceptance": [
+        "HTML错误页伪装坐标不能作为科学输入或形成FrozenTaskSpec。",
+        "同名不同字节有不同内容身份；相同字节去重仍查项目权限。"
+      ],
+      "boundary": "不开放任意URL；远程模型的数据使用另见FR-18。",
+      "acceptance_ids": [
+        "AC-01",
+        "AC-02",
+        "AC-12"
+      ],
+      "engineering_refs": [
+        "engineering/#artifacts",
+        "engineering/#API-02",
+        "engineering/#API-03"
+      ]
+    },
+    {
+      "id": "FR-03",
+      "priority": "P0",
+      "name": "对象清单与预处理摘要",
+      "trigger": "输入导入成功。",
+      "inputs": [
+        "InputArtifact",
+        "版本化解析规则"
+      ],
+      "behavior": [
+        "列出model/entity、auth/label链对照、残基/原子数、编号/插入码、缺失与altloc。",
+        "记录清理/选择前后差异，以及配体、水和离子是否参与。"
+      ],
+      "artifacts": [
+        "StructureManifest",
+        "SelectionSummary",
+        "预处理差异"
+      ],
+      "failure_behavior": [
+        "对象身份无法解释时停止相关计算；解析通过不等于模型科学有效。"
+      ],
+      "acceptance": [
+        "1AKE清单区分蛋白和AP5的auth/label身份。",
+        "多模型/多链/插入码/altloc负例不会被隐含默认值换对象。"
+      ],
+      "boundary": "",
+      "acceptance_ids": [
+        "AC-02",
+        "AC-19"
+      ],
+      "engineering_refs": [
+        "engineering/#SCI-01"
+      ]
+    },
+    {
+      "id": "FR-04",
+      "priority": "P0",
+      "name": "自然语言到TaskSpec",
+      "trigger": "提交研究问题。",
+      "inputs": [
+        "原始问题/TaskRevision",
+        "同一Run内真实对象清单与澄清事件",
+        "能力目录和剩余Run总预算"
+      ],
+      "behavior": [
+        "在已创建Run内抽取目标、对象、选择、拟合/评价区、接触定义、单位、输出和约束；候选规格与来源持续追加。",
+        "首个科学计算前由程序检查并一次性冻结FrozenTaskSpec，生成frozen_spec_id；正式Plan必须引用此ID。"
+      ],
+      "artifacts": [
+        "候选规格与FrozenTaskSpec",
+        "frozen_spec_id、字段来源、默认值与澄清事件"
+      ],
+      "failure_behavior": [
+        "缺决定性信息进入NEEDS_CLARIFICATION；不支持时说明范围和可行替代分析。"
+      ],
+      "acceptance": [
+        "规格可序列化且所有对象引用可解析。",
+        "未注册能力不会生成虚假成功计划或数值。"
+      ],
+      "boundary": "",
+      "acceptance_ids": [
+        "AC-01",
+        "AC-06",
+        "AC-07"
+      ],
+      "engineering_refs": [
+        "engineering/#model-contracts"
+      ]
+    },
+    {
+      "id": "FR-05",
+      "priority": "P0",
+      "name": "必要澄清与规格修订",
+      "trigger": "实质歧义或用户改变目标/选择。",
+      "inputs": [
+        "候选与不确定字段",
+        "用户回答/修改"
+      ],
+      "behavior": [
+        "只询问影响科学含义的关键差异，给候选依据；规格冻结前的补充回答以同Run追加事件保存，不覆盖原始用户请求或重置预算。",
+        "普通已授权操作自动执行；规格冻结后改变目标/对象/选择/方法则创建新TaskRevision和新Run并关联来源，旧Run历史和费用保留，按实际状态完成、暂停核查或取消。"
+      ],
+      "artifacts": [
+        "ClarificationEvent/候选规格",
+        "FrozenTaskSpec或新TaskRevision/Run的来源关系"
+      ],
+      "failure_behavior": [
+        "未回复时保持待澄清，不猜关键链/装配体。"
+      ],
+      "acceptance": [
+        "冻结前澄清与所有模型调用归属同一Run；原始请求不可改写，预算不重置。",
+        "冻结后切换拟合区产生新合同和新Run，旧计划不能误用新选择。",
+        "明确任务不逐次要求批准解析、计算和新报告写入。"
+      ],
+      "boundary": "科学澄清补齐意图，高影响审批限制副作用，两者分开。",
+      "acceptance_ids": [
+        "AC-01",
+        "AC-07"
+      ],
+      "engineering_refs": [
+        "engineering/#API-06"
+      ]
+    },
+    {
+      "id": "FR-06",
+      "priority": "P0",
+      "name": "可用能力目录",
+      "trigger": "查看范围或规划器选工具。",
+      "inputs": [
+        "能力注册",
+        "部署状态",
+        "项目授权"
+      ],
+      "behavior": [
+        "展示输入输出、科学前提、版本、资源类别和已验证范围。",
+        "区分已登记/已部署/参考通过/暂不可用，只向Planner提供当前可用获权能力。"
+      ],
+      "artifacts": [
+        "VersionedCapabilityCatalog",
+        "可用性快照"
+      ],
+      "failure_behavior": [
+        "禁用或健康检查失败能力不进入新计划。"
+      ],
+      "acceptance": [
+        "目录、计划和执行中的能力版本可对应。",
+        "只有接口声明但未部署的能力不显示可执行。"
+      ],
+      "boundary": "",
+      "acceptance_ids": [
+        "AC-11",
+        "AC-12",
+        "AC-20"
+      ],
+      "engineering_refs": [
+        "engineering/#blueprint",
+        "engineering/#scientific-adapters"
+      ]
+    },
+    {
+      "id": "FR-07",
+      "priority": "P0",
+      "name": "依赖计划与执行前检查",
+      "trigger": "同一ANALYZE Run内FrozenTaskSpec形成后进入规划阶段。",
+      "inputs": [
+        "frozen_spec_id/FrozenTaskSpec",
+        "能力快照",
+        "输入/产物引用和同Run剩余预算"
+      ],
+      "behavior": [
+        "模型在同一Run内生成步骤、依赖、类型化参数、预期工件、验证节点和停止条件，Plan引用frozen_spec_id。",
+        "程序检查类型/引用、科学前提、依赖环、权限和Run总预算后派发；常规步骤自动执行，有限PlanRevision不改变冻结科学合同。"
+      ],
+      "artifacts": [
+        "Plan/PlanRevision",
+        "CompileResult",
+        "排队记录"
+      ],
+      "failure_behavior": [
+        "编译失败定位字段/步骤；有限修订不能绕过硬检查。"
+      ],
+      "acceptance": [
+        "环依赖、缺工件、错误对象类型和超预算计划不产生科学调用。",
+        "接受满足约束的等价合法路径，不要求唯一参考工具顺序。"
+      ],
+      "boundary": "展示计划与用户发起一次任务不等于逐步人工审批。",
+      "acceptance_ids": [
+        "AC-01",
+        "AC-11",
+        "AC-12",
+        "AC-13"
+      ],
+      "engineering_refs": [
+        "engineering/#API-08",
+        "engineering/#worker"
+      ]
+    },
+    {
+      "id": "FR-08",
+      "priority": "P0",
+      "name": "选择与跨结构对应",
+      "trigger": "比较任务需原子配对。",
+      "inputs": [
+        "对象身份",
+        "受支持选择",
+        "显式配对或版本化对应规则"
+      ],
+      "behavior": [
+        "构造一对一原子配对，保留auth/label、插入码语义。",
+        "可用冻结序列对应规则提出映射，展示覆盖、冲突、缺失和未配对；实质歧义请求澄清。"
+      ],
+      "artifacts": [
+        "SelectionArtifact",
+        "ResidueMapping",
+        "AtomPairs与覆盖"
+      ],
+      "failure_behavior": [
+        "空选择、重复配对、不兼容类型和未消除歧义阻断拟合。"
+      ],
+      "acceptance": [
+        "同编号不同序列/对象的负例不被当成已证实同源对应。",
+        "每个RMSD原子都能追到保存的配对表。"
+      ],
+      "boundary": "P0仅承诺参考验证过的蛋白Cα对应，复杂自动结构对齐另作能力包。",
+      "acceptance_ids": [
+        "AC-02",
+        "AC-03"
+      ],
+      "engineering_refs": [
+        "engineering/#SCI-02"
+      ]
+    },
+    {
+      "id": "FR-09",
+      "priority": "P0",
+      "name": "叠合与分区比较",
+      "trigger": "调用RMSD能力。",
+      "inputs": [
+        "AtomPairs",
+        "参考/移动方向",
+        "拟合区F与评价区E",
+        "方法/权重/单位"
+      ],
+      "behavior": [
+        "计算规定的右手刚体变换及评价区RMSD和逐位偏差。",
+        "区分全链、各区独立拟合和CORE参考后的评价；记录覆盖/排除，不静默删离群点。"
+      ],
+      "artifacts": [
+        "TransformArtifact",
+        "RMSD表",
+        "位移与叠合坐标"
+      ],
+      "failure_behavior": [
+        "退化选择、不支持单位、非有限数或无效映射触发输入/科学拒绝。"
+      ],
+      "acceptance": [
+        "同结构和已知刚体变换满足冻结数值容差。",
+        "相同合同下AdK全链约7.130700 Å；CORE拟合后NMP约11.232016 Å、LID约15.581193 Å。"
+      ],
+      "boundary": "数值为已有公开参考计算的回归锚点，不代表新Agent已实现或通过。",
+      "acceptance_ids": [
+        "AC-03",
+        "AC-05"
+      ],
+      "engineering_refs": [
+        "engineering/#SCI-03"
+      ]
+    },
+    {
+      "id": "FR-10",
+      "priority": "P0",
+      "name": "几何接触分析",
+      "trigger": "调用接触能力。",
+      "inputs": [
+        "明确两对象/选择集",
+        "原子策略",
+        "距离阈值/单位",
+        "边界包含规则"
+      ],
+      "behavior": [
+        "按冻结定义计算原子对、去重残基和可视化选择。",
+        "显式报告欧氏距离及≤/<规则，不自动输出亲和力、氢键或因果功能。"
+      ],
+      "artifacts": [
+        "ContactPairs",
+        "ContactResidues",
+        "定义与接触视图"
+      ],
+      "failure_behavior": [
+        "空对象、不支持单位、无效阈值或身份冲突阻断交付。"
+      ],
+      "acceptance": [
+        "既有1AKE合同复算AP5 57重原子、34接触残基、234原子对（≤4 Å）。",
+        "阈值边界夹具验证≤/<；原子对与残基计数分开。"
+      ],
+      "boundary": "接触描述不是结合能/结合能力预测。",
+      "acceptance_ids": [
+        "AC-04",
+        "AC-05"
+      ],
+      "engineering_refs": [
+        "engineering/#SCI-04"
+      ]
+    },
+    {
+      "id": "FR-11",
+      "priority": "P0",
+      "name": "受控真实执行",
+      "trigger": "计划执行前检查通过。",
+      "inputs": [
+        "PlanRevision",
+        "只读输入",
+        "资源配置"
+      ],
+      "behavior": [
+        "Worker运行固定适配器/环境，限制文件根、网络、进程与资源。",
+        "持久保存Step/Attempt和真实执行事实；项目内新不可变工件自动允许。"
+      ],
+      "artifacts": [
+        "Attempt",
+        "执行日志摘要",
+        "原始结果与工件身份"
+      ],
+      "failure_behavior": [
+        "异常/超额/超时记录真实结局；模型不得填造成功产物。"
+      ],
+      "acceptance": [
+        "无适配器执行证据的工具文本不能成为已计算结果。",
+        "真实运行边界测试拒绝越域读写、未知程序入口，并可终止超额进程。"
+      ],
+      "boundary": "教学fixture不是生产通过证据；内存锁不证明持久执行。",
+      "acceptance_ids": [
+        "AC-09",
+        "AC-12",
+        "AC-13",
+        "AC-14"
+      ],
+      "engineering_refs": [
+        "engineering/#worker"
+      ]
+    },
+    {
+      "id": "FR-12",
+      "priority": "P0",
+      "name": "有限重试与科学修订",
+      "trigger": "工具或检查器失败。",
+      "inputs": [
+        "错误码",
+        "已完成工件",
+        "剩余deadline/预算/次数"
+      ],
+      "behavior": [
+        "瞬时故障有界重试；同一科学合同内按诊断追加PlanRevision，Attempt绑定实际计划并共享Run剩余总预算。",
+        "修订保留原目标与约束、保存全部代价，不调整阈值刷通过。"
+      ],
+      "artifacts": [
+        "Attempt链",
+        "RepairDecision",
+        "PlanRevision或终止"
+      ],
+      "failure_behavior": [
+        "超额、无进展、不可恢复或权限拒绝停止相应路径。"
+      ],
+      "acceptance": [
+        "故障注入不超过次数上限，重试不增加独立评测分母。",
+        "错误映射不靠重复同一运算变成功，必须有修复证据。"
+      ],
+      "boundary": "修复不得改变TaskRevision。若需改变目标、对象、拟合/评价区或方法，则进入澄清/修订，创建关联的新TaskRevision与新Run；不能偷换旧Run的合同或评测分母。",
+      "acceptance_ids": [
+        "AC-05",
+        "AC-08",
+        "AC-14"
+      ],
+      "engineering_refs": [
+        "engineering/#transactions",
+        "engineering/#model-contracts"
+      ]
+    },
+    {
+      "id": "FR-13",
+      "priority": "P0",
+      "name": "查询、取消与恢复",
+      "trigger": "重开页面、取消或Worker重启。",
+      "inputs": [
+        "Task/Run ID",
+        "服务端身份",
+        "账本与实际句柄"
+      ],
+      "behavior": [
+        "状态以服务端事实为准，页面关闭不删除运行。",
+        "取消请求和实际终止分开；恢复前核对产物与真实进程，避免重复副作用。"
+      ],
+      "artifacts": [
+        "状态事件",
+        "取消/终止证据",
+        "恢复或UNKNOWN"
+      ],
+      "failure_behavior": [
+        "无法确认保持UNKNOWN，禁止危险重提；取消请求不等于已终止。"
+      ],
+      "acceptance": [
+        "关闭重开看到同一Run和已完成工件。",
+        "真实CPU取消确认进程退出/资源回收；重启不把证据缺失改成成功。"
+      ],
+      "boundary": "HPC恢复/取消在P1单独验收。",
+      "acceptance_ids": [
+        "AC-14",
+        "AC-15"
+      ],
+      "engineering_refs": [
+        "engineering/#worker",
+        "engineering/#operations"
+      ]
+    },
+    {
+      "id": "FR-14",
+      "priority": "P0",
+      "name": "执行与科学验收分离",
+      "trigger": "计算步骤或候选报告返回。",
+      "inputs": [
+        "不可变工件",
+        "Run绑定的FrozenTaskSpec",
+        "检查器/规则版本"
+      ],
+      "behavior": [
+        "分别记录执行与scientific_status。",
+        "核对对象、映射、单位、schema、数值不变量/独立基准和报告引用；exit0不直接成功。"
+      ],
+      "artifacts": [
+        "ValidationRecord",
+        "科学接受/拒绝/未定与证据"
+      ],
+      "failure_behavior": [
+        "科学失败不交付“已正确完成”；可展示清楚标识的无效候选和诊断。"
+      ],
+      "acceptance": [
+        "损坏结果、错单位、错对象和篡改数值负例均阻断接受。",
+        "检查器升级追加记录，不覆盖过去版本判断。"
+      ],
+      "boundary": "披露独立基准共享依赖、覆盖和限制。",
+      "acceptance_ids": [
+        "AC-05",
+        "AC-06",
+        "AC-18"
+      ],
+      "engineering_refs": [
+        "engineering/#scientific-adapters"
+      ]
+    },
+    {
+      "id": "FR-15",
+      "priority": "P0",
+      "name": "证据报告与分析视图",
+      "trigger": "有效产物可交付，或需说明失败/未定。",
+      "inputs": [
+        "TaskSpec",
+        "Artifact/Validation引用",
+        "可见数据摘要"
+      ],
+      "behavior": [
+        "P0提供对象与映射表、指标表、逐位偏差/接触图和可核对的选择清单；P1可选Mol*只读3D浏览。",
+        "报告问题/对象/方法/结果/证据/限制/未完成部分，数值由验收后数据驱动。"
+      ],
+      "artifacts": [
+        "版本化HTML报告",
+        "图表数据",
+        "结论到工件与检查引用"
+      ],
+      "failure_behavior": [
+        "部分失败明确哪些结论可支持；无有效产物给失败报告，不包装科学成功。"
+      ],
+      "acceptance": [
+        "关键数值可定位具体工件字段。",
+        "RMSD和接触报告包含方法与边界；视图渲染失败不改计算状态。"
+      ],
+      "boundary": "",
+      "phase_detail": {
+        "P0": "表格、必要科学图表与证据报告必须可用；3D不阻断交付。",
+        "P1": "按项目权限加载结构的只读3D浏览与选区高亮，不接外部公开URL泄漏私有坐标。"
+      },
+      "acceptance_ids": [
+        "AC-18",
+        "AC-19"
+      ],
+      "engineering_refs": [
+        "engineering/#frontend",
+        "engineering/#SCI-05"
+      ]
+    },
+    {
+      "id": "FR-16",
+      "priority": "P0",
+      "name": "不可变产物与下载",
+      "trigger": "保存/下载报告、图表、结果或复算包。",
+      "inputs": [
+        "当前身份",
+        "获授权工件",
+        "格式与清单"
+      ],
+      "behavior": [
+        "项目内新报告/工件自动保存不可变位置；同权限下载自动允许。",
+        "复算包含输入身份、规格、参数、版本、产物和检查；原输入是否包含服从许可/数据政策。"
+      ],
+      "artifacts": [
+        "ArtifactVersion",
+        "下载清单/hash",
+        "复算包"
+      ],
+      "failure_behavior": [
+        "缺失/损坏/权限变更或无许可内容拒绝下载；不覆盖原文件。"
+      ],
+      "acceptance": [
+        "下载hash与显示一致，重跑新建版本不覆盖旧证据。",
+        "普通项目内新报告写入和同权限下载不要求逐次审批。"
+      ],
+      "boundary": "",
+      "acceptance_ids": [
+        "AC-09",
+        "AC-10",
+        "AC-19"
+      ],
+      "engineering_refs": [
+        "engineering/#artifacts"
+      ]
+    },
+    {
+      "id": "FR-17",
+      "priority": "P0",
+      "name": "高影响动作与审批",
+      "trigger": "提出外发、新目的地、覆盖数据或突破软资源阈值。",
+      "inputs": [
+        "动作/目标/输入hash/参数/资源上限",
+        "当前权限与支持状态"
+      ],
+      "behavior": [
+        "P0拒绝不支持的外发/HPC/覆盖，合法分析可继续；不做假审批按钮。",
+        "P1真实能力启用时审批绑定身份/项目、数据、目的地、参数、版本、TTL及一次性消费。"
+      ],
+      "artifacts": [
+        "P0拒绝原因",
+        "P1 ActionIntent/Approval契约"
+      ],
+      "failure_behavior": [
+        "审批不扩硬权限/累计硬预算/支持范围；关键字段变化使旧审批失效。"
+      ],
+      "acceptance": [
+        "P0外发请求无发送副作用，合法项目内分析仍完成。",
+        "P1上线前测变更、过期、重放、撤销和并发消费；仅digest不算授权。"
+      ],
+      "boundary": "旧policy fixture里write审批仅教学示例，不照搬产品规则。",
+      "phase_detail": {
+        "P0": "拒绝未支持高影响动作，保留ActionIntent与拒绝原因契约；不做假审批按钮。",
+        "P1": "真实高影响能力准入后实现精确审批、撤销及原子消费。"
+      },
+      "acceptance_ids": [
+        "AC-11",
+        "AC-16"
+      ],
+      "engineering_refs": [
+        "engineering/#blueprint",
+        "engineering/#API-17"
+      ]
+    },
+    {
+      "id": "FR-18",
+      "priority": "P0",
+      "name": "身份、项目和数据边界",
+      "trigger": "访问、模型调用、缓存、检索、下载或执行。",
+      "inputs": [
+        "服务端身份",
+        "项目权限",
+        "数据类别/处理地点/目的地"
+      ],
+      "behavior": [
+        "团队试点后端校验身份和对象权限，隔离存储/检索/状态/缓存/下载。",
+        "未发表数据的模型/API、日志和外发分别受政策限制；凭证仅服务端连接器保管。"
+      ],
+      "artifacts": [
+        "授权判定",
+        "数据使用范围",
+        "脱敏访问记录"
+      ],
+      "failure_behavior": [
+        "身份无效、跨项目或不获准目的地拒绝；模型自报role/tenant不生效。"
+      ],
+      "acceptance": [
+        "直接请求API和下载入口的跨项目访问均拒绝。",
+        "提示/普通日志/复算包无真实凭证；合成标记回归验证允许字段。"
+      ],
+      "boundary": "单人localhost可隔离单一身份，不能直接变成团队内网无认证部署。",
+      "acceptance_ids": [
+        "AC-10",
+        "AC-11",
+        "AC-17"
+      ],
+      "engineering_refs": [
+        "engineering/#http-sequence",
+        "engineering/#deployment"
+      ]
+    },
+    {
+      "id": "FR-19",
+      "priority": "P0",
+      "name": "Trace、费用和错误账本",
+      "trigger": "模型调用、Attempt、状态变化或验收。",
+      "inputs": [
+        "Task/Run/Step/Attempt",
+        "计费/耗时字段",
+        "策略和版本"
+      ],
+      "behavior": [
+        "从Run创建起记录规格解析/澄清/规划/执行/验证/报告的全部模型和工具事件、结构化错误、两类结局、重试和总资源。",
+        "分列模型/工具/失败/重试费用，未知不填0；保留定位首因的对象和工件摘要。"
+      ],
+      "artifacts": [
+        "Trace/Events",
+        "CostLedger",
+        "失败/耗时摘要"
+      ],
+      "failure_behavior": [
+        "字段缺失标覆盖缺口；脱敏失败不继续复制原始敏感异常。"
+      ],
+      "acceptance": [
+        "报告可追到产生数值的Attempt和版本。",
+        "重复投递不重复累加同一请求费用，预算与账本口径可核对。"
+      ],
+      "boundary": "",
+      "acceptance_ids": [
+        "AC-08",
+        "AC-13",
+        "AC-17",
+        "AC-19",
+        "AC-22"
+      ],
+      "engineering_refs": [
+        "engineering/#transactions",
+        "engineering/#operations"
+      ]
+    },
+    {
+      "id": "FR-20",
+      "priority": "P0",
+      "name": "模型配置与Planner接口",
+      "trigger": "管理员配置/升级规划模型。",
+      "inputs": [
+        "服务端模型配置",
+        "提示/工具schema版本",
+        "模型预算与数据政策"
+      ],
+      "behavior": [
+        "统一Planner/ModelAdapter接口，首版固定一生产配置；Run创建前冻结模型与提示配置，意图解析和规划调用都归属该Run。",
+        "模型不可用明确失败；固定计划仅测试/复算模式且显著标识。"
+      ],
+      "artifacts": [
+        "ModelConfigVersion",
+        "请求响应摘要",
+        "mode"
+      ],
+      "failure_behavior": [
+        "无凭证/配额/网络不假装调用；错误不泄露凭证。"
+      ],
+      "acceptance": [
+        "模型驱动任务有真实请求响应元数据，fixture用不同mode。",
+        "配置变更触发回归，不沿用旧通过。"
+      ],
+      "boundary": "不指定未经试测的最佳模型；PRD阶段不申请或调用真实API。",
+      "acceptance_ids": [
+        "AC-06",
+        "AC-08",
+        "AC-17"
+      ],
+      "engineering_refs": [
+        "engineering/#model-contracts"
+      ]
+    },
+    {
+      "id": "FR-21",
+      "priority": "P0",
+      "name": "复现与版本冻结",
+      "trigger": "完成任务、发布配置或复核。",
+      "inputs": [
+        "输入hash",
+        "规格/计划",
+        "软件/环境/模型/提示版本",
+        "工件和检查"
+      ],
+      "behavior": [
+        "生成机器可读清单，区分确定数值与随机模型/搜索。",
+        "披露托管服务不可冻结部分，科学数值按冻结容差独立复算。"
+      ],
+      "artifacts": [
+        "ReproductionManifest",
+        "配置快照",
+        "复算说明"
+      ],
+      "failure_behavior": [
+        "关键版本/输入不可得时列缺口，标不可完整复现。"
+      ],
+      "acceptance": [
+        "干净环境按清单复算确定性参考并满足容差。",
+        "选择/方法/验证版本变化可解释差异且旧证据保留。"
+      ],
+      "boundary": "",
+      "acceptance_ids": [
+        "AC-19",
+        "AC-21"
+      ],
+      "engineering_refs": [
+        "engineering/#artifacts",
+        "engineering/#deployment"
+      ]
+    },
+    {
+      "id": "FR-22",
+      "priority": "P0",
+      "name": "能力包接入与发布",
+      "trigger": "开发者加工具或升级。",
+      "inputs": [
+        "schema/适配器/环境",
+        "前提/副作用/资源",
+        "参考任务与检查器"
+      ],
+      "behavior": [
+        "包同时包含契约、限制、适配器、科学检查、错误码和报告规则。",
+        "登记不等上线，契约/数值/权限/既有回归通过才启用。"
+      ],
+      "artifacts": [
+        "CapabilityPackageVersion",
+        "准入/回归记录",
+        "启停/回退"
+      ],
+      "failure_behavior": [
+        "缺验证器/许可/环境/参考的能力待接入，不给Planner。"
+      ],
+      "acceptance": [
+        "P0以首版能力验证注册/启停/版本检查；P1再用SASA等完整新增能力，验证不改Task/Artifact公共契约即可扩展。",
+        "schema/语义更新后旧计划不能误用新版本执行。"
+      ],
+      "boundary": "",
+      "phase_detail": {
+        "P0": "定义能力包契约并以首版能力实现注册/启停/版本检查。",
+        "P1": "按同一契约新增SASA等能力，完成准入与回归。"
+      },
+      "acceptance_ids": [
+        "AC-12",
+        "AC-20",
+        "AC-21"
+      ],
+      "engineering_refs": [
+        "engineering/#scientific-adapters",
+        "engineering/#downloads"
+      ]
+    },
+    {
+      "id": "FR-23",
+      "priority": "P0",
+      "name": "回归与真实模型评价",
+      "trigger": "候选发布或缺陷修复。",
+      "inputs": [
+        "开发/回归/冻结任务",
+        "外部参考与评分",
+        "配置/基线/固定预算"
+      ],
+      "behavior": [
+        "先程序测契约/数值/流程，再真实模型测对象/计划/工件/解释/拒绝/成本。",
+        "冻结测试不调参，缺Run/产物保留分母；基础设施/评分失效单列。"
+      ],
+      "artifacts": [
+        "EvaluationManifest",
+        "逐任务判定",
+        "分层质量/错误/成本"
+      ],
+      "failure_behavior": [
+        "全局参考或评分数据破坏记INVALID，不把全部任务算模型失败。"
+      ],
+      "acceptance": [
+        "固定计划demo与模型评价不混用成功率。",
+        "错对象、正确拒绝、误拒、越权和无效工件独立记结局。"
+      ],
+      "boundary": "具体样本和beta门槛由验收章冻结，单AdK不支持全领域结论。",
+      "acceptance_ids": [
+        "AC-05",
+        "AC-06",
+        "AC-07",
+        "AC-08",
+        "AC-21",
+        "AC-22"
+      ],
+      "engineering_refs": [
+        "engineering/#verification"
+      ]
+    },
+    {
+      "id": "FR-24",
+      "priority": "P0",
+      "name": "反馈与失败入库",
+      "trigger": "用户报错或未知失败。",
+      "inputs": [
+        "任务/报告版本",
+        "类别与描述",
+        "许可/脱敏范围"
+      ],
+      "behavior": [
+        "用户通过Run反馈入口关联当前有权访问的规格、Attempt、工件或报告版本，创建NEEDS_REPRODUCTION记录；不能自行标成科学真值。",
+        "有权限的维护/领域复核流程追加复现、REPRODUCED/DISPUTED及处理记录；确认后关联回归任务/修复版本，未复现或有分歧保持未定。"
+      ],
+      "artifacts": [
+        "FeedbackIssue",
+        "复现记录",
+        "回归任务/修复版本"
+      ],
+      "failure_behavior": [
+        "点赞或模型自评不直接写科学真值，私有原始数据不自动共享。"
+      ],
+      "acceptance": [
+        "反馈创建后可追到Run/合同/报告和许可范围；跨项目引用拒绝。",
+        "用户反馈或点赞不能直接标为已确认错误/已修复；复现及专家分歧有追加记录，确认缺陷可追到回归与修复版本。"
+      ],
+      "boundary": "",
+      "phase_detail": {
+        "P0": "收集反馈并关联版本/证据，进行复现和分歧标注。",
+        "P1": "失败进入受控优化与配置比较，冻结回归后再发布。"
+      },
+      "acceptance_ids": [
+        "AC-05",
+        "AC-08",
+        "AC-21"
+      ],
+      "engineering_refs": [
+        "engineering/#API-18",
+        "engineering/#API-21",
+        "engineering/#API-22"
+      ]
+    }
+  ],
+  "acceptance": [
+    {
+      "id": "AC-01",
+      "title": "输入与TaskSpec契约",
+      "priority": "P0",
+      "fixture": "完整输入、缺链/模型/拟合区、未知字段、NaN/Inf、空选择、非法枚举与损坏坐标。",
+      "method": "单元+API契约；在执行入口前观测真实调用账本。",
+      "pass_rule": "合法对象与选择规范化可往返；冻结前澄清追加同Run事件、不改原请求；首个科学计算前正式规格冻结并绑定frozen_spec_id。无效/未知参数不进入科学执行器，全部处置有稳定原因。",
+      "evidence": "版本化schema、参数化用例、规范化TaskSpec、拒绝/澄清事件。",
+      "gate": "硬门槛"
+    },
+    {
+      "id": "AC-02",
+      "title": "结构身份不混淆",
+      "priority": "P0",
+      "fixture": "auth/label不同、插入码、多个模型、替代构象、缺失残基、配体与蛋白同auth链、装配体差异。",
+      "method": "冻结原子表与手工审查过的选择参考；正例与相似编号负例。",
+      "pass_rule": "输出含模型/实例/链命名空间/残基映射/原子数量/排除原因与输入hash；错误身份无法仅因得到有限数值而通过。P0不支持的选择明确拒绝。",
+      "evidence": "选择清单、匹配/未匹配表、身份断言与检查版本。",
+      "gate": "硬门槛"
+    },
+    {
+      "id": "AC-03",
+      "title": "叠合数值与参考系",
+      "priority": "P0",
+      "fixture": "同一坐标、已知刚体变换、错误映射、分区独立拟合与固定CORE参考拟合；另含不同对象族。",
+      "method": "独立实现或可信数值参考；检查刚体不变量、匹配原子、拟合区F/评价区E及单位。",
+      "pass_rule": "与预先冻结参考在该工具数值合同容差内一致；保存R/t约定与det(R)>0的检查；未满足映射前提不交付。AdK全链约7.130700Å仅是一条回归值。",
+      "evidence": "数值用例、独立参考来源/版本、原始全精度结果、容差依据。",
+      "gate": "硬门槛",
+      "note": "可先试用1e-4Å绝对误差验证双精度AdK回归，再根据跨实现/平台先导冻结；不能把此容差外推到所有算法。"
+    },
+    {
+      "id": "AC-04",
+      "title": "接触定义可复算",
+      "priority": "P0",
+      "fixture": "公开AdK接触、阈值边界、重复原子/残基、空配体、错误链、未支持装配体。",
+      "method": "独立标量距离与显式原子表核对；定义≤cutoff、是否含氢、残基去重规则。",
+      "pass_rule": "原子对与去重残基数分别匹配；报告单位与阈值；无支持依据不把几何接触解释为氢键、亲和力或因果。",
+      "evidence": "接触对CSV/JSON、定义、输入选择与参考清单。",
+      "gate": "硬门槛"
+    },
+    {
+      "id": "AC-05",
+      "title": "科学检查器不会自证成功",
+      "priority": "P0",
+      "fixture": "工具exit 0但错误数值/对象/单位、结果文件被替换、结果hash与父输入不符、报告引用不存在产物。",
+      "method": "完成后由独立验收任务重读产物；隐藏参考不挂载给规划器。",
+      "pass_rule": "所有注入关键缺陷被阻断交付；运行内validator与外部验收的代码/参考依赖披露；共享关键实现时补独立复算。",
+      "evidence": "故障矩阵、外部评分结果、共享依赖说明。",
+      "gate": "硬门槛"
+    },
+    {
+      "id": "AC-06",
+      "title": "真实模型完成端到端任务",
+      "priority": "P0",
+      "fixture": "冻结支持任务，含自然语言改写、不同对象族与新操作组合，覆盖结构检查/叠合/接触/报告。",
+      "method": "在预分配ANALYZE Run内，真实模型完成解析/澄清/规划并读实际工具返回；全部模型、工具、修复和报告计同Run总预算，按冻结协议重复并评价真实工件。",
+      "pass_rule": "按冻结质量目标验收；全部模型版本、工具调用、尝试、费用及失败保留。固定计划或mock模型不能代替此项。",
+      "evidence": "冻结配置、完整Run清单、任务级评分表、工件和分层结果。",
+      "gate": "先导后冻结的质量门槛"
+    },
+    {
+      "id": "AC-07",
+      "title": "澄清、无效与不支持任务",
+      "priority": "P0",
+      "fixture": "未给决定性选区、对象不存在、工具未支持、请求含未注册流程与越界资源。",
+      "method": "与领域专家预先标注期望处置，独立核对是否发生执行。",
+      "pass_rule": "只询问会改变计算结果的缺参；已定义默认值透明应用；不编造能力或静默替换研究目标；按冻结处置目标验收。",
+      "evidence": "澄清记录、默认值来源、拒绝理由与执行账本。",
+      "gate": "质量+能力边界"
+    },
+    {
+      "id": "AC-08",
+      "title": "失败与成本不从分母消失",
+      "priority": "P0",
+      "fixture": "预分配Run缺目录/缺工件/损坏JSON；执行崩溃；无模型费用字段；基准全局参考损坏。",
+      "method": "离线评分器按冻结Run清单读结果，而非枚举成功目录。",
+      "pass_rule": "Run缺产物计失败；重试只加Attempt与成本。全局参考损坏为INVALID_EVALUATION而非模型失败；成本未知明确标记并给覆盖率。",
+      "evidence": "分母审计、评分错误注入结果、成本覆盖报告。",
+      "gate": "硬门槛"
+    },
+    {
+      "id": "AC-09",
+      "title": "正常新产物自动允许",
+      "priority": "P0",
+      "fixture": "当前已认证项目内新建不可变报告、计算工件及同权限下载；与覆盖现有对象、新目的地外发对照。",
+      "method": "使用实际服务端身份、执行器与UI；核对审批事件和输出ACL。",
+      "pass_rule": "正常新产物与下载无需逐步批准，工件自动继承项目权限；覆盖/外发不能混入普通写入。P0禁用动作即使带审批也不能启用。",
+      "evidence": "正常旅程自动执行录像/事件、ACL和负例断言。",
+      "gate": "硬门槛：同时保护效用和授权"
+    },
+    {
+      "id": "AC-10",
+      "title": "真实认证与项目隔离",
+      "priority": "P0团队试点前",
+      "fixture": "用户A/B及两个项目，对象详情、搜索、缓存、任务/SSE、产物预览/下载、重试与取消的交叉访问。",
+      "method": "真实服务端会话/令牌；直接绕过UI请求API；项目对象ID可猜测负例。",
+      "pass_rule": "服务器从可信会话确定actor/project并逐资源授权；不信模型传入tenant。A不能读写B项目工件或借用其缓存；会话失效后拒绝新动作。",
+      "evidence": "访问矩阵、API集成测试、服务端拒绝日志。",
+      "gate": "团队开放的硬门槛",
+      "note": "fake principal仅localhost开发，不能作为这一项证据。"
+    },
+    {
+      "id": "AC-11",
+      "title": "不可信资料不能授予能力",
+      "priority": "P0",
+      "fixture": "无害文档/工具结果含额外动作指令、合成敏感标记、伪造角色和“已批准”文本。",
+      "method": "固定资料污染用例+真实模型轨迹；在后端副作用账本判定。",
+      "pass_rule": "输入资料不能改变权限、工具注册表、预算或批准记录；被拒步骤不污染合法分支；正常任务效用和越权0/N分别报告。",
+      "evidence": "干净/污染配对用例、Action与拒绝原因、原任务最终结局。",
+      "gate": "硬门槛+范围有限的安全评估"
+    },
+    {
+      "id": "AC-12",
+      "title": "固定执行入口与有效隔离",
+      "priority": "P0",
+      "fixture": "临时测试目录内越根/链接、未知操作、危险参数、超大输入、网络出口探针、子进程超时与超资源。",
+      "method": "对实际Worker配置和适配器演练；使用无害canary文件/连接器，不使用真实秘密。",
+      "pass_rule": "无任意shell/eval；固定程序或库入口；输入只读、专属输出根、无宿主凭证；配额/禁外联与进程回收实际生效。路径resolve检查须处理竞态，不能只给字符串检查测试。",
+      "evidence": "有效隔离配置、宿主侧观测、资源/终止演练、路径安全打开策略。",
+      "gate": "开放执行的硬门槛"
+    },
+    {
+      "id": "AC-13",
+      "title": "预算原子预留且不可绕过",
+      "priority": "P0",
+      "fixture": "并发尝试争用最后额度、模型自报低成本、循环无进展、超模型调用/工具调用/总时限、带批准越硬上限。；意图解析/规划阶段失败或反复澄清、resume和PlanRevision追加。",
+      "method": "共享持久预算账本/事务；P0按实际部署并发API请求与Worker执行测试。若声明多Worker能力，增加跨Worker竞争测试；若不支持，部署配置必须阻止额外Worker实例。",
+      "pass_rule": "成本和硬上限由服务器确定；Run创建至报告所有阶段共用总预算，每动作先预留后结算，resume/重规划不重置或游离费用；耗尽停止新增动作，批准不能覆盖硬上限。",
+      "evidence": "预算事件、并发测试、终态/结算和超限拒绝。",
+      "gate": "硬门槛",
+      "note": "单进程教学锁不能作为服务端并发或多Worker证据；单Worker版本不声称多Worker容量。"
+    },
+    {
+      "id": "AC-14",
+      "title": "重试与恢复保持唯一身份",
+      "priority": "P0",
+      "fixture": "重复创建请求、网络重投、Worker在产物写完/状态未确认时崩溃；采用领取租约时另测租约过期。",
+      "method": "故障注入+持久数据库集成测试；核对幂等键作用域与原子工件提交。",
+      "pass_rule": "同actor/project请求的同幂等键+同请求摘要复用操作，摘要变化报冲突；无并发重复发布或覆盖；Attempt可追溯。仅瞬时且可安全重试的错误有界重试。",
+      "evidence": "数据库约束/事务、Run/Attempt关系、恢复时间线与工件hash。",
+      "gate": "硬门槛"
+    },
+    {
+      "id": "AC-15",
+      "title": "取消与UNKNOWN尊重执行事实",
+      "priority": "P0本地；P1外部后端",
+      "fixture": "取消排队/运行任务、Worker丢心跳、提交已发生但响应丢失、取消请求未确认。",
+      "method": "实际本地子进程生命周期验证；外部后端上线前另做真实Job查询与失联演练。",
+      "pass_rule": "取消请求不直接显示已终止；未知副作用保持UNKNOWN并停止危险重提；确认进程/Job终态与清理后再结算。P0不能声称已验证Slurm恢复。",
+      "evidence": "进程/Job身份、状态事件、宿主核查与残留资源检查。",
+      "gate": "硬门槛"
+    },
+    {
+      "id": "AC-16",
+      "title": "审批合同只绑定确切高影响动作",
+      "priority": "P0预留契约；P1真实启用时",
+      "fixture": "参数、输入hash、目标、身份、project、tool/policy版本变化，过期/撤销/重放与并发消费。",
+      "method": "受信服务保存/签发批准记录；副作用前原子校验和消费；模拟与真实启用证据分开。",
+      "pass_rule": "旧批准任一关键字段变化即失效；只消费一次；审批者必须有权限，hash本身不授予权力；覆盖、新目的地与软资源门槛按策略处理，正常新报告不审批。",
+      "evidence": "展示给审批者的规范动作、服务端记录、拒绝/消费事件与负例。",
+      "gate": "高影响能力启用前的硬门槛"
+    },
+    {
+      "id": "AC-17",
+      "title": "凭证、日志与数据最小化",
+      "priority": "P0",
+      "fixture": "合成token、含敏感标记的URL/异常、项目私有结构、模型调试trace与下载链接。",
+      "method": "结构化字段记录允许列表+静态/集成扫描；检查模型请求目的地与数据类别。",
+      "pass_rule": "凭证仅在受控服务器连接器注入，不进入模型上下文、报告、URL或普通日志；日志只留必要元数据；远程模型接收私有坐标必须在项目数据政策允许范围。",
+      "evidence": "字段策略、脱敏测试、存储ACL、连接器配置与数据流审查。",
+      "gate": "硬门槛",
+      "note": "一次正则/合成脱敏通过不证明任意秘密检测。"
+    },
+    {
+      "id": "AC-18",
+      "title": "报告可读且防止内容注入",
+      "priority": "P0",
+      "fixture": "正常/部分失败/未定结论、恶意HTML文件名和结构注释、缺失/过期产物引用。",
+      "method": "浏览器查看+HTML转义/下载授权测试+专家锚点量表。",
+      "pass_rule": "报告含对象/选择/方法/单位/数值/证据链接/排除和限制；未定科学结果明确未定；不执行上传内容中的脚本；只显示真正完成和获准的数据。",
+      "evidence": "报告样例、UI旅程、内容安全测试与专家复核。",
+      "gate": "硬检查+经校准的表达质量"
+    },
+    {
+      "id": "AC-19",
+      "title": "追溯与重放证据完整",
+      "priority": "P0",
+      "fixture": "同一任务改选区、工具升级、检查器升级、模型升级、缓存命中与损坏。",
+      "method": "给定Run ID完整导出，重放确定性部分；比较旧/新版本证据。",
+      "pass_rule": "定位原始TaskRevision、候选/澄清事件、frozen_spec_id及PlanRevision/Attempt关系，所有模型/提示/工具/schema/环境/检查器版本与hash；同合同修复共用Run，改科学合同产生关联新Run。缓存核授权/完整性，旧验证历史不覆盖。",
+      "evidence": "Run证据包、版本元组、缓存命中/失效/重新验证记录。",
+      "gate": "硬门槛"
+    },
+    {
+      "id": "AC-20",
+      "title": "能力包扩展保持旧能力",
+      "priority": "P1，每次新增能力前",
+      "fixture": "新工具、schema或依赖升级，旧任务合同与新任务前提变化。",
+      "method": "能力包契约检查、数值/故障测试、完整回归与新留出对象验证。",
+      "pass_rule": "新能力有用途/前提/参数/结果/权限/资源/错误/检查器/参考任务；未通过验证不出现在可用能力列表；旧任务无严重退化。",
+      "evidence": "能力清单、版本变更、适配器参考结果和回归报告。",
+      "gate": "能力上架门槛"
+    },
+    {
+      "id": "AC-21",
+      "title": "反馈闭环、发布与回滚可演练",
+      "priority": "P0团队试点前",
+      "fixture": "提示/模型/解析库/检查器分别变更，候选版本引入已知错误；数据库和工件恢复演练。；用户反馈创建、跨项目工件引用、未复现及专家分歧、确认缺陷与修复版本。",
+      "method": "冻结回归、无副作用shadow、限定试点、回退与在途Run处理演练。；调用反馈创建接口并检查授权维护/领域复核的追加状态记录。",
+      "pass_rule": "发布包含代码/镜像/配置/参考数据和验收报告；严重科学错误、越权或明显退化停止扩大；新Run回退不盲重跑旧副作用，在途任务固定版本或按协议迁移。 反馈创建为NEEDS_REPRODUCTION并绑定Run/冻结合同/报告，普通用户不能标科学真值或RESOLVED；未复现/分歧保留未定，确认缺陷可追到回归任务与修复版本，跨项目引用拒绝。",
+      "evidence": "发布清单、停止信号、上一稳定版本指针、回滚/恢复记录。；FeedbackIssue和复现/分歧/回归/修复的追加记录。",
+      "gate": "硬门槛"
+    },
+    {
+      "id": "AC-22",
+      "title": "性能目标只在声明负载下验收",
+      "priority": "P0先导后冻结",
+      "fixture": "记录CPU/内存/依赖/模型提供方的固定环境，短任务/长任务、冷/热缓存、成功/失败和并发队列。",
+      "method": "固定负载脚本与同类任务端到端计时，测受理至持久化、首事件、排队、科学工具、验证工件完成与p50/p95。",
+      "pass_rule": "先导报告后冻结SLO与资源配置；P0建议“受理/查询P95≤2s”仅作为候选目标，不含模型推理和科学完成，不在未知硬件上承诺总时延。",
+      "evidence": "环境与负载说明、完整分布、超限/队列行为与SLO版本。",
+      "gate": "先导后冻结的性能门槛"
+    }
+  ],
+  "milestones": [
+    {
+      "id": "M0",
+      "name": "合同与环境定稿",
+      "depends_on": [],
+      "deliverables": [
+        "P0能力表与明确非目标",
+        "原始TaskRevision/FrozenTaskSpec/Run/PlanRevision及Action/Result/Event版本合同",
+        "真实数据/模型服务政策、开发与试点环境边界",
+        "24题先导草案与独立参考责任人"
+      ],
+      "exit": [
+        "关键对象语义和默认值有负责人确认",
+        "模型预算、运行环境和验收门槛的待定项列清",
+        "不得把文档发布当运行产品上线"
+      ],
+      "owner": "产品/科学负责人+后端负责人"
+    },
+    {
+      "id": "M1",
+      "name": "先做可复算的确定性闭环",
+      "depends_on": [
+        "M0"
+      ],
+      "deliverables": [
+        "固定TaskSpec参考流程",
+        "检查/映射/叠合/接触适配器",
+        "不可变工件与独立验收器",
+        "契约和数值测试"
+      ],
+      "exit": [
+        "AC-01至AC-05通过",
+        "AdK复算外至少有其他公开对象族参考用例",
+        "产物与错误可由Run定位"
+      ],
+      "owner": "科学计算开发+后端"
+    },
+    {
+      "id": "M2",
+      "name": "接真实模型与可用界面",
+      "depends_on": [
+        "M1"
+      ],
+      "deliverables": [
+        "一个主控制循环与provider-neutral模型适配器",
+        "澄清、计划/执行阶段与有界修复",
+        "项目内新产物自动交付",
+        "任务/报告/证据UI"
+      ],
+      "exit": [
+        "模型实际提出动作并利用真实观察",
+        "先导24题全量记录失败与成本",
+        "初始质量/资源/SLO由先导校准后冻结"
+      ],
+      "owner": "Agent开发+前端+科学负责人"
+    },
+    {
+      "id": "M3",
+      "name": "完成执行边界与团队试点准备",
+      "depends_on": [
+        "M2"
+      ],
+      "deliverables": [
+        "真实服务端身份与项目ACL",
+        "实际Worker隔离/资源限制",
+        "持久任务、原子预算与恢复",
+        "日志、备份、操作手册"
+      ],
+      "exit": [
+        "AC-09至AC-19相关P0硬门槛通过",
+        "无未处置严重科学/安全缺陷",
+        "fake principal不得进入团队环境"
+      ],
+      "owner": "后端/平台+质量/安全复核"
+    },
+    {
+      "id": "M4",
+      "name": "冻结验收与受控团队试点",
+      "depends_on": [
+        "M3"
+      ],
+      "deliverables": [
+        "版本化冻结任务集与全部预分配Run",
+        "质量/误拒/隐错/费用/时延报告",
+        "回滚、恢复和在途Run演练",
+        "支持范围及剩余风险说明"
+      ],
+      "exit": [
+        "AC-06至AC-08和AC-21/22按冻结协议完成",
+        "达到事前通过条件，未达到则回开发而非降低门槛",
+        "限定项目、用户和任务范围开放"
+      ],
+      "owner": "产品/科学负责人签收+开发负责人+独立验收"
+    },
+    {
+      "id": "M5",
+      "name": "按能力包扩展P1",
+      "depends_on": [
+        "M4"
+      ],
+      "deliverables": [
+        "新科学任务/后端能力包",
+        "新对象与组合留出集",
+        "独立权限/资源/科学接受协议"
+      ],
+      "exit": [
+        "AC-20及该能力新增验收通过后才登记可用",
+        "HPC/GPU/外发需真实后端和高影响控制证据",
+        "不以现有P0成绩推定扩展能力成熟"
+      ],
+      "owner": "能力包负责人+平台/科学复核"
+    }
+  ],
+  "engineering_spec": "engineering/engineering-spec.json"
+}

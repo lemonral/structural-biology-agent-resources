@@ -1,0 +1,31 @@
+{
+  "date": "2026-10-30",
+  "corrections": [
+    {
+      "id": "R025",
+      "change": "与2023 Gomes Coscientist拆分；清除错配代码与PDF版本",
+      "split_id": "R080",
+      "basis": [
+        "本地两份PDF首页",
+        "Nature两个不同DOI"
+      ]
+    }
+  ],
+  "paper_count": 80,
+  "code_corrections": [
+    "R021:AFlow作者代码入口修正",
+    "R024:评测代码与系统实现分别记录"
+  ],
+  "publication_corrections": [
+    {
+      "id": "R067",
+      "basis": "本地PDF第1页",
+      "change": "正式会议 ICLR 2024"
+    },
+    {
+      "id": "R068",
+      "basis": "本地PDF第1页及DOI",
+      "change": "Frontiers of Computer Science 2025正式身份"
+    }
+  ]
+}

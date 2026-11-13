@@ -1,0 +1,24 @@
+{
+  "protocol_version": "worker.v1",
+  "message_type": "heartbeat",
+  "context": {
+    "project_id": "00000000-0000-4000-8000-000000000001",
+    "run_id": "00000000-0000-4000-8000-000000000002",
+    "attempt_id": "00000000-0000-4000-8000-000000000003",
+    "operation_id": "00000000-0000-4000-8000-000000000004",
+    "worker_id": "00000000-0000-4000-8000-000000000005",
+    "lease_owner": "00000000-0000-4000-8000-000000000006",
+    "plan_id": "00000000-0000-4000-8000-000000000007",
+    "frozen_spec_id": "00000000-0000-4000-8000-000000000008",
+    "lease_epoch": 3,
+    "request_digest": "1111111111111111111111111111111111111111111111111111111111111111",
+    "purpose": "ANALYZE",
+    "step_id": "measure_global",
+    "operation_kind": "TOOL"
+  },
+  "heartbeat_seq": 1,
+  "observed_at": "2026-11-03T12:00:05Z",
+  "cpu_ms": 1200,
+  "wall_ms": 5000,
+  "phase": "COMPUTING"
+}

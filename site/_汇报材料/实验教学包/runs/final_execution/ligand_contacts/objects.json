@@ -1,0 +1,10 @@
+{
+  "reference": {
+    "entry": "1AKE",
+    "sha256": "01f41b1b42318a1a5df7f650dbab881677aa0e8d825f7c42dd26ae16a94c0948",
+    "model_index": 0,
+    "chain_namespace": "auth",
+    "chain": "A",
+    "atom": "heavy"
+  }
+}

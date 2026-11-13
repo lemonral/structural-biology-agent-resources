@@ -1,0 +1,33 @@
+{
+  "case_id": "fixture_cancel_unconfirmed",
+  "task_id": "fixture_cancel_unconfirmed",
+  "policy": "fixed_teaching_plan@1",
+  "contains_llm": false,
+  "fault_fixture": "cancel_unconfirmed",
+  "attempts": [
+    {
+      "attempt_id": "fixture_cancel_unconfirmed:inspect:1",
+      "step_id": "inspect",
+      "tool_id": "inspect_coordinates@1",
+      "state": "COMPLETED"
+    },
+    {
+      "attempt_id": "fixture_cancel_unconfirmed:mapping:1",
+      "step_id": "mapping",
+      "tool_id": "map_residues@1",
+      "state": "COMPLETED"
+    },
+    {
+      "attempt_id": "fixture_cancel_unconfirmed:measure:1",
+      "step_id": "measure",
+      "tool_id": "calculate_rmsd@1",
+      "state": "CANCEL_REQUESTED"
+    }
+  ],
+  "artifacts": {},
+  "state": "CANCEL_REQUESTED",
+  "reason": "Cancellation is requested, not confirmed",
+  "actual_scientific_calculations": 0,
+  "simulated_external_submissions": 1,
+  "tool_attempt_count": 3
+}

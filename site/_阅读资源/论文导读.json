@@ -1,0 +1,2148 @@
+{
+  "editorial_date": "2026-10-30",
+  "diagram_policy": "依据方法整理的解释性示意；关联仅表示阅读逻辑，不声称直接引用或横向性能排名。",
+  "groups": {
+    "推理、计划与搜索": [
+      "R001",
+      "R002",
+      "R006",
+      "R007",
+      "R013",
+      "R015"
+    ],
+    "记忆与经验复用": [
+      "R004",
+      "R005",
+      "R008",
+      "R014",
+      "R024",
+      "R035",
+      "R044",
+      "R048"
+    ],
+    "工具学习、调度与演化": [
+      "R003",
+      "R009",
+      "R026",
+      "R029",
+      "R030",
+      "R040",
+      "R045",
+      "R047",
+      "R058",
+      "R059",
+      "R060",
+      "R064"
+    ],
+    "协作与流程优化": [
+      "R010",
+      "R011",
+      "R012",
+      "R020",
+      "R021",
+      "R036"
+    ],
+    "科学工具与研究平台": [
+      "R023",
+      "R033",
+      "R039",
+      "R041",
+      "R069",
+      "R070",
+      "R073",
+      "R076",
+      "R080"
+    ],
+    "领域分析与实验发现": [
+      "R017",
+      "R018",
+      "R022",
+      "R025",
+      "R028",
+      "R031",
+      "R051",
+      "R057"
+    ],
+    "结构计算与专用环境": [
+      "R016",
+      "R043",
+      "R053",
+      "R054",
+      "R055",
+      "R056",
+      "R061",
+      "R063",
+      "R065",
+      "R066",
+      "R071"
+    ],
+    "评测、失效与研究综述": [
+      "R019",
+      "R027",
+      "R032",
+      "R034",
+      "R037",
+      "R038",
+      "R042",
+      "R046",
+      "R049",
+      "R050",
+      "R052",
+      "R062",
+      "R067",
+      "R068",
+      "R072",
+      "R074",
+      "R075",
+      "R077",
+      "R078",
+      "R079"
+    ]
+  },
+  "cards": [
+    {
+      "id": "R001",
+      "lane": "反馈与规划",
+      "hook": "先展示中间推理，再要求模型沿步骤求解",
+      "question": "直接生成答案时，多步推理怎样减少遗漏？",
+      "mechanism": [
+        "提供推理示例",
+        "生成中间步骤",
+        "给出最终答案"
+      ],
+      "evidence": "论文在算术、常识和符号推理任务中评价中间推理提示，本身不含完整行动闭环。",
+      "limit": "生成的推理仍可能错误，不能提供真实计算、外部状态或科学事实保证。",
+      "bridge": "CoT组织语言推理，ReAct进一步通过外部行动取得观察，再决定下一步。",
+      "related": [
+        "R002"
+      ],
+      "visual": "pipeline",
+      "takeaway": "把推理作为候选计划，计算事实仍由真实工具产生。",
+      "short": "CoT",
+      "title": "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models",
+      "source_url": "https://proceedings.neurips.cc/paper/2022/hash/9d5609613524ecf4f15af0f7b31abca4-Abstract.html",
+      "origin_modules": [
+        "framework"
+      ],
+      "bridge_note": "跨论文关系与设计启发为本次导读综合分析。"
+    },
+    {
+      "id": "R002",
+      "lane": "反馈与规划",
+      "hook": "每次行动取回真实观察，再决定下一步",
+      "question": "只有推理或只有行动时，如何获取证据并纠错？",
+      "mechanism": [
+        "提出下一动作",
+        "调用外部工具",
+        "读取真实观察",
+        "继续或修正"
+      ],
+      "evidence": "论文在问答、事实核验和交互任务上比较纯推理与纯行动基线。",
+      "limit": "逐步决策增加时延和上下文，原始循环不包含长作业恢复或权限机制。",
+      "bridge": "ReWOO前移可预知步骤的规划，LLMCompiler按依赖并行，未知结果仍需要观察反馈。",
+      "related": [
+        "R007",
+        "R015"
+      ],
+      "visual": "loop",
+      "takeaway": "先建立可测的单Agent工具闭环，再增加复杂架构。",
+      "short": "ReAct",
+      "title": "ReAct: Synergizing Reasoning and Acting in Language Models",
+      "source_url": "https://arxiv.org/abs/2210.03629",
+      "origin_modules": [
+        "framework"
+      ],
+      "bridge_note": "跨论文关系与设计启发为本次导读综合分析。"
+    },
+    {
+      "id": "R003",
+      "lane": "工具发现与学习",
+      "hook": "用调用对文本预测的帮助筛选训练样本",
+      "question": "模型如何学习什么时候调用API？",
+      "mechanism": [
+        "生成候选调用",
+        "取得API结果",
+        "比较预测收益",
+        "筛样本再训练"
+      ],
+      "evidence": "论文使用计算器、问答、检索、翻译和日历等API进行语言任务实验。",
+      "limit": "文本预测改善不等于长程科学任务成功，工具规模与交互类型也有限。",
+      "bridge": "Toolformer用预测收益筛训练样本，ToolRL进一步细分工具选择和参数奖励。",
+      "related": [
+        "R030"
+      ],
+      "visual": "optimize",
+      "takeaway": "训练工具行为前，先检查奖励是否对应科学目标。",
+      "short": "Toolformer",
+      "title": "Toolformer: Language Models Can Teach Themselves to Use Tools",
+      "source_url": "https://proceedings.neurips.cc/paper_files/paper/2023/hash/d842425e4bf79ba039352da0f658a906-Abstract-Conference.html",
+      "origin_modules": [
+        "framework"
+      ],
+      "bridge_note": "跨论文关系与设计启发为本次导读综合分析。"
+    },
+    {
+      "id": "R004",
+      "lane": "记忆与经验",
+      "hook": "权重不变，把失败反馈写给下一次尝试",
+      "question": "任务重试怎样避免反复犯同一错误？",
+      "mechanism": [
+        "执行任务",
+        "读取评价反馈",
+        "形成失败反思",
+        "保存并再次尝试"
+      ],
+      "evidence": "论文在决策、编码和推理任务中比较反思、反馈来源与记忆设置。",
+      "limit": "自我评价可能误诊，额外尝试须计入成本，语言反思不等于权重训练。",
+      "bridge": "Reflexion保存失败经验，AgentDebug进一步定位最早有影响的错误并选择恢复点。",
+      "related": [
+        "R042"
+      ],
+      "visual": "memory",
+      "takeaway": "只把有真实检验支持的失败经验用于下一轮修复。",
+      "short": "Reflexion",
+      "title": "Reflexion: Language Agents with Verbal Reinforcement Learning",
+      "source_url": "https://proceedings.neurips.cc/paper_files/paper/2023/hash/1b44b878bb782e6954cd888628510e90-Abstract-Conference.html",
+      "origin_modules": [
+        "framework"
+      ],
+      "bridge_note": "跨论文关系与设计启发为本次导读综合分析。"
+    },
+    {
+      "id": "R005",
+      "lane": "记忆与经验",
+      "hook": "经历入库，检索与反思再支撑行动计划",
+      "question": "角色怎样保持跨时段行为的一致性？",
+      "mechanism": [
+        "记录经历",
+        "检索相关记忆",
+        "形成高层反思",
+        "制定行为计划"
+      ],
+      "evidence": "论文通过小镇角色模拟、消融和用户评价研究行为可置信性。",
+      "limit": "行为可信不等于科学正确，多角色社会模拟也不能直接证明科研协作有效。",
+      "bridge": "Generative Agents展示记忆参与行为，MemGPT处理容量，A-Mem处理记忆间关联。",
+      "related": [
+        "R014",
+        "R024"
+      ],
+      "visual": "memory",
+      "takeaway": "区分项目经历、解释性反思和可复核科学事实。",
+      "short": "Generative_Agents",
+      "title": "Generative Agents: Interactive Simulacra of Human Behavior",
+      "source_url": "https://doi.org/10.1145/3586183.3606763",
+      "origin_modules": [
+        "framework"
+      ],
+      "bridge_note": "跨论文关系与设计启发为本次导读综合分析。"
+    },
+    {
+      "id": "R006",
+      "lane": "反馈与规划",
+      "hook": "先分解目标，再求解，减少漏步骤",
+      "question": "逐步推理仍漏步骤或误解问题时怎样改进？",
+      "mechanism": [
+        "理解任务",
+        "生成分解计划",
+        "逐项求解",
+        "汇总答案"
+      ],
+      "evidence": "论文在十个推理数据集上评价先规划后求解的提示方法。",
+      "limit": "预计划可能依赖尚未获得的信息，不包含真实环境反馈或运行状态保障。",
+      "bridge": "ReWOO把分解计划细化为可绑定工具结果的证据变量，连接计划与实际执行。",
+      "related": [
+        "R007"
+      ],
+      "visual": "pipeline",
+      "takeaway": "稳定步骤先显式分解，未知条件保留重规划出口。",
+      "short": "Plan_and_Solve",
+      "title": "Plan-and-Solve Prompting: Improving Zero-Shot Chain-of-Thought Reasoning by Large Language Models",
+      "source_url": "https://aclanthology.org/2023.acl-long.147/",
+      "origin_modules": [
+        "framework"
+      ],
+      "bridge_note": "跨论文关系与设计启发为本次导读综合分析。"
+    },
+    {
+      "id": "R007",
+      "lane": "反馈与规划",
+      "hook": "先写证据变量计划，再执行并绑定结果",
+      "question": "怎样减少每次工具返回后的重复推理与历史传输？",
+      "mechanism": [
+        "规划证据变量",
+        "按依赖运行工具",
+        "绑定真实结果",
+        "统一生成答案"
+      ],
+      "evidence": "论文在公开NLP基准和自建数据中评价多跳问答及工具失败设置。",
+      "limit": "反馈会改变路线时预计划可能失效，证据变量也不能当成已经获得的事实。",
+      "bridge": "LLMCompiler将依赖用于就绪调度，ReAct补充未知反馈引起的路线调整。",
+      "related": [
+        "R015",
+        "R002"
+      ],
+      "visual": "dag",
+      "takeaway": "计划中引用待生成产物，执行后再绑定真实对象。",
+      "short": "ReWOO",
+      "title": "ReWOO: Decoupling Reasoning from Observations for Efficient Augmented Language Models",
+      "source_url": "https://arxiv.org/abs/2305.18323",
+      "origin_modules": [
+        "framework"
+      ],
+      "bridge_note": "跨论文关系与设计启发为本次导读综合分析。"
+    },
+    {
+      "id": "R008",
+      "lane": "记忆与经验",
+      "hook": "成功代码变成技能，下一任务可以复用",
+      "question": "完成一次任务后，怎样保存可执行的能力？",
+      "mechanism": [
+        "课程提出目标",
+        "代码执行与反馈",
+        "修正至任务完成",
+        "注册可执行技能",
+        "检索技能再组合"
+      ],
+      "evidence": "论文在Minecraft探索、获取物品和技术树任务中研究技能积累与复用。",
+      "limit": "环境反馈与技能接口具有专属性，游戏中的迁移不能证明科学软件中的迁移。",
+      "bridge": "Voyager复用代码，PlanCaching复用流程骨架，AgentEvolver维护组件的版本生命周期。",
+      "related": [
+        "R035",
+        "R064"
+      ],
+      "visual": "memory",
+      "takeaway": "通过参考任务的分析操作可注册为版本化技能。",
+      "short": "Voyager",
+      "title": "Voyager: An Open-Ended Embodied Agent with Large Language Models",
+      "source_url": "https://openreview.net/forum?id=ehfRiF0R3a",
+      "origin_modules": [
+        "framework"
+      ],
+      "bridge_note": "跨论文关系与设计启发为本次导读综合分析。"
+    },
+    {
+      "id": "R009",
+      "lane": "工具发现与学习",
+      "hook": "工具太多时，先检索候选再学习调用",
+      "question": "大量API如何被发现，并用于多步任务？",
+      "mechanism": [
+        "整理工具目录",
+        "合成调用指令",
+        "检索候选工具",
+        "学习多步调用",
+        "评价任务结果"
+      ],
+      "evidence": "论文结合真实API、工具检索、合成指令和调用轨迹训练评价工具使用。",
+      "limit": "在线API会变化，合成数据与模型评价器需要独立审计。",
+      "bridge": "ToolLLM关注目录检索与学习，MCPBench检验调用链落地，OpenAgent检验接口变化。",
+      "related": [
+        "R038",
+        "R058"
+      ],
+      "visual": "pipeline",
+      "takeaway": "先筛出语义相关且可执行的操作，再加载详细契约。",
+      "short": "ToolLLM",
+      "title": "ToolLLM: Facilitating Large Language Models to Master 16000+ Real-world APIs",
+      "source_url": "https://proceedings.iclr.cc/paper_files/paper/2024/hash/28e50ee5b72e90b50e7196fde8ea260e-Abstract-Conference.html",
+      "origin_modules": [
+        "framework"
+      ],
+      "bridge_note": "跨论文关系与设计启发为本次导读综合分析。"
+    },
+    {
+      "id": "R010",
+      "lane": "协作与交接",
+      "hook": "把角色协作变成有中间产物的标准交接",
+      "question": "怎样避免自由聊天协作中错误沿角色链传播？",
+      "mechanism": [
+        "分配专业角色",
+        "按标准流程工作",
+        "生成结构化产物",
+        "检查后交接"
+      ],
+      "evidence": "论文主要在协作软件工程任务中比较角色对话和标准流程。",
+      "limit": "预设流程对任务假设较强，科研探索仍需允许回退和改变路线。",
+      "bridge": "MetaGPT人工编码交接规范，MetaAgent生成状态机，MAST分析真实协作为何失败。",
+      "related": [
+        "R036",
+        "R027"
+      ],
+      "visual": "handoff",
+      "takeaway": "交接明确输入版本、约束、产物和验收条件。",
+      "short": "MetaGPT",
+      "title": "MetaGPT: Meta Programming for A Multi-Agent Collaborative Framework",
+      "source_url": "https://proceedings.iclr.cc/paper_files/paper/2024/hash/6507b115562bb0a305f1958ccc87355a-Abstract-Conference.html",
+      "origin_modules": [
+        "framework"
+      ],
+      "bridge_note": "跨论文关系与设计启发为本次导读综合分析。"
+    },
+    {
+      "id": "R011",
+      "lane": "协作与交接",
+      "hook": "用可编程对话组织工具、角色与人工",
+      "question": "单一调用链怎样表达不同专业与人工协作？",
+      "mechanism": [
+        "定义对话角色",
+        "接入工具或人工",
+        "控制消息次序",
+        "检查终止条件"
+      ],
+      "evidence": "论文通过数学、代码、问答和运筹等应用展示协作框架的表达能力。",
+      "limit": "角色增加会带来消息成本、错误传播和终止困难，示例成功不构成普遍优势。",
+      "bridge": "AutoGen表达协作，MetaGPT增加交接标准，MAST检查多角色引入的具体失败。",
+      "related": [
+        "R010",
+        "R027"
+      ],
+      "visual": "handoff",
+      "takeaway": "只为可独立验证或确需专业隔离的子任务增设角色。",
+      "short": "AutoGen",
+      "title": "AutoGen: Enabling Next-Gen LLM Applications via Multi-Agent Conversation",
+      "source_url": "https://www.microsoft.com/en-us/research/publication/autogen-enabling-next-gen-llm-applications-via-multi-agent-conversation-framework/",
+      "origin_modules": [
+        "framework"
+      ],
+      "bridge_note": "跨论文关系与设计启发为本次导读综合分析。"
+    },
+    {
+      "id": "R012",
+      "lane": "工作流优化",
+      "hook": "流程保留，用样本和指标优化模块提示",
+      "question": "更换模型或数据后，提示怎样系统优化并复现？",
+      "mechanism": [
+        "定义模块接口",
+        "准备开发样本",
+        "指定评价指标",
+        "优化提示与示例",
+        "在留出集验证"
+      ],
+      "evidence": "论文在数学、多跳问答和Agent循环等案例中比较手写与自动优化管线。",
+      "limit": "优化依赖代表性数据与有效指标，开发集过拟合仍可能发生，也不替代运行调度。",
+      "bridge": "DSPy优化模块提示，ADAS搜索Agent代码，AFlow搜索工作流结构，优化对象不同。",
+      "related": [
+        "R020",
+        "R021"
+      ],
+      "visual": "optimize",
+      "takeaway": "先冻结科学评分规则，再用独立开发集优化提示。",
+      "short": "DSPy",
+      "title": "DSPy: Compiling Declarative Language Model Calls into State-of-the-Art Pipelines",
+      "source_url": "https://proceedings.iclr.cc/paper_files/paper/2024/hash/f1cf02ce09757f57c3b93c0db83181e0-Abstract-Conference.html",
+      "origin_modules": [
+        "framework"
+      ],
+      "bridge_note": "跨论文关系与设计启发为本次导读综合分析。"
+    },
+    {
+      "id": "R013",
+      "lane": "反馈与规划",
+      "hook": "把下一步变成可回溯的候选路径搜索",
+      "question": "贪心行动进入错误路线后，怎样比较替代路径？",
+      "mechanism": [
+        "生成候选动作",
+        "执行并取得反馈",
+        "估计路径价值",
+        "反思与树搜索",
+        "选择后续分支"
+      ],
+      "evidence": "论文在代码、交互问答、WebShop和数学任务中评价候选路径搜索。",
+      "limit": "搜索需要额外调用与环境试验，昂贵或不可回滚的科学作业不适合无限分支。",
+      "bridge": "两者都使用搜索与反馈，LATS探索任务内路径，AFlow在开发阶段搜索可复用流程。",
+      "related": [
+        "R021"
+      ],
+      "visual": "dag",
+      "takeaway": "只对低成本、可回放且可验证的候选开放搜索。",
+      "short": "LATS",
+      "title": "Language Agent Tree Search Unifies Reasoning, Acting, and Planning in Language Models",
+      "source_url": "https://proceedings.mlr.press/v235/zhou24r.html",
+      "origin_modules": [
+        "framework"
+      ],
+      "bridge_note": "跨论文关系与设计启发为本次导读综合分析。"
+    },
+    {
+      "id": "R014",
+      "lane": "记忆与经验",
+      "hook": "上下文像快存，长期资料按需换入换出",
+      "question": "长文档与跨会话信息超过上下文容量时怎么办？",
+      "mechanism": [
+        "区分快速上下文",
+        "保存外部记忆",
+        "按需调入内容",
+        "中断并继续执行"
+      ],
+      "evidence": "论文以长文档分析和多会话聊天检验分层记忆管理。",
+      "limit": "记忆读写也会失败，容量管理不能自动解决事实冲突、过期与来源问题。",
+      "bridge": "MemGPT管理记忆容量，A-Mem组织关联，MemRL再根据结果反馈选择有用经验。",
+      "related": [
+        "R024",
+        "R048"
+      ],
+      "visual": "memory",
+      "takeaway": "当前作业账本和跨任务经验分别存储，不能互相替代。",
+      "short": "MemGPT",
+      "title": "MemGPT: Towards LLMs as Operating Systems",
+      "source_url": "https://arxiv.org/abs/2310.08560",
+      "origin_modules": [
+        "framework"
+      ],
+      "bridge_note": "跨论文关系与设计启发为本次导读综合分析。"
+    },
+    {
+      "id": "R015",
+      "lane": "反馈与规划",
+      "hook": "把调用画成依赖图，只并行已就绪节点",
+      "question": "怎样避免独立工具被串行调用并重复规划？",
+      "mechanism": [
+        "生成函数依赖图",
+        "发现就绪节点",
+        "并行执行工具",
+        "汇总结果或重规划"
+      ],
+      "evidence": "论文在不同工具调用模式下比较时延、费用和任务准确性。",
+      "limit": "并行受真实数据依赖、接口限额和资源竞争约束，不包含全部长作业工程。",
+      "bridge": "LLMCompiler按依赖寻找并行，ToolOrchestra进一步权衡模型与工具调用的质量和成本。",
+      "related": [
+        "R007",
+        "R047"
+      ],
+      "visual": "dag",
+      "takeaway": "映射和必需产物通过检查后，才启动依赖它的计算。",
+      "short": "LLMCompiler",
+      "title": "An LLM Compiler for Parallel Function Calling",
+      "source_url": "https://proceedings.mlr.press/v235/kim24y.html",
+      "origin_modules": [
+        "framework"
+      ],
+      "bridge_note": "跨论文关系与设计启发为本次导读综合分析。"
+    },
+    {
+      "id": "R019",
+      "lane": "权限与可信执行",
+      "hook": "挡住攻击后，正常任务也必须仍能完成",
+      "question": "如何同时评估工具返回中的提示注入与任务效用？",
+      "mechanism": [
+        "构建正常任务",
+        "注入不可信返回",
+        "运行攻击与防御",
+        "核对权限和结果"
+      ],
+      "evidence": "论文在动态工具环境中同时评价提示注入攻击、防御和正常任务效用。",
+      "limit": "主要任务是办公与事务操作，不直接验证结构数值计算或长作业恢复。",
+      "bridge": "AgentDojo提供攻击与正常任务配对评测，IPIGuard研究用工具依赖约束动作。",
+      "related": [
+        "R037"
+      ],
+      "visual": "benchmark",
+      "takeaway": "论文、网页和日志是输入数据，不能据此扩大执行权限。",
+      "short": "AgentDojo",
+      "title": "AgentDojo: A Dynamic Environment to Evaluate Prompt Injection Attacks and Defenses for LLM Agents",
+      "source_url": "https://proceedings.nips.cc/paper_files/paper/2024/hash/97091a5177d8dc64b1da8bf3e1f6fb54-Abstract-Datasets_and_Benchmarks_Track.html",
+      "origin_modules": [
+        "engineering"
+      ],
+      "bridge_note": "跨论文关系与设计启发为本次导读综合分析。"
+    },
+    {
+      "id": "R020",
+      "lane": "工作流优化",
+      "hook": "把Agent写成代码，自动搜索系统设计",
+      "question": "人工选择提示和模块连接会限制改进速度吗？",
+      "mechanism": [
+        "用代码表示Agent",
+        "读取设计档案",
+        "生成候选结构",
+        "运行评价",
+        "保存有效设计"
+      ],
+      "evidence": "论文在编码、科学和数学等任务中评价自动设计及跨任务和模型迁移。",
+      "limit": "系统搜索消耗开发预算，适应公开基准不等于真实通用能力。",
+      "bridge": "DSPy优化提示参数，ADAS生成系统代码，AFlow把结构搜索集中到工作流修改。",
+      "related": [
+        "R012",
+        "R021"
+      ],
+      "visual": "optimize",
+      "takeaway": "先建立可信基线与留出集，再在隔离环境搜索方案。",
+      "short": "ADAS",
+      "title": "Automated Design of Agentic Systems",
+      "source_url": "https://proceedings.iclr.cc/paper_files/paper/2025/hash/36b7acf6f6010652b3f2a433774a66fe-Abstract-Conference.html",
+      "origin_modules": [
+        "framework"
+      ],
+      "bridge_note": "跨论文关系与设计启发为本次导读综合分析。"
+    },
+    {
+      "id": "R021",
+      "lane": "工作流优化",
+      "hook": "离线修改工作流，用执行得分选择新结构",
+      "question": "怎样减少为重复任务人工编写工作流的成本？",
+      "mechanism": [
+        "代码表示工作流",
+        "选择待修改节点",
+        "树搜索候选结构",
+        "执行并评价",
+        "保存优选流程"
+      ],
+      "evidence": "论文在六个问答、数学和代码等基准上报告工作流搜索及推理费用。",
+      "limit": "搜索开发费与上线推理费须分开，小型文本任务结果不能直接外推到科研长流程。",
+      "bridge": "LATS在任务中搜索行动路径，AFlow离线搜索可复用工作流，两者的成本阶段不同。",
+      "related": [
+        "R013",
+        "R012"
+      ],
+      "visual": "optimize",
+      "takeaway": "对高频且评分明确的流程离线优化，保留版本与回归。",
+      "short": "AFlow",
+      "title": "AFlow: Automating Agentic Workflow Generation",
+      "source_url": "https://proceedings.iclr.cc/paper_files/paper/2025/hash/5492ecbce4439401798dcd2c90be94cd-Abstract-Conference.html",
+      "origin_modules": [
+        "framework"
+      ],
+      "bridge_note": "跨论文关系与设计启发为本次导读综合分析。"
+    },
+    {
+      "id": "R024",
+      "lane": "记忆与经验",
+      "hook": "经验变成可链接笔记，新证据触发关联更新",
+      "question": "历史记录分散时，怎样恢复跨会话研究背景？",
+      "mechanism": [
+        "生成原子笔记",
+        "建立语义链接",
+        "检索关联经验",
+        "按新证据更新笔记"
+      ],
+      "evidence": "论文通过长期对话任务及链接、记忆演化消融评价笔记组织。",
+      "limit": "文本记忆不能替代结构、密度图和轨迹管理，新增推断不能覆盖原始证据。",
+      "bridge": "A-Mem强调笔记链接和更新，ACE进一步维护可增量演化的经验手册。",
+      "related": [
+        "R014",
+        "R044"
+      ],
+      "visual": "memory",
+      "takeaway": "笔记保存来源和适用条件，大文件与原始事实保留独立引用。",
+      "short": "A_Mem",
+      "title": "A-Mem: Agentic Memory for LLM Agents",
+      "source_url": "https://proceedings.neurips.cc/paper_files/paper/2025/hash/19909c36f51abc4856b4560aff3d36d6-Abstract-Conference.html",
+      "origin_modules": [
+        "framework"
+      ],
+      "bridge_note": "跨论文关系与设计启发为本次导读综合分析。"
+    },
+    {
+      "id": "R026",
+      "lane": "工具发现与学习",
+      "hook": "通过检索反馈训练下一次查什么",
+      "question": "复杂问题怎样根据中间证据进行多次搜索？",
+      "mechanism": [
+        "生成查询",
+        "取得检索反馈",
+        "决定下一次查询",
+        "掩码外部观察",
+        "训练搜索策略"
+      ],
+      "evidence": "论文在七套问答数据及不同检索器、模型和训练算法下评价迭代检索。",
+      "limit": "知识问答表现不能证明科学计算能力，检索索引更新也会影响结果。",
+      "bridge": "Search-R1训练如何搜索，ReTool训练何时运行代码，两者使用的环境和奖励不同。",
+      "related": [
+        "R029"
+      ],
+      "visual": "loop",
+      "takeaway": "检索策略用于查找证据，计算执行与GPU调度另设接口。",
+      "short": "Search_R1",
+      "title": "Search-R1: Training LLMs to Reason and Leverage Search Engines with Reinforcement Learning",
+      "source_url": "https://openreview.net/forum?id=Rwhi91ideu",
+      "origin_modules": [
+        "framework"
+      ],
+      "bridge_note": "跨论文关系与设计启发为本次导读综合分析。"
+    },
+    {
+      "id": "R027",
+      "lane": "协作与交接",
+      "hook": "多角色失败可以追到目标、交接与验证环节",
+      "question": "多Agent失败时，怎样找到可操作的错误分类？",
+      "mechanism": [
+        "收集协作轨迹",
+        "定位失败片段",
+        "标注目标与交接",
+        "归类验证和终止问题"
+      ],
+      "evidence": "论文分析多Agent系统失败，并构建目标、协作和验证等故障分类。",
+      "limit": "故障比例依赖所研究的任务和框架，不能当作所有系统的生产故障率。",
+      "bridge": "MAST给出协作失败分类，AgentDebug进一步定位首错并选择具体恢复点。",
+      "related": [
+        "R010",
+        "R042"
+      ],
+      "visual": "handoff",
+      "takeaway": "记录最早可确认错误，再检查交接是否丢失对象与约束。",
+      "short": "MAST",
+      "title": "Why Do Multi-Agent LLM Systems Fail?",
+      "source_url": "https://proceedings.neurips.cc/paper_files/paper/2025/hash/b1041e52d3be19f0a9bc491657488e4a-Abstract-Datasets_and_Benchmarks_Track.html",
+      "origin_modules": [
+        "engineering"
+      ],
+      "bridge_note": "跨论文关系与设计启发为本次导读综合分析。"
+    },
+    {
+      "id": "R029",
+      "lane": "工具发现与学习",
+      "hook": "在真实代码反馈中学习何时计算与修正",
+      "question": "模型怎样学会调用解释器并依据执行结果调整？",
+      "mechanism": [
+        "工具示范冷启动",
+        "交错推理与代码",
+        "读取执行反馈",
+        "按结果强化学习"
+      ],
+      "evidence": "论文主要在AIME数学任务及消融中评价代码工具学习，并分析修正行为。",
+      "limit": "数学答案奖励与开放科学分析差异较大，需要另建科学判据与成本模型。",
+      "bridge": "Search-R1学习搜索，ReTool学习代码工具使用，Agent Lightning研究训练与真实运行时的连接。",
+      "related": [
+        "R026",
+        "R060"
+      ],
+      "visual": "loop",
+      "takeaway": "只有结局可检验且轨迹可信时，才研究工具策略训练。",
+      "short": "ReTool",
+      "title": "ReTool: Reinforcement Learning for Strategic Tool Use in LLMs",
+      "source_url": "https://proceedings.iclr.cc/paper_files/paper/2026/hash/4038c9208dfc22644c60ad39c24e5c53-Abstract-Conference.html",
+      "origin_modules": [
+        "framework"
+      ],
+      "bridge_note": "跨论文关系与设计启发为本次导读综合分析。"
+    },
+    {
+      "id": "R030",
+      "lane": "工具发现与学习",
+      "hook": "把工具选择、参数名与参数值分开奖励",
+      "question": "单一成败奖励怎样定位工具调用错在哪里？",
+      "mechanism": [
+        "划分调用错误",
+        "设计细粒度奖励",
+        "调整奖励尺度",
+        "训练调用策略",
+        "测试工具名称变化"
+      ],
+      "evidence": "论文在工具调用数据中比较监督学习与不同强化学习奖励设置。",
+      "limit": "模型和任务规模有限，多条合理科研路径也可能无法用唯一调用序列评分。",
+      "bridge": "Toolformer按文本预测收益选样本，ToolRL显式拆解工具与参数级反馈。",
+      "related": [
+        "R003",
+        "R045"
+      ],
+      "visual": "optimize",
+      "takeaway": "奖励需要兼容等价计算路径，并与最终科学正确性核对。",
+      "short": "ToolRL",
+      "title": "ToolRL: Reward is All Tool Learning Needs",
+      "source_url": "https://proceedings.neurips.cc/paper_files/paper/2025/hash/97c5b2707228e7e3fb67e4ecc2e0e607-Abstract-Conference.html",
+      "origin_modules": [
+        "framework"
+      ],
+      "bridge_note": "跨论文关系与设计启发为本次导读综合分析。"
+    },
+    {
+      "id": "R032",
+      "lane": "运行评测与诊断",
+      "hook": "在真实科学软件里看动作与产物是否完成",
+      "question": "问答得分之外，怎样评价实际软件中的多步任务？",
+      "mechanism": [
+        "进入真实软件",
+        "观察界面或命令状态",
+        "执行多步操作",
+        "检查任务产物"
+      ],
+      "evidence": "论文在真实GUI与CLI科学软件环境中评价任务完成和多步操作。",
+      "limit": "结果依赖软件与模型版本，完成软件操作也不自动保证科学解释成立。",
+      "bridge": "ScienceBoard看真实操作是否完成，DSGym进一步检查结果是否真正由输入数据产生。",
+      "related": [
+        "R049",
+        "R046"
+      ],
+      "visual": "benchmark",
+      "takeaway": "优先使用可记录的脚本接口，GUI任务也须检查真实产物。",
+      "short": "ScienceBoard",
+      "title": "ScienceBoard: Evaluating Multimodal Autonomous Agents in Realistic Scientific Workflows",
+      "source_url": "https://iclr.cc/virtual/2026/poster/10008621",
+      "origin_modules": [
+        "engineering"
+      ],
+      "bridge_note": "跨论文关系与设计启发为本次导读综合分析。"
+    },
+    {
+      "id": "R034",
+      "lane": "运行评测与诊断",
+      "hook": "用户也能改环境，成功取决于双方协调",
+      "question": "用户与Agent共同改变状态时，怎样评价协作？",
+      "mechanism": [
+        "建立共享环境",
+        "用户与Agent各自操作",
+        "同步状态与信息",
+        "评估协调及任务结果"
+      ],
+      "evidence": "论文把双方都能改变环境的场景纳入基准，分析协调和沟通失误。",
+      "limit": "主要为客服与电信情境，不直接验证结构对象映射或数值分析。",
+      "bridge": "ToolSandbox强调有状态工具环境，τ²-Bench进一步加入用户共同改变环境的协调。",
+      "related": [
+        "R078"
+      ],
+      "visual": "benchmark",
+      "takeaway": "用户改选结构或残基后，旧计划须检查版本再继续。",
+      "short": "Tau2_Bench",
+      "title": "τ²-Bench: Evaluating Conversational Agents in a Dual-Control Environment",
+      "source_url": "https://proceedings.mlr.press/v306/barres26a.html",
+      "origin_modules": [
+        "engineering"
+      ],
+      "bridge_note": "跨论文关系与设计启发为本次导读综合分析。"
+    },
+    {
+      "id": "R035",
+      "lane": "记忆与经验",
+      "hook": "缓存可重绑的计划，外部结果仍重新获取",
+      "question": "相似任务怎样减少重复规划而不复用过期答案？",
+      "mechanism": [
+        "提取计划模板",
+        "检索相近流程",
+        "重绑定输入和参数",
+        "校验适用条件",
+        "重新执行工具"
+      ],
+      "evidence": "论文在多个Agent应用中评价计划复用对质量、费用和时延的影响。",
+      "limit": "错误模板与版本变化会使缓存失效，收益依赖任务重复性。",
+      "bridge": "计划缓存复用步骤骨架，Voyager复用代码技能，ACE维护经验的适用说明。",
+      "related": [
+        "R008",
+        "R044"
+      ],
+      "visual": "memory",
+      "takeaway": "缓存流程方法并绑定版本，结构结果按当前输入重新计算。",
+      "short": "Plan_Caching",
+      "title": "Agentic Plan Caching: Test-Time Memory for Fast and Cost-Efficient LLM Agents",
+      "source_url": "https://proceedings.neurips.cc/paper_files/paper/2025/hash/9549f7d06700f0966d5f938f1d11022a-Abstract-Conference.html",
+      "origin_modules": [
+        "framework"
+      ],
+      "bridge_note": "跨论文关系与设计启发为本次导读综合分析。"
+    },
+    {
+      "id": "R036",
+      "lane": "协作与交接",
+      "hook": "从任务生成角色与状态机，再按转移规则执行",
+      "question": "多Agent方案怎样兼顾自动构造与显式控制？",
+      "mechanism": [
+        "读取任务描述",
+        "生成角色与状态机",
+        "评价并优化方案",
+        "按状态条件转移"
+      ],
+      "evidence": "论文以文本和实际工具任务比较自动设计方案与人工专业系统。",
+      "limit": "生成的状态与转移条件仍需验证，结构可检查不等于状态判断正确。",
+      "bridge": "MetaGPT预先给定标准流程，MetaAgent生成角色和状态机，两者都需检查交接与终止。",
+      "related": [
+        "R010",
+        "R011"
+      ],
+      "visual": "handoff",
+      "takeaway": "审查每个状态的输入、交付物、转移条件和退出分支。",
+      "short": "MetaAgent",
+      "title": "MetaAgent: Automatically Constructing Multi-Agent Systems Based on Finite State Machines",
+      "source_url": "https://proceedings.mlr.press/v267/zhang25bc.html",
+      "origin_modules": [
+        "framework"
+      ],
+      "bridge_note": "跨论文关系与设计启发为本次导读综合分析。"
+    },
+    {
+      "id": "R037",
+      "lane": "权限与可信执行",
+      "hook": "用工具依赖约束不可信文本诱导的动作",
+      "question": "外部文本试图改变计划时，怎样限制越权行动？",
+      "mechanism": [
+        "建立工具依赖结构",
+        "绑定合法任务动作",
+        "读取不可信返回",
+        "约束后续执行"
+      ],
+      "evidence": "论文研究工具依赖结构对提示注入防御的作用，为文本防御增加系统约束。",
+      "limit": "不能构成完全防御，真实科研中的合法动态重规划仍需有边界地允许。",
+      "bridge": "用AgentDojo式配对任务测试防御，检查依赖约束是否损伤正常任务和合法重规划。",
+      "related": [
+        "R019"
+      ],
+      "visual": "dag",
+      "takeaway": "由执行层持有权限，外部文献和日志只提供任务证据。",
+      "short": "IPIGuard",
+      "title": "IPIGuard: A Novel Tool Dependency Graph-Based Defense Against Indirect Prompt Injection in LLM Agents",
+      "source_url": "https://aclanthology.org/2025.emnlp-main.53/",
+      "origin_modules": [
+        "engineering"
+      ],
+      "bridge_note": "跨论文关系与设计启发为本次导读综合分析。"
+    },
+    {
+      "id": "R038",
+      "lane": "运行评测与诊断",
+      "hook": "协议接通后，还要测发现、参数与跨工具数据流",
+      "question": "MCP服务可连接，是否意味着任务真正可完成？",
+      "mechanism": [
+        "发现候选工具",
+        "构造调用参数",
+        "运行并传递结果",
+        "检查端到端目标"
+      ],
+      "evidence": "论文评价MCP工具服务中的发现、参数、多工具数据流和任务结果。",
+      "limit": "在线服务变化影响复现，通信协议本身没有结构生物学语义校验。",
+      "bridge": "ToolLLM侧重工具发现与学习，MCPBench测端到端链路，OpenAgent再测试接口变化。",
+      "related": [
+        "R009",
+        "R058"
+      ],
+      "visual": "benchmark",
+      "takeaway": "把连接器契约、流程规划和科学验收分别诊断。",
+      "short": "MCP_Bench",
+      "title": "MCP-Bench: Benchmarking Tool-Using LLM Agents with Complex Real-World Tasks via MCP Servers",
+      "source_url": "https://iclr.cc/virtual/2026/poster/10008216",
+      "origin_modules": [
+        "engineering"
+      ],
+      "bridge_note": "跨论文关系与设计启发为本次导读综合分析。"
+    },
+    {
+      "id": "R039",
+      "lane": "工具生态与方法接入",
+      "hook": "把论文代码变为经过测试的方法接口",
+      "question": "论文及其代码、教程和数据怎样转成可通过自然语言运行的研究方法？",
+      "mechanism": [
+        "读取论文与代码库",
+        "定位方法功能",
+        "构建MCP工具接口",
+        "生成测试并运行",
+        "根据错误修复包装"
+      ],
+      "evidence": "Nature正式版报告多篇计算生物论文的接入实验，并展示AlphaGenome、Scanpy等案例。",
+      "limit": "缺代码、数据或依赖会阻断接入；教程复现和接口测试不保证新输入的科学正确性。",
+      "bridge": "对照阅读：ProteinMCP（R053）聚焦蛋白软件服务化，Paper2Agent聚焦论文方法与复现材料的接入。",
+      "related": [
+        "R053",
+        "R041",
+        "R033"
+      ],
+      "visual": "pipeline",
+      "takeaway": "方法接入依次检查材料、环境、接口和参考复现，再测试新结构边界。"
+    },
+    {
+      "id": "R040",
+      "lane": "工具发现与学习",
+      "hook": "把代码题拆成工具环境，训练多轮调用",
+      "question": "怎样获得多样、可执行且容易判分的工具交互训练？",
+      "mechanism": [
+        "拆解代码原子函数",
+        "构造可控工具环境",
+        "生成多轮任务",
+        "运行并自动验收",
+        "测新工具泛化"
+      ],
+      "evidence": "论文比较不同模型的工具训练，并测试分布外工具任务中的泛化。",
+      "limit": "合成编程环境不能代表真实结构软件，环境自身正确性仍须验证。",
+      "bridge": "GOAT从调用链合成目标，CodeGym构造可控环境，OpenAgent检查训练后的分布变化。",
+      "related": [
+        "R045",
+        "R058"
+      ],
+      "visual": "pipeline",
+      "takeaway": "轻量几何和文件任务可作训练环境，迁移仍用真实软件复测。",
+      "short": "CodeGym",
+      "title": "Generalizable End-to-End Tool-Use RL with Synthetic CodeGym",
+      "source_url": "https://proceedings.iclr.cc/paper_files/paper/2026/hash/1e4322fddd833f83c855660ac65e428d-Abstract-Conference.html",
+      "origin_modules": [
+        "framework",
+        "engineering"
+      ],
+      "bridge_note": "跨论文关系与设计启发为本次导读综合分析。"
+    },
+    {
+      "id": "R042",
+      "lane": "运行评测与诊断",
+      "hook": "定位最早有效错误，修复相关步骤再恢复",
+      "question": "早期错误级联后，怎样避免无差别地全部重跑？",
+      "mechanism": [
+        "读取执行轨迹",
+        "定位首个影响错误",
+        "形成定向反馈",
+        "选择正确恢复点",
+        "重跑受影响步骤"
+      ],
+      "evidence": "论文分析Agent失败，并研究定向反馈和检查点恢复对任务结果的影响。",
+      "limit": "调试模型可能误判领域问题，修复仍需实际工具与独立判据验证。",
+      "bridge": "Reflexion保存经验，MAST分类协作失败，AgentDebug把反馈落实到首错和恢复点。",
+      "related": [
+        "R004",
+        "R027"
+      ],
+      "visual": "loop",
+      "takeaway": "错误分类绑定真实日志与产物，只恢复受影响的依赖子图。",
+      "short": "AgentDebug",
+      "title": "Where LLM Agents Fail and How They can Learn From Failures",
+      "source_url": "https://arxiv.org/abs/2509.25370",
+      "origin_modules": [
+        "engineering"
+      ],
+      "bridge_note": "跨论文关系与设计启发为本次导读综合分析。"
+    },
+    {
+      "id": "R044",
+      "lane": "记忆与经验",
+      "hook": "增量维护经验手册，减少摘要重写造成的细节损失",
+      "question": "怎样避免反复压缩经历导致上下文丢失和坍塌？",
+      "mechanism": [
+        "生成任务经验",
+        "反思反馈",
+        "整理增量条目",
+        "更新经验手册",
+        "按需提供上下文"
+      ],
+      "evidence": "论文在AppWorld等Agent和领域推理任务中比较离线与在线上下文适应。",
+      "limit": "经验存在冲突和失效风险，自然反馈也可能不足以判断科学结论。",
+      "bridge": "A-Mem组织经验关系，ACE维护手册内容，MemRL再用结果效用选择经验。",
+      "related": [
+        "R024",
+        "R048"
+      ],
+      "visual": "memory",
+      "takeaway": "用带来源和适用范围的增量条目维护流程经验。",
+      "short": "ACE",
+      "title": "Agentic Context Engineering: Evolving Contexts for Self-Improving Language Models",
+      "source_url": "https://proceedings.iclr.cc/paper_files/paper/2026/hash/8a94ff6f922d995d7d3f4ebf4143e442-Abstract-Conference.html",
+      "origin_modules": [
+        "framework"
+      ],
+      "bridge_note": "跨论文关系与设计启发为本次导读综合分析。"
+    },
+    {
+      "id": "R045",
+      "lane": "工具发现与学习",
+      "hook": "先有可执行调用链，再反推自然语言任务",
+      "question": "怎样合成具有真实依赖关系的目标导向工具训练数据？",
+      "mechanism": [
+        "实例化API调用链",
+        "运行验证可执行性",
+        "反推自然语言目标",
+        "构建训练样本",
+        "评价目标完成"
+      ],
+      "evidence": "论文在目标导向基准和GOATBench中评价call-first合成数据训练。",
+      "limit": "API级目标较易判分，科学方法合理性和真实输入多样性需要另验。",
+      "bridge": "ToolLLM从指令与API构建数据，GOAT先实例化调用链，CodeGym提供可控多轮环境。",
+      "related": [
+        "R009",
+        "R040"
+      ],
+      "visual": "pipeline",
+      "takeaway": "从已验收计算链生成练习任务，同时保留真实任务隐藏集。",
+      "short": "GOAT",
+      "title": "GOAT: A Training Framework for Goal-Oriented Agent with Tools",
+      "source_url": "https://aclanthology.org/2026.findings-acl.1150/",
+      "origin_modules": [
+        "framework"
+      ],
+      "bridge_note": "跨论文关系与设计启发为本次导读综合分析。"
+    },
+    {
+      "id": "R046",
+      "lane": "运行评测与诊断",
+      "hook": "把工具访问、环境与成本纳入同一科研评测",
+      "question": "不同Agent的分数怎样在可解释条件下比较？",
+      "mechanism": [
+        "统一科研工具环境",
+        "冻结任务与运行配置",
+        "收集真实结果",
+        "记录模型和工具成本",
+        "分项比较表现"
+      ],
+      "evidence": "论文提供科研任务套件，强调工具访问、基线、成本和可复现环境影响分数解释。",
+      "limit": "综合成绩混合检索、代码等能力，不能直接外推结构计算可靠性。",
+      "bridge": "AstaBench统一工具与成本，ScienceAgentBench检查数据任务，ProteinGeoBench补充坐标几何。",
+      "related": [
+        "R074",
+        "R079"
+      ],
+      "visual": "benchmark",
+      "takeaway": "固定模型、工具和预算，另报科学有效性与全部失败成本。",
+      "short": "AstaBench",
+      "title": "AstaBench: Rigorous Benchmarking of AI Agents with a Scientific Research Suite",
+      "source_url": "https://iclr.cc/virtual/2026/poster/10009971",
+      "origin_modules": [
+        "engineering"
+      ],
+      "bridge_note": "跨论文关系与设计启发为本次导读综合分析。"
+    },
+    {
+      "id": "R047",
+      "lane": "资源与持续适应",
+      "hook": "让小调度器一起权衡质量、模型与工具成本",
+      "question": "多模型多工具调用怎样同时控制质量、费用和时延？",
+      "mechanism": [
+        "接收任务和工具集",
+        "选择模型或工具",
+        "取得执行反馈",
+        "按质量与成本训练",
+        "评价工具变化"
+      ],
+      "evidence": "论文在HLE、τ²-Bench和FRAMES等任务及工具变化设置中分析质量与成本。",
+      "limit": "部分奖励依赖模型评价器，短答案和模拟API不能代表数小时科学作业。",
+      "bridge": "LLMCompiler解决依赖并行，ToolOrchestra学习资源路由，Agent Lightning连接真实轨迹训练。",
+      "related": [
+        "R015",
+        "R060"
+      ],
+      "visual": "optimize",
+      "takeaway": "路由成本需包含GPU、排队、存储和失败重跑，并受质量约束。",
+      "short": "ToolOrchestra",
+      "title": "ToolOrchestra: Elevating Intelligence via Efficient Model and Tool Orchestration",
+      "source_url": "https://proceedings.mlr.press/v306/su26d.html",
+      "origin_modules": [
+        "framework",
+        "engineering"
+      ],
+      "bridge_note": "跨论文关系与设计启发为本次导读综合分析。"
+    },
+    {
+      "id": "R048",
+      "lane": "记忆与经验",
+      "hook": "相关只是第一关，结果效用再筛选经验",
+      "question": "相似的经历不一定有效，怎样改善记忆召回？",
+      "mechanism": [
+        "保存任务经验",
+        "先按语义检索",
+        "按反馈效用再筛选",
+        "执行并更新效用"
+      ],
+      "evidence": "论文在代码、交互环境和持续任务中分析经验、噪声及跨模型使用。",
+      "limit": "长任务中的效用归因困难，多条经验同时使用时难确定各自贡献。",
+      "bridge": "A-Mem和ACE组织可读经验，MemRL为召回加入结果效用，仍须防止错误反馈污染。",
+      "related": [
+        "R024",
+        "R044"
+      ],
+      "visual": "memory",
+      "takeaway": "先与普通检索比较，再把可信计算反馈用于经验排序。",
+      "short": "MemRL",
+      "title": "MemRL: Self-Evolving Agents via Runtime Reinforcement Learning on Episodic Memory",
+      "source_url": "https://arxiv.org/abs/2601.03192",
+      "origin_modules": [
+        "framework"
+      ],
+      "bridge_note": "跨论文关系与设计启发为本次导读综合分析。"
+    },
+    {
+      "id": "R049",
+      "lane": "运行评测与诊断",
+      "hook": "让答案随真实数据变化，过滤绕开数据的捷径",
+      "question": "怎样发现Agent没有真正读取数据却获得正确答案？",
+      "mechanism": [
+        "绑定真实输入",
+        "要求执行与产物",
+        "筛查绕数据捷径",
+        "更换数据检查变化"
+      ],
+      "evidence": "论文指出数据任务存在捷径，并通过执行与捷径过滤评价数据接地。",
+      "limit": "依赖真实数据不等于研究假设成立，重型结构工具还需独立运行环境。",
+      "bridge": "ScienceBoard要求真实操作，DSGym过滤绕数据捷径，ProteinGeoBench深入到原子几何。",
+      "related": [
+        "R032",
+        "R079"
+      ],
+      "visual": "benchmark",
+      "takeaway": "替换结构或改名链后检查产物响应，并绑定输入哈希。",
+      "short": "DSGym",
+      "title": "DSGym: A Holistic Framework for Evaluating and Training Data Science Agents",
+      "source_url": "https://proceedings.mlr.press/v306/nie26b.html",
+      "origin_modules": [
+        "engineering"
+      ],
+      "bridge_note": "跨论文关系与设计启发为本次导读综合分析。"
+    },
+    {
+      "id": "R052",
+      "lane": "运行评测与诊断",
+      "hook": "分开测单步工具与多步流程，定位链路断点",
+      "question": "单次函数调用会做，能否代表完整科学任务会做？",
+      "mechanism": [
+        "建立科学工具任务",
+        "分别测试单步调用",
+        "组合多步流程",
+        "检查输入输出衔接",
+        "评价最终产物"
+      ],
+      "evidence": "论文把科学单步工具能力与多步工作流分层评价，关注完整数据流。",
+      "limit": "工具数量不能证明结构生物学全覆盖，生成任务也不等于真实研究难题。",
+      "bridge": "MCPBench拆解工具链，SciAgentGym区分科学单步与多步，AstaBench补充统一成本口径。",
+      "related": [
+        "R038",
+        "R046"
+      ],
+      "visual": "benchmark",
+      "takeaway": "按操作正确性和端到端科学完成率两层建立验收。",
+      "short": "SciAgentGym",
+      "title": "SciAgentGym: Benchmarking Multi-Step Scientific Tool-Use in LLM Agents",
+      "source_url": "https://proceedings.mlr.press/v306/shen26aa.html",
+      "origin_modules": [
+        "engineering"
+      ],
+      "bridge_note": "跨论文关系与设计启发为本次导读综合分析。"
+    },
+    {
+      "id": "R054",
+      "lane": "计算设计与搜索控制",
+      "hook": "为复杂软件建立动作、文档与反馈环境",
+      "question": "Agent怎样在专门计算软件中选择合法动作、设置参数并比较候选？",
+      "mechanism": [
+        "进入结构化软件环境",
+        "选择动作并读取文档",
+        "填写脚本模板参数",
+        "运行后读取数值反馈",
+        "比较并保留历史候选"
+      ],
+      "evidence": "ICML正式论文在指定设计任务上进行计算比较，并与专门方法及专家基线对照。",
+      "limit": "专门任务中的计算代理指标不证明通用实验成功；Agent代码也不自动提供Rosetta与计算环境。",
+      "bridge": "ProtAgents（R016）展示多角色调工具，本篇把重点深入到一种复杂软件的结构化行动空间。",
+      "related": [
+        "R016",
+        "R066",
+        "R063"
+      ],
+      "visual": "loop",
+      "takeaway": "对大型软件封装受约束操作，返回可检查指标并允许回退候选。"
+    },
+    {
+      "id": "R058",
+      "lane": "资源与持续适应",
+      "hook": "同时扰动问题、动作和观察，测试接口变化",
+      "question": "固定接口通过后，工具或表达变化时是否仍然有效？",
+      "mechanism": [
+        "建立可控任务",
+        "扰动查询或动作",
+        "改变观察和领域",
+        "测试已有策略",
+        "比较增强训练"
+      ],
+      "evidence": "论文在控制环境中研究监督和强化学习Agent面对多种分布变化的表现。",
+      "limit": "诊断环境不是完整科学软件栈，局部改善不能外推为所有任务的鲁棒性。",
+      "bridge": "MCPBench检查当前接口，OpenAgent检查接口变化，AgentEvolver研究组件随任务更新。",
+      "related": [
+        "R038",
+        "R064"
+      ],
+      "visual": "benchmark",
+      "takeaway": "把工具改名、schema变化、异常返回和不可完成题加入回归。",
+      "short": "OpenAgent",
+      "title": "Can Agents Generalize to the Open World? Unveiling the Fragility of Static Training in Tool Use",
+      "source_url": "https://proceedings.mlr.press/v306/wu26al.html",
+      "origin_modules": [
+        "framework",
+        "engineering"
+      ],
+      "bridge_note": "跨论文关系与设计启发为本次导读综合分析。"
+    },
+    {
+      "id": "R060",
+      "lane": "资源与持续适应",
+      "hook": "实际运行时照常执行，训练在模型接口旁接入",
+      "question": "训练怎样复用部署中的真实工具与上下文行为？",
+      "mechanism": [
+        "保留实际运行框架",
+        "代理模型请求响应",
+        "采集真实执行轨迹",
+        "接入可信奖励",
+        "训练并复测策略"
+      ],
+      "evidence": "论文提供搜索、指令遵循和代码Agent实验及可复现训练流程。",
+      "limit": "可信奖励、完整轨迹和训练稳定性仍是前提，报告任务不属结构生物学。",
+      "bridge": "ReTool优化工具行为，ToolOrchestra优化路由，Agent Lightning把训练接到实际运行时。",
+      "related": [
+        "R029",
+        "R047"
+      ],
+      "visual": "optimize",
+      "takeaway": "先成熟运行和独立验收，再考虑在真实轨迹旁接入训练。",
+      "short": "Agent_Lightning_1",
+      "title": "Agent Lightning v1.0: Towards Harnessed Agentic RL",
+      "source_url": "https://arxiv.org/abs/2608.17528",
+      "origin_modules": [
+        "framework",
+        "engineering"
+      ],
+      "bridge_note": "跨论文关系与设计启发为本次导读综合分析。"
+    },
+    {
+      "id": "R064",
+      "lane": "资源与持续适应",
+      "hook": "固定模型，按版本维护可复用工具、技能和流程",
+      "question": "一次任务后形成的组件怎样进入持续能力积累？",
+      "mechanism": [
+        "固定基础模型",
+        "识别组件改进需求",
+        "修改工具或流程",
+        "验证并管理版本",
+        "持久化任务计划"
+      ],
+      "evidence": "论文以SWE-bench Pro Public和六个应用案例研究组件生命周期与能力积累。",
+      "limit": "独立任务迁移和总开发成本仍待研究，不能据此认定全面自主自我改进。",
+      "bridge": "Voyager沉淀成功技能，ADAS搜索系统设计，AgentEvolver将组件修改与计划纳入生命周期。",
+      "related": [
+        "R008",
+        "R020"
+      ],
+      "visual": "optimize",
+      "takeaway": "新组件在隔离环境验证，独立回归通过后再发布到能力库。",
+      "short": "AgentEvolver_2026",
+      "title": "AgentEvolver: System-Wide Self-Evolution Through Task Execution",
+      "source_url": "https://arxiv.org/abs/2610.11613",
+      "origin_modules": [
+        "framework"
+      ],
+      "bridge_note": "跨论文关系与设计启发为本次导读综合分析。"
+    },
+    {
+      "id": "R059",
+      "lane": "开放工具与持续演化",
+      "hook": "用本体门控决定复用旧工具还是获取新工具",
+      "question": "已知工具不足时，怎样识别能力缺口并可靠吸收新工具？",
+      "mechanism": [
+        "提炼技能与经验",
+        "主动描述能力需求",
+        "本体检索与门控",
+        "执行候选工具链",
+        "补全本体并入图"
+      ],
+      "evidence": "预印本构建900题OpenSciToolBench，以对照和消融检验记忆、本体补全与门控机制。",
+      "limit": "未知工具仍来自划分的工具空间，题目由工具图生成；不等于任意软件均可自动接入。",
+      "bridge": "先用OpenAgent（R058）检验工具变化下的泛化，再比较本篇的缺口识别与吸收机制。",
+      "related": [
+        "R058",
+        "R023",
+        "R041"
+      ],
+      "visual": "loop",
+      "takeaway": "把能力缺口、候选接入和知识更新分开记录，并在迁入后复验。"
+    },
+    {
+      "id": "R067",
+      "lane": "交互环境与可靠性评测",
+      "hook": "把问答分数换成多环境中的行动成败",
+      "question": "模型在连续观察和操作环境时，能否完成交互任务？",
+      "mechanism": [
+        "配置八类交互环境",
+        "接收任务与观察",
+        "执行动作并获反馈",
+        "按环境结果计分"
+      ],
+      "evidence": "涵盖操作系统、数据库、网页等八类环境，并分析长期推理、决策与指令遵循失败。",
+      "limit": "八类环境代表有限任务分布；总体分数不能替代逐环境表现，也不是科学计算专用评测。",
+      "bridge": "AgentBench测环境行动，τ-bench（R077）进一步加入用户对话和领域政策约束。",
+      "related": [
+        "R077",
+        "R078",
+        "R074"
+      ],
+      "visual": "benchmark",
+      "takeaway": "先分环境测任务完成，再沿执行轨迹定位失败原因。"
+    },
+    {
+      "id": "R068",
+      "lane": "研究地图与分类框架",
+      "hook": "用画像、记忆、规划、行动整理Agent设计",
+      "question": "分散的Agent工作可以按哪些共享组件与能力获得方式比较？",
+      "mechanism": [
+        "角色画像",
+        "记忆结构与操作",
+        "规划策略",
+        "行动空间与影响"
+      ],
+      "evidence": "综述以四类架构模块整理既有方法，并讨论能力获得、应用与评价策略。",
+      "limit": "这是文献分类框架，没有提出一条经实验验证的统一执行流水线。",
+      "bridge": "先读ReAct（R002）理解行动反馈，再用Reflexion（R004）对照经验复用的记忆机制。",
+      "related": [
+        "R002",
+        "R004",
+        "R075"
+      ],
+      "visual": "dag",
+      "takeaway": "把分类维度用于方案比较，运行时仍需具体状态与接口设计。"
+    },
+    {
+      "id": "R070",
+      "lane": "领域工具与科学证据",
+      "hook": "让LLM选择专家工具，再依据返回值继续判断",
+      "question": "面对化学计算与知识任务，怎样利用专家工具弥补语言模型的错误？",
+      "mechanism": [
+        "读取工具描述",
+        "提出工具与参数",
+        "接收执行观察",
+        "据反馈继续或作答"
+      ],
+      "evidence": "集成18种专家工具，以工具交互完成化学任务，并同时使用专家和LLM评价。",
+      "limit": "案例和工具集具有领域边界；论文发现LLM评价可能漏判明显错误，不能单独作为验收。",
+      "bridge": "SciToolAgent（R023）把工具描述与依赖组织为知识图，进一步处理大工具集的选择与组合。",
+      "related": [
+        "R023",
+        "R033",
+        "R076"
+      ],
+      "visual": "loop",
+      "takeaway": "把专业计算交给工具，并用独立验收检查最终结论。"
+    },
+    {
+      "id": "R073",
+      "lane": "文献检索与证据整合",
+      "hook": "检索、压缩证据与引文遍历共同支撑回答",
+      "question": "怎样从文献正文找到证据，并生成可追溯且能保留不确定性的回答？",
+      "mechanism": [
+        "搜索相关论文",
+        "重排并压缩证据",
+        "沿引用补充来源",
+        "综合带引文回答"
+      ],
+      "evidence": "在LitQA2问答、引文综述和矛盾检测三类任务中比较系统与专家表现。",
+      "limit": "文献任务上的比较不等于全面超越科学家；可靠性仍受检索覆盖、文本解析与评价设计影响。",
+      "bridge": "Paper2Agent（R039）把论文中的软件与示例包装成可调用能力，从阅读证据转向执行方法。",
+      "related": [
+        "R039",
+        "R046",
+        "R074"
+      ],
+      "visual": "loop",
+      "takeaway": "保存支撑句和出处，区分证据充分、检索不足与文献冲突。"
+    },
+    {
+      "id": "R074",
+      "lane": "科学产物与领域评测",
+      "hook": "从论文抽出分析任务，用程序产物验收",
+      "question": "Agent能否独立生成满足科学分析要求的可执行程序？",
+      "mechanism": [
+        "论文提取任务",
+        "专家验证标注",
+        "生成并执行程序",
+        "核验输出与成本"
+      ],
+      "evidence": "从44篇同行评议论文提取102项任务，覆盖四学科，由专家验证，并检查程序、结果与成本。",
+      "limit": "衡量的是独立数据分析任务，不能证明端到端发现；模型、提示与尝试预算需随结果注明。",
+      "bridge": "ProteinGeoBench（R079）把产物验收细化到结构元数据、残基核查与坐标几何计算。",
+      "related": [
+        "R079",
+        "R046",
+        "R049"
+      ],
+      "visual": "benchmark",
+      "takeaway": "先让单项计算具有参考输出与验收器，再组合复杂科研流程。"
+    },
+    {
+      "id": "R075",
+      "lane": "研究地图与分类框架",
+      "hook": "按规划、记忆、行动空间、验证器读科学Agent",
+      "question": "科学Agent的架构机制如何对应领域任务与科学有效性要求？",
+      "mechanism": [
+        "规划器分类",
+        "记忆机制分类",
+        "行动空间分类",
+        "验证器分类"
+      ],
+      "evidence": "综述按四类机制整理科学Agent、领域应用和基准，并把可复现性纳入设计讨论。",
+      "limit": "分类地图不是统一运行算法，各论文任务和评价不同，不能据此进行跨系统性能排名。",
+      "bridge": "用这张机制地图定位Biomni（R033）的代码行动，再对照SciToolAgent（R023）的工具知识组织。",
+      "related": [
+        "R033",
+        "R023",
+        "R068"
+      ],
+      "visual": "dag",
+      "takeaway": "选型时逐项填写规划、记忆、行动与验证，标出尚无证据的环节。"
+    },
+    {
+      "id": "R076",
+      "lane": "工具平台与能力发现",
+      "hook": "把API平台、选择器和执行器分成独立职责",
+      "question": "基础模型如何发现并组合外部API，完成跨软件任务？",
+      "mechanism": [
+        "统一API文档",
+        "按目标选择API",
+        "生成行动代码",
+        "执行并返回结果"
+      ],
+      "evidence": "提出四组件架构，以PowerPoint自动化展示接入与执行；该案例未启用API选择器或RLHF。",
+      "limit": "属于愿景与案例论文，标题中的百万API是平台目标，不能解读为已验证的接入规模。",
+      "bridge": "ToolLLM（R009）转向API调用学习，SciToolAgent（R023）补充科学工具的依赖与适用关系。",
+      "related": [
+        "R009",
+        "R023",
+        "R041"
+      ],
+      "visual": "pipeline",
+      "takeaway": "分别管理工具文档、候选选择与执行，让新增工具有明确接入位置。"
+    },
+    {
+      "id": "R077",
+      "lane": "交互环境与可靠性评测",
+      "hook": "按数据库终态验收，再测多次都成功",
+      "question": "Agent能否在对话中遵循领域规则，并稳定完成用户目标？",
+      "mechanism": [
+        "定义政策与目标状态",
+        "模拟用户动态对话",
+        "调用API更新数据库",
+        "比对终态并重复评测"
+      ],
+      "evidence": "在零售和航空场景比较终态数据库与目标，并以pass^k衡量k次运行均成功的可靠性。",
+      "limit": "用户由模型模拟，场景与政策范围有限；pass^k表示多次均成功，不是至少成功一次。",
+      "bridge": "ToolSandbox（R078）进一步记录中间世界状态，评价有依赖顺序的里程碑，而不只看终态。",
+      "related": [
+        "R078",
+        "R034",
+        "R067"
+      ],
+      "visual": "benchmark",
+      "takeaway": "把目标写成可验证状态，用重复运行检查对话和规则遵循的稳定性。"
+    },
+    {
+      "id": "R078",
+      "lane": "交互环境与可靠性评测",
+      "hook": "把工具依赖写进世界状态与里程碑",
+      "question": "如何测出缺信息、状态依赖和交互纠错导致的工具使用失败？",
+      "mechanism": [
+        "定义初始世界状态",
+        "模拟用户与工具交互",
+        "追踪状态和消息",
+        "拓扑匹配里程碑"
+      ],
+      "evidence": "评测包含有状态工具、隐式依赖和用户模拟器，按拓扑顺序匹配中间与最终里程碑。",
+      "limit": "预设状态与里程碑只覆盖所建场景；模拟对话结果不能等同真实用户中的可靠性。",
+      "bridge": "τ²-Bench（R034）继续让用户和Agent共同改变环境，检验双侧操作带来的协调困难。",
+      "related": [
+        "R034",
+        "R077",
+        "R067"
+      ],
+      "visual": "benchmark",
+      "takeaway": "验收既看最终状态，也看必要前置条件是否按依赖顺序得到满足。"
+    },
+    {
+      "id": "R079",
+      "lane": "科学产物与领域评测",
+      "hook": "把结构查询与坐标计算分开评测",
+      "question": "结构Agent的总分有多少来自查数据库，又有多少来自真正算对几何？",
+      "mechanism": [
+        "分开四类结构任务",
+        "执行多次独立运行",
+        "按容差核验数值",
+        "比较访问与运行条件"
+      ],
+      "evidence": "预印本含131项任务，其中28项为数值计算，并考察尝试次数、网络与运行框架的影响。",
+      "limit": "部分对比使用不同子集，不能直接排名各因素影响；多数模型检索更好不代表全部模型如此。",
+      "bridge": "回到ScienceAgentBench（R074）的产物验收原则，为每类结构计算设独立验证与误差容限。",
+      "related": [
+        "R074",
+        "R052",
+        "R043"
+      ],
+      "visual": "benchmark",
+      "takeaway": "按任务族报告结果，同时公开容差、运行次数、访问条件和运行框架。"
+    },
+    {
+      "id": "R072",
+      "lane": "科学产物与领域评测",
+      "hook": "先在干净环境复跑，再按分层细则评分",
+      "question": "Agent能否从论文独立实现并运行实验，复现其核心经验结果？",
+      "mechanism": [
+        "读取论文与澄清",
+        "从零实现代码库",
+        "干净环境独立复跑",
+        "逐叶核验复现细则",
+        "加权汇总复现得分"
+      ],
+      "evidence": "20篇ICML2024论文配作者共建细则，分开评价代码、执行和结果，并用JudgeEval核验自动评分器。",
+      "limit": "分数包含代码与执行的部分得分，不能当作整篇复现成功率；自动评分仍有误差。",
+      "bridge": "ScienceAgentBench（R074）拆到独立分析任务，便于对照整篇复现与单项产物验收的难度。",
+      "related": [
+        "R074",
+        "R039",
+        "R046"
+      ],
+      "visual": "benchmark",
+      "takeaway": "把可运行入口、全新环境复跑和结果匹配分开验收，避免仅按代码外观给结论。"
+    },
+    {
+      "id": "R033",
+      "lane": "工具生态与方法接入",
+      "hook": "通用能力先来自科学环境，再由代码组合",
+      "question": "不同生物学问题怎样共享工具环境，并动态组合分析步骤？",
+      "mechanism": [
+        "整理工具与数据库",
+        "按问题检索能力",
+        "生成计划与代码",
+        "执行后读取观察",
+        "调整并交付结果"
+      ],
+      "evidence": "Science正式论文已发表；公开版展示开发时未见的多类任务及多组学案例，本地旧PDF为预印本。",
+      "limit": "任务与环境覆盖有限；代码跑通不能单独证明统计推断、因果解释或实验方案有效。",
+      "bridge": "Biomni强调可执行环境，ToolUniverse（R041）进一步把工具发现与调用独立成基础设施。",
+      "related": [
+        "R041",
+        "R023",
+        "R069"
+      ],
+      "visual": "loop",
+      "takeaway": "分开建设科学环境与任务决策层，再用真实产物验证代码组合。"
+    },
+    {
+      "id": "R069",
+      "lane": "领域数据分析与交互",
+      "hook": "先探索专业工具，再检索和复用操作经验",
+      "question": "Agent怎样学习专业软件的用法，并把经验迁移到后续分析任务？",
+      "mechanism": [
+        "分派专业分析角色",
+        "交互探索工具",
+        "保存可检索经验",
+        "复用经验组织流程",
+        "执行并评价结果"
+      ],
+      "evidence": "正式论文在BioMed-AQA与外部BixBench上评价工具学习及跨任务表现。",
+      "limit": "需要核对经验学习和测试是否隔离；特定任务成功率不能跨论文排名，软件更新也可能使经验失效。",
+      "bridge": "与Biomni（R033）的即时代码组合相比，本篇突出通过工具交互积累可复用经验。",
+      "related": [
+        "R033",
+        "R017",
+        "R050"
+      ],
+      "visual": "memory",
+      "takeaway": "经验绑定输入条件、软件版本与复跑结果，避免把一次成功当成通用技能。"
+    },
+    {
+      "id": "R041",
+      "lane": "工具生态与方法接入",
+      "hook": "把科学工具整理成可发现、可调用的接口层",
+      "question": "分散的软件、模型、数据库与API怎样通过统一方式被不同Agent使用？",
+      "mechanism": [
+        "登记用途与类型接口",
+        "检索候选工具",
+        "校验参数并调用",
+        "组合研究技能",
+        "维护和扩展工具"
+      ],
+      "evidence": "预印本v3给出工具生态、研究技能及多步研究案例，工具数量属于该版本快照。",
+      "limit": "登记数量不证明所有服务在线或每种输入均有效；远程接口、本地软件与研究技能也不是同一单位。",
+      "bridge": "Paper2Agent（R039）回答单篇方法如何接入；ToolUniverse回答接入后如何统一发现和调用。",
+      "related": [
+        "R039",
+        "R023",
+        "R053"
+      ],
+      "visual": "pipeline",
+      "takeaway": "把目录、接口、执行后端和流程技能分层，并逐项记录健康状态。"
+    },
+    {
+      "id": "R023",
+      "lane": "工具生态与方法接入",
+      "hook": "用工具关系图缩小多步规划的搜索空间",
+      "question": "候选工具很多时，怎样利用工具间关系规划相互衔接的计算？",
+      "mechanism": [
+        "建立科学工具图谱",
+        "按任务检索相关关系",
+        "据图规划工具链",
+        "执行并检查反馈",
+        "汇总结果与证据"
+      ],
+      "evidence": "正式论文包含多工具任务评估，以及跨生物、化学和材料领域的计算案例。",
+      "limit": "图谱关系正确不证明当前部署可用或文件兼容；模型裁判也不能替代独立科学验证。",
+      "bridge": "对照阅读：ToolUniverse（R041）关注统一接口，SciToolAgent关注工具关系驱动的规划。",
+      "related": [
+        "R041",
+        "R033",
+        "R059"
+      ],
+      "visual": "dag",
+      "takeaway": "图检索提出候选衔接，再由类型、前置条件和真实执行确认。"
+    },
+    {
+      "id": "R017",
+      "lane": "领域数据分析与交互",
+      "hook": "规划、执行与评价围绕领域指标迭代",
+      "question": "自然语言目标怎样落实为可执行、可评价的单细胞分析工作流？",
+      "mechanism": [
+        "规划分析步骤",
+        "检索领域工具箱",
+        "沙箱执行分析代码",
+        "评价分析产物",
+        "按评价调整流程"
+      ],
+      "evidence": "ICLR正式版使用多个真实数据集、任务指标及人工参与研究进行评价。",
+      "limit": "聚类或批次指标改善不保证生物结论正确；物种、平台与参考注释变化仍需单独验证。",
+      "bridge": "CellAgent突出领域评价循环；SpatialAgent（R028）进一步把图像、空间观察与论断核验联动。",
+      "related": [
+        "R028",
+        "R069",
+        "R050"
+      ],
+      "visual": "loop",
+      "takeaway": "让执行和评价明确分工，为不同结构流程配置各自的科学验收指标。"
+    },
+    {
+      "id": "R028",
+      "lane": "领域数据分析与交互",
+      "hook": "把空间数据、工具行动与论断核验接起来",
+      "question": "空间生物学分析怎样同时管理工具步骤、视觉观察与最终论断？",
+      "mechanism": [
+        "规划空间分析任务",
+        "动态检索工具与技能",
+        "执行分析并观察图像",
+        "核验生成的论断",
+        "汇总结果与假设"
+      ],
+      "evidence": "预印本v2展示多个器官数据集及前瞻性空间研究，真实样本与测序实验由研究者开展。",
+      "limit": "选定案例和专家比较不能覆盖所有空间任务；多模态解释与生成假设仍需独立证据支持。",
+      "bridge": "Speak to a Protein（R043）共享三维结构场景，本篇共享空间数据、图像与分析论断。",
+      "related": [
+        "R043",
+        "R017",
+        "R062"
+      ],
+      "visual": "loop",
+      "takeaway": "将结构视图、对象选择、计算表格与论断保存在同一项目状态中。"
+    },
+    {
+      "id": "R018",
+      "lane": "假设组织与实验反馈",
+      "hook": "根据每轮观测选择下一批实验候选",
+      "question": "实验预算有限时，已有扰动观测能否帮助Agent选择下一批候选？",
+      "mechanism": [
+        "读取已有观测",
+        "结合文献与生物先验",
+        "分析并复核候选",
+        "选择下一批任务",
+        "根据返回结果更新"
+      ],
+      "evidence": "正式会议论文在多个扰动数据集上与专门优化基线比较，核心评测采用历史数据回放。",
+      "limit": "历史回放不能完整模拟新增实验的噪声、耗时和预算，也不能据此认定已开展自主湿实验。",
+      "bridge": "Co-Scientist（R025）竞争和排序研究假设，本篇把反馈具体化为有限预算下的下一批候选选择。",
+      "related": [
+        "R025",
+        "R031",
+        "R022"
+      ],
+      "visual": "loop",
+      "takeaway": "候选优先级与计算流程分开，保留预算、反馈和每轮选择依据。"
+    },
+    {
+      "id": "R025",
+      "lane": "假设组织与实验反馈",
+      "hook": "让候选假设在批评、排序与演化中竞争",
+      "question": "怎样围绕研究者目标生成、比较并改进可检验的科学假设？",
+      "mechanism": [
+        "提出候选假设",
+        "反思和补充论据",
+        "异步比较与排名",
+        "演化保留的假设",
+        "研究者反馈与检验"
+      ],
+      "evidence": "Nature正式论文报告多个研究方向的假设评估，并对部分假设开展体外或类器官验证。",
+      "limit": "模型自评和锦标赛偏好不构成科学真值；研究者实施实验，系统也不是全部软件的执行平台。",
+      "bridge": "Virtual Lab（R022）以会议组织专业协作，本篇突出候选假设的异步竞争与演化。",
+      "related": [
+        "R022",
+        "R031",
+        "R018"
+      ],
+      "visual": "optimize",
+      "takeaway": "把假设排序连接可执行检验与反证记录，保留模型偏好和实验证据的区别。"
+    },
+    {
+      "id": "R031",
+      "lane": "假设组织与实验反馈",
+      "hook": "检索与代码分析共同支撑有人的研究闭环",
+      "question": "文献、实验提案与真实数据分析怎样反馈到下一轮研究假设？",
+      "mechanism": [
+        "Crow与Falcon检索",
+        "组织研究假设与提案",
+        "研究者执行实验",
+        "Finch运行分析代码",
+        "结果反馈下一轮假设"
+      ],
+      "evidence": "Nature论文展示候选的体外检测及后续RNA-seq研究；物理实验和部分前处理由人完成。",
+      "limit": "当前输出实验提纲而非精确设备协议；领域提示与近乎固定的工具次序仍影响实际工作流。",
+      "bridge": "BioDiscoveryAgent（R018）重点评测下一批选择，Robin展示检索、实验和执行分析之间的反馈。",
+      "related": [
+        "R018",
+        "R025",
+        "R057"
+      ],
+      "visual": "loop",
+      "takeaway": "先把可验证的确定性分析接好，再在确需决策的位置引入动态规划。"
+    },
+    {
+      "id": "R051",
+      "lane": "领域数据分析与交互",
+      "hook": "用验证节点约束自动模型研发与实验选择",
+      "question": "给定生物医学数据，Agent怎样开发并交付可复用的机器学习方案？",
+      "mechanism": [
+        "读取任务与数据",
+        "提出表征和模型策略",
+        "逐步实现并验证代码",
+        "运行训练与比较",
+        "保留模型与实验产物"
+      ],
+      "evidence": "Bioinformatics正式论文在多领域生物医学数据集上比较自动研发模型与所选基线。",
+      "limit": "基准上的模型优化不是生物机制发现；预算、重复运行和数据切分会影响相对表现。",
+      "bridge": "AgentFold（R061）专门搜索折叠模型代码，本篇围绕多类生物医学数据任务研发预测模型。",
+      "related": [
+        "R061",
+        "R069",
+        "R017"
+      ],
+      "visual": "optimize",
+      "takeaway": "冻结数据切分和评价规则，版本化代码、训练配置与最终模型。"
+    },
+    {
+      "id": "R057",
+      "lane": "假设组织与实验反馈",
+      "hook": "意图、协议和设备代码分层校验",
+      "question": "从实验意图到协议与设备任务，怎样保持各层约束和运行状态一致？",
+      "mechanism": [
+        "协调器维护任务状态",
+        "协议与编码角色分工",
+        "逐层校验约束",
+        "连接执行与反馈",
+        "更新可复用技能"
+      ],
+      "evidence": "预印本报告协议衍生任务、自动化设备接入和部分真实实验，过程指标与实验结果分别记录。",
+      "limit": "尚未同行评审；设备代码通过不等于实验成功，样品准备、平台部署和人工判断仍有依赖。",
+      "bridge": "Robin（R031）连接实验提案和数据分析，ProtoPilot更关注意图向设备任务逐层转译的校验。",
+      "related": [
+        "R031",
+        "R039",
+        "R066"
+      ],
+      "visual": "pipeline",
+      "takeaway": "借鉴分层转译与阶段验收，先将计算意图落到有输入输出约束的任务。"
+    },
+    {
+      "id": "R050",
+      "lane": "领域结果与鲁棒性基准",
+      "hook": "完整流程还要经得起损坏输入与干扰",
+      "question": "Agent能否真实完成生物信息流程，并在输入受到扰动后交付合格文件？",
+      "mechanism": [
+        "构建端到端流程任务",
+        "规定输出契约",
+        "注入输入与上下文扰动",
+        "运行多种模型与框架",
+        "检查产物并归类失败"
+      ],
+      "evidence": "正式会议论文比较不同模型和运行框架，考察完整流程及受控输入扰动下的表现。",
+      "limit": "有限任务和预置资源不能代表大型项目；模型评分需要确定性产物检查与人工复核配合。",
+      "bridge": "BIABench（R062）分开看过程和结果，ProteinGeoBench（R079）进一步检验坐标数值计算。",
+      "related": [
+        "R062",
+        "R079",
+        "R069"
+      ],
+      "visual": "benchmark",
+      "takeaway": "以机器可验收产物为核心，加入坏坐标、缺链、错误格式与恢复测试。"
+    },
+    {
+      "id": "R062",
+      "lane": "领域结果与鲁棒性基准",
+      "hook": "过程叙述合理，结果仍可能是错的",
+      "question": "真实生物图像分析中，过程质量评分能否识别结果错误与重复运行波动？",
+      "mechanism": [
+        "重建已发表图像任务",
+        "设置参考结果",
+        "多次运行分析Agent",
+        "分别评产物和过程",
+        "比较稳定性与失败"
+      ],
+      "evidence": "预印本观察到三维和时序任务更难，重复运行差异明显，过程分不足以可靠识别结果对错。",
+      "limit": "任务数量有限；作者参与部分被测系统开发，VLM过程评分不能替代客观真值。",
+      "bridge": "BioAgent Bench（R050）强调完整流程与扰动，本篇强调过程好看与产物正确必须分开。",
+      "related": [
+        "R050",
+        "R079",
+        "R028"
+      ],
+      "visual": "benchmark",
+      "takeaway": "对密度图、结构和轨迹分别设置客观参考，并报告多次运行的分布。"
+    },
+    {
+      "id": "R066",
+      "lane": "计算设计与搜索控制",
+      "hook": "Agent灵活组合，执行层管理数据与长作业",
+      "question": "多种蛋白计算工具怎样以统一对象衔接，并在集群上可靠执行？",
+      "mechanism": [
+        "统一数据表与工具块",
+        "Agent编写组合方案",
+        "执行引擎提交长作业",
+        "分块缓存并交接数据",
+        "保存血缘与评价指标"
+      ],
+      "evidence": "预印本比较多类设计任务的计算通过率和资源消耗，另报告指定项目的实验检测。",
+      "limit": "刚公开且未同行评审；源码不包含全部上游许可、权重和集群环境，计算与实验证据不能混同。",
+      "bridge": "ProteinMCP（R053）突出服务接口，Chaperone进一步明确数据表、工具块和长作业执行层。",
+      "related": [
+        "R053",
+        "R054",
+        "R057"
+      ],
+      "visual": "dag",
+      "takeaway": "先统一科学对象和执行状态，再允许Agent灵活编排工具块。"
+    },
+    {
+      "id": "R055",
+      "lane": "结构目标转译与模型审阅",
+      "hook": "推理和执行分工，模型修改保持可追踪",
+      "question": "结构推理怎样与本地精修、化学审阅和故障恢复协作？",
+      "mechanism": [
+        "Maria检索并推理结构",
+        "Annika执行本地工具",
+        "追踪产物与运行状态",
+        "验证候选并恢复故障",
+        "专家审查关键修改"
+      ],
+      "evidence": "预印本报告cryo-EM重拟合、金属位点审计与配体拟合案例，属于案例可操作性证据。",
+      "limit": "不是大规模盲测；公开仓库未包含全部数据与原始日志，最终结构和化学判断仍由专家作出。",
+      "bridge": "结构精修监督（R065）进一步展示全局指标改善时仍要追查局部退化。",
+      "related": [
+        "R065",
+        "R043",
+        "R054"
+      ],
+      "visual": "handoff",
+      "takeaway": "把推理、执行、产物版本和专家检查写入同一可恢复任务状态。"
+    },
+    {
+      "id": "R065",
+      "lane": "结构目标转译与模型审阅",
+      "hook": "总分改善时，仍要追查局部退化",
+      "question": "Agent监督模型构建与精修时，怎样面对拟合和局部几何指标之间的冲突？",
+      "mechanism": [
+        "保存初始模型与验证",
+        "协调建模精修软件",
+        "产生并保留候选",
+        "比较局部与全局指标",
+        "决定继续或停止修改"
+      ],
+      "evidence": "预印本案例中部分全局几何指标改善，但也出现局部CaBLAM恶化，且缺完整的跨系统对照。",
+      "limit": "限定模型和配置的案例不证明普遍优势；密度与坐标也不足以唯一确定配体或离子身份。",
+      "bridge": "StructAgent（R055）强调角色协作，本篇把审阅焦点放在多指标冲突和局部修改后果。",
+      "related": [
+        "R055",
+        "R079",
+        "R063"
+      ],
+      "visual": "optimize",
+      "takeaway": "保存父子模型和局部差异，用多项证据决定接受、保留或回退。"
+    },
+    {
+      "id": "R053",
+      "lane": "工具生态与方法接入",
+      "hook": "服务层封装工具，技能层组织计算任务",
+      "question": "已有蛋白计算代码怎样包装为服务，并由工作流技能组织和调用？",
+      "mechanism": [
+        "将代码包装为MCP服务",
+        "隔离工具运行环境",
+        "登记服务与技能",
+        "Agent组合服务执行",
+        "检查并调整服务或技能"
+      ],
+      "evidence": "Protein Science正式论文展示计算工作流，部分任务对照已有实验分数，预测候选仍需实验验证。",
+      "limit": "少量案例主要说明自动化；手工耗时是估计，服务封装不替代底层模型、数据库和环境部署。",
+      "bridge": "Paper2Agent（R039）从论文材料出发，ProteinMCP更聚焦现有蛋白软件的服务与技能组织。",
+      "related": [
+        "R039",
+        "R041",
+        "R066"
+      ],
+      "visual": "pipeline",
+      "takeaway": "接口接入与科学验收分开，再补齐标准对象、长作业和独立验证。"
+    },
+    {
+      "id": "R056",
+      "lane": "结构目标转译与模型审阅",
+      "hook": "先把研究直觉翻译为计算指标与方法假设",
+      "question": "模糊的结构研究目标怎样转成可检验指标、计算计划和有边界的解释？",
+      "mechanism": [
+        "澄清问题与科学条件",
+        "定义计算代理指标",
+        "制定并审查计划",
+        "EnzyHTP调度模拟",
+        "解释结果与证据边界"
+      ],
+      "evidence": "正式论文分别提供回顾性对照与前瞻实验案例；计算代理和实验终点的定义需要分开解读。",
+      "limit": "系统不是直接预测酶活性的模型；少量案例不能代表任意体系，采样与指标适用性仍限制解释。",
+      "bridge": "Speak to a Protein（R043）共享交互对象，本篇进一步将语言目标显式转译为指标和计算计划。",
+      "related": [
+        "R043",
+        "R055",
+        "R031"
+      ],
+      "visual": "pipeline",
+      "takeaway": "先说明目标与代理指标的关系，再执行计算并分别报告证据层级。"
+    },
+    {
+      "id": "R043",
+      "lane": "领域数据分析与交互",
+      "hook": "让对话、三维选择与计算共享结构场景",
+      "question": "用户连续提问时，蛋白三维视图、残基选择和分析代码怎样保持对象一致？",
+      "mechanism": [
+        "检索结构与文献",
+        "在三维视图选择对象",
+        "沙箱执行分析代码",
+        "观察结构与结果表",
+        "依据共享场景继续对话"
+      ],
+      "evidence": "JCIM正式版含BixBench子集与结构案例，展示工具分析和证据汇总，而非新的湿实验发现。",
+      "limit": "公开案例评测仓库不等价于完整后端开源或离线部署；个案指标不能代表所有结构任务。",
+      "bridge": "SpatialAgent（R028）连接空间图像与论断，本篇将共享状态具体化为可交互的蛋白三维对象。",
+      "related": [
+        "R028",
+        "R055",
+        "R056"
+      ],
+      "visual": "loop",
+      "takeaway": "把会话、viewer选区、计算输入和证据引用绑定到同一结构对象。"
+    },
+    {
+      "id": "R061",
+      "lane": "计算设计与搜索控制",
+      "hook": "搜索的是折叠模型代码，不是任意结构问题",
+      "question": "Agent能否在给定训练与评价环境中，有预算地改进折叠预测模型本身？",
+      "mechanism": [
+        "提出模型修改假设",
+        "实现并调试代码",
+        "训练与结构评价",
+        "保存成功和失败分支",
+        "树控制器分配算力"
+      ],
+      "evidence": "预印本在紧凑折叠模型和开发基准上开展代码搜索，与预算受控的提案和随机控制比较。",
+      "limit": "成本高且独立外部泛化仍需检验；模型研发搜索不能误称为分析任意PDB的通用Agent。",
+      "bridge": "Agentomics（R051）研发多类预测模型，AgentFold把代码搜索集中在折叠模型的实验空间。",
+      "related": [
+        "R051",
+        "R063",
+        "R054"
+      ],
+      "visual": "optimize",
+      "takeaway": "把研发搜索与日常工具执行分层，记录代码谱系、失败分支和总预算。"
+    },
+    {
+      "id": "R071",
+      "lane": "计算设计与搜索控制",
+      "hook": "在模板附近迭代，并同时保留多项约束",
+      "question": "语言提出的多目标要求，怎样在受限候选空间中被逐项检查而非压成一个总分？",
+      "mechanism": [
+        "理解目标与模板条件",
+        "规划受约束操作",
+        "执行候选计算",
+        "观察结构与性质代理",
+        "反思并调整后续计划"
+      ],
+      "evidence": "正式会议论文报告多项计算设计任务及性质约束满足情况，评价主要依据计算代理。",
+      "limit": "模板库与性质预测器限制结论；置信度和预测性质不等于实验测量，资源仍需额外部署。",
+      "bridge": "Agent Rosetta（R054）突出专门行动环境，PDAgent突出语言多目标约束下的迭代组织。",
+      "related": [
+        "R054",
+        "R056",
+        "R063"
+      ],
+      "visual": "loop",
+      "takeaway": "显式保存每个目标的单位、约束与证据来源，分别呈现满足与未决项。"
+    },
+    {
+      "id": "R063",
+      "lane": "计算设计与搜索控制",
+      "hook": "把数值评价失败转为树搜索的下一步",
+      "question": "评价器发现候选失败后，怎样在硬约束内选择后续操作并分配搜索预算？",
+      "mechanism": [
+        "读取确定性评价反馈",
+        "Critic识别失败类型",
+        "Policy提出候选操作",
+        "树搜索分配计算预算",
+        "保留候选与完整轨迹"
+      ],
+      "evidence": "预印本使用结构计算基准和预算匹配消融，区分内部评价次数与最终报告候选数，没有湿实验。",
+      "limit": "评价器参与最终排序不等于独立盲选；尚未核到完整作者代码，计算成功率不能当实验发现率。",
+      "bridge": "结构精修监督（R065）揭示评价冲突，ELMS研究如何将失败反馈转成受约束的搜索决策。",
+      "related": [
+        "R065",
+        "R054",
+        "R061"
+      ],
+      "visual": "optimize",
+      "takeaway": "确定性模块保管数值与硬约束，Agent解释失败并选择后续操作。"
+    },
+    {
+      "id": "R022",
+      "lane": "假设组织与实验反馈",
+      "hook": "用有议程的专业会议组织可检验研究计划",
+      "question": "多个专业Agent怎样共同形成一项能够交给研究者检验的计算研究方案？",
+      "mechanism": [
+        "PI设定讨论议程",
+        "专业角色提出方案",
+        "团队与个别会议协作",
+        "批评角色审查计划",
+        "研究者反馈并实验检验"
+      ],
+      "evidence": "Nature正式论文将计算候选交研究团队实验检测，形成特定项目的计算与实验联合证据。",
+      "limit": "单一项目不能证明通用科研自主性；人参与议程、计算管理和实验，仓库默认配置也可能变化。",
+      "bridge": "Co-Scientist（R025）用候选竞争演化假设，Virtual Lab更突出有议程的角色协作与审查。",
+      "related": [
+        "R025",
+        "R031",
+        "R018"
+      ],
+      "visual": "handoff",
+      "takeaway": "用明确议程组织专业协作，计算仍走统一执行器，实验反馈另行追踪。"
+    },
+    {
+      "id": "R016",
+      "lane": "计算设计与搜索控制",
+      "hook": "早期多角色协作把生成、结构和物理量接起来",
+      "question": "多角色LLM怎样协调不同模型和物理计算，交付带计算量的候选结果？",
+      "mechanism": [
+        "分派生成与分析角色",
+        "选择已有计算工具",
+        "执行结构与物理计算",
+        "交换观察并协作决策",
+        "交付候选与指标表"
+      ],
+      "evidence": "Digital Discovery正式论文提供计算案例，包含结构分析与物理量计算，未据此确认实验功能。",
+      "limit": "缺少大规模标准化任务评测；外部服务与模型仍有依赖，源码可访问不等于可任意再分发。",
+      "bridge": "Agent Rosetta（R054）深入专业动作环境，Chaperone（R066）继续补足统一对象与执行层。",
+      "related": [
+        "R054",
+        "R066",
+        "R053"
+      ],
+      "visual": "handoff",
+      "takeaway": "将多角色交流与真实工具执行分开观察，并保存物理量的定义和来源。"
+    },
+    {
+      "id": "R080",
+      "hook": "Gomes团队的Coscientist把文献与设备文档检索、代码执行和实验自动化连接起来，研究语言模型能否组织并执行受控化学任务",
+      "question": "科学研究不仅要回答问题，还需阅读设备和软件说明、转换为可执行操作，并利用测量结果调整分析。语言模型擅长处理文本，却缺少直接控制外部计算与实验系统的接口，因此跨越“理解说明”与“真实执行”成为核心难点。",
+      "mechanism": [
+        "Planner协调模块",
+        "文献与设备说明获取",
+        "执行、测量与分析反馈"
+      ],
+      "evidence": "结果支持在特定工具和实验环境下的半自主研究能力；不能推断全面实验自主性，也不能套用Google Co-Scientist的假设排名证据。",
+      "limit": "自动化接口、实验设备和材料条件均需事先具备，系统代码本身不会建立这些现实能力。",
+      "related": [
+        "R025",
+        "R070"
+      ],
+      "bridge": "与相关研究按任务、机制和证据作对照。",
+      "visual": "pipeline",
+      "takeaway": "本导读建议借鉴技术文档、执行接口与测量反馈的分离，用于普通结构计算软件接入。真正的计算平台仍需配置依赖、资源和产物检查；若将来接入实验设施，必须另行定义权限、人工审阅和可验收范围。"
+    }
+  ]
+}

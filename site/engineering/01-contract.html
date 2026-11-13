@@ -1,0 +1,103 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>从自然语言需求到可验收的任务合同 · 结构生物学 Agent 研究导读</title><meta name="description" content="以研究问题组织 Agent 论文、机制图、证据与边界，连接通用方法和结构生物学计算。"><link rel="stylesheet" href="../_阅读资源/reading.css?v=deep-reviews-20261030"><script defer src="../_阅读资源/reading.js?v=deep-reviews-20261030"></script><link rel="stylesheet" href="../_阅读资源/production.css?v=production-handbook"><script defer src="../_阅读资源/production.js?v=production-handbook"></script></head><body><a class="skip" href="#main">跳到正文</a><aside class="rail"><a class="brand" href="../00_总导航.html">结构生物学<br>Agent 研究导读<small>FROM QUESTION TO EVIDENCE</small></a><button class="mobile-menu" aria-expanded="false" aria-label="展开导航">目录 ☰</button><nav aria-label="研究资料目录"><div class="nav-group-label">开发与学习</div><a class="" href="../00_总导航.html"><em>◉</em>阅读地图</a><a class="" href="../prd/"><em>▤</em>开发文档（PRD）</a><a class="" href="../speaker/"><em>▧</em>PPT逐页讲稿</a><a class="" href="../projects/index.html"><em>▦</em>框架与开源项目</a><a class="" href="../05_Agent开发学习路线/05_Agent开发学习路线.html"><em>↗</em>Agent 开发学习路线</a><div class="nav-group-label">研究方法与科学任务</div><a class="" href="../01_Agent框架发展与选型/01_Agent框架发展与选型.html"><em>01</em>决策与编排</a><a class="active" href="../02_Agent工程实现与评价/02_Agent工程实现与评价.html"><em>02</em>工程落地与验收</a><a class="" href="../03_生物学与结构生物学Agent/03_生物学与结构生物学Agent.html"><em>03</em>科学 Agent 图谱</a><a class="" href="../04_结构生物学计算流程与工具/04_结构生物学计算流程与工具.html"><em>04</em>结构任务与工具</a><div class="nav-group-label">文献索引</div><a class="" href="../论文索引.html"><em>↗</em>全部论文 · 80 篇</a></nav><div class="rail-bottom">以问题组织文献<br>以证据约束结论<br><br><a href="../preview/">168 页技术讲义 →</a><br><a href="../guide/">阅读方法与术语 →</a><br>资料快照：2026.10<br>导读重编：2026.10.30</div></aside><main class="page" id="main"><div class="crumbs"><a href="../00_总导航.html">研究导读</a> / 从自然语言需求到可验收的任务合同</div><header class="hero"><div class="eyebrow">ENGINEERING HANDBOOK / 01 OF 08</div><h1>从自然语言需求到可验收的任务合同</h1><p class="intro">成熟系统首先要能说明自己接受了什么任务、比较的是哪个对象、依据什么判定完成。任务合同使自然语言意图成为可以执行、拒绝、修订和审计的计算请求。</p><div class="tags"><span class="tag">参考设计</span><span class="tag">机制 · 取舍 · 故障 · 验收</span></div><div class="actions"><a class="btn" href="../engineering/">← 手册总览</a><a class="btn" href="#deliver">查看本篇交付标准</a></div></header><p class="small"><a href="../guide/#engineering-terms">工程术语对照 →</a> · 图与故障用于理解机制，正文展开实现边界，末尾列交付标准。</p><nav class="article-toc" aria-label="专题目录"><a href="#picture">先看图</a><a href="#implementation">实现与边界</a><a href="#decisions">关键取舍</a><a href="#failure">故障推演</a><a href="#deliver">交付检查</a><a href="#sources">官方资料</a></nav><section class="section" id="picture"><div class="section-head"><div><div class="section-no">01 / THE PROBLEM</div><h2>从一个具体问题开始</h2></div></div><p class="p-problem">“比较这两个结构，解释差异”并没有唯一的计算含义。用户可能关心单链折叠、复合物组装、局部构象或模型质量；同一个文件也可能包含多个模型、链和替代构象。如果直接让模型生成工具命令，系统可能稳定地产生数值，却始终回答另一个问题。工程第一步是把歧义和能力边界显式化。</p><div class="p-contract-transform"><div><small>自然语言入口</small><blockquote>“比较这两个结构，解释差异。”</blockquote><p>对象、范围和判据仍有歧义。</p></div><div class="p-transform-arrow">→</div><div><small>可检查的任务合同</small><ul><li>文件身份与版本</li><li>模型、链、残基映射与原子选择</li><li>输出、单位、容差与接受规则</li><li>预算、边界与需要澄清的信息</li></ul></div></div></section><section class="section" id="implementation"><div class="section-no">02 / IMPLEMENTATION & BOUNDARIES</div><h2>怎样实现，为什么这样分工</h2><div class="p-reading-sections"><article><span class="p-subnumber">01</span><div><h3>先定义一次交付，再设计对话</h3><p>把研究目标拆成可交付的问题：对象是什么、比较或测量什么、需要哪些输入、最终交付哪些文件与解释。例如第一版可以支持“在已给定链映射的条件下，比较两个结构的指定原子集合”，而不是承诺理解所有结构生物学问题。对话用于收集信息，Task用于保存正式请求；会话结束后，计算仍有可查询身份。</p><p>在需求阶段区分三类信息：用户明确提供、程序从文件核实、系统仍不知道。缺少必要信息时进入等待补充状态；可采用默认值时，将默认策略、理由和影响写入合同。相同用户问题因新文件或新选择而改变时创建任务修订版本，保留旧请求与旧结论的对应关系。</p></div></article><article><span class="p-subnumber">02</span><div><h3>输入输出合同必须包含领域语义</h3><p>输入不能只是一条文件路径。建议记录输入内容摘要、格式、模型标识、链标识所用命名空间、残基/原子选择、组装处理方式、单位和缺失数据策略。PDBx/mmCIF的auth与label链名和编号可能不同；字符串合法并不表示能在真实文件中找到目标对象。应先解析并返回对象清单，再解析用户选择。</p><p>输出也不只是一个答案字符串。结构比较可交付残基对应表、变换参数、逐位点偏差、覆盖范围、汇总指标、排除项和验证报告。接受标准应在运行前明确：哪些属于硬性前置条件，哪些是质量报告，哪些需要研究者解释。不能把“RMSD越小”设成所有问题的通用成功标准。</p><div class="p-example"><b>具体例子</b><p>说明性任务合同：对象=两份已固定摘要的坐标文件；模型=各自指定模型；选择=研究者确认的链与Cα原子；映射=显式对应表；输出=映射表、叠合变换、偏差表和带覆盖说明的报告；接受条件=对象存在、映射可核查、单位明确、参考检查通过。此例是设计要求，不是已运行实验。</p></div></div></article><article><span class="p-subnumber">03</span><div><h3>Planner提出方案，编译器验证方案</h3><p>Planner根据合同和工具目录提出步骤及依赖，遇到新观察时可以在授权范围内修订。编译器承担确定性检查：工具是否已注册、字段是否齐全、上游产物能否满足下游输入、文件是否有访问权限、依赖是否成环、资源与尝试预算是否足够。通过后形成版本化执行计划；不把模型输出的工具名直接当成已存在能力。</p><p>执行器只接受已解析的工具标识与受控参数，通过adapter运行真实程序；科学验证器根据合同检查真实产物。三个职责可以在同一进程中实现，但接口要分开。这样才能定位失败：计划不合法由编译层拒绝，命令异常由执行层报告，科学结果不满足条件由验证层说明。</p></div></article><article><span class="p-subnumber">04</span><div><h3>将不确定性转成明确的控制分支</h3><p>已知的解析、格式检查和产物登记优先固定执行；只有下一步确实依赖观察或解释时才调用Agent。LangGraph官方将预定代码路径的workflow与动态决定过程的agent区分，这是一种职责选择，不能直接推导哪种总是更可靠。项目中应先保留固定流程作为比较基线，再证明动态决策带来收益。</p><p>为澄清、工具修复和科学方案修订分别设定边界。缺文件、链选择歧义等问题有具体的补充表单；资源不足可进入受限重试；改变研究对象或接受标准需要生成新合同版本。只有相关决策需要研究者输入时才挂起任务，不把所有异常都甩给用户，也不让模型悄悄扩大任务。</p></div></article></div></section><section class="section" id="decisions"><div class="section-head"><div><div class="section-no">03 / DESIGN DECISIONS</div><h2>把技术选型写成有条件的判断</h2></div></div><details class="p-decision"><summary>用户只说“比较结构”，是否直接计算？</summary><div><b>本参考设计：</b>先解析文件并定位影响结论的缺失选择；按合同规则补充或请求确认。<p><b>为什么：</b>错误对象得到的精确数值没有研究意义，后续解释无法补救对象错配。</p><p><b>何时调整：</b>已有经验证的任务模板、选择规则明确且用户可见时，可自动填入并记录这些默认规则。</p></div></details><details class="p-decision"><summary>什么时候使用Agent，什么时候固定工作流？</summary><div><b>本参考设计：</b>确定性数据处理固定执行，将有限决策节点交给Agent。<p><b>为什么：</b>减少不必要的模型调用，使依赖、失败和预算更可控；保留动态处理新观察的空间。</p><p><b>何时调整：</b>独立测试证明动态步骤在同工具、同预算下改善有效交付时，再扩大Agent控制范围。</p></div></details><details class="p-decision"><summary>输出schema通过能否结束任务？</summary><div><b>本参考设计：</b>还要核对对象身份、产物来源及领域接受条件。<p><b>为什么：</b>schema主要约束数据形状，无法单独证明链映射、原子选择和科学解释正确。</p><p><b>何时调整：</b>不同任务可以使用不同验证器，但不能省略该任务实际要求的对象和质量检查。</p></div></details></section><section class="section" id="failure"><div class="section-head"><div><div class="section-no">04 / FAILURE WALKTHROUGH</div><h2>用故障检查设计，而不只看正常流程</h2></div></div><p class=lead>设计推演，用来暴露状态和责任边界；并非本站的真实事故记录。</p><div class="p-fault-trigger"><span>触发情形</span><p>两个文件都含名为A的链，系统得到一个RMSD；随后发现一份输入中的A对应另一个实体，映射并非用户意图。</p></div><div class="p-fault-pair"><div><span>容易发生的处理</span><p>把数值当成差异大小，并让模型根据这个数值编写科学解释。</p></div><div><span>有依据的处理</span><p>将对象验证标为失败，保留原结果但不发布为有效结论；展示实体、链与映射证据，修订合同后重新建立比较。</p></div></div><div class="p-fault-evidence"><b>应留下的证据：</b>应能追溯输入摘要、链命名空间、实体映射、使用的原子集合以及验证失败原因；仅保留最终数值不足以复查。</div></section><section class="section" id="deliver"><div class="section-head"><div><div class="section-no">05 / DELIVER &amp; VERIFY</div><h2>读完后应能交付什么</h2></div></div><ol class="reading-checklist"><li>支持和不支持的任务范围已经写成可测试声明。</li><li>每个必要选择都能追溯到用户、已公布默认规则或真实文件检查。</li><li>合同、执行计划、真实产物和验证报告分别有版本与身份。</li><li>无效输入和对象歧义有明确终态，不能产生伪成功回答。</li></ol><details class="details"><summary>展开：需求与任务合同相关的JSON模板</summary><div class="details-body"><p class="small">待绑定模板，字段占位符需替换；不是执行记录。</p><pre class="code-example">{
+  &quot;record_kind&quot;: &quot;illustrative_template_not_executed&quot;,
+  &quot;schema_version&quot;: &quot;task-contract/example-1&quot;,
+  &quot;task_id&quot;: &quot;task-demo-001&quot;,
+  &quot;contract_revision&quot;: 1,
+  &quot;status&quot;: &quot;DRAFT_REQUIRES_INPUT_BINDING&quot;,
+  &quot;question&quot;: &quot;比较两份已给定结构中指定模型与链的共同Cα坐标，返回几何结果、映射和独立验收报告。&quot;,
+  &quot;scope&quot;: {
+    &quot;operation&quot;: &quot;compare_provided_coordinates&quot;,
+    &quot;interpretation_limit&quot;: &quot;仅解释已明确选择范围内的几何比较，不据此自动推断功能或实验有效性。&quot;,
+    &quot;missing_information_action&quot;: &quot;REQUEST_CLARIFICATION&quot;
+  },
+  &quot;inputs&quot;: [
+    {
+      &quot;slot&quot;: &quot;reference&quot;,
+      &quot;artifact_id&quot;: &quot;input-demo-reference&quot;,
+      &quot;storage_ref&quot;: &quot;artifact://input-demo-reference&quot;,
+      &quot;sha256&quot;: &quot;&lt;由真实接收文件计算的64位十六进制摘要&gt;&quot;,
+      &quot;format&quot;: &quot;mmCIF&quot;,
+      &quot;coordinate_unit&quot;: &quot;angstrom&quot;,
+      &quot;selection&quot;: {
+        &quot;model_number&quot;: 1,
+        &quot;chain_namespace&quot;: &quot;auth_asym_id&quot;,
+        &quot;chain_id&quot;: &quot;A&quot;,
+        &quot;atom_names&quot;: [
+          &quot;CA&quot;
+        ],
+        &quot;alternate_location_policy&quot;: &quot;explicit_single_conformer_or_reject&quot;,
+        &quot;residue_identity&quot;: &quot;retain_sequence_number_and_insertion_code&quot;
+      }
+    },
+    {
+      &quot;slot&quot;: &quot;mobile&quot;,
+      &quot;artifact_id&quot;: &quot;input-demo-mobile&quot;,
+      &quot;storage_ref&quot;: &quot;artifact://input-demo-mobile&quot;,
+      &quot;sha256&quot;: &quot;&lt;由真实接收文件计算的64位十六进制摘要&gt;&quot;,
+      &quot;format&quot;: &quot;mmCIF&quot;,
+      &quot;coordinate_unit&quot;: &quot;angstrom&quot;,
+      &quot;selection&quot;: {
+        &quot;model_number&quot;: 1,
+        &quot;chain_namespace&quot;: &quot;auth_asym_id&quot;,
+        &quot;chain_id&quot;: &quot;A&quot;,
+        &quot;atom_names&quot;: [
+          &quot;CA&quot;
+        ],
+        &quot;alternate_location_policy&quot;: &quot;explicit_single_conformer_or_reject&quot;,
+        &quot;residue_identity&quot;: &quot;retain_sequence_number_and_insertion_code&quot;
+      }
+    }
+  ],
+  &quot;mapping&quot;: {
+    &quot;policy_id&quot;: &quot;approved-residue-map/example-1&quot;,
+    &quot;mapping_artifact_id&quot;: &quot;input-demo-residue-map&quot;,
+    &quot;mapping_sha256&quot;: &quot;&lt;已确认映射表的64位摘要&gt;&quot;,
+    &quot;ambiguous_mapping_action&quot;: &quot;REJECT_WITH_EVIDENCE&quot;,
+    &quot;unmatched_residues&quot;: &quot;record_exclusions_and_coverage&quot;
+  },
+  &quot;expected_outputs&quot;: [
+    &quot;comparison.json&quot;,
+    &quot;resolved_selection.json&quot;,
+    &quot;residue_mapping.json&quot;,
+    &quot;validation_report.json&quot;,
+    &quot;artifact_manifest.json&quot;
+  ],
+  &quot;acceptance_profile&quot;: {
+    &quot;profile_id&quot;: &quot;coordinate-comparison/example-1&quot;,
+    &quot;profile_sha256&quot;: &quot;&lt;验收配置摘要&gt;&quot;,
+    &quot;required_gates&quot;: [
+      &quot;input_and_selection_identity&quot;,
+      &quot;unit_and_mapping_consistency&quot;,
+      &quot;output_schema_and_finite_numbers&quot;,
+      &quot;independent_numerical_check&quot;
+    ],
+    &quot;numerical_reference&quot;: &quot;&lt;经领域负责人固定的独立参考与容差配置引用&gt;&quot;,
+    &quot;acceptance_must_not_depend_on&quot;: &quot;模型认为结果看起来合理&quot;
+  },
+  &quot;budget_and_deadlines&quot;: {
+    &quot;cpu_seconds_max&quot;: 600,
+    &quot;memory_mib_max&quot;: 2048,
+    &quot;gpu_count&quot;: 0,
+    &quot;model_calls_max&quot;: 8,
+    &quot;attempts_per_step_max&quot;: 2,
+    &quot;queue_wait_seconds_max&quot;: 1800,
+    &quot;execution_seconds_max&quot;: 600,
+    &quot;task_wall_seconds_max&quot;: 2400,
+    &quot;on_budget_exhausted&quot;: &quot;PAUSE_OR_FAIL_WITH_EXPLICIT_REASON&quot;
+  },
+  &quot;planner_boundary&quot;: {
+    &quot;may_choose&quot;: [
+      &quot;已登记且满足前置条件的工具&quot;,
+      &quot;合同范围内的执行顺序&quot;
+    ],
+    &quot;must_not_silently_change&quot;: [
+      &quot;输入文件&quot;,
+      &quot;模型/链/原子选择&quot;,
+      &quot;单位&quot;,
+      &quot;残基映射&quot;,
+      &quot;验收政策&quot;,
+      &quot;资源上限&quot;
+    ],
+    &quot;scope_change_action&quot;: &quot;CREATE_CONTRACT_REVISION_BEFORE_EXECUTION&quot;
+  }
+}</pre></div></details><p><a href="../engineering/production_blueprints.zip">下载合同、案例与交付检查模板 →</a></p></section><section class="section" id="sources"><div class="section-head"><div><div class="section-no">06 / PRIMARY REFERENCES</div><h2>回到官方资料核对机制与版本</h2></div></div><div class="p-source-list"><article><a href="https://json-schema.org/understanding-json-schema/reference/object" target="_blank" rel="noopener">JSON Schema：Object reference ↗</a><p>properties、required与额外字段约束描述对象结构；领域对象检查是本手册增加的设计层。</p></article><article><a href="https://gemmi.readthedocs.io/en/latest/mol.html" target="_blank" rel="noopener">Gemmi：Macromolecular models ↗</a><p>结构的model/chain/residue/atom表示，以及PDBx/mmCIF的auth与label标识差异。</p></article><article><a href="https://docs.langchain.com/oss/python/langgraph/workflows-agents" target="_blank" rel="noopener">LangGraph：Workflows and agents ↗</a><p>官方对预定workflow路径与动态agent过程的职责区分。</p></article></div></section><nav class="p-next" aria-label="前后专题"><a href="../engineering/">← 工程手册总览</a><a href="../engineering/02-architecture.html">架构与数据模型 →</a></nav><footer class="footer"><p>机制图依据现有资料整理，属于解释性示意；跨论文连线为阅读关系。</p><p><a href="../论文索引.html">原文、版本与来源</a> · <a href="../00_总导航.html">返回阅读地图</a></p></footer></main></body></html>

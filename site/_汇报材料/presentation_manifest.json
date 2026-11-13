@@ -1,0 +1,141 @@
+{
+  "version": "design-course-20261110-c137a62103c9",
+  "pptx": {
+    "path": "_汇报材料/Structural_Biology_Agent_Design_Implementation_Course_2026-11-10.pptx",
+    "sha256": "c137a62103c9ae6657b462606ee427fc56f1a0b2b8f201716992f081011b9a28"
+  },
+  "slide_count": 168,
+  "main_slide_count": 162,
+  "appendix_slide_count": 6,
+  "compatibility_path": "_汇报材料/Structural_Biology_Agent_First_Presentation_2026-10-30.pptx",
+  "archive": {
+    "path": "_汇报材料/历史版本/Structural_Biology_Agent_27slides_2026-10-30.pptx",
+    "sha256": "ed5db6498c82c64791684ac7e6bd9942e1c6005ff9a7146093cd4f11402b47df",
+    "slide_count": 27
+  },
+  "previous_presentation": {
+    "path": "_汇报材料/Structural_Biology_Agent_Research_and_Engineering_2026-10-31.pptx",
+    "sha256": "14a8520fb4dfdf823eea654009f7dc06d5b465581d30218798d85cbe392d3330",
+    "slide_count": 30,
+    "slides": 30,
+    "main_slide_count": 27,
+    "appendix_slide_count": 3,
+    "title": "面向结构生物学的通用计算Agent：研究与工程方案（上一版30页）",
+    "sources": "_汇报材料/研究与工程方案_资料对照.html",
+    "preview_available": false
+  },
+  "previous_proposal": {
+    "path": "_汇报材料/Structural_Biology_Agent_Research_Proposal_2026-11-01.pptx",
+    "sha256": "571ed75886a458c57710bbb46f14b727c643e808a14e90d5fd2cd2f0bd64d012",
+    "slide_count": 34,
+    "slides": 34,
+    "main_slide_count": 30,
+    "appendix_slide_count": 4,
+    "title": "面向结构生物学的通用计算Agent：研究立项与技术方案（上一版34页）",
+    "sources": "_汇报材料/研究立项与技术方案_资料对照.html",
+    "preview_available": false
+  },
+  "previous_course112": {
+    "path": "_汇报材料/Structural_Biology_Agent_Technical_Course_2026-11-01.pptx",
+    "sha256": "228a8e97c2d5f9476a33649b16864ed23bbc01cbd6e8e44a5bc85596148ada30",
+    "slide_count": 112,
+    "slides": 112,
+    "main_slide_count": 106,
+    "appendix_slide_count": 6,
+    "title": "结构生物学通用计算Agent：原理、方法、实现与实验（上一版112页）",
+    "sources": "_汇报材料/原理方法实现与实验_逐页资料.html",
+    "preview_available": false
+  },
+  "chapters": [
+    {
+      "title": "原理、架构设计、实现与验证",
+      "first_page": 1
+    },
+    {
+      "title": "阅读地图",
+      "first_page": 2
+    },
+    {
+      "title": "01 Agent 原理与方法演进",
+      "first_page": 4
+    },
+    {
+      "title": "02 框架与开发范式",
+      "first_page": 24
+    },
+    {
+      "title": "03 结构计算与科学 Agent",
+      "first_page": 30
+    },
+    {
+      "title": "04 课题定位与任务闭环",
+      "first_page": 44
+    },
+    {
+      "title": "05 Agent 架构与设计实操",
+      "first_page": 60
+    },
+    {
+      "title": "06 最小实现与执行证据",
+      "first_page": 82
+    },
+    {
+      "title": "07 实验设计与统计分析",
+      "first_page": 98
+    },
+    {
+      "title": "08 评估与持续优化",
+      "first_page": 121
+    },
+    {
+      "title": "09 安全管控与人工监督",
+      "first_page": 133
+    },
+    {
+      "title": "10 运行部署与实施注意事项",
+      "first_page": 151
+    },
+    {
+      "title": "附录 A",
+      "first_page": 163
+    },
+    {
+      "title": "附录 B",
+      "first_page": 164
+    },
+    {
+      "title": "附录 C",
+      "first_page": 165
+    },
+    {
+      "title": "附录 D",
+      "first_page": 166
+    },
+    {
+      "title": "附录 E",
+      "first_page": 167
+    },
+    {
+      "title": "附录 F",
+      "first_page": 168
+    }
+  ],
+  "preview": "preview/",
+  "sources": "_汇报材料/架构设计与开发实操_逐页资料.html",
+  "learning_handbook": "_汇报材料/评估优化与安全_学习手册.html",
+  "speaker_manuscript": {
+    "path": "speaker/",
+    "version": "speaker-20261110",
+    "slides": 168,
+    "text": "speaker/结构生物学Agent_168页逐页讲稿.txt",
+    "source_pptx_sha256": "c137a62103c9ae6657b462606ee427fc56f1a0b2b8f201716992f081011b9a28"
+  },
+  "previous_course146": {
+    "path": "_汇报材料/Structural_Biology_Agent_Governance_Course_2026-11-02.pptx",
+    "sha256": "7c1980a66bdf4f97e68e20c5284ce5acaf22f032ef1e49e5e3a295849d32c6fb",
+    "slide_count": 146,
+    "title": "历史146页技术讲义",
+    "sources": "_汇报材料/历史版本/146页_逐页资料.html",
+    "preview_available": false
+  }
+}

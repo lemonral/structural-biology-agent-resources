@@ -1,0 +1,14 @@
+{
+  "task_id": "ligand_contacts",
+  "question": "Find protein residues with any heavy atom within inclusive 4 angstrom of chain A AP5.",
+  "reference": "1AKE",
+  "moving": null,
+  "chain": "A",
+  "mode": "contacts",
+  "units": "angstrom",
+  "model_index": 0,
+  "mapping": "same_auth_residue_and_name",
+  "region_policy": "MDAnalysis_AdK_tutorial_v1",
+  "ligand": "AP5",
+  "cutoff_A": 4.0
+}

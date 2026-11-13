@@ -1,0 +1,44 @@
+{
+  "case_id": "core_reference",
+  "task_id": "core_reference",
+  "policy": "fixed_teaching_plan@1",
+  "contains_llm": false,
+  "fault_fixture": null,
+  "attempts": [
+    {
+      "attempt_id": "core_reference:inspect:1",
+      "step_id": "inspect",
+      "tool_id": "inspect_coordinates@1",
+      "state": "COMPLETED"
+    },
+    {
+      "attempt_id": "core_reference:mapping:1",
+      "step_id": "mapping",
+      "tool_id": "map_residues@1",
+      "state": "COMPLETED"
+    },
+    {
+      "attempt_id": "core_reference:measure:1",
+      "step_id": "measure",
+      "tool_id": "calculate_rmsd@1",
+      "state": "COMPLETED"
+    }
+  ],
+  "artifacts": {
+    "result": {
+      "filename": "result.json",
+      "content_id": "ad4796693bdf034d2425333e2a11746e05610e98ac3735d6ba850e8674b20b6b",
+      "attempt_id": "core_reference:measure:1"
+    },
+    "validation": {
+      "filename": "validation.json",
+      "content_id": "aee9d9596209cfe2fd4f4896e6e3622fbf9871d50c4a13e7c0fe6cdc418474b1",
+      "attempt_id": "validator:1"
+    }
+  },
+  "state": "COMPLETED",
+  "reason": null,
+  "actual_scientific_calculations": 1,
+  "simulated_external_submissions": 0,
+  "tool_attempt_count": 3
+}

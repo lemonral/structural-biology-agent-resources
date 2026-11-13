@@ -1,0 +1,16 @@
+{"contains_llm": false, "event": "RUN_CREATED", "policy": "fixed_teaching_plan@1", "run_id": "global", "sequence": 1, "time_utc": "2026-11-01T11:50:07.812393+00:00"}
+{"artifact": "task.json", "attempt_id": "input", "content_id": "fa6bb635d6c77d9b5ad3bccb7a27d20ddb0c8755a589acc047ba1bf27b95e3be", "event": "ARTIFACT_CREATED", "run_id": "global", "sequence": 2, "time_utc": "2026-11-01T11:50:07.857826+00:00"}
+{"artifact": "plan.json", "attempt_id": "planner:fixed", "content_id": "9f97378a6bf48636220abbe270183ece44e225ccc227169109ed23644c82da3c", "event": "ARTIFACT_CREATED", "run_id": "global", "sequence": 3, "time_utc": "2026-11-01T11:50:07.858131+00:00"}
+{"event": "PLAN_COMPILED", "run_id": "global", "sequence": 4, "time_utc": "2026-11-01T11:50:07.858195+00:00", "version": 1}
+{"attempt_id": "global:inspect:1", "event": "TOOL_STARTED", "run_id": "global", "sequence": 5, "state": "RUNNING", "step_id": "inspect", "time_utc": "2026-11-01T11:50:07.858252+00:00", "tool_id": "inspect_coordinates@1"}
+{"artifact": "objects.json", "attempt_id": "global:inspect:1", "content_id": "258c83e5d2ef3816e2202d3a6602257ab428913b49660591811d0314b4f0e8ca", "event": "ARTIFACT_CREATED", "run_id": "global", "sequence": 6, "time_utc": "2026-11-01T11:50:08.111409+00:00"}
+{"attempt_id": "global:inspect:1", "event": "TOOL_COMPLETED", "run_id": "global", "sequence": 7, "state": "COMPLETED", "step_id": "inspect", "time_utc": "2026-11-01T11:50:08.111493+00:00", "tool_id": "inspect_coordinates@1"}
+{"attempt_id": "global:mapping:1", "event": "TOOL_STARTED", "run_id": "global", "sequence": 8, "state": "RUNNING", "step_id": "mapping", "time_utc": "2026-11-01T11:50:08.111675+00:00", "tool_id": "map_residues@1"}
+{"attempt_id": "global:mapping:1", "event": "MAPPING_CHECKED", "matched_CA": 214, "run_id": "global", "sequence": 9, "time_utc": "2026-11-01T11:50:08.111970+00:00"}
+{"attempt_id": "global:mapping:1", "event": "TOOL_COMPLETED", "run_id": "global", "sequence": 10, "state": "COMPLETED", "step_id": "mapping", "time_utc": "2026-11-01T11:50:08.112024+00:00", "tool_id": "map_residues@1"}
+{"attempt_id": "global:measure:1", "event": "TOOL_STARTED", "run_id": "global", "sequence": 11, "state": "RUNNING", "step_id": "measure", "time_utc": "2026-11-01T11:50:08.112144+00:00", "tool_id": "calculate_rmsd@1"}
+{"artifact": "result.json", "attempt_id": "global:measure:1", "content_id": "f4474637167b95c54586970c8098144814e1c065ed5c8d91a9f1deb49dc865d0", "event": "ARTIFACT_CREATED", "run_id": "global", "sequence": 12, "time_utc": "2026-11-01T11:50:08.113704+00:00"}
+{"artifact": "validation.json", "attempt_id": "validator:1", "content_id": "aee9d9596209cfe2fd4f4896e6e3622fbf9871d50c4a13e7c0fe6cdc418474b1", "event": "ARTIFACT_CREATED", "run_id": "global", "sequence": 13, "time_utc": "2026-11-01T11:50:08.406775+00:00"}
+{"event": "RESULT_VALIDATED", "failure_codes": [], "passed": true, "run_id": "global", "sequence": 14, "time_utc": "2026-11-01T11:50:08.406881+00:00"}
+{"attempt_id": "global:measure:1", "event": "TOOL_COMPLETED", "run_id": "global", "sequence": 15, "state": "COMPLETED", "step_id": "measure", "time_utc": "2026-11-01T11:50:08.407213+00:00", "tool_id": "calculate_rmsd@1"}
+{"event": "RUN_FINISHED", "run_id": "global", "sequence": 16, "state": "COMPLETED", "time_utc": "2026-11-01T11:50:08.407280+00:00", "tool_attempt_count": 3}

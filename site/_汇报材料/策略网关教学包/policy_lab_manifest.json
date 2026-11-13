@@ -1,0 +1,93 @@
+{
+  "name": "Structural biology Agent offline policy gateway fixture",
+  "version": "2026-11-02.2",
+  "purpose": "Defensive teaching fixture: deterministic mock authorization decisions; not a complete Agent.",
+  "python_requirement": "Python 3.10+",
+  "dependencies": "Python standard library only",
+  "commands": [
+    "python3 run_policy_lab.py",
+    "python3 run_tests.py",
+    "python3 -m unittest discover -s tests -v"
+  ],
+  "generated_evidence": {
+    "case_results.json": {
+      "total": 26,
+      "passed": 26,
+      "failed": 0,
+      "actual_execution_count": 0,
+      "science_evaluation_count": 0
+    },
+    "test_evidence.json": {
+      "tests_run": 30,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "successful": true
+    },
+    "audit_examples.json": "Allowlisted audit events plus synthetic structured redaction example"
+  },
+  "trusted_control_plane": [
+    "RunScope principal_id/tenant_id and capability sets are synthetic trusted-backend labels, never self-reported model fields; they do not implement identity verification.",
+    "ApprovalAuthority simulates a trusted approval issuer and protected store; digest itself does not authorize"
+  ],
+  "execution_boundary": [
+    "No model/API/network calls",
+    "No scientific computation",
+    "No report writes or exports: ALLOW is mock permit only",
+    "Only temporary fixture directories/files/symlinks and evidence files are created"
+  ],
+  "limitations": [
+    "Not production authentication, credential service, multi-tenant isolation or OS sandbox",
+    "Same-process untrusted Python can bypass or mutate this fixture",
+    "In-memory locking does not implement durable or cross-worker atomic quota/approval consumption",
+    "resolve checks have a TOCTOU boundary; no filesystem executor is provided",
+    "Policy decisions do not establish scientific correctness",
+    "Synthetic structured redaction is not general secret detection or DLP",
+    "Units are fixed teaching costs, not measured money or GPU usage"
+  ],
+  "files": {
+    "audit_examples.json": {
+      "bytes": 15256,
+      "sha256": "f06f4162bdf5280951573d49937b2c07864cc3fc111c7bb8d71da06bf510ecbd"
+    },
+    "case_results.json": {
+      "bytes": 15297,
+      "sha256": "fac237d4b619719566c547b9549ac9696c4a26743a5f6b53fa83bcbae5dc9ae9"
+    },
+    "fixtures.py": {
+      "bytes": 2241,
+      "sha256": "d162619121e27754040d06677c1ed0085fc0f32c6ae2e9311db45a245dbd2fcb"
+    },
+    "gateway.py": {
+      "bytes": 12239,
+      "sha256": "2e36642006440f49d2e8a4e42d5d7ab18519b7a70fe5cd006f55940106fdcfde"
+    },
+    "index.html": {
+      "bytes": 14197,
+      "sha256": "458d4f776081f80af21d35c8a3ebe7bee2980bbe9bc4191004cbbc2a5ea88b65"
+    },
+    "run_policy_lab.py": {
+      "bytes": 7332,
+      "sha256": "08579fda92bd64b8e6337312e4cd33932466fdb9dd663166e5f6543c3945fddf"
+    },
+    "run_tests.py": {
+      "bytes": 1827,
+      "sha256": "50a9a69677d7fadacafe0f3d1d94a57e6758d935f7da82a97cf17be06900efa8"
+    },
+    "test_evidence.json": {
+      "bytes": 5066,
+      "sha256": "93b0c56755036fbddc9e7ce8092e4c9c7d308fea39a98c9878df572b6a2df9b9"
+    },
+    "tests/test_gateway.py": {
+      "bytes": 12957,
+      "sha256": "8785f3b3584eec72df673f575558a7c8c2b07b5a8c8644258680c2d2326707d0"
+    }
+  },
+  "self_hash_note": "Manifest intentionally excludes its own hash and temporary __pycache__ files.",
+  "staging_generated_artifacts": [
+    "policy_lab_offline.zip",
+    "package_manifest.json",
+    "download_manifest.json"
+  ],
+  "staging_note": "Download ZIP and installed-file manifest links become available after install_policy_lab.py; source HTML is packaged without post-install mutation."
+}

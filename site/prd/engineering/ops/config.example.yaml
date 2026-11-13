@@ -1,0 +1,121 @@
+# Engineering draft only. No service has been started from this file.
+# Implement a strict config loader before use; unknown keys and missing required
+# production policy must block startup. No passwords, tokens, host credentials.
+document:
+  kind: candidate_application_configuration
+  version: config.v1
+  status: NOT_DEPLOYED
+runtime:
+  mode: design_only
+  active_agent_api_enabled: false
+  static_documentation_port: 3188  # Existing docs only; never attach execution API here.
+  proposed_api_bind: 127.0.0.1
+  proposed_api_port: 8080  # Candidate; confirm no conflict before actual deployment.
+  deployment_id: REQUIRED_BEFORE_ENABLE
+  release_digest: REQUIRED_BEFORE_ENABLE
+identity:
+  mode: unconfigured
+  trusted_auth_proxy_enabled: false
+  oidc_issuer: null
+  oidc_audience: null
+  fake_principal_allowed: false  # localhost-only dev profile may explicitly override.
+  project_authorization_required: true
+postgres:
+  dsn_secret_ref: null  # Resolve through an approved server secret provider, never model input.
+  app_schema: structbio
+  checkpoint_schema: agent_checkpoint
+  migrations_required: true
+  expected_schema_version: 001_core
+artifacts:
+  root: /srv/structbio-agent/artifacts  # Proposed path; admin provisions owner/ACL/quota.
+  staging_root: /srv/structbio-agent/staging
+  api_resolves_artifact_ids_only: true
+  immutable_published_bytes: true
+  cross_project_cache_enabled: false
+  max_upload_bytes: 52428800
+  max_output_bytes_per_run: 104857600
+dispatcher:
+  singleton_required: true
+  singleton_backend: postgres_advisory_lock
+  max_cpu_children: 2
+  lease_seconds: 45
+  heartbeat_seconds: 10
+  stale_grace_seconds: 15
+  reclaim_expired_requires_reconciliation: true
+  fencing_field: lease_epoch
+  attempt_snapshot_field: lease_epoch
+  child_has_database_credentials: false
+worker:
+  profile_id: p0_cpu_no_network_v1
+  registered_adapter_only: true
+  arbitrary_shell_enabled: false
+  arbitrary_python_enabled: false
+  package_install_enabled: false
+  network: none
+  inputs_read_only: true
+  output_directory_per_attempt: true
+  privileged: false
+  host_sensitive_mounts_allowed: false
+  runtime_socket_mounted: false
+  resource_profile:
+    status: INITIAL_PROPOSAL_CALIBRATE_IN_PILOT
+    cpu_cores_per_child: 1
+    cpu_ms_per_attempt: 300000
+    wall_ms_per_attempt: 300000
+    memory_bytes: 2147483648
+    pids_max: 32
+    output_bytes: 104857600
+    stdout_bytes: 1048576
+  verified_isolation_required_for_team_pilot: true
+  isolated_runner_backend: unconfigured  # Rootless OCI or equivalent verified Linux runner.
+  dependency_lock_digest: REQUIRED_BEFORE_ENABLE
+  runtime_image_digest: REQUIRED_BEFORE_ENABLE
+  cancel_grace_ms: 5000
+  kill_scope: verified_execution_cgroup
+  fallback_host_pid_kill_allowed: false
+run_limits:
+  status: INITIAL_PROPOSAL_CALIBRATE_IN_PILOT
+  wall_ms: 900000
+  cpu_ms: 600000
+  tool_attempts: 12
+  model_calls: 8
+  max_transient_retries_per_step: 2
+  max_scientific_repair_rounds: 2
+  max_concurrent_cpu_runs_per_project: 2
+  input_tokens: null  # Required and >0 when agent mode is enabled.
+  output_tokens: null
+  money_microunits: null
+  currency: USD  # Example project ledger currency; not a protocol-wide fixed currency.
+  price_version: null
+models:
+  profiles: []  # No provider/API request; choose approved profiles and prices during implementation.
+  implicit_reference_fallback: false
+  send_full_private_coordinates_by_default: false
+  response_usage_missing_state: UNKNOWN
+  unknown_reservation_release_without_reconciliation: false
+imports:
+  rcsb_only: true
+  allowed_https_hosts:
+    - files.rcsb.org
+  arbitrary_url_enabled: false
+  archives_enabled: false
+  validate_redirect_destination: true
+reports:
+  deterministic_renderer_only: true
+  escape_untrusted_text: true
+  raw_html_from_model_allowed: false
+  raw_svg_from_tool_allowed: false
+  authenticated_artifact_downloads: true
+observability:
+  structured_events_durable: true
+  log_level: INFO
+  raw_coordinates_logged: false
+  authorization_headers_logged: false
+  model_private_reasoning_logged: false
+  trace_sampling_applies_to_business_events: false
+operations:
+  retention_policy_id: REQUIRED_BEFORE_ENABLE
+  backup_restore_drill_evidence_id: REQUIRED_BEFORE_TEAM_PILOT
+  isolation_probe_evidence_id: REQUIRED_BEFORE_TEAM_PILOT
+  readiness_fails_on_unconfigured_auth_or_model: true
+  enable_p0_high_impact_actions: false

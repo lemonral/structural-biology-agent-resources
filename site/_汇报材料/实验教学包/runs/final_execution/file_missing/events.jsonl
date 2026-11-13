@@ -1,0 +1,7 @@
+{"contains_llm": false, "event": "RUN_CREATED", "policy": "fixed_teaching_plan@1", "run_id": "file_missing", "sequence": 1, "time_utc": "2026-11-01T11:50:10.233136+00:00"}
+{"artifact": "task.json", "attempt_id": "input", "content_id": "228a17f9e54da66aa21a28c49fc60136ca1ac4a6e7f5e012cc3f0638abd5446b", "event": "ARTIFACT_CREATED", "run_id": "file_missing", "sequence": 2, "time_utc": "2026-11-01T11:50:10.233563+00:00"}
+{"artifact": "plan.json", "attempt_id": "planner:fixed", "content_id": "9f97378a6bf48636220abbe270183ece44e225ccc227169109ed23644c82da3c", "event": "ARTIFACT_CREATED", "run_id": "file_missing", "sequence": 3, "time_utc": "2026-11-01T11:50:10.234125+00:00"}
+{"event": "PLAN_COMPILED", "run_id": "file_missing", "sequence": 4, "time_utc": "2026-11-01T11:50:10.234199+00:00", "version": 1}
+{"attempt_id": "file_missing:inspect:1", "event": "TOOL_STARTED", "run_id": "file_missing", "sequence": 5, "state": "RUNNING", "step_id": "inspect", "time_utc": "2026-11-01T11:50:10.234249+00:00", "tool_id": "inspect_coordinates@1"}
+{"code": "MISSING_INPUT", "detail": "Input is absent from the frozen asset registry", "event": "CONTRACT_RESPONSE", "run_id": "file_missing", "sequence": 6, "state": "REJECTED", "time_utc": "2026-11-01T11:50:10.234429+00:00"}
+{"event": "RUN_FINISHED", "run_id": "file_missing", "sequence": 7, "state": "REJECTED", "time_utc": "2026-11-01T11:50:10.234496+00:00", "tool_attempt_count": 1}

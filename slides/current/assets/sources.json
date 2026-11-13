@@ -1,0 +1,29 @@
+{
+  "checked_date": "2026-11-13",
+  "assets": [
+    {
+      "file": "biochatter_overview_author_manuscript_20240223.png",
+      "system": "BioChatter",
+      "figure": "Fig.1",
+      "source": "https://biocypher.github.io/biochatter-paper/images/biochatter_overview.png",
+      "paper": "https://biocypher.github.io/biochatter-paper/",
+      "version": "author manuscript site generated 2024-02-23 from commit 5eaecd1",
+      "reuse_note": "Original scholarly figure; retain source attribution and check applicable publication figure rights for wider distribution.",
+      "bytes": 421738,
+      "sha256": "7ad04431042f40584e44a14895d76d3461dec4ac1cbbc6d34061dff29474abad",
+      "verified_visual": true
+    },
+    {
+      "file": "protagents_fig1_arxiv_2024.png",
+      "system": "ProtAgents",
+      "figure": "Fig.1",
+      "source": "https://arxiv.org/html/2402.04268v1/image_agents.png",
+      "paper": "https://arxiv.org/html/2402.04268v1",
+      "version": "arXiv:2402.04268v1",
+      "reuse_note": "Paper page states CC BY-NC-ND 4.0; use original figure with scholarly attribution and avoid adaptations.",
+      "bytes": 1442575,
+      "sha256": "7ab166d50d96abdf2f264e9cfc94caa1f046fc3fded2ae5ebe01f253c787cd82",
+      "verified_visual": true
+    }
+  ]
+}

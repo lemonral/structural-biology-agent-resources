@@ -1,0 +1,7 @@
+{
+  "passed": true,
+  "failure_codes": [],
+  "numeric_tolerance_A": 1e-05,
+  "reference_implementation": "mmCIF atom-table + scalar Euclidean pairs",
+  "independence_limit": "Shares mmCIF semantics, input files and region/object assumptions. Geometric contact does not validate affinity."
+}

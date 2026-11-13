@@ -1,0 +1,28 @@
+{
+  "generated_at": "2026-11-01T19:24:35.956627+00:00",
+  "runtime": {
+    "python": "3.12.1",
+    "standard_library_only": true
+  },
+  "command": "python3 run_tests.py",
+  "unittest": {
+    "tests_run": 30,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "successful": true
+  },
+  "scenario_checks": {
+    "total": 26,
+    "passed": 26
+  },
+  "source_sha256": {
+    "fixtures.py": "d162619121e27754040d06677c1ed0085fc0f32c6ae2e9311db45a245dbd2fcb",
+    "gateway.py": "2e36642006440f49d2e8a4e42d5d7ab18519b7a70fe5cd006f55940106fdcfde",
+    "run_policy_lab.py": "08579fda92bd64b8e6337312e4cd33932466fdb9dd663166e5f6543c3945fddf",
+    "run_tests.py": "50a9a69677d7fadacafe0f3d1d94a57e6758d935f7da82a97cf17be06900efa8",
+    "tests/test_gateway.py": "8785f3b3584eec72df673f575558a7c8c2b07b5a8c8644258680c2d2326707d0"
+  },
+  "output": "test_approved_write_is_permit_only_and_does_not_touch_file (test_gateway.GatewayTests.test_approved_write_is_permit_only_and_does_not_touch_file) ... ok\ntest_audit_allowlist_omits_raw_arguments_tokens_documents (test_gateway.GatewayTests.test_audit_allowlist_omits_raw_arguments_tokens_documents) ... ok\ntest_authorized_reads_auto_allow (test_gateway.GatewayTests.test_authorized_reads_auto_allow) ... ok\ntest_batch_validated_and_cost_derived (test_gateway.GatewayTests.test_batch_validated_and_cost_derived) ... ok\ntest_canonical_parameter_order_does_not_change_digest (test_gateway.GatewayTests.test_canonical_parameter_order_does_not_change_digest) ... ok\ntest_changed_parameters_invalidate_approval (test_gateway.GatewayTests.test_changed_parameters_invalidate_approval) ... ok\ntest_changed_run_scope_policy_and_registry_binding (test_gateway.GatewayTests.test_changed_run_scope_policy_and_registry_binding) ... ok\ntest_denial_and_approval_wait_do_not_reserve_quota (test_gateway.GatewayTests.test_denial_and_approval_wait_do_not_reserve_quota) ... ok\ntest_existing_file_and_non_report_types_deny (test_gateway.GatewayTests.test_existing_file_and_non_report_types_deny) ... ok\ntest_extra_role_cost_or_origin_not_accepted (test_gateway.GatewayTests.test_extra_role_cost_or_origin_not_accepted) ... ok\ntest_filesystem_path_errors_fail_closed_and_are_audited (test_gateway.GatewayTests.test_filesystem_path_errors_fail_closed_and_are_audited) ... ok\ntest_finite_positive_numeric_cutoff_required (test_gateway.GatewayTests.test_finite_positive_numeric_cutoff_required) ... ok\ntest_hard_budget_cannot_be_approved_away (test_gateway.GatewayTests.test_hard_budget_cannot_be_approved_away) ... ok\ntest_invalid_approval_ttl_rejected (test_gateway.GatewayTests.test_invalid_approval_ttl_rejected) ... ok\ntest_invalid_trusted_budget_configuration_rejected (test_gateway.GatewayTests.test_invalid_trusted_budget_configuration_rejected) ... ok\ntest_malformed_approval_is_denied_not_an_exception (test_gateway.GatewayTests.test_malformed_approval_is_denied_not_an_exception) ... ok\ntest_malformed_paths_deny (test_gateway.GatewayTests.test_malformed_paths_deny) ... ok\ntest_object_and_artifact_and_destination_scopes (test_gateway.GatewayTests.test_object_and_artifact_and_destination_scopes) ... ok\ntest_path_traversal_and_outside_root_deny (test_gateway.GatewayTests.test_path_traversal_and_outside_root_deny) ... ok\ntest_rmsd_selection_and_unit_are_enum_constrained (test_gateway.GatewayTests.test_rmsd_selection_and_unit_are_enum_constrained) ... ok\ntest_single_process_approval_consumed_once_across_gateways (test_gateway.GatewayTests.test_single_process_approval_consumed_once_across_gateways) ... ok\ntest_single_process_threads_do_not_overspend_one_gateway (test_gateway.GatewayTests.test_single_process_threads_do_not_overspend_one_gateway) ... ok\ntest_soft_budget_can_require_approval (test_gateway.GatewayTests.test_soft_budget_can_require_approval) ... ok\ntest_symlinks_rejected_even_when_target_inside (test_gateway.GatewayTests.test_symlinks_rejected_even_when_target_inside) ... ok\ntest_synthetic_structured_redaction (test_gateway.GatewayTests.test_synthetic_structured_redaction) ... ok\ntest_unknown_expired_and_replayed_approval_deny (test_gateway.GatewayTests.test_unknown_expired_and_replayed_approval_deny) ... ok\ntest_unknown_operation_and_invalid_action_deny (test_gateway.GatewayTests.test_unknown_operation_and_invalid_action_deny) ... ok\ntest_unpaired_unicode_document_does_not_lose_reserved_decision (test_gateway.GatewayTests.test_unpaired_unicode_document_does_not_lose_reserved_decision) ... ok\ntest_untrusted_document_cannot_create_capability_or_approval (test_gateway.GatewayTests.test_untrusted_document_cannot_create_capability_or_approval) ... ok\ntest_write_and_export_need_exact_approval (test_gateway.GatewayTests.test_write_and_export_need_exact_approval) ... ok\n\n----------------------------------------------------------------------\nRan 30 tests in 0.045s\n\nOK\n",
+  "claim_boundary": "Fixture and single-process unit evidence only; no model, scientific computation, file executor, production authentication, OS sandbox or multi-worker persistence was tested."
+}

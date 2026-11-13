@@ -1,0 +1,21 @@
+{
+  "case_id": "chain_unknown",
+  "task_id": "chain_unknown",
+  "policy": "fixed_teaching_plan@1",
+  "contains_llm": false,
+  "fault_fixture": null,
+  "attempts": [
+    {
+      "attempt_id": "chain_unknown:inspect:1",
+      "step_id": "inspect",
+      "tool_id": "inspect_coordinates@1",
+      "state": "REJECTED"
+    }
+  ],
+  "artifacts": {},
+  "state": "REJECTED",
+  "reason": "UNKNOWN_CHAIN",
+  "actual_scientific_calculations": 0,
+  "simulated_external_submissions": 0,
+  "tool_attempt_count": 1
+}

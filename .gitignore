@@ -1,0 +1,13 @@
+# Local files and generated intermediates
+.DS_Store
+._*
+~$*
+__pycache__/
+*.py[cod]
+.venv/
+node_modules/
+slides/current/generated/
+.env
+.env.*
+*.pem
+*.key

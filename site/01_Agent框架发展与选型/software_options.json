@@ -1,0 +1,78 @@
+{
+  "verified_at": "2026-10-27",
+  "note": "官方能力定位 + 本报告选型分析；未作安装与同预算性能测试。",
+  "options": [
+    {
+      "name": "直接模型 API / 小型自建循环",
+      "layer": "最小集成",
+      "facts": "应用自行维护模型请求、工具调用、状态与停止条件。",
+      "fit": "流程短、工具少、希望先得到可控基线；团队能承担运行层。",
+      "own": "持久化、异步作业、验证、权限、观测与测试。",
+      "url": "https://developers.openai.com/api/docs/guides/agents",
+      "note": "直接模型访问是一个集成方式；示例采用官方运行选项区分，不代表限定某一家模型。"
+    },
+    {
+      "name": "LangChain agents + LangGraph",
+      "layer": "框架 + 运行编排",
+      "facts": "LangChain 提供模型、工具和循环抽象；LangGraph 提供图式控制、持久状态、流式和人工介入，可混合确定与模型节点。",
+      "fit": "希望明确管理分支、检查点和长任务，并与已有数据/工具服务结合。",
+      "own": "外部作业状态、幂等、科学数据类型与独立验证。",
+      "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+      "note": "可单独使用 LangGraph；选型应区分高层抽象与底层运行控制。"
+    },
+    {
+      "name": "Deep Agents",
+      "layer": "预装能力的 harness",
+      "facts": "在 LangGraph 上增加计划、文件系统、子 Agent 与上下文管理等预设能力。",
+      "fit": "复杂文件/脚本研究任务，需要较完整的通用执行外壳。",
+      "own": "科学操作白名单、环境、资源、产物与领域验收。",
+      "url": "https://docs.langchain.com/oss/python/concepts/products",
+      "note": "预设工具与提示需要按科学任务收敛；选择时检查具体后端。"
+    },
+    {
+      "name": "OpenAI Agents SDK",
+      "layer": "应用内 SDK",
+      "facts": "Python/TypeScript 运行循环、工具和 handoff；应用负责部署、存储、工具实现和审批；有 tracing 等集成。",
+      "fit": "在自己的服务中集成工具与工作流，希望控制状态和运行环境。",
+      "own": "业务状态、科学执行后端、资源和领域验证。",
+      "url": "https://developers.openai.com/api/docs/guides/agents/sdk",
+      "note": "与 OpenAI 托管 Agents API 的运行和状态责任不同；不是同一种部署选择。"
+    },
+    {
+      "name": "Microsoft Agent Framework",
+      "layer": "Agent + workflow 框架",
+      "facts": "将 Agent、明确路径的 workflow、session、工具、上下文、中间件和集成组织在一起。",
+      "fit": ".NET/Python 等相关生态，需要与现有企业应用、模型及工作流整合。",
+      "own": "数据语义、计算后端、恢复协议、领域评分和版本验证。",
+      "url": "https://learn.microsoft.com/en-us/agent-framework/overview/",
+      "note": "官方称结合 AutoGen 与 Semantic Kernel 的经验；语言能力与包版本要按各自文档核查。"
+    },
+    {
+      "name": "CrewAI Crews / Flows",
+      "layer": "角色协作 + 事件流程",
+      "facts": "Flows 用显式事件、状态、分支与循环协调任务和 Crews；文档提供状态持久化方式。",
+      "fit": "角色和交接较明确，希望较快组织团队式任务与事件流程。",
+      "own": "共享对象、交接标准、外部副作用对账与最终验收。",
+      "url": "https://docs.crewai.com/en/concepts/flows",
+      "note": "角色数不作为能力指标，需与单 Agent 和固定流程做同条件比较。"
+    },
+    {
+      "name": "Pydantic AI",
+      "layer": "类型化 Python 框架",
+      "facts": "以类型、依赖注入、工具参数与结构化输出校验组织 Agent 应用。",
+      "fit": "Python 科学服务，需要把模型输入输出与明确的数据对象连接。",
+      "own": "科学语义约束、任务状态、外部作业、环境和正确性。",
+      "url": "https://pydantic.dev/docs/ai/overview/",
+      "note": "schema 合法只覆盖结构要求，领域含义和结果仍需验证。"
+    },
+    {
+      "name": "OpenHands Software Agent SDK",
+      "layer": "软件开发 harness / SDK",
+      "facts": "面向代码工作的 Python/REST SDK，提供文件、命令、工作区和远程运行相关能力。",
+      "fit": "自动接入工具、改造分析脚本、复现方法仓库等代码工作。",
+      "own": "科研数据与程序权限、环境约束、科学目标及结果校验。",
+      "url": "https://docs.openhands.dev/sdk",
+      "note": "专长是软件任务；作为科学工具接入助手时需补足领域执行契约。"
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "global": {
+    "stratum": "valid_scientific",
+    "expected_state": "COMPLETED",
+    "object_cluster": "adk_family"
+  },
+  "local": {
+    "stratum": "valid_scientific",
+    "expected_state": "COMPLETED",
+    "object_cluster": "adk_family"
+  },
+  "core_reference": {
+    "stratum": "valid_scientific",
+    "expected_state": "COMPLETED",
+    "object_cluster": "adk_family"
+  },
+  "ligand_contacts": {
+    "stratum": "valid_scientific",
+    "expected_state": "COMPLETED",
+    "object_cluster": "adk_family"
+  },
+  "chain_missing": {
+    "stratum": "ambiguous_input",
+    "expected_state": "NEEDS_INPUT",
+    "object_cluster": "adk_family"
+  },
+  "chain_unknown": {
+    "stratum": "invalid_or_unsupported",
+    "expected_state": "REJECTED",
+    "object_cluster": "adk_family"
+  },
+  "file_missing": {
+    "stratum": "invalid_or_unsupported",
+    "expected_state": "REJECTED",
+    "object_cluster": "adk_family"
+  },
+  "unit_unsupported": {
+    "stratum": "invalid_or_unsupported",
+    "expected_state": "REJECTED",
+    "object_cluster": "adk_family"
+  },
+  "fixture_wrong_object": {
+    "stratum": "injected_fault_fixture",
+    "expected_state": "FAILED",
+    "object_cluster": "adk_family"
+  },
+  "fixture_wrong_metric": {
+    "stratum": "injected_fault_fixture",
+    "expected_state": "FAILED",
+    "object_cluster": "adk_family"
+  },
+  "fixture_wrong_unit": {
+    "stratum": "injected_fault_fixture",
+    "expected_state": "FAILED",
+    "object_cluster": "adk_family"
+  },
+  "fixture_duplicate_delivery": {
+    "stratum": "injected_fault_fixture",
+    "expected_state": "COMPLETED",
+    "object_cluster": "adk_family"
+  },
+  "fixture_simulated_timeout": {
+    "stratum": "injected_fault_fixture",
+    "expected_state": "FAILED",
+    "object_cluster": "adk_family"
+  },
+  "fixture_unknown_reconciled": {
+    "stratum": "injected_fault_fixture",
+    "expected_state": "COMPLETED",
+    "object_cluster": "adk_family"
+  },
+  "fixture_unknown_unresolved": {
+    "stratum": "injected_fault_fixture",
+    "expected_state": "UNKNOWN",
+    "object_cluster": "adk_family"
+  },
+  "fixture_cancel_unconfirmed": {
+    "stratum": "injected_fault_fixture",
+    "expected_state": "CANCEL_REQUESTED",
+    "object_cluster": "adk_family"
+  }
+}

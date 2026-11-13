@@ -1,0 +1,1136 @@
+[
+  {
+    "id": "F02",
+    "path": "libs/langgraph/langgraph/graph/state.py",
+    "url": "https://github.com/langchain-ai/langgraph/blob/e5c961d7fbe7ca6fdd4c94c84d90511372514d55/libs/langgraph/langgraph/graph/state.py",
+    "bytes": 76310,
+    "sha256": "d8c8021a93a8fc895d62335a9482e50d51353343bf885901e6487611dcd0d212",
+    "symbols": [
+      "StateGraph",
+      "CompiledStateGraph"
+    ],
+    "status": "fetched",
+    "commit": "e5c961d7fbe7ca6fdd4c94c84d90511372514d55"
+  },
+  {
+    "id": "F04",
+    "path": "llama-index-core/llama_index/core/agent/workflow/function_agent.py",
+    "url": "https://github.com/run-llama/llama_index/blob/619d74664e8404612038bc15a1a40c686037277c/llama-index-core/llama_index/core/agent/workflow/function_agent.py",
+    "bytes": 7002,
+    "sha256": "21cbcba4817b2bd128218d113647e2b3e5508e07a1074d3b6153c0f1df9b67fa",
+    "symbols": [
+      "FunctionAgent"
+    ],
+    "status": "fetched",
+    "commit": "619d74664e8404612038bc15a1a40c686037277c"
+  },
+  {
+    "id": "F03",
+    "path": "libs/deepagents/deepagents/graph.py",
+    "url": "https://github.com/langchain-ai/deepagents/blob/e21ce33d4486899069dda55254e6ec56e874a854/libs/deepagents/deepagents/graph.py",
+    "bytes": 50866,
+    "sha256": "5964f538571f415331870230b86eae1833f11e52c0d91b38e3c37e6e0c609569",
+    "symbols": [
+      "DeepAgentState",
+      "get_default_model",
+      "create_deep_agent"
+    ],
+    "status": "fetched",
+    "commit": "e21ce33d4486899069dda55254e6ec56e874a854"
+  },
+  {
+    "id": "F02",
+    "path": "libs/langgraph/langgraph/pregel/main.py",
+    "url": "https://github.com/langchain-ai/langgraph/blob/e5c961d7fbe7ca6fdd4c94c84d90511372514d55/libs/langgraph/langgraph/pregel/main.py",
+    "bytes": 183710,
+    "sha256": "6067e1c48d1eedc24b6ede058a1fd9d8026d5f430db0b21667563210564f1e7e",
+    "symbols": [
+      "NodeBuilder",
+      "Pregel"
+    ],
+    "status": "fetched",
+    "commit": "e5c961d7fbe7ca6fdd4c94c84d90511372514d55"
+  },
+  {
+    "id": "F03",
+    "path": "libs/deepagents/deepagents/middleware/subagents.py",
+    "url": "https://github.com/langchain-ai/deepagents/blob/e21ce33d4486899069dda55254e6ec56e874a854/libs/deepagents/deepagents/middleware/subagents.py",
+    "bytes": 44071,
+    "sha256": "66d1a30c8669309a306db73f0ce7376ee9ca1e627e7a4456b57bde7f84fec2e5",
+    "symbols": [
+      "SubAgent",
+      "CompiledSubAgent",
+      "TaskToolSchema",
+      "create_sub_agent",
+      "SubAgentMiddleware"
+    ],
+    "status": "fetched",
+    "commit": "e21ce33d4486899069dda55254e6ec56e874a854"
+  },
+  {
+    "id": "F05",
+    "path": "haystack/core/pipeline/pipeline.py",
+    "url": "https://github.com/deepset-ai/haystack/blob/8e38c633190ee43b80c136b335f8c9d6c79cc5d6/haystack/core/pipeline/pipeline.py",
+    "bytes": 66504,
+    "sha256": "5260957fbf291dd43337a534a8daba2c8005579ed778924f3b043c8bfa72d7ac",
+    "symbols": [
+      "PipelineStreamHandle",
+      "Pipeline"
+    ],
+    "status": "fetched",
+    "commit": "8e38c633190ee43b80c136b335f8c9d6c79cc5d6"
+  },
+  {
+    "id": "F06",
+    "path": "lib/crewai/src/crewai/agent/core.py",
+    "url": "https://github.com/crewAIInc/crewAI/blob/97bbfb64811775a965304bda45c8ec0e8e4ef3a2/lib/crewai/src/crewai/agent/core.py",
+    "bytes": 89229,
+    "sha256": "7fae6d342f6e849d2a160b840059441190d0b123c11ec335fa699976a6fa818e",
+    "symbols": [
+      "Agent"
+    ],
+    "status": "fetched",
+    "commit": "97bbfb64811775a965304bda45c8ec0e8e4ef3a2"
+  },
+  {
+    "id": "F05",
+    "path": "haystack/components/agents/agent.py",
+    "url": "https://github.com/deepset-ai/haystack/blob/8e38c633190ee43b80c136b335f8c9d6c79cc5d6/haystack/components/agents/agent.py",
+    "bytes": 67131,
+    "sha256": "2851b990de70b14e03e1b457a725c667f2b500a23f6318030dbf0384c09c177a",
+    "symbols": [
+      "Agent"
+    ],
+    "status": "fetched",
+    "commit": "8e38c633190ee43b80c136b335f8c9d6c79cc5d6"
+  },
+  {
+    "id": "F06",
+    "path": "lib/crewai/src/crewai/crew.py",
+    "url": "https://github.com/crewAIInc/crewAI/blob/97bbfb64811775a965304bda45c8ec0e8e4ef3a2/lib/crewai/src/crewai/crew.py",
+    "bytes": 99495,
+    "sha256": "77350dd6b63a77f6e1586fb3cdc6cf069f7bad87e2cc7019e0f5defde5917909",
+    "symbols": [
+      "Crew"
+    ],
+    "status": "fetched",
+    "commit": "97bbfb64811775a965304bda45c8ec0e8e4ef3a2"
+  },
+  {
+    "id": "F04",
+    "path": "llama-index-core/llama_index/core/indices/base.py",
+    "url": "https://github.com/run-llama/llama_index/blob/619d74664e8404612038bc15a1a40c686037277c/llama-index-core/llama_index/core/indices/base.py",
+    "bytes": 22566,
+    "sha256": "23f3d622dcb6981d2d42e550ae7cc2a621fe409bf20944b5b8502e07ad5c5b51",
+    "symbols": [
+      "BaseIndex"
+    ],
+    "status": "fetched",
+    "commit": "619d74664e8404612038bc15a1a40c686037277c"
+  },
+  {
+    "id": "F06",
+    "path": "lib/crewai/src/crewai/flow/flow.py",
+    "url": "https://github.com/crewAIInc/crewAI/blob/97bbfb64811775a965304bda45c8ec0e8e4ef3a2/lib/crewai/src/crewai/flow/flow.py",
+    "bytes": 1503,
+    "sha256": "58341abb3313f043d0531255c2cc585ac79f086320a298765cca9db676bbb475",
+    "symbols": [
+      "Flow"
+    ],
+    "status": "fetched",
+    "commit": "97bbfb64811775a965304bda45c8ec0e8e4ef3a2"
+  },
+  {
+    "id": "F07",
+    "path": "pydantic_ai_slim/pydantic_ai/tools.py",
+    "url": "https://github.com/pydantic/pydantic-ai/blob/39269caf0a4e2dbc5846ff796191c42a4736735a/pydantic_ai_slim/pydantic_ai/tools.py",
+    "bytes": 42808,
+    "sha256": "9bf474ef3091f11ffd49a51f41ea6e4a2ddc92ee6e39c1bdae98152eccd69d18",
+    "symbols": [
+      "only_if_42",
+      "hitchhiker",
+      "turn_on_strict_if_openai",
+      "matches_tool_selector",
+      "GenerateToolJsonSchema",
+      "Tool",
+      "KindedToolPlainDecorator",
+      "KindedToolDecorator",
+      "ToolDefinition"
+    ],
+    "status": "fetched",
+    "commit": "39269caf0a4e2dbc5846ff796191c42a4736735a"
+  },
+  {
+    "id": "F07",
+    "path": "pydantic_ai_slim/pydantic_ai/_agent_graph.py",
+    "url": "https://github.com/pydantic/pydantic-ai/blob/39269caf0a4e2dbc5846ff796191c42a4736735a/pydantic_ai_slim/pydantic_ai/_agent_graph.py",
+    "bytes": 265481,
+    "sha256": "f9ef338bb991efa22a114f60f3e10dfa8ee99c15345addc5e1cf0c09b05e022c",
+    "symbols": [
+      "set_agent_graph_sleep",
+      "resolve_conversation_id",
+      "resolve_conversation",
+      "resolve_run_id",
+      "StepModelSettings",
+      "GraphAgentState",
+      "GraphAgentDeps",
+      "AgentNode",
+      "is_agent_node",
+      "drain_node_event_stream",
+      "UserPromptNode",
+      "first_step_selection_messages"
+    ],
+    "status": "fetched",
+    "commit": "39269caf0a4e2dbc5846ff796191c42a4736735a"
+  },
+  {
+    "id": "F09",
+    "path": "src/google/adk/agents/llm_agent.py",
+    "url": "https://github.com/google/adk-python/blob/8cd3b12c8a5d658c5e0d3ea0731d8be34a092a4a/src/google/adk/agents/llm_agent.py",
+    "bytes": 50339,
+    "sha256": "c35094376ae09f02f9b81a63fe99329ade0f82a573aeb0fd7821e17903e73ab8",
+    "symbols": [
+      "LlmAgent"
+    ],
+    "status": "fetched",
+    "commit": "8cd3b12c8a5d658c5e0d3ea0731d8be34a092a4a"
+  },
+  {
+    "id": "F09",
+    "path": "src/google/adk/runners.py",
+    "url": "https://github.com/google/adk-python/blob/8cd3b12c8a5d658c5e0d3ea0731d8be34a092a4a/src/google/adk/runners.py",
+    "bytes": 91521,
+    "sha256": "2e5cc91e313a70595239fa762d4e501b45a9b42b01038402b6829c4838d89fcf",
+    "symbols": [
+      "Runner",
+      "InMemoryRunner"
+    ],
+    "status": "fetched",
+    "commit": "8cd3b12c8a5d658c5e0d3ea0731d8be34a092a4a"
+  },
+  {
+    "id": "F08",
+    "path": "src/smolagents/local_python_executor.py",
+    "url": "https://github.com/huggingface/smolagents/blob/96f33faaf028479119ec8d34507b47694cf14e34/src/smolagents/local_python_executor.py",
+    "bytes": 68159,
+    "sha256": "41859e622bae8ad85ed861b7abef12b02f9106133a273c2f4d8a1e37a743d1ca",
+    "symbols": [
+      "InterpreterError",
+      "custom_print",
+      "nodunder_getattr",
+      "check_safer_result",
+      "safer_eval",
+      "safer_func",
+      "PrintContainer",
+      "BreakException",
+      "ContinueException",
+      "ReturnException",
+      "ExecutionTimeoutError",
+      "timeout"
+    ],
+    "status": "fetched",
+    "commit": "96f33faaf028479119ec8d34507b47694cf14e34"
+  },
+  {
+    "id": "F08",
+    "path": "src/smolagents/agents.py",
+    "url": "https://github.com/huggingface/smolagents/blob/96f33faaf028479119ec8d34507b47694cf14e34/src/smolagents/agents.py",
+    "bytes": 80780,
+    "sha256": "da0da2e258c346e28d97b3584dfe58dcd203fc20fbde6c6533e333f9b1a06352",
+    "symbols": [
+      "populate_template",
+      "ActionOutput",
+      "ToolOutput",
+      "PlanningPromptTemplate",
+      "ManagedAgentPromptTemplate",
+      "FinalAnswerPromptTemplate",
+      "PromptTemplates",
+      "RunResult",
+      "MultiStepAgent",
+      "ToolCallingAgent",
+      "CodeAgent"
+    ],
+    "status": "fetched",
+    "commit": "96f33faaf028479119ec8d34507b47694cf14e34"
+  },
+  {
+    "id": "F10",
+    "path": "python/packages/core/agent_framework/_agents.py",
+    "url": "https://github.com/microsoft/agent-framework/blob/b7884ad88eb85c27b2a7bf40c0e15948e7ccc28d/python/packages/core/agent_framework/_agents.py",
+    "bytes": 97537,
+    "sha256": "c9be53117cd636dda668ca66d989a94023051fe193ec2652ce1033e81a0d871f",
+    "symbols": [
+      "SupportsAgentRun",
+      "BaseAgent",
+      "RawAgent",
+      "Agent"
+    ],
+    "status": "fetched",
+    "commit": "b7884ad88eb85c27b2a7bf40c0e15948e7ccc28d"
+  },
+  {
+    "id": "F11",
+    "path": "src/agents/run.py",
+    "url": "https://github.com/openai/openai-agents-python/blob/e355d69152d4f4730dfb03b63dbce53e8d9f5d8c/src/agents/run.py",
+    "bytes": 155777,
+    "sha256": "3cdd652446db22646f24dd8e283dc39d54724a7a76822856c17e39a8f549d997",
+    "symbols": [
+      "set_default_agent_runner",
+      "get_default_agent_runner",
+      "Runner",
+      "AgentRunner"
+    ],
+    "status": "fetched",
+    "commit": "e355d69152d4f4730dfb03b63dbce53e8d9f5d8c"
+  },
+  {
+    "id": "F10",
+    "path": "python/packages/core/agent_framework/_tools.py",
+    "url": "https://github.com/microsoft/agent-framework/blob/b7884ad88eb85c27b2a7bf40c0e15948e7ccc28d/python/packages/core/agent_framework/_tools.py",
+    "bytes": 298103,
+    "sha256": "c24d37208ac7f5f17c63f98c9a57132a6a442f1e959a317126c691ee20ec5fad",
+    "symbols": [
+      "FunctionTool",
+      "normalize_tools",
+      "tool",
+      "tool",
+      "tool",
+      "FunctionInvocationConfiguration",
+      "normalize_function_invocation_configuration",
+      "FunctionInvocationLayer"
+    ],
+    "status": "fetched",
+    "commit": "b7884ad88eb85c27b2a7bf40c0e15948e7ccc28d"
+  },
+  {
+    "id": "F11",
+    "path": "src/agents/agent.py",
+    "url": "https://github.com/openai/openai-agents-python/blob/e355d69152d4f4730dfb03b63dbce53e8d9f5d8c/src/agents/agent.py",
+    "bytes": 54898,
+    "sha256": "4508357ab85a3d254dade7b4a57540a452fd46d73f114460bc228dc8409059f9",
+    "symbols": [
+      "ToolsToFinalOutputResult",
+      "AgentToolStreamEvent",
+      "StopAtTools",
+      "MCPConfig",
+      "AgentBase",
+      "Agent"
+    ],
+    "status": "fetched",
+    "commit": "e355d69152d4f4730dfb03b63dbce53e8d9f5d8c"
+  },
+  {
+    "id": "F12",
+    "path": "libs/agno/agno/workflow/agent.py",
+    "url": "https://github.com/agno-agi/agno/blob/a9ea2b48b4d9bc5cfdea10d39ab5b8de66343a5f/libs/agno/agno/workflow/agent.py",
+    "bytes": 13401,
+    "sha256": "487f7d4c2dcaf4ea645743ca917dbab326b144c40a410cedbd48b7b15f7e325a",
+    "symbols": [
+      "WorkflowAgent"
+    ],
+    "status": "fetched",
+    "commit": "a9ea2b48b4d9bc5cfdea10d39ab5b8de66343a5f"
+  },
+  {
+    "id": "F11",
+    "path": "src/agents/tool.py",
+    "url": "https://github.com/openai/openai-agents-python/blob/e355d69152d4f4730dfb03b63dbce53e8d9f5d8c/src/agents/tool.py",
+    "bytes": 116811,
+    "sha256": "fdbc586a84448031f31ce55eafc501fb294c61051f4a60131d93f740734ab64d",
+    "symbols": [
+      "FunctionToolCustomDataContext",
+      "CustomToolCustomDataContext",
+      "ComputerToolCustomDataContext",
+      "ApplyPatchToolCustomDataContext",
+      "ToolOutputText",
+      "ToolOutputTextDict",
+      "ToolOutputImage",
+      "ToolOutputImageDict",
+      "ToolOutputFileContent",
+      "ToolOutputFileContentDict",
+      "ToolOriginType",
+      "ToolOrigin"
+    ],
+    "status": "fetched",
+    "commit": "e355d69152d4f4730dfb03b63dbce53e8d9f5d8c"
+  },
+  {
+    "id": "F12",
+    "path": "libs/agno/agno/agent/agent.py",
+    "url": "https://github.com/agno-agi/agno/blob/a9ea2b48b4d9bc5cfdea10d39ab5b8de66343a5f/libs/agno/agno/agent/agent.py",
+    "bytes": 85870,
+    "sha256": "d6c0db3080eb1d19c71245695f6cb6f14de5294f00905dfeab361581ae1d2ac4",
+    "symbols": [
+      "Agent",
+      "get_agent_by_id",
+      "get_agents"
+    ],
+    "status": "fetched",
+    "commit": "a9ea2b48b4d9bc5cfdea10d39ab5b8de66343a5f"
+  },
+  {
+    "id": "F13",
+    "path": "dspy/signatures/signature.py",
+    "url": "https://github.com/stanfordnlp/dspy/blob/25162c4fc05c2d2d019b0ffb5b6b2a9f315ec007/dspy/signatures/signature.py",
+    "bytes": 35096,
+    "sha256": "bc4cb9abf727eea3864bbde560552a3a33a8589ced59d8c167758706349ae7f7",
+    "symbols": [
+      "SignatureMeta",
+      "Signature",
+      "ensure_signature",
+      "make_signature",
+      "infer_prefix"
+    ],
+    "status": "fetched",
+    "commit": "25162c4fc05c2d2d019b0ffb5b6b2a9f315ec007"
+  },
+  {
+    "id": "F13",
+    "path": "dspy/primitives/module.py",
+    "url": "https://github.com/stanfordnlp/dspy/blob/25162c4fc05c2d2d019b0ffb5b6b2a9f315ec007/dspy/primitives/module.py",
+    "bytes": 13307,
+    "sha256": "0f63191e91db2c1c1d9ae087cecc7ea9997838198500b77d685edc25662687d3",
+    "symbols": [
+      "ProgramMeta",
+      "Module",
+      "set_attribute_by_name"
+    ],
+    "status": "fetched",
+    "commit": "25162c4fc05c2d2d019b0ffb5b6b2a9f315ec007"
+  },
+  {
+    "id": "F15",
+    "path": "src/agentscope/agent/_agent.py",
+    "url": "https://github.com/agentscope-ai/agentscope/blob/4acacb9ffb8c148a1f1e68263657a978bcb1e5a3/src/agentscope/agent/_agent.py",
+    "bytes": 157313,
+    "sha256": "7397fc740ef86a96d4073e444b5ce3150f80dba1557d0f4b1a8f567009ea6aae",
+    "symbols": [
+      "Agent"
+    ],
+    "status": "fetched",
+    "commit": "4acacb9ffb8c148a1f1e68263657a978bcb1e5a3"
+  },
+  {
+    "id": "F14",
+    "path": "camel/agents/chat_agent.py",
+    "url": "https://github.com/camel-ai/camel/blob/64b9a613d1c3f4606be64aa6b66ebca437e50cda/camel/agents/chat_agent.py",
+    "bytes": 263597,
+    "sha256": "cb4a0667e1eee31978ad5b54d75b5153e160579dff19d1e2abc7893a3dccb181",
+    "symbols": [
+      "StreamContentAccumulator",
+      "StreamingChatAgentResponse",
+      "AsyncStreamingChatAgentResponse",
+      "ChatAgent"
+    ],
+    "status": "fetched",
+    "commit": "64b9a613d1c3f4606be64aa6b66ebca437e50cda"
+  },
+  {
+    "id": "F14",
+    "path": "camel/societies/role_playing.py",
+    "url": "https://github.com/camel-ai/camel/blob/64b9a613d1c3f4606be64aa6b66ebca437e50cda/camel/societies/role_playing.py",
+    "bytes": 37479,
+    "sha256": "26f89e10f1e19f2bc4ab7da6d50bbb6fc7561d012a2f689357de119b9a878c8b",
+    "symbols": [
+      "RolePlaying"
+    ],
+    "status": "fetched",
+    "commit": "64b9a613d1c3f4606be64aa6b66ebca437e50cda"
+  },
+  {
+    "id": "F15",
+    "path": "src/agentscope/tool/_toolkit.py",
+    "url": "https://github.com/agentscope-ai/agentscope/blob/4acacb9ffb8c148a1f1e68263657a978bcb1e5a3/src/agentscope/tool/_toolkit.py",
+    "bytes": 25072,
+    "sha256": "c8271335631e470acef4f0dc47a93660767bd1bf28f57ca3b40ec04bc2ac01c0",
+    "symbols": [
+      "Toolkit"
+    ],
+    "status": "fetched",
+    "commit": "4acacb9ffb8c148a1f1e68263657a978bcb1e5a3"
+  },
+  {
+    "id": "F16",
+    "path": "src/agent/memory-filesystem.ts",
+    "url": "https://github.com/letta-ai/letta-code/blob/59df5424838419e083de0691fa4d08524f348937/src/agent/memory-filesystem.ts",
+    "bytes": 23188,
+    "sha256": "e6ca7ce74ef4f145df2a84933c5617c7df4339d7ffc1359b1ce25e8fb28f5964",
+    "symbols": [
+      "MemoryTreeRenderOptions",
+      "getMemoryFilesystemRoot",
+      "getMemorySystemDir",
+      "getScopedMemoryFilesystemRoot",
+      "ResolveScopedMemoryDirOptions",
+      "resolveScopedMemoryDir",
+      "ensureMemoryFilesystemDirs",
+      "MemfsCreateBodyLike",
+      "stampMemfsTagOnCreateBody",
+      "stampRootMemoryOnCreateBody",
+      "prepareRawCreateAgentBodyForMemfs",
+      "hydrateMemfsSettingFromAgent"
+    ],
+    "status": "fetched",
+    "commit": "59df5424838419e083de0691fa4d08524f348937"
+  },
+  {
+    "id": "F16",
+    "path": "src/app-server-client.ts",
+    "url": "https://github.com/letta-ai/letta-code/blob/59df5424838419e083de0691fa4d08524f348937/src/app-server-client.ts",
+    "bytes": 24144,
+    "sha256": "1e16a4567fd1eddca83a7fec12a668d540809ec16e225bf25dd3387646068127",
+    "symbols": [
+      "AppServerChannel",
+      "AppServerRawCommand",
+      "AppServerRawResponse",
+      "AppServerSendCommand",
+      "AppServerMessageHandler",
+      "AppServerSendHandler",
+      "AppServerDisconnectEvent",
+      "AppServerDisconnectHandler",
+      "AppServerExternalToolCallHandler",
+      "AppServerSocketLike",
+      "AppServerSocketOptions",
+      "AppServerSocketConstructor"
+    ],
+    "status": "fetched",
+    "commit": "59df5424838419e083de0691fa4d08524f348937"
+  },
+  {
+    "id": "F20",
+    "path": "python/semantic_kernel/kernel.py",
+    "url": "https://github.com/microsoft/semantic-kernel/blob/96c9e860db4d7c6da40652d9b421a31b05e98692/python/semantic_kernel/kernel.py",
+    "bytes": 31428,
+    "sha256": "e6e8621df11ddfaba704259d1ae564448501b1f99ba0b1a081a1e0380ac45105",
+    "symbols": [
+      "Kernel"
+    ],
+    "status": "fetched",
+    "commit": "96c9e860db4d7c6da40652d9b421a31b05e98692"
+  },
+  {
+    "id": "F20",
+    "path": "dotnet/src/SemanticKernel.Abstractions/Kernel.cs",
+    "url": "https://github.com/microsoft/semantic-kernel/blob/96c9e860db4d7c6da40652d9b421a31b05e98692/dotnet/src/SemanticKernel.Abstractions/Kernel.cs",
+    "bytes": 34021,
+    "sha256": "0322408469f9390c2f30a97dffa5cdb98cf00b9edd3c226a8fab1a16858247d0",
+    "symbols": [],
+    "status": "fetched",
+    "commit": "96c9e860db4d7c6da40652d9b421a31b05e98692"
+  },
+  {
+    "id": "F03",
+    "path": "libs/deepagents/deepagents/backends/protocol.py",
+    "url": "https://github.com/langchain-ai/deepagents/blob/e21ce33d4486899069dda55254e6ec56e874a854/libs/deepagents/deepagents/backends/protocol.py",
+    "bytes": 37033,
+    "sha256": "c4cb24fbcde9b34f1fde1c9f4fabccc389d6bd8fbefebc29cb09661718a65fbf",
+    "symbols": [
+      "FileDownloadResponse",
+      "FileUploadResponse",
+      "FileInfo",
+      "ContextLine",
+      "GrepMatch",
+      "FileData",
+      "ReadResult",
+      "WriteResult",
+      "EditResult",
+      "DeleteResult",
+      "LsResult",
+      "GrepResult"
+    ],
+    "status": "fetched",
+    "commit": "e21ce33d4486899069dda55254e6ec56e874a854"
+  },
+  {
+    "id": "F01",
+    "path": "libs/core/langchain_core/tools/base.py",
+    "url": "https://github.com/langchain-ai/langchain/blob/5b0aeb7637fc415eb408dc31523609272bbb38e1/libs/core/langchain_core/tools/base.py",
+    "bytes": 71669,
+    "sha256": "a2f7b4f18aaa3f6db1399f224f6303691cb46ac3b9ba36bf1aa87704a504edd1",
+    "symbols": [
+      "SchemaAnnotationError",
+      "create_schema_from_function",
+      "ToolException",
+      "BaseTool",
+      "ChildTool",
+      "InjectedToolArg",
+      "InjectedToolCallId",
+      "get_all_basemodel_annotations",
+      "BaseToolkit"
+    ],
+    "status": "fetched",
+    "commit": "5b0aeb7637fc415eb408dc31523609272bbb38e1"
+  },
+  {
+    "id": "P03",
+    "path": "internal/agent/runtime/state.go",
+    "url": "https://github.com/infiniflow/ragflow/blob/12d9a38e24bf3fb8573b83bc41a2fe75dcd2c281/internal/agent/runtime/state.go",
+    "bytes": 32949,
+    "sha256": "8d412040c9afed206db80280b5895ed0053f9e330b89721a3c1db4fd0e8cdad2",
+    "symbols": [
+      "CanvasState",
+      "canvasStateJSON"
+    ],
+    "status": "fetched",
+    "commit": "12d9a38e24bf3fb8573b83bc41a2fe75dcd2c281"
+  },
+  {
+    "id": "P03",
+    "path": "internal/agent/runtime/retrieval.go",
+    "url": "https://github.com/infiniflow/ragflow/blob/12d9a38e24bf3fb8573b83bc41a2fe75dcd2c281/internal/agent/runtime/retrieval.go",
+    "bytes": 13543,
+    "sha256": "c500076ed7dcfdd0d677055862dcc29a217c8adfd3e15312b2422d84b8094dec",
+    "symbols": [
+      "RetrievalChunk",
+      "RetrievalRequest",
+      "RetrievalService",
+      "MemoryRetrievalService",
+      "KGRetrievalService",
+      "GrepService",
+      "GrepRequest",
+      "Bm25Service",
+      "Bm25Request",
+      "stubRetrievalService",
+      "stubMemoryRetrievalService",
+      "stubKGRetrievalService"
+    ],
+    "status": "fetched",
+    "commit": "12d9a38e24bf3fb8573b83bc41a2fe75dcd2c281"
+  },
+  {
+    "id": "P03",
+    "path": "internal/deepdoc/parser/office/parser.go",
+    "url": "https://github.com/infiniflow/ragflow/blob/12d9a38e24bf3fb8573b83bc41a2fe75dcd2c281/internal/deepdoc/parser/office/parser.go",
+    "bytes": 1562,
+    "sha256": "bfe804c7a10e0a09f9b69a19ef0474b36bb57ace40f43835c4783f8e1f0fea22",
+    "symbols": [],
+    "status": "fetched",
+    "commit": "12d9a38e24bf3fb8573b83bc41a2fe75dcd2c281"
+  },
+  {
+    "id": "P04",
+    "path": "backend/packages/harness/deerflow/agents/lead_agent/agent.py",
+    "url": "https://github.com/bytedance/deer-flow/blob/793d1edabce0fa1551572d4ba2ebc2d5c02dcc31/backend/packages/harness/deerflow/agents/lead_agent/agent.py",
+    "bytes": 72674,
+    "sha256": "0c49a2a6c3e3350a20dd492809b4c9ce0e1d6fed084972d472ceede96982ba62",
+    "symbols": [
+      "LeadAgentAssembly",
+      "unwrap_agent_graph",
+      "build_middlewares",
+      "make_lead_agent",
+      "assemble_lead_agent"
+    ],
+    "status": "fetched",
+    "commit": "793d1edabce0fa1551572d4ba2ebc2d5c02dcc31"
+  },
+  {
+    "id": "P04",
+    "path": "README.md",
+    "url": "https://github.com/bytedance/deer-flow/blob/793d1edabce0fa1551572d4ba2ebc2d5c02dcc31/README.md",
+    "bytes": 369286,
+    "sha256": "3a17899f7b5ef4d489f1058815c4f3c84c3fd452aec54f35da6f23c6809feda9",
+    "symbols": [],
+    "status": "fetched",
+    "commit": "793d1edabce0fa1551572d4ba2ebc2d5c02dcc31"
+  },
+  {
+    "id": "F18",
+    "path": "packages/ai/src/agent/tool-loop-agent.ts",
+    "url": "https://github.com/vercel/ai/blob/dffe4053c15709577329518044b1ec1d4c6bb0fe/packages/ai/src/agent/tool-loop-agent.ts",
+    "bytes": 10633,
+    "sha256": "3055c1a8cb0e1271150f63c024335ca0900dbff8167dc26e22c4661239867513",
+    "symbols": [
+      "ToolLoopAgentCallExtensions",
+      "ToolLoopAgent"
+    ],
+    "status": "fetched",
+    "commit": "dffe4053c15709577329518044b1ec1d4c6bb0fe"
+  },
+  {
+    "id": "F01",
+    "path": "libs/langchain_v1/langchain/agents/factory.py",
+    "url": "https://github.com/langchain-ai/langchain/blob/5b0aeb7637fc415eb408dc31523609272bbb38e1/libs/langchain_v1/langchain/agents/factory.py",
+    "bytes": 87471,
+    "sha256": "cc4a7d9a620224558c4eddd4e13edc988a9ac9e328b7a67deeb71ed2c5ec5174",
+    "symbols": [
+      "create_agent",
+      "create_agent",
+      "create_agent",
+      "create_agent"
+    ],
+    "status": "fetched",
+    "commit": "5b0aeb7637fc415eb408dc31523609272bbb38e1"
+  },
+  {
+    "id": "F17",
+    "path": "packages/core/src/workflows/create.ts",
+    "url": "https://github.com/mastra-ai/mastra/blob/697ea99ae93f6dae203cab0f059bc5f9d8316c1e/packages/core/src/workflows/create.ts",
+    "bytes": 5575,
+    "sha256": "15f117d5a65cf8a5889ad25690b3a78c2b9badf8e3d4c345098b0b07ec2dabd0",
+    "symbols": [
+      "createWorkflow",
+      "createEventedWorkflow",
+      "cloneWorkflow"
+    ],
+    "status": "fetched",
+    "commit": "697ea99ae93f6dae203cab0f059bc5f9d8316c1e"
+  },
+  {
+    "id": "P01",
+    "path": "api/core/workflow/workflow_entry.py",
+    "url": "https://github.com/langgenius/dify/blob/dcb332693ef6c282baaab182a738ec9af56b90e8/api/core/workflow/workflow_entry.py",
+    "bytes": 25882,
+    "sha256": "611d2f8cc0ce1519bea439e2f5cf484879121468d8ace77f0cb56d3054d27335",
+    "symbols": [
+      "iter_dify_graph_engine_events",
+      "SingleNodeGraphDict",
+      "WorkflowEntry"
+    ],
+    "status": "fetched",
+    "commit": "dcb332693ef6c282baaab182a738ec9af56b90e8"
+  },
+  {
+    "id": "F17",
+    "path": "packages/core/src/agent/index.ts",
+    "url": "https://github.com/mastra-ai/mastra/blob/697ea99ae93f6dae203cab0f059bc5f9d8316c1e/packages/core/src/agent/index.ts",
+    "bytes": 2471,
+    "sha256": "cc6cd32ec4356db13b8a02d4ee098f313daf1598baac0475c175c74529baa02b",
+    "symbols": [],
+    "status": "fetched",
+    "commit": "697ea99ae93f6dae203cab0f059bc5f9d8316c1e"
+  },
+  {
+    "id": "F18",
+    "path": "packages/ai/src/agent/tool-loop-agent-settings.ts",
+    "url": "https://github.com/vercel/ai/blob/dffe4053c15709577329518044b1ec1d4c6bb0fe/packages/ai/src/agent/tool-loop-agent-settings.ts",
+    "bytes": 14877,
+    "sha256": "7a1de2858d902b0e402485bb320ed1c155d9f6f46a2ea7e8ac9696ebad5aee84",
+    "symbols": [
+      "ToolLoopAgentSettings"
+    ],
+    "status": "fetched",
+    "commit": "dffe4053c15709577329518044b1ec1d4c6bb0fe"
+  },
+  {
+    "id": "P10",
+    "path": "autogpt_platform/backend/backend/copilot/executor/manager.py",
+    "url": "https://github.com/Significant-Gravitas/AutoGPT/blob/07212df377c4ea0ac5ed6a7c9c8ff72203564650/autogpt_platform/backend/backend/copilot/executor/manager.py",
+    "bytes": 32241,
+    "sha256": "d593674add5c5d4e53ab90410e858a8474f8b832cb36b7a5a18a80502be4c521",
+    "symbols": [
+      "CoPilotExecutor"
+    ],
+    "status": "fetched",
+    "commit": "07212df377c4ea0ac5ed6a7c9c8ff72203564650"
+  },
+  {
+    "id": "P10",
+    "path": "autogpt_platform/backend/backend/blocks/_base.py",
+    "url": "https://github.com/Significant-Gravitas/AutoGPT/blob/07212df377c4ea0ac5ed6a7c9c8ff72203564650/autogpt_platform/backend/backend/blocks/_base.py",
+    "bytes": 43109,
+    "sha256": "6eaf2df9524ec07f8387f8c48e5031383fe19436680bc76bfdd37b0421902879",
+    "symbols": [
+      "BlockEffect",
+      "BlockType",
+      "BlockCategory",
+      "BlockCostType",
+      "TokenRateDisplay",
+      "BlockCost",
+      "BlockInfo",
+      "BlockSchema",
+      "BlockSchemaInput",
+      "BlockSchemaOutput",
+      "EmptyInputSchema",
+      "EmptyOutputSchema"
+    ],
+    "status": "fetched",
+    "commit": "07212df377c4ea0ac5ed6a7c9c8ff72203564650"
+  },
+  {
+    "id": "P11",
+    "path": "metagpt/roles/role.py",
+    "url": "https://github.com/geekan/MetaGPT/blob/11cdf466d042aece04fc6cfd13b28e1a70341b1f/metagpt/roles/role.py",
+    "bytes": 25036,
+    "sha256": "2dac0259a6f3733fa2ec0df8a43eb8dda1cac199410c31ef350aaaf70f6c939b",
+    "symbols": [
+      "RoleReactMode",
+      "RoleContext",
+      "Role"
+    ],
+    "status": "fetched",
+    "commit": "11cdf466d042aece04fc6cfd13b28e1a70341b1f"
+  },
+  {
+    "id": "P11",
+    "path": "metagpt/actions/action.py",
+    "url": "https://github.com/geekan/MetaGPT/blob/11cdf466d042aece04fc6cfd13b28e1a70341b1f/metagpt/actions/action.py",
+    "bytes": 3833,
+    "sha256": "7837c9d9535885634160e3dcf1403e9cd9c2943ae923a0188dd6477ceb060aad",
+    "symbols": [
+      "Action"
+    ],
+    "status": "fetched",
+    "commit": "11cdf466d042aece04fc6cfd13b28e1a70341b1f"
+  },
+  {
+    "id": "P06",
+    "path": "src/api/agent-server-adapter.ts",
+    "url": "https://github.com/OpenHands/OpenHands/blob/11b72301d099403d2c49be9b7e0ee898e646c9a6/src/api/agent-server-adapter.ts",
+    "bytes": 61614,
+    "sha256": "0720a1bf4112ab05e173bd4e7077ba1c8fe5cdfd328a88a1a9dcccb77eec878d",
+    "symbols": [
+      "DirectConversationInfo",
+      "resolveMaxIterations",
+      "RuntimeServicesInfo",
+      "parseRuntimeServicesInfo",
+      "fetchBackendServerInfo",
+      "fetchBackendExecutionRuntime",
+      "buildRuntimeServicesSystemSuffix",
+      "buildRouterAtStartSystemSuffix",
+      "toConversationUrl",
+      "getDefaultConversationTitle",
+      "toAppConversation",
+      "toConversationPage"
+    ],
+    "status": "fetched",
+    "commit": "11b72301d099403d2c49be9b7e0ee898e646c9a6"
+  },
+  {
+    "id": "P06",
+    "path": "src/stores/conversation-store.ts",
+    "url": "https://github.com/OpenHands/OpenHands/blob/11b72301d099403d2c49be9b7e0ee898e646c9a6/src/stores/conversation-store.ts",
+    "bytes": 12909,
+    "sha256": "9c1ebd38f0e69ac58299063ede6954ec761f4a5d61fcd2793c386ccf5f78ce69",
+    "symbols": [
+      "ConversationTab",
+      "ConversationMode",
+      "CommitsPaneSection",
+      "MessageToSendTarget",
+      "IMessageToSend",
+      "ConversationState",
+      "ConversationActions",
+      "ConversationStore"
+    ],
+    "status": "fetched",
+    "commit": "11b72301d099403d2c49be9b7e0ee898e646c9a6"
+  },
+  {
+    "id": "S01",
+    "path": "biomni/agent/a1.py",
+    "url": "https://github.com/snap-stanford/Biomni/blob/400c1f366b96a35ca253e13c9b06c5076af41d65/biomni/agent/a1.py",
+    "bytes": 131378,
+    "sha256": "ffb67055ebc0ec645128026d797a29223232567c1d75f87f75947bf720da92bf",
+    "symbols": [
+      "AgentState",
+      "A1"
+    ],
+    "status": "fetched",
+    "commit": "400c1f366b96a35ca253e13c9b06c5076af41d65"
+  },
+  {
+    "id": "S01",
+    "path": "biomni/config.py",
+    "url": "https://github.com/snap-stanford/Biomni/blob/400c1f366b96a35ca253e13c9b06c5076af41d65/biomni/config.py",
+    "bytes": 3632,
+    "sha256": "cca67e90a8167ab4bfc3307f8b08a50da11e1a87b5d2c5ae6597f740cc4dac39",
+    "symbols": [
+      "BiomniConfig"
+    ],
+    "status": "fetched",
+    "commit": "400c1f366b96a35ca253e13c9b06c5076af41d65"
+  },
+  {
+    "id": "S02",
+    "path": "src/tooluniverse/base_tool.py",
+    "url": "https://github.com/mims-harvard/ToolUniverse/blob/169d065deeb3e289b3ff36d665529a123bdad791/src/tooluniverse/base_tool.py",
+    "bytes": 36256,
+    "sha256": "db9df68c765e99a25ee9008b3be376c97c53cf14f2ebf90fd54195036cbfd288",
+    "symbols": [
+      "request_url",
+      "resolve_configured_operation",
+      "null_result_error",
+      "BaseTool"
+    ],
+    "status": "fetched",
+    "commit": "169d065deeb3e289b3ff36d665529a123bdad791"
+  },
+  {
+    "id": "S02",
+    "path": "src/tooluniverse/tool_registry.py",
+    "url": "https://github.com/mims-harvard/ToolUniverse/blob/169d065deeb3e289b3ff36d665529a123bdad791/src/tooluniverse/tool_registry.py",
+    "bytes": 27728,
+    "sha256": "83fe35c2cc24bb5aee664de7b0806dce12f31425dda77903c5efd3177438b349",
+    "symbols": [
+      "mark_tool_unavailable",
+      "get_tool_errors",
+      "register_tool",
+      "register_external_tool",
+      "register_config",
+      "get_tool_registry",
+      "get_config_registry",
+      "register_tool_configs",
+      "get_list_config_registry",
+      "clear_lazy_cache",
+      "lazy_import_tool",
+      "build_lazy_registry"
+    ],
+    "status": "fetched",
+    "commit": "169d065deeb3e289b3ff36d665529a123bdad791"
+  },
+  {
+    "id": "S02",
+    "path": "src/tooluniverse/execute_function.py",
+    "url": "https://github.com/mims-harvard/ToolUniverse/blob/169d065deeb3e289b3ff36d665529a123bdad791/src/tooluniverse/execute_function.py",
+    "bytes": 246072,
+    "sha256": "4eb0dd4193a0ff1a24110f027da34952e93e2b549326f6ee3dee111dc215eb6b",
+    "symbols": [
+      "ToolCallable",
+      "ToolNamespace",
+      "explain_remote_load_failure",
+      "describe_alternative_keys",
+      "describe_missing_keys",
+      "ToolUniverse"
+    ],
+    "status": "fetched",
+    "commit": "169d065deeb3e289b3ff36d665529a123bdad791"
+  },
+  {
+    "id": "S03",
+    "path": "skills/paper2agent/SKILL.md",
+    "url": "https://github.com/jmiao24/Paper2Agent/blob/8c2d059165ef8cdcb70dbea76655b9c2b55b38e6/skills/paper2agent/SKILL.md",
+    "bytes": 1551,
+    "sha256": "69a5525de0cc115ebbef1cdd602a4cfda1836399adc44a154907d07c95f4244d",
+    "symbols": [],
+    "status": "fetched",
+    "commit": "8c2d059165ef8cdcb70dbea76655b9c2b55b38e6"
+  },
+  {
+    "id": "S03",
+    "path": "skills/paper2agent/paper2mcp/scripts/verify_mcp_server.py",
+    "url": "https://github.com/jmiao24/Paper2Agent/blob/8c2d059165ef8cdcb70dbea76655b9c2b55b38e6/skills/paper2agent/paper2mcp/scripts/verify_mcp_server.py",
+    "bytes": 11208,
+    "sha256": "e73e2d9efa0c88162616bde51950128d3dab50df104be6344e8c87edd9622d24",
+    "symbols": [
+      "require",
+      "unique_names",
+      "validate_cases",
+      "check_subset",
+      "check_artifacts",
+      "verify",
+      "schema_field",
+      "main"
+    ],
+    "status": "fetched",
+    "commit": "8c2d059165ef8cdcb70dbea76655b9c2b55b38e6"
+  },
+  {
+    "id": "I01",
+    "path": "src/mcp/server/mcpserver/server.py",
+    "url": "https://github.com/modelcontextprotocol/python-sdk/blob/d7845c073a2b9ba5ab2817ecf93d3e45ef24cd14/src/mcp/server/mcpserver/server.py",
+    "bytes": 60344,
+    "sha256": "2fe1d0b76795fe432b842d400379494e6fff48891bcf46474634c45598e4749a",
+    "symbols": [
+      "Settings",
+      "lifespan_wrapper",
+      "MCPServer",
+      "require_client_extension"
+    ],
+    "status": "fetched",
+    "commit": "d7845c073a2b9ba5ab2817ecf93d3e45ef24cd14"
+  },
+  {
+    "id": "I01",
+    "path": "src/mcp/client/client.py",
+    "url": "https://github.com/modelcontextprotocol/python-sdk/blob/d7845c073a2b9ba5ab2817ecf93d3e45ef24cd14/src/mcp/client/client.py",
+    "bytes": 46288,
+    "sha256": "65daef44015ed09c28fc3bb95baf8af6ce09ed92403e788f594d347c06e2754b",
+    "symbols": [
+      "Client"
+    ],
+    "status": "fetched",
+    "commit": "d7845c073a2b9ba5ab2817ecf93d3e45ef24cd14"
+  },
+  {
+    "id": "I02",
+    "path": "pydantic/main.py",
+    "url": "https://github.com/pydantic/pydantic/blob/91c44cd1bfc8c7cb909cefa8395e0a720957f1d1/pydantic/main.py",
+    "bytes": 75194,
+    "sha256": "0d20ee6ab204749939e3d8359cd3d66e1961c28f1d34529147c14b44afff95d3",
+    "symbols": [
+      "BaseModel",
+      "create_model",
+      "create_model",
+      "create_model"
+    ],
+    "status": "fetched",
+    "commit": "91c44cd1bfc8c7cb909cefa8395e0a720957f1d1"
+  },
+  {
+    "id": "I02",
+    "path": "pydantic/fields.py",
+    "url": "https://github.com/pydantic/pydantic/blob/91c44cd1bfc8c7cb909cefa8395e0a720957f1d1/pydantic/fields.py",
+    "bytes": 84944,
+    "sha256": "7ca18c35ed2574aaca9c7bdfc4d4ede11b41f54e3233b2c8432fde8fa5724956",
+    "symbols": [
+      "FieldInfo",
+      "Field",
+      "Field",
+      "Field",
+      "Field",
+      "Field",
+      "Field",
+      "Field",
+      "ModelPrivateAttr",
+      "PrivateAttr",
+      "PrivateAttr",
+      "PrivateAttr"
+    ],
+    "status": "fetched",
+    "commit": "91c44cd1bfc8c7cb909cefa8395e0a720957f1d1"
+  },
+  {
+    "id": "I03",
+    "path": "langfuse/_client/observe.py",
+    "url": "https://github.com/langfuse/langfuse-python/blob/1fc854dd2b241cf8e3dac38bfd5907ff2fe365e3/langfuse/_client/observe.py",
+    "bytes": 29339,
+    "sha256": "ff5bf642b4eb9273a0b2dce56b14ebbea103ff103b1d5fcf51a3c239138c1439",
+    "symbols": [
+      "LangfuseDecorator"
+    ],
+    "status": "fetched",
+    "commit": "1fc854dd2b241cf8e3dac38bfd5907ff2fe365e3"
+  },
+  {
+    "id": "I03",
+    "path": "langfuse/_client/client.py",
+    "url": "https://github.com/langfuse/langfuse-python/blob/1fc854dd2b241cf8e3dac38bfd5907ff2fe365e3/langfuse/_client/client.py",
+    "bytes": 173868,
+    "sha256": "e2c2bf025e7a1492370892d10d262a42fd9b0b52946e9d92c031eea2405f9f7c",
+    "symbols": [
+      "Langfuse"
+    ],
+    "status": "fetched",
+    "commit": "1fc854dd2b241cf8e3dac38bfd5907ff2fe365e3"
+  },
+  {
+    "id": "I04",
+    "path": "temporalio/activity.py",
+    "url": "https://github.com/temporalio/sdk-python/blob/c1a79fb659ffab144d7949213664a584809089f7/temporalio/activity.py",
+    "bytes": 22335,
+    "sha256": "29c1b3d37f54e9db9f58675907268fddb553642fcd94bb537fbeb488b85f3b96",
+    "symbols": [
+      "defn",
+      "defn",
+      "defn",
+      "defn",
+      "Info",
+      "ActivityCancellationDetails",
+      "client",
+      "in_activity",
+      "info",
+      "cancellation_details",
+      "heartbeat",
+      "is_cancelled"
+    ],
+    "status": "fetched",
+    "commit": "c1a79fb659ffab144d7949213664a584809089f7"
+  },
+  {
+    "id": "I04",
+    "path": "temporalio/worker/_worker.py",
+    "url": "https://github.com/temporalio/sdk-python/blob/c1a79fb659ffab144d7949213664a584809089f7/temporalio/worker/_worker.py",
+    "bytes": 61378,
+    "sha256": "413fd7f9864a6638bed00aacaeee36b594c4104faecefadd3f9df026504ddd92",
+    "symbols": [
+      "PollerBehaviorSimpleMaximum",
+      "PollerBehaviorAutoscaling",
+      "Worker",
+      "WorkerConfig",
+      "WorkerDeploymentConfig",
+      "load_default_build_id"
+    ],
+    "status": "fetched",
+    "commit": "c1a79fb659ffab144d7949213664a584809089f7"
+  },
+  {
+    "id": "P07",
+    "path": "packages/cli/src/workflow-runner.ts",
+    "url": "https://github.com/n8n-io/n8n/blob/61055d5cfd6a01b667c73a574cbd2be6d2ab58d0/packages/cli/src/workflow-runner.ts",
+    "bytes": 35535,
+    "sha256": "fc58aef3b8c48851b6098204b79954d508d4a8474a45006e47dc11893b2358e0",
+    "symbols": [
+      "flushResponse",
+      "WorkflowRunner"
+    ],
+    "status": "fetched",
+    "commit": "61055d5cfd6a01b667c73a574cbd2be6d2ab58d0"
+  },
+  {
+    "id": "I05",
+    "path": "specification/a2a.proto",
+    "url": "https://github.com/a2aproject/A2A/blob/4735f4876449c6f381825d8a841b31b16c6ad0c4/specification/a2a.proto",
+    "bytes": 35942,
+    "sha256": "945df6e34001b2bfd0fd62d9484b63094dfad9d78705e41e2873441c419ae2d1",
+    "symbols": [],
+    "status": "fetched",
+    "commit": "4735f4876449c6f381825d8a841b31b16c6ad0c4"
+  },
+  {
+    "id": "P01",
+    "path": "README.md",
+    "url": "https://github.com/langgenius/dify/blob/dcb332693ef6c282baaab182a738ec9af56b90e8/README.md",
+    "bytes": 12132,
+    "sha256": "3c7fe487f1e89e6faec52f5421c71e749c1cecc3486725be3e03fb3fbb62e484",
+    "symbols": [],
+    "status": "fetched",
+    "commit": "dcb332693ef6c282baaab182a738ec9af56b90e8"
+  },
+  {
+    "id": "P09",
+    "path": "src/lfx/src/lfx/graph/graph/base.py",
+    "url": "https://github.com/langflow-ai/langflow/blob/b5c54a64e685b7e50fd3bc76e965ad718fc2dea3/src/lfx/src/lfx/graph/graph/base.py",
+    "bytes": 152565,
+    "sha256": "a0fd694078b929d0a5d20186b4436413481eb5cd445f02cf137e59ba2f8924e5",
+    "symbols": [
+      "FlowSpanScope",
+      "Graph"
+    ],
+    "status": "fetched",
+    "commit": "b5c54a64e685b7e50fd3bc76e965ad718fc2dea3"
+  },
+  {
+    "id": "P07",
+    "path": "packages/core/src/execution-engine/workflow-execute.ts",
+    "url": "https://github.com/n8n-io/n8n/blob/61055d5cfd6a01b667c73a574cbd2be6d2ab58d0/packages/core/src/execution-engine/workflow-execute.ts",
+    "bytes": 107292,
+    "sha256": "08690bf81e4eef57f8ccabd70d4863431ab5fc9bbddaafa376e313037632b8af",
+    "symbols": [
+      "RunWorkflowOptions",
+      "normalizeUnhandledAxiosError",
+      "WorkflowExecute"
+    ],
+    "status": "fetched",
+    "commit": "61055d5cfd6a01b667c73a574cbd2be6d2ab58d0"
+  },
+  {
+    "id": "P09",
+    "path": "src/backend/base/langflow/custom/custom_component/component.py",
+    "url": "https://github.com/langflow-ai/langflow/blob/b5c54a64e685b7e50fd3bc76e965ad718fc2dea3/src/backend/base/langflow/custom/custom_component/component.py",
+    "bytes": 617,
+    "sha256": "3b36289fc72558c2e54ebcd2c012700b9071be42156fa168e33b6603957cf87c",
+    "symbols": [],
+    "status": "fetched",
+    "commit": "b5c54a64e685b7e50fd3bc76e965ad718fc2dea3"
+  },
+  {
+    "id": "P11",
+    "path": "metagpt/team.py",
+    "url": "https://github.com/geekan/MetaGPT/blob/11cdf466d042aece04fc6cfd13b28e1a70341b1f/metagpt/team.py",
+    "bytes": 4844,
+    "sha256": "af0398fce4109cadf8a0ac8e479d261ef0cb6347c60d0c3343ff7d6e22180bcc",
+    "symbols": [
+      "Team"
+    ],
+    "status": "fetched",
+    "commit": "11cdf466d042aece04fc6cfd13b28e1a70341b1f"
+  }
+]

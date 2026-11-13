@@ -1,0 +1,14 @@
+{
+  "task_id": "unit_unsupported",
+  "question": "Compare coordinate geometry with declared selections.",
+  "reference": "4AKE",
+  "moving": "1AKE",
+  "chain": "A",
+  "mode": "global",
+  "units": "nm",
+  "model_index": 0,
+  "mapping": "same_auth_residue_and_name",
+  "region_policy": "MDAnalysis_AdK_tutorial_v1",
+  "ligand": "AP5",
+  "cutoff_A": 4.0
+}

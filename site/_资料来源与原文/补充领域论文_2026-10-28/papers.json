@@ -1,0 +1,19 @@
+{
+  "review_date": "2026-10-28",
+  "papers": [
+    {
+      "short": "ProteinGeoBench",
+      "title": "ProteinGeoBench: Frontier Structural-Biology Agents Are Fluent at Lookup but Lost in Geometry",
+      "first_public_date": "2026-10-19",
+      "status": "预印本",
+      "venue": "arXiv · 2026-10-19 v1",
+      "source_url": "https://arxiv.org/abs/2610.26829",
+      "code_url": "https://github.com/Protege-AI/ProteinGeoBench",
+      "arxiv_id": "2610.26829",
+      "date_note": "2026-10-19 首次公开；科研与几何测评的预印本，结果受任务集合、模型、运行设置和尝试次数限制。",
+      "local_file": "papers/ProteinGeoBench_2026.pdf",
+      "pages": 24,
+      "sha256": "03a5c2ea6ac1856346fc0aeb3d8de85eaa1b3f7b743db4e99646674294c116a8"
+    }
+  ]
+}

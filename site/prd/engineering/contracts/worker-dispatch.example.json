@@ -1,0 +1,98 @@
+{
+  "protocol_version": "worker.v1",
+  "message_type": "dispatch",
+  "context": {
+    "project_id": "00000000-0000-4000-8000-000000000001",
+    "run_id": "00000000-0000-4000-8000-000000000002",
+    "attempt_id": "00000000-0000-4000-8000-000000000003",
+    "operation_id": "00000000-0000-4000-8000-000000000004",
+    "worker_id": "00000000-0000-4000-8000-000000000005",
+    "lease_owner": "00000000-0000-4000-8000-000000000006",
+    "plan_id": "00000000-0000-4000-8000-000000000007",
+    "frozen_spec_id": "00000000-0000-4000-8000-000000000008",
+    "lease_epoch": 3,
+    "request_digest": "1111111111111111111111111111111111111111111111111111111111111111",
+    "purpose": "ANALYZE",
+    "step_id": "measure_global",
+    "operation_kind": "TOOL"
+  },
+  "action": {
+    "capability_id": "calculate_rmsd",
+    "tool_version": "1",
+    "parameters": {
+      "mapping_artifact_id": "00000000-0000-4000-8000-000000000011",
+      "fit_pair_index_artifact_id": "00000000-0000-4000-8000-000000000012",
+      "evaluation_pair_index_artifact_id": "00000000-0000-4000-8000-000000000013",
+      "method": "kabsch_right_handed",
+      "weighting": "uniform",
+      "trim_outliers": false,
+      "units": "angstrom"
+    }
+  },
+  "inputs": [
+    {
+      "artifact_id": "00000000-0000-4000-8000-000000000011",
+      "sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+      "bytes": 1200,
+      "kind": "atom_mapping",
+      "media_type": "application/json",
+      "input_alias": "input_0001"
+    },
+    {
+      "artifact_id": "00000000-0000-4000-8000-000000000012",
+      "sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+      "bytes": 128,
+      "kind": "pair_indices",
+      "media_type": "application/json",
+      "input_alias": "input_0002"
+    },
+    {
+      "artifact_id": "00000000-0000-4000-8000-000000000013",
+      "sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+      "bytes": 128,
+      "kind": "pair_indices",
+      "media_type": "application/json",
+      "input_alias": "input_0003"
+    },
+    {
+      "artifact_id": "00000000-0000-4000-8000-000000000030",
+      "sha256": "fcb2ff49a3e255797fee277ce28e0acace67f6e6ddf432841f8451f00cbde9e9",
+      "bytes": 381852,
+      "kind": "coordinates",
+      "media_type": "chemical/x-mmcif",
+      "input_alias": "input_0004"
+    },
+    {
+      "artifact_id": "00000000-0000-4000-8000-000000000031",
+      "sha256": "01f41b1b42318a1a5df7f650dbab881677aa0e8d825f7c42dd26ae16a94c0948",
+      "bytes": 426810,
+      "kind": "coordinates",
+      "media_type": "chemical/x-mmcif",
+      "input_alias": "input_0005"
+    }
+  ],
+  "reservations": [
+    {
+      "budget_reservation_id": "00000000-0000-4000-8000-000000000014",
+      "metric": "cpu_ms",
+      "reserved_units": 300000
+    },
+    {
+      "budget_reservation_id": "00000000-0000-4000-8000-000000000015",
+      "metric": "tool_attempts",
+      "reserved_units": 1
+    }
+  ],
+  "limits": {
+    "cpu_ms": 300000,
+    "wall_ms": 300000,
+    "memory_bytes": 2147483648,
+    "pids_max": 32,
+    "output_bytes": 104857600,
+    "stdout_bytes": 1048576,
+    "network": "none",
+    "deadline_at": "2026-11-03T12:05:00Z"
+  },
+  "execution_profile_id": "p0_cpu_no_network_v1",
+  "issued_at": "2026-11-03T12:00:00Z"
+}

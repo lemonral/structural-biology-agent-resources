@@ -1,0 +1,1272 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:structbio:worker-protocol:v1",
+  "title": "P0 Worker protocol — engineering draft, not deployed",
+  "description": "Trusted dispatcher to fixed scientific child protocol. JSON Schema syntax does not authorize an action or establish a sandbox. Python decoders must reject NaN/Infinity before schema validation. Semantic validators check IDs, hashes, leases, authority and finite values.",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/Dispatch"
+    },
+    {
+      "$ref": "#/$defs/Heartbeat"
+    },
+    {
+      "$ref": "#/$defs/Finish"
+    }
+  ],
+  "$defs": {
+    "Context": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "project_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "run_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "attempt_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "operation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "worker_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "lease_owner": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "lease_epoch": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "request_digest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "purpose": {
+          "enum": [
+            "INSPECT",
+            "ANALYZE"
+          ]
+        },
+        "plan_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "step_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9_-]{0,63}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "frozen_spec_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "operation_kind": {
+          "enum": [
+            "PREFLIGHT",
+            "TOOL"
+          ]
+        }
+      },
+      "required": [
+        "project_id",
+        "run_id",
+        "attempt_id",
+        "operation_id",
+        "worker_id",
+        "lease_owner",
+        "lease_epoch",
+        "request_digest",
+        "purpose",
+        "plan_id",
+        "step_id",
+        "frozen_spec_id",
+        "operation_kind"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "operation_kind": {
+                "const": "PREFLIGHT"
+              }
+            },
+            "required": [
+              "operation_kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "plan_id": {
+                "type": "null"
+              },
+              "step_id": {
+                "type": "null"
+              },
+              "frozen_spec_id": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "operation_kind": {
+                "const": "TOOL"
+              }
+            },
+            "required": [
+              "operation_kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "plan_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "frozen_spec_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "step_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_-]{0,63}$"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "purpose": {
+                "const": "INSPECT"
+              }
+            },
+            "required": [
+              "purpose"
+            ]
+          },
+          "then": {
+            "properties": {
+              "operation_kind": {
+                "const": "PREFLIGHT"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "InputArtifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "kind": {
+          "enum": [
+            "coordinates",
+            "structure_manifest",
+            "selection",
+            "atom_mapping",
+            "pair_indices",
+            "scientific_result",
+            "validation",
+            "report_data"
+          ]
+        },
+        "media_type": {
+          "enum": [
+            "chemical/x-pdb",
+            "chemical/x-mmcif",
+            "application/json",
+            "text/csv"
+          ]
+        },
+        "input_alias": {
+          "type": "string",
+          "pattern": "^input_[0-9]{4}$"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "sha256",
+        "bytes",
+        "kind",
+        "media_type",
+        "input_alias"
+      ]
+    },
+    "BudgetRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "budget_reservation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "metric": {
+          "enum": [
+            "cpu_ms",
+            "tool_attempts"
+          ]
+        },
+        "reserved_units": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "budget_reservation_id",
+        "metric",
+        "reserved_units"
+      ]
+    },
+    "Limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "cpu_ms": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "wall_ms": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "memory_bytes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "pids_max": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "output_bytes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "stdout_bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "network": {
+          "const": "none"
+        },
+        "deadline_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "cpu_ms",
+        "wall_ms",
+        "memory_bytes",
+        "pids_max",
+        "output_bytes",
+        "stdout_bytes",
+        "network",
+        "deadline_at"
+      ]
+    },
+    "InspectParams": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "coordinate_artifact_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "format": {
+          "enum": [
+            "pdb",
+            "mmcif"
+          ]
+        },
+        "coordinate_set": {
+          "const": "deposited_model"
+        },
+        "parse_policy_version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        }
+      },
+      "required": [
+        "coordinate_artifact_id",
+        "format",
+        "coordinate_set",
+        "parse_policy_version"
+      ]
+    },
+    "MappingParams": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "reference_selection_artifact_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "moving_selection_artifact_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "strategy": {
+          "enum": [
+            "explicit_pairs",
+            "sequence_alignment_checked"
+          ]
+        },
+        "explicit_pairs_artifact_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "mapping_policy_version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        }
+      },
+      "required": [
+        "reference_selection_artifact_id",
+        "moving_selection_artifact_id",
+        "strategy",
+        "explicit_pairs_artifact_id",
+        "mapping_policy_version"
+      ]
+    },
+    "RmsdParams": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "mapping_artifact_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "fit_pair_index_artifact_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "evaluation_pair_index_artifact_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "method": {
+          "const": "kabsch_right_handed"
+        },
+        "weighting": {
+          "const": "uniform"
+        },
+        "trim_outliers": {
+          "const": false
+        },
+        "units": {
+          "const": "angstrom"
+        }
+      },
+      "required": [
+        "mapping_artifact_id",
+        "fit_pair_index_artifact_id",
+        "evaluation_pair_index_artifact_id",
+        "method",
+        "weighting",
+        "trim_outliers",
+        "units"
+      ]
+    },
+    "ContactsParams": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "protein_selection_artifact_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "ligand_selection_artifact_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "cutoff_angstrom": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "distance_comparison": {
+          "const": "le"
+        },
+        "include_hydrogen": {
+          "const": false
+        }
+      },
+      "required": [
+        "protein_selection_artifact_id",
+        "ligand_selection_artifact_id",
+        "cutoff_angstrom",
+        "distance_comparison",
+        "include_hydrogen"
+      ]
+    },
+    "ReportParams": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "result_artifact_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "minItems": 1,
+          "maxItems": 32,
+          "uniqueItems": true
+        },
+        "validation_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "minItems": 1,
+          "maxItems": 32,
+          "uniqueItems": true
+        },
+        "template_id": {
+          "enum": [
+            "analysis_report_v1",
+            "inspection_report_v1",
+            "failure_report_v1"
+          ]
+        },
+        "locale": {
+          "enum": [
+            "zh-CN",
+            "en"
+          ]
+        }
+      },
+      "required": [
+        "result_artifact_ids",
+        "validation_ids",
+        "template_id",
+        "locale"
+      ]
+    },
+    "Action": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "capability_id": {
+              "const": "inspect_structure"
+            },
+            "tool_version": {
+              "const": "1"
+            },
+            "parameters": {
+              "$ref": "#/$defs/InspectParams"
+            }
+          },
+          "required": [
+            "capability_id",
+            "tool_version",
+            "parameters"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "capability_id": {
+              "const": "map_residues"
+            },
+            "tool_version": {
+              "const": "1"
+            },
+            "parameters": {
+              "$ref": "#/$defs/MappingParams"
+            }
+          },
+          "required": [
+            "capability_id",
+            "tool_version",
+            "parameters"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "capability_id": {
+              "const": "calculate_rmsd"
+            },
+            "tool_version": {
+              "const": "1"
+            },
+            "parameters": {
+              "$ref": "#/$defs/RmsdParams"
+            }
+          },
+          "required": [
+            "capability_id",
+            "tool_version",
+            "parameters"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "capability_id": {
+              "const": "geometric_contacts"
+            },
+            "tool_version": {
+              "const": "1"
+            },
+            "parameters": {
+              "$ref": "#/$defs/ContactsParams"
+            }
+          },
+          "required": [
+            "capability_id",
+            "tool_version",
+            "parameters"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "capability_id": {
+              "const": "render_report"
+            },
+            "tool_version": {
+              "const": "1"
+            },
+            "parameters": {
+              "$ref": "#/$defs/ReportParams"
+            }
+          },
+          "required": [
+            "capability_id",
+            "tool_version",
+            "parameters"
+          ]
+        }
+      ]
+    },
+    "Error": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "enum": [
+            "INPUT_INVALID",
+            "INPUT_IDENTITY_MISMATCH",
+            "SELECTION_EMPTY",
+            "MAPPING_INVALID",
+            "GEOMETRY_DEGENERATE",
+            "NUMERICAL_FAILURE",
+            "SCIENTIFIC_PRECONDITION_FAILED",
+            "TEMPORARY_BACKEND_FAILURE",
+            "RESOURCE_LIMIT",
+            "DEADLINE_EXCEEDED",
+            "CANCELLED",
+            "OUTPUT_INVALID",
+            "INTERNAL_ERROR"
+          ]
+        },
+        "retryable": {
+          "type": "boolean"
+        },
+        "safe_message": {
+          "type": "string",
+          "maxLength": 600
+        },
+        "diagnostic_ref": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "code",
+        "retryable",
+        "safe_message",
+        "diagnostic_ref"
+      ]
+    },
+    "OutputProposal": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "output_alias": {
+          "type": "string",
+          "pattern": "^output_[0-9]{4}\\.(json|csv|html|png|cif)$"
+        },
+        "kind": {
+          "enum": [
+            "structure_manifest",
+            "selection",
+            "atom_mapping",
+            "transform",
+            "rmsd_summary",
+            "per_residue_displacement",
+            "contacts",
+            "validation_candidate",
+            "report_data",
+            "html_report",
+            "aligned_coordinates"
+          ]
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "media_type": {
+          "enum": [
+            "application/json",
+            "text/csv",
+            "text/html",
+            "image/png",
+            "chemical/x-mmcif"
+          ]
+        }
+      },
+      "required": [
+        "output_alias",
+        "kind",
+        "sha256",
+        "bytes",
+        "media_type"
+      ]
+    },
+    "Usage": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "cpu_ms": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "wall_ms": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "max_rss_bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "output_bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "tool_attempts": {
+          "const": 1
+        }
+      },
+      "required": [
+        "cpu_ms",
+        "wall_ms",
+        "max_rss_bytes",
+        "output_bytes",
+        "tool_attempts"
+      ]
+    },
+    "Dispatch": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "protocol_version": {
+          "const": "worker.v1"
+        },
+        "message_type": {
+          "const": "dispatch"
+        },
+        "context": {
+          "$ref": "#/$defs/Context"
+        },
+        "action": {
+          "$ref": "#/$defs/Action"
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/InputArtifact"
+          },
+          "minItems": 1,
+          "maxItems": 64
+        },
+        "reservations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/BudgetRef"
+          },
+          "minItems": 1,
+          "maxItems": 2
+        },
+        "limits": {
+          "$ref": "#/$defs/Limits"
+        },
+        "execution_profile_id": {
+          "const": "p0_cpu_no_network_v1"
+        },
+        "issued_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "protocol_version",
+        "message_type",
+        "context",
+        "action",
+        "inputs",
+        "reservations",
+        "limits",
+        "execution_profile_id",
+        "issued_at"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "context": {
+                "properties": {
+                  "operation_kind": {
+                    "const": "PREFLIGHT"
+                  }
+                },
+                "required": [
+                  "operation_kind"
+                ]
+              }
+            },
+            "required": [
+              "context"
+            ]
+          },
+          "then": {
+            "properties": {
+              "action": {
+                "properties": {
+                  "capability_id": {
+                    "const": "inspect_structure"
+                  }
+                },
+                "required": [
+                  "capability_id"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "Heartbeat": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "protocol_version": {
+          "const": "worker.v1"
+        },
+        "message_type": {
+          "const": "heartbeat"
+        },
+        "context": {
+          "$ref": "#/$defs/Context"
+        },
+        "heartbeat_seq": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "observed_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "cpu_ms": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "wall_ms": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "phase": {
+          "enum": [
+            "INITIALIZING",
+            "READING",
+            "COMPUTING",
+            "WRITING",
+            "CANCELLING"
+          ]
+        }
+      },
+      "required": [
+        "protocol_version",
+        "message_type",
+        "context",
+        "heartbeat_seq",
+        "observed_at",
+        "cpu_ms",
+        "wall_ms",
+        "phase"
+      ]
+    },
+    "Finish": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "protocol_version": {
+          "const": "worker.v1"
+        },
+        "message_type": {
+          "const": "finish"
+        },
+        "context": {
+          "$ref": "#/$defs/Context"
+        },
+        "execution_outcome": {
+          "enum": [
+            "SUCCEEDED",
+            "FAILED",
+            "CANCELLED"
+          ]
+        },
+        "scientific_status": {
+          "enum": [
+            "NOT_EVALUATED",
+            "NOT_APPLICABLE"
+          ]
+        },
+        "exit_code": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 255
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "outputs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/OutputProposal"
+          },
+          "maxItems": 64
+        },
+        "usage": {
+          "$ref": "#/$defs/Usage"
+        },
+        "finished_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "protocol_version",
+        "message_type",
+        "context",
+        "execution_outcome",
+        "scientific_status",
+        "exit_code",
+        "error",
+        "outputs",
+        "usage",
+        "finished_at"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "execution_outcome": {
+                "const": "SUCCEEDED"
+              }
+            },
+            "required": [
+              "execution_outcome"
+            ]
+          },
+          "then": {
+            "properties": {
+              "exit_code": {
+                "const": 0
+              },
+              "error": {
+                "type": "null"
+              },
+              "outputs": {
+                "minItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "execution_outcome": {
+                "const": "FAILED"
+              }
+            },
+            "required": [
+              "execution_outcome"
+            ]
+          },
+          "then": {
+            "properties": {
+              "error": {
+                "$ref": "#/$defs/Error"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "context": {
+                "properties": {
+                  "operation_kind": {
+                    "const": "PREFLIGHT"
+                  }
+                },
+                "required": [
+                  "operation_kind"
+                ]
+              }
+            },
+            "required": [
+              "context"
+            ]
+          },
+          "then": {
+            "properties": {
+              "scientific_status": {
+                "const": "NOT_APPLICABLE"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "scientific_status": {
+                "const": "NOT_EVALUATED"
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "examples": [
+    {
+      "protocol_version": "worker.v1",
+      "message_type": "dispatch",
+      "context": {
+        "project_id": "00000000-0000-4000-8000-000000000001",
+        "run_id": "00000000-0000-4000-8000-000000000002",
+        "attempt_id": "00000000-0000-4000-8000-000000000003",
+        "operation_id": "00000000-0000-4000-8000-000000000004",
+        "worker_id": "00000000-0000-4000-8000-000000000005",
+        "lease_owner": "00000000-0000-4000-8000-000000000006",
+        "plan_id": "00000000-0000-4000-8000-000000000007",
+        "frozen_spec_id": "00000000-0000-4000-8000-000000000008",
+        "lease_epoch": 3,
+        "request_digest": "1111111111111111111111111111111111111111111111111111111111111111",
+        "purpose": "ANALYZE",
+        "step_id": "measure_global",
+        "operation_kind": "TOOL"
+      },
+      "action": {
+        "capability_id": "calculate_rmsd",
+        "tool_version": "1",
+        "parameters": {
+          "mapping_artifact_id": "00000000-0000-4000-8000-000000000011",
+          "fit_pair_index_artifact_id": "00000000-0000-4000-8000-000000000012",
+          "evaluation_pair_index_artifact_id": "00000000-0000-4000-8000-000000000013",
+          "method": "kabsch_right_handed",
+          "weighting": "uniform",
+          "trim_outliers": false,
+          "units": "angstrom"
+        }
+      },
+      "inputs": [
+        {
+          "artifact_id": "00000000-0000-4000-8000-000000000011",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+          "bytes": 1200,
+          "kind": "atom_mapping",
+          "media_type": "application/json",
+          "input_alias": "input_0001"
+        },
+        {
+          "artifact_id": "00000000-0000-4000-8000-000000000012",
+          "sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+          "bytes": 128,
+          "kind": "pair_indices",
+          "media_type": "application/json",
+          "input_alias": "input_0002"
+        },
+        {
+          "artifact_id": "00000000-0000-4000-8000-000000000013",
+          "sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+          "bytes": 128,
+          "kind": "pair_indices",
+          "media_type": "application/json",
+          "input_alias": "input_0003"
+        },
+        {
+          "artifact_id": "00000000-0000-4000-8000-000000000030",
+          "sha256": "fcb2ff49a3e255797fee277ce28e0acace67f6e6ddf432841f8451f00cbde9e9",
+          "bytes": 381852,
+          "kind": "coordinates",
+          "media_type": "chemical/x-mmcif",
+          "input_alias": "input_0004"
+        },
+        {
+          "artifact_id": "00000000-0000-4000-8000-000000000031",
+          "sha256": "01f41b1b42318a1a5df7f650dbab881677aa0e8d825f7c42dd26ae16a94c0948",
+          "bytes": 426810,
+          "kind": "coordinates",
+          "media_type": "chemical/x-mmcif",
+          "input_alias": "input_0005"
+        }
+      ],
+      "reservations": [
+        {
+          "budget_reservation_id": "00000000-0000-4000-8000-000000000014",
+          "metric": "cpu_ms",
+          "reserved_units": 300000
+        },
+        {
+          "budget_reservation_id": "00000000-0000-4000-8000-000000000015",
+          "metric": "tool_attempts",
+          "reserved_units": 1
+        }
+      ],
+      "limits": {
+        "cpu_ms": 300000,
+        "wall_ms": 300000,
+        "memory_bytes": 2147483648,
+        "pids_max": 32,
+        "output_bytes": 104857600,
+        "stdout_bytes": 1048576,
+        "network": "none",
+        "deadline_at": "2026-11-03T12:05:00Z"
+      },
+      "execution_profile_id": "p0_cpu_no_network_v1",
+      "issued_at": "2026-11-03T12:00:00Z"
+    },
+    {
+      "protocol_version": "worker.v1",
+      "message_type": "heartbeat",
+      "context": {
+        "project_id": "00000000-0000-4000-8000-000000000001",
+        "run_id": "00000000-0000-4000-8000-000000000002",
+        "attempt_id": "00000000-0000-4000-8000-000000000003",
+        "operation_id": "00000000-0000-4000-8000-000000000004",
+        "worker_id": "00000000-0000-4000-8000-000000000005",
+        "lease_owner": "00000000-0000-4000-8000-000000000006",
+        "plan_id": "00000000-0000-4000-8000-000000000007",
+        "frozen_spec_id": "00000000-0000-4000-8000-000000000008",
+        "lease_epoch": 3,
+        "request_digest": "1111111111111111111111111111111111111111111111111111111111111111",
+        "purpose": "ANALYZE",
+        "step_id": "measure_global",
+        "operation_kind": "TOOL"
+      },
+      "heartbeat_seq": 1,
+      "observed_at": "2026-11-03T12:00:05Z",
+      "cpu_ms": 1200,
+      "wall_ms": 5000,
+      "phase": "COMPUTING"
+    },
+    {
+      "protocol_version": "worker.v1",
+      "message_type": "finish",
+      "context": {
+        "project_id": "00000000-0000-4000-8000-000000000001",
+        "run_id": "00000000-0000-4000-8000-000000000002",
+        "attempt_id": "00000000-0000-4000-8000-000000000003",
+        "operation_id": "00000000-0000-4000-8000-000000000004",
+        "worker_id": "00000000-0000-4000-8000-000000000005",
+        "lease_owner": "00000000-0000-4000-8000-000000000006",
+        "plan_id": "00000000-0000-4000-8000-000000000007",
+        "frozen_spec_id": "00000000-0000-4000-8000-000000000008",
+        "lease_epoch": 3,
+        "request_digest": "1111111111111111111111111111111111111111111111111111111111111111",
+        "purpose": "ANALYZE",
+        "step_id": "measure_global",
+        "operation_kind": "TOOL"
+      },
+      "execution_outcome": "SUCCEEDED",
+      "scientific_status": "NOT_EVALUATED",
+      "exit_code": 0,
+      "error": null,
+      "outputs": [
+        {
+          "output_alias": "output_0001.json",
+          "kind": "rmsd_summary",
+          "sha256": "6666666666666666666666666666666666666666666666666666666666666666",
+          "bytes": 1024,
+          "media_type": "application/json"
+        }
+      ],
+      "usage": {
+        "cpu_ms": 1300,
+        "wall_ms": 5200,
+        "max_rss_bytes": 104857600,
+        "output_bytes": 1024,
+        "tool_attempts": 1
+      },
+      "finished_at": "2026-11-03T12:00:05.200Z"
+    },
+    {
+      "protocol_version": "worker.v1",
+      "message_type": "dispatch",
+      "context": {
+        "project_id": "00000000-0000-4000-8000-000000000001",
+        "run_id": "00000000-0000-4000-8000-000000000040",
+        "attempt_id": "00000000-0000-4000-8000-000000000041",
+        "operation_id": "00000000-0000-4000-8000-000000000042",
+        "worker_id": "00000000-0000-4000-8000-000000000005",
+        "lease_owner": "00000000-0000-4000-8000-000000000006",
+        "plan_id": null,
+        "frozen_spec_id": null,
+        "lease_epoch": 3,
+        "request_digest": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "purpose": "INSPECT",
+        "step_id": null,
+        "operation_kind": "PREFLIGHT"
+      },
+      "action": {
+        "capability_id": "inspect_structure",
+        "tool_version": "1",
+        "parameters": {
+          "coordinate_artifact_id": "00000000-0000-4000-8000-000000000030",
+          "format": "mmcif",
+          "coordinate_set": "deposited_model",
+          "parse_policy_version": "parse_v1"
+        }
+      },
+      "inputs": [
+        {
+          "artifact_id": "00000000-0000-4000-8000-000000000030",
+          "sha256": "fcb2ff49a3e255797fee277ce28e0acace67f6e6ddf432841f8451f00cbde9e9",
+          "bytes": 381852,
+          "kind": "coordinates",
+          "media_type": "chemical/x-mmcif",
+          "input_alias": "input_0001"
+        }
+      ],
+      "reservations": [
+        {
+          "budget_reservation_id": "00000000-0000-4000-8000-000000000014",
+          "metric": "cpu_ms",
+          "reserved_units": 300000
+        },
+        {
+          "budget_reservation_id": "00000000-0000-4000-8000-000000000015",
+          "metric": "tool_attempts",
+          "reserved_units": 1
+        }
+      ],
+      "limits": {
+        "cpu_ms": 300000,
+        "wall_ms": 300000,
+        "memory_bytes": 2147483648,
+        "pids_max": 32,
+        "output_bytes": 104857600,
+        "stdout_bytes": 1048576,
+        "network": "none",
+        "deadline_at": "2026-11-03T12:05:00Z"
+      },
+      "execution_profile_id": "p0_cpu_no_network_v1",
+      "issued_at": "2026-11-03T12:00:00Z"
+    }
+  ]
+}

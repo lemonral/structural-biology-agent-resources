@@ -1,0 +1,44 @@
+{
+  "case_id": "ligand_contacts",
+  "task_id": "ligand_contacts",
+  "policy": "fixed_teaching_plan@1",
+  "contains_llm": false,
+  "fault_fixture": null,
+  "attempts": [
+    {
+      "attempt_id": "ligand_contacts:inspect:1",
+      "step_id": "inspect",
+      "tool_id": "inspect_coordinates@1",
+      "state": "COMPLETED"
+    },
+    {
+      "attempt_id": "ligand_contacts:selection:1",
+      "step_id": "selection",
+      "tool_id": "select_contact_atoms@1",
+      "state": "COMPLETED"
+    },
+    {
+      "attempt_id": "ligand_contacts:measure:1",
+      "step_id": "measure",
+      "tool_id": "calculate_contacts@1",
+      "state": "COMPLETED"
+    }
+  ],
+  "artifacts": {
+    "result": {
+      "filename": "result.json",
+      "content_id": "4c183d818de04acd29cf27533431c5a0ac37c670da857da304d34b0489c0b323",
+      "attempt_id": "ligand_contacts:measure:1"
+    },
+    "validation": {
+      "filename": "validation.json",
+      "content_id": "d6f831c211b91c300e357e7c0a0716dbf50a9265b1d75f1535bd6a22d7edb9d3",
+      "attempt_id": "validator:1"
+    }
+  },
+  "state": "COMPLETED",
+  "reason": null,
+  "actual_scientific_calculations": 1,
+  "simulated_external_submissions": 0,
+  "tool_attempt_count": 3
+}

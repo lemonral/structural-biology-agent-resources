@@ -1,0 +1,63 @@
+{
+  "protocol_version": "worker.v1",
+  "message_type": "dispatch",
+  "context": {
+    "project_id": "00000000-0000-4000-8000-000000000001",
+    "run_id": "00000000-0000-4000-8000-000000000040",
+    "attempt_id": "00000000-0000-4000-8000-000000000041",
+    "operation_id": "00000000-0000-4000-8000-000000000042",
+    "worker_id": "00000000-0000-4000-8000-000000000005",
+    "lease_owner": "00000000-0000-4000-8000-000000000006",
+    "plan_id": null,
+    "frozen_spec_id": null,
+    "lease_epoch": 3,
+    "request_digest": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "purpose": "INSPECT",
+    "step_id": null,
+    "operation_kind": "PREFLIGHT"
+  },
+  "action": {
+    "capability_id": "inspect_structure",
+    "tool_version": "1",
+    "parameters": {
+      "coordinate_artifact_id": "00000000-0000-4000-8000-000000000030",
+      "format": "mmcif",
+      "coordinate_set": "deposited_model",
+      "parse_policy_version": "parse_v1"
+    }
+  },
+  "inputs": [
+    {
+      "artifact_id": "00000000-0000-4000-8000-000000000030",
+      "sha256": "fcb2ff49a3e255797fee277ce28e0acace67f6e6ddf432841f8451f00cbde9e9",
+      "bytes": 381852,
+      "kind": "coordinates",
+      "media_type": "chemical/x-mmcif",
+      "input_alias": "input_0001"
+    }
+  ],
+  "reservations": [
+    {
+      "budget_reservation_id": "00000000-0000-4000-8000-000000000014",
+      "metric": "cpu_ms",
+      "reserved_units": 300000
+    },
+    {
+      "budget_reservation_id": "00000000-0000-4000-8000-000000000015",
+      "metric": "tool_attempts",
+      "reserved_units": 1
+    }
+  ],
+  "limits": {
+    "cpu_ms": 300000,
+    "wall_ms": 300000,
+    "memory_bytes": 2147483648,
+    "pids_max": 32,
+    "output_bytes": 104857600,
+    "stdout_bytes": 1048576,
+    "network": "none",
+    "deadline_at": "2026-11-03T12:05:00Z"
+  },
+  "execution_profile_id": "p0_cpu_no_network_v1",
+  "issued_at": "2026-11-03T12:00:00Z"
+}

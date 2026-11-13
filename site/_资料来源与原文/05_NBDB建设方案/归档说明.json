@@ -1,0 +1,52 @@
+{
+  "source": "/Users/zhouyi/Documents/nbdb_new/outputs/NBDB-结构生物学通用Agent建设方案.html",
+  "source_sha256": "ac3221718c0ab5d7f5df06e063c8e18a0e5ab617267e39c441e7744ab45e0d52",
+  "changes": "仅将原有项目源码相对链接改为本机绝对 file URL；正文与图示保留。",
+  "links": [
+    {
+      "original_href": "../NBDB-AI搜索工作原理与输入输出详解.md",
+      "archive_href": "file:///Users/zhouyi/Documents/nbdb_new/NBDB-AI%E6%90%9C%E7%B4%A2%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E4%B8%8E%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E8%AF%A6%E8%A7%A3.md",
+      "exists": true
+    },
+    {
+      "original_href": "../.codex-work/ai-search-backend/src/main/java/com/nbdb/platform/service/ai/AiSearchService.java",
+      "archive_href": "file:///Users/zhouyi/Documents/nbdb_new/.codex-work/ai-search-backend/src/main/java/com/nbdb/platform/service/ai/AiSearchService.java",
+      "exists": true
+    },
+    {
+      "original_href": "../.codex-work/ai-search-backend/docs/ai-image-search.md",
+      "archive_href": "file:///Users/zhouyi/Documents/nbdb_new/.codex-work/ai-search-backend/docs/ai-image-search.md",
+      "exists": true
+    },
+    {
+      "original_href": "../.codex-work/ai-search-backend/src/main/java/com/nbdb/platform/service/ai/AiSearchHistoryService.java",
+      "archive_href": "file:///Users/zhouyi/Documents/nbdb_new/.codex-work/ai-search-backend/src/main/java/com/nbdb/platform/service/ai/AiSearchHistoryService.java",
+      "exists": true
+    },
+    {
+      "original_href": "../.codex-work/ai-search-backend/src/main/java/com/nbdb/platform/service/ai/AiSearchQuotaService.java",
+      "archive_href": "file:///Users/zhouyi/Documents/nbdb_new/.codex-work/ai-search-backend/src/main/java/com/nbdb/platform/service/ai/AiSearchQuotaService.java",
+      "exists": true
+    },
+    {
+      "original_href": "../.codex-work/ai-search-frontend-20260928/src/views/catalog/AiSearchView.vue",
+      "archive_href": "file:///Users/zhouyi/Documents/nbdb_new/.codex-work/ai-search-frontend-20260928/src/views/catalog/AiSearchView.vue",
+      "exists": true
+    },
+    {
+      "original_href": "../.codex-work/ai-search-frontend-20260928/src/api/ai-search.ts",
+      "archive_href": "file:///Users/zhouyi/Documents/nbdb_new/.codex-work/ai-search-frontend-20260928/src/api/ai-search.ts",
+      "exists": true
+    },
+    {
+      "original_href": "../.codex-work/ai-workspace-20261014-sync/model-README.md",
+      "archive_href": "file:///Users/zhouyi/Documents/nbdb_new/.codex-work/ai-workspace-20261014-sync/model-README.md",
+      "exists": true
+    },
+    {
+      "original_href": "../.codex-work/ai-workspace-20261014-sync/serve.sbatch",
+      "archive_href": "file:///Users/zhouyi/Documents/nbdb_new/.codex-work/ai-workspace-20261014-sync/serve.sbatch",
+      "exists": true
+    }
+  ]
+}

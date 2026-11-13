@@ -1,0 +1,87 @@
+{
+  "version": "0.2",
+  "kind": "ENGINEERING_CONTRACTS_DESIGN_ONLY",
+  "runtime_implemented": false,
+  "files": {
+    "README.txt": {
+      "bytes": 1442,
+      "sha256": "966d3087850fb2c39295fb8ca0c8244fd9c818d53bc2894b7120c0ec19f64d0b"
+    },
+    "contract_validation.json": {
+      "bytes": 8531,
+      "sha256": "43c741baa0f79b3d4e9d0e7eeae845c2979a0cc2d54454fdc4fdc08f1f6f885f"
+    },
+    "contracts/001_core.sql": {
+      "bytes": 31483,
+      "sha256": "26a7d9555cf7ee3dbb0d27844dcfde6c2d817ae65d46ea6f0746eaba57a3ee9b"
+    },
+    "contracts/001_core.validation.json": {
+      "bytes": 1350,
+      "sha256": "c8147bc1447d7dbe30f87d0dd6c8b6f64b88b92206d13e8cd4e72c3ede88ae73"
+    },
+    "contracts/api-contracts.schema.json": {
+      "bytes": 128795,
+      "sha256": "fcbbce124a04dd5af24d39f74832594413f7ac51ba453bd6b76158bbfe120ce4"
+    },
+    "contracts/capability.schema.json": {
+      "bytes": 10325,
+      "sha256": "867b978993c28dbcbd1d8bc6ec4e74750443817dd368c2c4a3f57ab70ee1dc56"
+    },
+    "contracts/openapi.json": {
+      "bytes": 286632,
+      "sha256": "ccdc9290a7dc70232d49027eeb745da32b973b50a863c50ab8e63ef3e80bf00e"
+    },
+    "contracts/result_manifest.example.json": {
+      "bytes": 2900,
+      "sha256": "43e33c4ea1b5818518dd2c69c6e11354ebdbc2aae5f576b8aa4c6912733b5fd8"
+    },
+    "contracts/task_spec.example.json": {
+      "bytes": 2719,
+      "sha256": "c14e9550037336aee914ae95e27f8573c4a17ac12164fb9110f89e483a9eb387"
+    },
+    "contracts/worker-dispatch.example.json": {
+      "bytes": 3284,
+      "sha256": "8a2ecc618134639d73e3346f9ef9650b4b43f96be7ad480c8d41e10b08a8b093"
+    },
+    "contracts/worker-finish.example.json": {
+      "bytes": 1293,
+      "sha256": "79be25ce583439287950ba89bc35c9290d87960ce1524f931ce955c83c190dfc"
+    },
+    "contracts/worker-heartbeat.example.json": {
+      "bytes": 876,
+      "sha256": "df64ce244ef17c2f0f454a65e5203c8c255e4a86960d095956e015a592aeb683"
+    },
+    "contracts/worker-preflight.example.json": {
+      "bytes": 1909,
+      "sha256": "13090d7edf22ad8223426ba3f18f0b870fb4d437482c990b82ae7dec166c97c8"
+    },
+    "contracts/worker-protocol.schema.json": {
+      "bytes": 32207,
+      "sha256": "50ff0795cb435e66addd97d30b5dee4aed5a6f641019c4c8e9b12ea3f1713dc4"
+    },
+    "contracts/worker-scientific-null.invalid.json": {
+      "bytes": 3204,
+      "sha256": "f61f6479b238d8f1946e72c7c394bf30299bc5805b1ee3beb438fa2c15428b20"
+    },
+    "engineering-spec.json": {
+      "bytes": 164222,
+      "sha256": "2a37be8a8a8b88ab9b091e99130c12c3efd49c0d95d002500a12386ac257aa60"
+    },
+    "ops/config.example.yaml": {
+      "bytes": 4365,
+      "sha256": "d3ed19c70a275763b90762448d7a9339d296cebd3ff1313ae4cd63c9b068b586"
+    },
+    "requirements.json": {
+      "bytes": 50592,
+      "sha256": "6cce00acd46f541167d70b36776cd611934e937ab7ff55b208df13519de769c0"
+    },
+    "validation/check_contracts.py": {
+      "bytes": 7610,
+      "sha256": "74850cc7ebac0d9f3d9527bdccae7d65acf7779bf1bcff420dd0880f9ec77b57"
+    },
+    "validation/requirements.txt": {
+      "bytes": 76,
+      "sha256": "1349604ec38921185ca6bb158be8ba9ae9d4c4ff59b0bc7868d13b9dafef881d"
+    }
+  }
+}

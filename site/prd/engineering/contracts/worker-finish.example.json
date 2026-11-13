@@ -1,0 +1,40 @@
+{
+  "protocol_version": "worker.v1",
+  "message_type": "finish",
+  "context": {
+    "project_id": "00000000-0000-4000-8000-000000000001",
+    "run_id": "00000000-0000-4000-8000-000000000002",
+    "attempt_id": "00000000-0000-4000-8000-000000000003",
+    "operation_id": "00000000-0000-4000-8000-000000000004",
+    "worker_id": "00000000-0000-4000-8000-000000000005",
+    "lease_owner": "00000000-0000-4000-8000-000000000006",
+    "plan_id": "00000000-0000-4000-8000-000000000007",
+    "frozen_spec_id": "00000000-0000-4000-8000-000000000008",
+    "lease_epoch": 3,
+    "request_digest": "1111111111111111111111111111111111111111111111111111111111111111",
+    "purpose": "ANALYZE",
+    "step_id": "measure_global",
+    "operation_kind": "TOOL"
+  },
+  "execution_outcome": "SUCCEEDED",
+  "scientific_status": "NOT_EVALUATED",
+  "exit_code": 0,
+  "error": null,
+  "outputs": [
+    {
+      "output_alias": "output_0001.json",
+      "kind": "rmsd_summary",
+      "sha256": "6666666666666666666666666666666666666666666666666666666666666666",
+      "bytes": 1024,
+      "media_type": "application/json"
+    }
+  ],
+  "usage": {
+    "cpu_ms": 1300,
+    "wall_ms": 5200,
+    "max_rss_bytes": 104857600,
+    "output_bytes": 1024,
+    "tool_attempts": 1
+  },
+  "finished_at": "2026-11-03T12:00:05.200Z"
+}

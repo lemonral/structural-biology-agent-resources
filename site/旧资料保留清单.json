@@ -1,0 +1,354 @@
+{
+  "archive": "_资料来源与原文",
+  "original_file_count": 87,
+  "files": [
+    {
+      "path": "开始阅读.txt",
+      "sha256": "cbc1d1c80b9205916e4acf800afbf97cdd8d7f0978c285e07d356ab198bb31c3"
+    },
+    {
+      "path": "资料目录.json",
+      "sha256": "2db0c8358c97f1f7df103b8deb72e12c703984016be1556af768d5bd877cba99"
+    },
+    {
+      "path": "00_总导航.html",
+      "sha256": "8d865faeeb1eb91d2d3e1af2760f9f8005b70a51bc481bf4206c0c645338997c"
+    },
+    {
+      "path": "SHA256SUMS.txt",
+      "sha256": "852350ab77809cc155588e26fe6fdd496841bdc48f76d622ce513829ee4af9c2"
+    },
+    {
+      "path": "03_结构生物学计算与工具/tools.json",
+      "sha256": "011df9b8efecadbe31a7b92e37693430a21279c2346c1729a3f2fc3ab829abfe"
+    },
+    {
+      "path": "03_结构生物学计算与工具/工作流示例.json",
+      "sha256": "8102fbe4ba533d107b13c07accfed578f95cc013a60bcae658b04372c344db24"
+    },
+    {
+      "path": "03_结构生物学计算与工具/00_结构生物学计算流程与工具图谱.html",
+      "sha256": "29afe62fb250172fea6f056860cef69b48e0ec4738a3defd170f473bb70e7cad"
+    },
+    {
+      "path": "04_经典Agent论文/00_阅读导航.html",
+      "sha256": "c4d1965a292a8e4ae027b00ab54d74c9fc225d22110cf23d4f15e63f8cebd74f"
+    },
+    {
+      "path": "04_经典Agent论文/论文目录.csv",
+      "sha256": "0ef0d3b757ace5702be3d96720309168dfdde5b4a367f27f164c0f5c7af29634"
+    },
+    {
+      "path": "04_经典Agent论文/references.bib",
+      "sha256": "2130dfbda5751dff58dc204bdecf90f21f65300abc4111801a25efd381f2f641"
+    },
+    {
+      "path": "04_经典Agent论文/papers.json",
+      "sha256": "c34980bf14d340428e125a6debd6ca3b8457fcda09d1d7462b42ca5d448b12b4"
+    },
+    {
+      "path": "04_经典Agent论文/SHA256SUMS.txt",
+      "sha256": "d2649d133cb8438e8e570cb952b1350bb41b508e915570d4dc58da94c0e518e2"
+    },
+    {
+      "path": "02_生物学与结构生物学Agent/papers.json",
+      "sha256": "3fef3f52bf78daf018feef5559806d557b77b7253af3145de3a6f77e99526717"
+    },
+    {
+      "path": "02_生物学与结构生物学Agent/00_AI_Agent生物学与结构生物学综述.html",
+      "sha256": "b742c8ff8d2275d8b3c542b509aa37ca0ace23732a57dcd2212929178d41b308"
+    },
+    {
+      "path": "02_生物学与结构生物学Agent/SHA256SUMS.txt",
+      "sha256": "85598978a6c65ad1c8c75f634e7f497f86cdf0078e0d88216af044c16e3e699e"
+    },
+    {
+      "path": "05_NBDB建设方案/归档说明.json",
+      "sha256": "e2729cafd63101a4b0dd340eabdf99c40a780e18ddd328a42f3d979ce2197715"
+    },
+    {
+      "path": "05_NBDB建设方案/NBDB-结构生物学通用Agent建设方案.html",
+      "sha256": "c5db342244193584200634f7ac315a01e377381e4060af25d5a2a582bdbb7d6c"
+    },
+    {
+      "path": "01_通用Agent前沿论文/00_Agent前沿研究与NBDB落地报告.html",
+      "sha256": "395901469fee0104f85e2bf2f6ee2441a2641123540d9a717e62ef66424ea200"
+    },
+    {
+      "path": "01_通用Agent前沿论文/papers.json",
+      "sha256": "8dde8a0ff21098d410c2a76581a74e56f774be9f8ec146c1dd4e43f5b0576081"
+    },
+    {
+      "path": "01_通用Agent前沿论文/开始阅读.txt",
+      "sha256": "ce233144720ed1733b2e36e396846fe9b295758342f04e8978aa2ec415b1c95c"
+    },
+    {
+      "path": "01_通用Agent前沿论文/SHA256SUMS.txt",
+      "sha256": "d4b52a4f2b4132b725dd690b0d06b2dae6372d6161927882cf2f277b3a0c8a6e"
+    },
+    {
+      "path": "04_经典Agent论文/02_工具调用与执行编排/10_Voyager_2023.pdf",
+      "sha256": "769a4e33ddeeb73870849232eece49afe882c2d146362e33917ccb432ba0efb8"
+    },
+    {
+      "path": "04_经典Agent论文/02_工具调用与执行编排/05_Reflexion_2023.pdf",
+      "sha256": "6059b6f89fea9959bd3dab553fbb97756a3dfb1b15e3cbab2fbf3ab6664333bd"
+    },
+    {
+      "path": "04_经典Agent论文/02_工具调用与执行编排/04_Toolformer_2023.pdf",
+      "sha256": "6d7483d94653008e40c2058a1c22441c92e3713dae278b6361e8efc447c99522"
+    },
+    {
+      "path": "04_经典Agent论文/02_工具调用与执行编排/03_ReAct_2022.pdf",
+      "sha256": "f285b0971ae4a790e402fb93966bed3adde2cf0a04977d08b2b40d6ab0cace69"
+    },
+    {
+      "path": "04_经典Agent论文/02_工具调用与执行编排/09_AutoGen_2023.pdf",
+      "sha256": "fcf8b1acae6b1bd6f14c92463caa9726828bf998234ba9f10c2411087897c96b"
+    },
+    {
+      "path": "04_经典Agent论文/02_工具调用与执行编排/08_LLMCompiler_2023.pdf",
+      "sha256": "0cdd58b7cc35852aa7ecf5766e4d88a10716867f1f7aca30591189c85c54605e"
+    },
+    {
+      "path": "04_经典Agent论文/02_工具调用与执行编排/07_ToolLLM_2023.pdf",
+      "sha256": "295299721d67b250661fb6598bee86a2e9fe766241fdc08dd7cf389e984b4d1a"
+    },
+    {
+      "path": "04_经典Agent论文/02_工具调用与执行编排/06_TaskMatrix_AI_2023.pdf",
+      "sha256": "dcc67f2911d6c2652ec736ccfb8663923145028a9501a11356b3dd12b5bc7fb0"
+    },
+    {
+      "path": "04_经典Agent论文/04_评测与可靠性/18_AgentBench_2023.pdf",
+      "sha256": "9c780e35fc0b2de6c2e21e0572f6aaaadcf7ecdd56d63cfaae2b415bc0dc83c3"
+    },
+    {
+      "path": "04_经典Agent论文/04_评测与可靠性/19_ToolSandbox_2024.pdf",
+      "sha256": "3449baed1d8e0f4c07dbc859621899685eed8a6a0445a1ae8909c178e6b6173e"
+    },
+    {
+      "path": "04_经典Agent论文/04_评测与可靠性/20_Tau_Bench_2024.pdf",
+      "sha256": "0ce66a1763d698c61bb311c3c874bf593d1e9a5bfff11bb35f6f72b981f6da56"
+    },
+    {
+      "path": "04_经典Agent论文/04_评测与可靠性/22_PaperBench_2025.pdf",
+      "sha256": "2f58f1a6581af9d99432422dccf3cf61f5c263377c1e4550e7333c4a22d7184d"
+    },
+    {
+      "path": "04_经典Agent论文/04_评测与可靠性/21_ScienceAgentBench_2024.pdf",
+      "sha256": "da5b44b1d7ff4992127ce32daf5343031a109b7104d743bb18f0803fc904da7b"
+    },
+    {
+      "path": "04_经典Agent论文/01_综述与全局框架/01_Agent_Survey_2023.pdf",
+      "sha256": "8709507742c260a5a92b4690ffc0459a0ab9af16dc7a5478d253a6e7b57bf23a"
+    },
+    {
+      "path": "04_经典Agent论文/01_综述与全局框架/02_Scientific_Agents_Survey_2025.pdf",
+      "sha256": "0091c33932764e85c269746f813dd78582bc524f48d8a890ee1bbb1fea06865f"
+    },
+    {
+      "path": "04_经典Agent论文/03_科研与生命科学Agent/17_PaperQA2_2024.pdf",
+      "sha256": "7d45adf85d98a9a2f4e619f4f6c0e380c8ad842d678d50497ab5a20b6ae79f9c"
+    },
+    {
+      "path": "04_经典Agent论文/03_科研与生命科学Agent/12_Coscientist_2023.pdf",
+      "sha256": "09cfaa1ccf4c951eebc347bab909e1e495d6701be38d3808c38016dff35dbd4e"
+    },
+    {
+      "path": "04_经典Agent论文/03_科研与生命科学Agent/14_Biomni_2025.pdf",
+      "sha256": "1c1ca1c891c7eb285f806b180e9bfd38a73d2e455a4fdfe8be299a92662a67f9"
+    },
+    {
+      "path": "04_经典Agent论文/03_科研与生命科学Agent/11_ChemCrow_2023.pdf",
+      "sha256": "28be4990cf5fc5fa50b379684a9d4c31c3a0ad36aeab1759d324ee428b29de16"
+    },
+    {
+      "path": "04_经典Agent论文/03_科研与生命科学Agent/15_Paper2Agent_2025.pdf",
+      "sha256": "40aa69655396d272826cf97400f05722712ab583260fb4a3e57cf495994ab58e"
+    },
+    {
+      "path": "04_经典Agent论文/03_科研与生命科学Agent/13_BioDiscoveryAgent_2024.pdf",
+      "sha256": "dd94d80ec75c9bb84ec3989c910a313ef1a7aec57c772d3dd35ecadd250132a7"
+    },
+    {
+      "path": "04_经典Agent论文/03_科研与生命科学Agent/16_Virtual_Lab_2024.pdf",
+      "sha256": "6f86d21e7e39a7c4c16aca0fe1dc21de65b4f07c8530df9e52f724a6b62a67c3"
+    },
+    {
+      "path": "02_生物学与结构生物学Agent/papers/B22_AgentFold_Protein_2026.pdf",
+      "sha256": "66c90bf59e6be7ceb90900e7306b24a7680f468f6d2327153d364910f8da1b6f"
+    },
+    {
+      "path": "02_生物学与结构生物学Agent/papers/B20_MutexaGPT_2026.pdf",
+      "sha256": "b61a9fe5d6e185481dd72193a8dbf3ed9bd8837f162732d4168c3a769be9f74c"
+    },
+    {
+      "path": "02_生物学与结构生物学Agent/papers/B06_CellAgent_2024.pdf",
+      "sha256": "5becc0d924080e192ca084024e9ded46977f1202ae73f6123ea7ace433ca50b7"
+    },
+    {
+      "path": "02_生物学与结构生物学Agent/papers/B09_CoScientist_2025.pdf",
+      "sha256": "351f49d89d2f4f4ed84eed4225c09cc95470c41aa3becd0aa3e06b3bd8ba54c3"
+    },
+    {
+      "path": "02_生物学与结构生物学Agent/papers/B23_PDAgent_Protein_unkn.pdf",
+      "sha256": "9af57c45736ec95a99f90a8691c5927650fa7237528150c06b17f14a404c917d"
+    },
+    {
+      "path": "02_生物学与结构生物学Agent/papers/B17_StructAgent_2026.pdf",
+      "sha256": "5c9ef13c67281ab1925fcfeda10554884c55e13c69a26f6a739d9c71c6793542"
+    },
+    {
+      "path": "02_生物学与结构生物学Agent/papers/B18_Structural_Refinement_2026.pdf",
+      "sha256": "97360e4c8c82a3a4e44ed58b8a1df090163e3e1f5bdb362bfb2e55672616369b"
+    },
+    {
+      "path": "02_生物学与结构生物学Agent/papers/B12_ProtoPilot_2026.pdf",
+      "sha256": "2f8c9e5b974e39f9da7c930a89cad51a35efaadab37ca02e54701b11a1357c02"
+    },
+    {
+      "path": "02_生物学与结构生物学Agent/papers/B10_Robin_2025.pdf",
+      "sha256": "336d4e3f9065f42918cec8053e020d12c8d8c8031eb4c180764a349d1efa1794"
+    },
+    {
+      "path": "02_生物学与结构生物学Agent/papers/B13_BioAgent_Bench_2026.pdf",
+      "sha256": "d9b35be543920c9436e7d6d768f4622909194bcc03770dbe57e361ff3be822e9"
+    },
+    {
+      "path": "02_生物学与结构生物学Agent/papers/B24_ELMS_2026.pdf",
+      "sha256": "44d4ea7306e6432f741cf82c79ce80eed079bd3e6fe99cfbe60f7e76778e4462"
+    },
+    {
+      "path": "02_生物学与结构生物学Agent/papers/B19_ProteinMCP_2026.pdf",
+      "sha256": "d58d44198f181dd85c736fc692d75f387dc576f2c8aa23b611c778d8d9b69ecd"
+    },
+    {
+      "path": "02_生物学与结构生物学Agent/papers/B26_ProtAgents_2024.pdf",
+      "sha256": "2c1da086d14fa90e0c80ae44f90a7de0a2c5ae842c5b7bb606cc738a149e9a98"
+    },
+    {
+      "path": "05_NBDB建设方案/agent-architecture/01-Agent核心架构.png",
+      "sha256": "34860255f7a8f02064557a36e4683bbc9319e878a8edd37201e452b759740d6b"
+    },
+    {
+      "path": "05_NBDB建设方案/agent-architecture/03-Agent工具与算力执行.svg",
+      "sha256": "1ebf912ec1656e93f03d65afb2eba57bc15eeb017c8112ecbcb6734a806c9c61"
+    },
+    {
+      "path": "05_NBDB建设方案/agent-architecture/01-Agent核心架构.svg",
+      "sha256": "0c62b78c07245d67742031efa90446aaada06a035c45a882b83ac6f4bc0869c3"
+    },
+    {
+      "path": "05_NBDB建设方案/agent-architecture/02-Agent任务时序.svg",
+      "sha256": "b55e569e994c6ef537185c98bc29f759eafffdc38604203f604db1d586c3ab56"
+    },
+    {
+      "path": "01_通用Agent前沿论文/papers/19_OpenAgent_2026.pdf",
+      "sha256": "c0b1c9ed683cc93bd8eae091b083a283a834ac9058b42a3f1228e6d081e33226"
+    },
+    {
+      "path": "01_通用Agent前沿论文/papers/15_Search_R1_2025.pdf",
+      "sha256": "524306de91f80d7755c43f8daad11eb463832762ba1debe0f37788bdbb3a6a0d"
+    },
+    {
+      "path": "01_通用Agent前沿论文/papers/27_AgentDebug_2025.pdf",
+      "sha256": "5dea81aa176cf3993123c46f2cef3e70c49a4fe5f2a5c6794c4b9fbc8f532a6b"
+    },
+    {
+      "path": "01_通用Agent前沿论文/papers/23_MCP_Bench_2025.pdf",
+      "sha256": "5c247cd60f1260ff1f5eaa6bc1731ea700f61edbfb2c40c3a983f100dd56ae54"
+    },
+    {
+      "path": "01_通用Agent前沿论文/papers/05_Speak_to_a_Protein_2025.pdf",
+      "sha256": "3a432350d1af456bc2f42966ab76519a285e79c6aebeacf51d9887a96da10fff"
+    },
+    {
+      "path": "01_通用Agent前沿论文/papers/20_SciAgentGym_2026.pdf",
+      "sha256": "9c0709bea2ff2c8ecbaf3400f8d2ea7750361dea7a23cc4df9f708c4fea9e916"
+    },
+    {
+      "path": "01_通用Agent前沿论文/papers/28_AgentEvolver_2026_2026.pdf",
+      "sha256": "7a06f086d25c438e9a965cc654d6e5f28514e717d548d8237a0090e7a69cadde"
+    },
+    {
+      "path": "01_通用Agent前沿论文/papers/07_SciToolAgent_Evo_2026.pdf",
+      "sha256": "7852909c5ba3f404bd73c44363a26f1387c76bf1babc8f44ee1421b16080939b"
+    },
+    {
+      "path": "01_通用Agent前沿论文/papers/11_MemRL_2026.pdf",
+      "sha256": "4567d8e740a56d72d242e0038f54c20db76dee5716876b8c4afd5cc91d469571"
+    },
+    {
+      "path": "01_通用Agent前沿论文/papers/16_GOAT_2025.pdf",
+      "sha256": "37fe8625337918cc7f8c0c2c8e1f6a570cc1f7aedd4aa20b46b91c5b26b81a00"
+    },
+    {
+      "path": "01_通用Agent前沿论文/papers/18_IPIGuard_2025.pdf",
+      "sha256": "49eb0a6e4b068dc861f2d1cc23788a13b7319fe4ec2bc3c1b0ef6fdee154ef48"
+    },
+    {
+      "path": "01_通用Agent前沿论文/papers/21_ScienceBoard_2025.pdf",
+      "sha256": "80039151d6227377845e179bf8a1e972e9aec280687f840fb56a7a51b9f68ee4"
+    },
+    {
+      "path": "01_通用Agent前沿论文/papers/04_Paper2Agent_2025.pdf",
+      "sha256": "6727ef9ca72cfffb1e032a2f07c7b9a4a2b235154bdd779b135c3518433677bf"
+    },
+    {
+      "path": "01_通用Agent前沿论文/papers/14_A_Mem_2025.pdf",
+      "sha256": "c3a1ab47a15868d91ecbcfb10e0e2dde41342f79939a23a405f54e60ca7c9b52"
+    },
+    {
+      "path": "01_通用Agent前沿论文/papers/02_ToolUniverse_2025.pdf",
+      "sha256": "4a7b4d1ca03c5f7cf9cbb50cdf2bfaa2e05c289652536fd1b7cb165f95297e32"
+    },
+    {
+      "path": "01_通用Agent前沿论文/papers/24_DSGym_2026.pdf",
+      "sha256": "b4f13fcb6cd51ba163b542b58bc00f851c0d0d4e932a89237f8a827ce030391b"
+    },
+    {
+      "path": "01_通用Agent前沿论文/papers/09_ToolOrchestra_2025.pdf",
+      "sha256": "64ffb41b88994da3a1bb18bff4fc20cd5ce45e3acc830027d1e6b7e22396db93"
+    },
+    {
+      "path": "01_通用Agent前沿论文/papers/01_Agent_Rosetta_2026.pdf",
+      "sha256": "1ee4528746bd73fb6de2aadce95fca518dd1a2bf71f5f335d1b2529c2114b6af"
+    },
+    {
+      "path": "01_通用Agent前沿论文/papers/13_ToolRL_2025.pdf",
+      "sha256": "419096b066d6f28493033e6f388c5be378d72a079778ef8bfa712627f73a4639"
+    },
+    {
+      "path": "01_通用Agent前沿论文/papers/03_SciToolAgent_2025.pdf",
+      "sha256": "b5e3bb2c805802be6deb60e5917dfc034180aa9dd0dccadd67b76c464edb08e1"
+    },
+    {
+      "path": "01_通用Agent前沿论文/papers/25_Tau2_Bench_2025.pdf",
+      "sha256": "a79068b7e4db091e303e4fbb9c660ceb85f787ae372306e02b898b24aa894eb9"
+    },
+    {
+      "path": "01_通用Agent前沿论文/papers/06_Biomni_2025.pdf",
+      "sha256": "1c1ca1c891c7eb285f806b180e9bfd38a73d2e455a4fdfe8be299a92662a67f9"
+    },
+    {
+      "path": "01_通用Agent前沿论文/papers/26_MAST_2025.pdf",
+      "sha256": "6aff168d6e201217d3f79611f6ad024590a599a03b97ac2aeb0b0b128bac374c"
+    },
+    {
+      "path": "01_通用Agent前沿论文/papers/10_Agent_Lightning_1_2026.pdf",
+      "sha256": "e6ff9c9ba6fcd096a4ed629570742527fade34e790aac7164742825a1375fc3e"
+    },
+    {
+      "path": "01_通用Agent前沿论文/papers/22_AstaBench_2025.pdf",
+      "sha256": "5bf79b03472bfb22b7826c62206bd0dfafaa849920888210c1ae31c0eed2df33"
+    },
+    {
+      "path": "01_通用Agent前沿论文/papers/17_CodeGym_2025.pdf",
+      "sha256": "f6daf9186c63c192bcaad12fe9eda7a3e9c85e34321c980b4dd2ca517dfc56cc"
+    },
+    {
+      "path": "01_通用Agent前沿论文/papers/12_ReTool_2025.pdf",
+      "sha256": "ac275224903b2b65f97e5036aece0b439dfd073fa6882c2dff72428129662dda"
+    }
+  ]
+}

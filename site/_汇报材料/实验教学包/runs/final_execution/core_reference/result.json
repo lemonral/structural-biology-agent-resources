@@ -1,0 +1,1622 @@
+{
+  "schema": "coordinate-result.v1",
+  "task_id": "core_reference",
+  "objects": {
+    "reference": {
+      "entry": "4AKE",
+      "sha256": "fcb2ff49a3e255797fee277ce28e0acace67f6e6ddf432841f8451f00cbde9e9",
+      "model_index": 0,
+      "chain_namespace": "auth",
+      "chain": "A",
+      "atom": "CA"
+    },
+    "moving": {
+      "entry": "1AKE",
+      "sha256": "01f41b1b42318a1a5df7f650dbab881677aa0e8d825f7c42dd26ae16a94c0948",
+      "model_index": 0,
+      "chain_namespace": "auth",
+      "chain": "A",
+      "atom": "CA"
+    }
+  },
+  "units": "angstrom",
+  "method": "Kabsch_SVD_right_handed_no_trimming@1",
+  "region_policy": "MDAnalysis_AdK_tutorial_v1",
+  "region_residue_ids": {
+    "ALL": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59,
+      60,
+      61,
+      62,
+      63,
+      64,
+      65,
+      66,
+      67,
+      68,
+      69,
+      70,
+      71,
+      72,
+      73,
+      74,
+      75,
+      76,
+      77,
+      78,
+      79,
+      80,
+      81,
+      82,
+      83,
+      84,
+      85,
+      86,
+      87,
+      88,
+      89,
+      90,
+      91,
+      92,
+      93,
+      94,
+      95,
+      96,
+      97,
+      98,
+      99,
+      100,
+      101,
+      102,
+      103,
+      104,
+      105,
+      106,
+      107,
+      108,
+      109,
+      110,
+      111,
+      112,
+      113,
+      114,
+      115,
+      116,
+      117,
+      118,
+      119,
+      120,
+      121,
+      122,
+      123,
+      124,
+      125,
+      126,
+      127,
+      128,
+      129,
+      130,
+      131,
+      132,
+      133,
+      134,
+      135,
+      136,
+      137,
+      138,
+      139,
+      140,
+      141,
+      142,
+      143,
+      144,
+      145,
+      146,
+      147,
+      148,
+      149,
+      150,
+      151,
+      152,
+      153,
+      154,
+      155,
+      156,
+      157,
+      158,
+      159,
+      160,
+      161,
+      162,
+      163,
+      164,
+      165,
+      166,
+      167,
+      168,
+      169,
+      170,
+      171,
+      172,
+      173,
+      174,
+      175,
+      176,
+      177,
+      178,
+      179,
+      180,
+      181,
+      182,
+      183,
+      184,
+      185,
+      186,
+      187,
+      188,
+      189,
+      190,
+      191,
+      192,
+      193,
+      194,
+      195,
+      196,
+      197,
+      198,
+      199,
+      200,
+      201,
+      202,
+      203,
+      204,
+      205,
+      206,
+      207,
+      208,
+      209,
+      210,
+      211,
+      212,
+      213,
+      214
+    ],
+    "CORE": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      60,
+      61,
+      62,
+      63,
+      64,
+      65,
+      66,
+      67,
+      68,
+      69,
+      70,
+      71,
+      72,
+      73,
+      74,
+      75,
+      76,
+      77,
+      78,
+      79,
+      80,
+      81,
+      82,
+      83,
+      84,
+      85,
+      86,
+      87,
+      88,
+      89,
+      90,
+      91,
+      92,
+      93,
+      94,
+      95,
+      96,
+      97,
+      98,
+      99,
+      100,
+      101,
+      102,
+      103,
+      104,
+      105,
+      106,
+      107,
+      108,
+      109,
+      110,
+      111,
+      112,
+      113,
+      114,
+      115,
+      116,
+      117,
+      118,
+      119,
+      120,
+      121,
+      160,
+      161,
+      162,
+      163,
+      164,
+      165,
+      166,
+      167,
+      168,
+      169,
+      170,
+      171,
+      172,
+      173,
+      174,
+      175,
+      176,
+      177,
+      178,
+      179,
+      180,
+      181,
+      182,
+      183,
+      184,
+      185,
+      186,
+      187,
+      188,
+      189,
+      190,
+      191,
+      192,
+      193,
+      194,
+      195,
+      196,
+      197,
+      198,
+      199,
+      200,
+      201,
+      202,
+      203,
+      204,
+      205,
+      206,
+      207,
+      208,
+      209,
+      210,
+      211,
+      212,
+      213,
+      214
+    ],
+    "NMP": [
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59
+    ],
+    "LID": [
+      122,
+      123,
+      124,
+      125,
+      126,
+      127,
+      128,
+      129,
+      130,
+      131,
+      132,
+      133,
+      134,
+      135,
+      136,
+      137,
+      138,
+      139,
+      140,
+      141,
+      142,
+      143,
+      144,
+      145,
+      146,
+      147,
+      148,
+      149,
+      150,
+      151,
+      152,
+      153,
+      154,
+      155,
+      156,
+      157,
+      158,
+      159
+    ]
+  },
+  "mapping": [
+    {
+      "auth_residue": 1,
+      "resname": "MET",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 2,
+      "resname": "ARG",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 3,
+      "resname": "ILE",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 4,
+      "resname": "ILE",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 5,
+      "resname": "LEU",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 6,
+      "resname": "LEU",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 7,
+      "resname": "GLY",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 8,
+      "resname": "ALA",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 9,
+      "resname": "PRO",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 10,
+      "resname": "GLY",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 11,
+      "resname": "ALA",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 12,
+      "resname": "GLY",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 13,
+      "resname": "LYS",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 14,
+      "resname": "GLY",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 15,
+      "resname": "THR",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 16,
+      "resname": "GLN",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 17,
+      "resname": "ALA",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 18,
+      "resname": "GLN",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 19,
+      "resname": "PHE",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 20,
+      "resname": "ILE",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 21,
+      "resname": "MET",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 22,
+      "resname": "GLU",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 23,
+      "resname": "LYS",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 24,
+      "resname": "TYR",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 25,
+      "resname": "GLY",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 26,
+      "resname": "ILE",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 27,
+      "resname": "PRO",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 28,
+      "resname": "GLN",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 29,
+      "resname": "ILE",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 30,
+      "resname": "SER",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 31,
+      "resname": "THR",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 32,
+      "resname": "GLY",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 33,
+      "resname": "ASP",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 34,
+      "resname": "MET",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 35,
+      "resname": "LEU",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 36,
+      "resname": "ARG",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 37,
+      "resname": "ALA",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 38,
+      "resname": "ALA",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 39,
+      "resname": "VAL",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 40,
+      "resname": "LYS",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 41,
+      "resname": "SER",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 42,
+      "resname": "GLY",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 43,
+      "resname": "SER",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 44,
+      "resname": "GLU",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 45,
+      "resname": "LEU",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 46,
+      "resname": "GLY",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 47,
+      "resname": "LYS",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 48,
+      "resname": "GLN",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 49,
+      "resname": "ALA",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 50,
+      "resname": "LYS",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 51,
+      "resname": "ASP",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 52,
+      "resname": "ILE",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 53,
+      "resname": "MET",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 54,
+      "resname": "ASP",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 55,
+      "resname": "ALA",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 56,
+      "resname": "GLY",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 57,
+      "resname": "LYS",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 58,
+      "resname": "LEU",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 59,
+      "resname": "VAL",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 60,
+      "resname": "THR",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 61,
+      "resname": "ASP",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 62,
+      "resname": "GLU",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 63,
+      "resname": "LEU",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 64,
+      "resname": "VAL",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 65,
+      "resname": "ILE",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 66,
+      "resname": "ALA",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 67,
+      "resname": "LEU",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 68,
+      "resname": "VAL",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 69,
+      "resname": "LYS",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 70,
+      "resname": "GLU",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 71,
+      "resname": "ARG",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 72,
+      "resname": "ILE",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 73,
+      "resname": "ALA",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 74,
+      "resname": "GLN",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 75,
+      "resname": "GLU",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 76,
+      "resname": "ASP",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 77,
+      "resname": "CYS",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 78,
+      "resname": "ARG",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 79,
+      "resname": "ASN",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 80,
+      "resname": "GLY",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 81,
+      "resname": "PHE",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 82,
+      "resname": "LEU",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 83,
+      "resname": "LEU",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 84,
+      "resname": "ASP",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 85,
+      "resname": "GLY",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 86,
+      "resname": "PHE",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 87,
+      "resname": "PRO",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 88,
+      "resname": "ARG",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 89,
+      "resname": "THR",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 90,
+      "resname": "ILE",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 91,
+      "resname": "PRO",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 92,
+      "resname": "GLN",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 93,
+      "resname": "ALA",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 94,
+      "resname": "ASP",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 95,
+      "resname": "ALA",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 96,
+      "resname": "MET",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 97,
+      "resname": "LYS",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 98,
+      "resname": "GLU",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 99,
+      "resname": "ALA",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 100,
+      "resname": "GLY",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 101,
+      "resname": "ILE",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 102,
+      "resname": "ASN",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 103,
+      "resname": "VAL",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 104,
+      "resname": "ASP",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 105,
+      "resname": "TYR",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 106,
+      "resname": "VAL",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 107,
+      "resname": "LEU",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 108,
+      "resname": "GLU",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 109,
+      "resname": "PHE",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 110,
+      "resname": "ASP",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 111,
+      "resname": "VAL",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 112,
+      "resname": "PRO",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 113,
+      "resname": "ASP",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 114,
+      "resname": "GLU",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 115,
+      "resname": "LEU",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 116,
+      "resname": "ILE",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 117,
+      "resname": "VAL",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 118,
+      "resname": "ASP",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 119,
+      "resname": "ARG",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 120,
+      "resname": "ILE",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 121,
+      "resname": "VAL",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 122,
+      "resname": "GLY",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 123,
+      "resname": "ARG",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 124,
+      "resname": "ARG",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 125,
+      "resname": "VAL",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 126,
+      "resname": "HIS",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 127,
+      "resname": "ALA",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 128,
+      "resname": "PRO",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 129,
+      "resname": "SER",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 130,
+      "resname": "GLY",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 131,
+      "resname": "ARG",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 132,
+      "resname": "VAL",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 133,
+      "resname": "TYR",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 134,
+      "resname": "HIS",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 135,
+      "resname": "VAL",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 136,
+      "resname": "LYS",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 137,
+      "resname": "PHE",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 138,
+      "resname": "ASN",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 139,
+      "resname": "PRO",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 140,
+      "resname": "PRO",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 141,
+      "resname": "LYS",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 142,
+      "resname": "VAL",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 143,
+      "resname": "GLU",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 144,
+      "resname": "GLY",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 145,
+      "resname": "LYS",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 146,
+      "resname": "ASP",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 147,
+      "resname": "ASP",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 148,
+      "resname": "VAL",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 149,
+      "resname": "THR",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 150,
+      "resname": "GLY",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 151,
+      "resname": "GLU",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 152,
+      "resname": "GLU",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 153,
+      "resname": "LEU",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 154,
+      "resname": "THR",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 155,
+      "resname": "THR",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 156,
+      "resname": "ARG",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 157,
+      "resname": "LYS",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 158,
+      "resname": "ASP",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 159,
+      "resname": "ASP",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 160,
+      "resname": "GLN",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 161,
+      "resname": "GLU",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 162,
+      "resname": "GLU",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 163,
+      "resname": "THR",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 164,
+      "resname": "VAL",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 165,
+      "resname": "ARG",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 166,
+      "resname": "LYS",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 167,
+      "resname": "ARG",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 168,
+      "resname": "LEU",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 169,
+      "resname": "VAL",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 170,
+      "resname": "GLU",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 171,
+      "resname": "TYR",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 172,
+      "resname": "HIS",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 173,
+      "resname": "GLN",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 174,
+      "resname": "MET",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 175,
+      "resname": "THR",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 176,
+      "resname": "ALA",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 177,
+      "resname": "PRO",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 178,
+      "resname": "LEU",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 179,
+      "resname": "ILE",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 180,
+      "resname": "GLY",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 181,
+      "resname": "TYR",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 182,
+      "resname": "TYR",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 183,
+      "resname": "SER",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 184,
+      "resname": "LYS",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 185,
+      "resname": "GLU",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 186,
+      "resname": "ALA",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 187,
+      "resname": "GLU",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 188,
+      "resname": "ALA",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 189,
+      "resname": "GLY",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 190,
+      "resname": "ASN",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 191,
+      "resname": "THR",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 192,
+      "resname": "LYS",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 193,
+      "resname": "TYR",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 194,
+      "resname": "ALA",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 195,
+      "resname": "LYS",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 196,
+      "resname": "VAL",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 197,
+      "resname": "ASP",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 198,
+      "resname": "GLY",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 199,
+      "resname": "THR",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 200,
+      "resname": "LYS",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 201,
+      "resname": "PRO",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 202,
+      "resname": "VAL",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 203,
+      "resname": "ALA",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 204,
+      "resname": "GLU",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 205,
+      "resname": "VAL",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 206,
+      "resname": "ARG",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 207,
+      "resname": "ALA",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 208,
+      "resname": "ASP",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 209,
+      "resname": "LEU",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 210,
+      "resname": "GLU",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 211,
+      "resname": "LYS",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 212,
+      "resname": "ILE",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 213,
+      "resname": "LEU",
+      "atom": "CA"
+    },
+    {
+      "auth_residue": 214,
+      "resname": "GLY",
+      "atom": "CA"
+    }
+  ],
+  "metrics": [
+    {
+      "fit_region": "CORE",
+      "evaluation_region": "CORE",
+      "matched_atoms": 146,
+      "rmsd": 1.9750535576527217,
+      "rotation_row_vector": [
+        [
+          0.009644361918412355,
+          0.051664044220341834,
+          0.9986179513797984
+        ],
+        [
+          -0.9994483875835939,
+          -0.031240025141286362,
+          0.011268601764494108
+        ],
+        [
+          0.03177903144750697,
+          -0.9981757797923025,
+          0.0513342555832645
+        ]
+      ],
+      "translation": [
+        41.46728912583045,
+        15.005951675240233,
+        -39.02303453784901
+      ]
+    },
+    {
+      "fit_region": "CORE",
+      "evaluation_region": "NMP",
+      "matched_atoms": 30,
+      "rmsd": 11.232015819471478,
+      "rotation_row_vector": [
+        [
+          0.009644361918412355,
+          0.051664044220341834,
+          0.9986179513797984
+        ],
+        [
+          -0.9994483875835939,
+          -0.031240025141286362,
+          0.011268601764494108
+        ],
+        [
+          0.03177903144750697,
+          -0.9981757797923025,
+          0.0513342555832645
+        ]
+      ],
+      "translation": [
+        41.46728912583045,
+        15.005951675240233,
+        -39.02303453784901
+      ]
+    },
+    {
+      "fit_region": "CORE",
+      "evaluation_region": "LID",
+      "matched_atoms": 38,
+      "rmsd": 15.581193389416757,
+      "rotation_row_vector": [
+        [
+          0.009644361918412355,
+          0.051664044220341834,
+          0.9986179513797984
+        ],
+        [
+          -0.9994483875835939,
+          -0.031240025141286362,
+          0.011268601764494108
+        ],
+        [
+          0.03177903144750697,
+          -0.9981757797923025,
+          0.0513342555832645
+        ]
+      ],
+      "translation": [
+        41.46728912583045,
+        15.005951675240233,
+        -39.02303453784901
+      ]
+    }
+  ],
+  "interpretation_limit": "Static coordinate geometry only; no transition kinetics, free energy or ligand causality."
+}

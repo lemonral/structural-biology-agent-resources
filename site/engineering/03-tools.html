@@ -1,0 +1,77 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>工具工程与科学计算执行：从能调用到可维护能力 · 结构生物学 Agent 研究导读</title><meta name="description" content="以研究问题组织 Agent 论文、机制图、证据与边界，连接通用方法和结构生物学计算。"><link rel="stylesheet" href="../_阅读资源/reading.css?v=deep-reviews-20261030"><script defer src="../_阅读资源/reading.js?v=deep-reviews-20261030"></script><link rel="stylesheet" href="../_阅读资源/production.css?v=production-handbook"><script defer src="../_阅读资源/production.js?v=production-handbook"></script></head><body><a class="skip" href="#main">跳到正文</a><aside class="rail"><a class="brand" href="../00_总导航.html">结构生物学<br>Agent 研究导读<small>FROM QUESTION TO EVIDENCE</small></a><button class="mobile-menu" aria-expanded="false" aria-label="展开导航">目录 ☰</button><nav aria-label="研究资料目录"><div class="nav-group-label">开发与学习</div><a class="" href="../00_总导航.html"><em>◉</em>阅读地图</a><a class="" href="../prd/"><em>▤</em>开发文档（PRD）</a><a class="" href="../speaker/"><em>▧</em>PPT逐页讲稿</a><a class="" href="../projects/index.html"><em>▦</em>框架与开源项目</a><a class="" href="../05_Agent开发学习路线/05_Agent开发学习路线.html"><em>↗</em>Agent 开发学习路线</a><div class="nav-group-label">研究方法与科学任务</div><a class="" href="../01_Agent框架发展与选型/01_Agent框架发展与选型.html"><em>01</em>决策与编排</a><a class="active" href="../02_Agent工程实现与评价/02_Agent工程实现与评价.html"><em>02</em>工程落地与验收</a><a class="" href="../03_生物学与结构生物学Agent/03_生物学与结构生物学Agent.html"><em>03</em>科学 Agent 图谱</a><a class="" href="../04_结构生物学计算流程与工具/04_结构生物学计算流程与工具.html"><em>04</em>结构任务与工具</a><div class="nav-group-label">文献索引</div><a class="" href="../论文索引.html"><em>↗</em>全部论文 · 80 篇</a></nav><div class="rail-bottom">以问题组织文献<br>以证据约束结论<br><br><a href="../preview/">168 页技术讲义 →</a><br><a href="../guide/">阅读方法与术语 →</a><br>资料快照：2026.10<br>导读重编：2026.10.30</div></aside><main class="page" id="main"><div class="crumbs"><a href="../00_总导航.html">研究导读</a> / 工具工程与科学计算执行：从能调用到可维护能力</div><header class="hero"><div class="eyebrow">ENGINEERING HANDBOOK / 03 OF 08</div><h1>工具工程与科学计算执行：从能调用到可维护能力</h1><p class="intro">工具不只是模型能看见的函数说明。可上线的工具需要明确合同、运行环境、资源、错误与产物，并能在真实后端持续验证这些声明。</p><div class="tags"><span class="tag">参考设计</span><span class="tag">机制 · 取舍 · 故障 · 验收</span></div><div class="actions"><a class="btn" href="../engineering/">← 手册总览</a><a class="btn" href="#deliver">查看本篇交付标准</a></div></header><p class="small"><a href="../guide/#engineering-terms">工程术语对照 →</a> · 图与故障用于理解机制，正文展开实现边界，末尾列交付标准。</p><nav class="article-toc" aria-label="专题目录"><a href="#picture">先看图</a><a href="#implementation">实现与边界</a><a href="#decisions">关键取舍</a><a href="#failure">故障推演</a><a href="#deliver">交付检查</a><a href="#sources">官方资料</a></nav><section class="section" id="picture"><div class="section-head"><div><div class="section-no">01 / THE PROBLEM</div><h2>从一个具体问题开始</h2></div></div><p class="p-problem">一份教程中能运行的科学程序，换到多用户服务器后可能遇到依赖冲突、GPU/内存不足、输入数据不可见、许可证条件变化或输出格式变动。如果只是把命令包装为工具，Agent会把环境故障和科学失败混为一谈，长期运行也难以升级。</p><div class="p-capability-ladder"><div><b>01</b><h3>声明</h3><p>知道工具接受什么输入、产生什么输出。</p></div><div><b>02</b><h3>可用</h3><p>执行环境健康，版本与资源能被核对。</p></div><div><b>03</b><h3>跑通</h3><p>参考任务真实执行，错误和产物能回收。</p></div><div><b>04</b><h3>验收</h3><p>新输入满足相应领域判据，能力范围有证据。</p></div></div><p class="small">工具注册只是第一层。协议接入、科学workflow与HPC调度分别解决不同问题。</p></section><section class="section" id="implementation"><div class="section-no">02 / IMPLEMENTATION & BOUNDARIES</div><h2>怎样实现，为什么这样分工</h2><div class="p-reading-sections"><article><span class="p-subnumber">01</span><div><h3>为每个工具维护一张能力合同</h3><p>工具目录至少说明标识与版本、适用任务、输入输出类型、前置条件、资源类别、运行环境、超时、错误类别、验证方式及支持范围。不要把README里的“支持结构分析”直接变成广泛能力声明；应具体到格式、数据规模、对象选择和测试过的任务。注册可发现、环境可运行、任务能完成是三个不同状态。</p><p>工具的可用性由持续探针和小型回归任务确认。环境健康检查回答二进制和必要资源是否可用；功能检查验证参考输入能否得到可解析产物；领域检查验证结果与参考或不变性质是否一致。维护者应能禁用某个有问题版本，避免Planner继续选择它。</p></div></article><article><span class="p-subnumber">02</span><div><h3>Adapter隔离模型接口和科学程序接口</h3><p>adapter把类型化请求转成受控参数或配置文件，准备输入、启动程序、收集退出状态、解析输出并生成规范化结果。模型只选择公开参数，不应靠自由拼接shell字符串来决定路径、环境或权限。外部软件的输出格式变化可以在adapter中处理，不要求所有上游Agent都理解这些差异。</p><p>adapter既保留便于程序消费的结果，也保存原始日志与输出引用。错误应区分输入无效、对象不存在、依赖不可用、资源不足、超时、程序异常、产物损坏和领域检查失败。工具不得用一个泛化的“请重试”掩盖这些差别，也不要在解析失败时用模型补出一个看似合法的数值。</p><div class="p-example"><b>具体例子</b><p>说明性工具边界：请求包含固定输入Artifact、明确原子选择与单位；adapter返回execution状态、输出Artifact列表、解析摘要和错误类别；Validation另存。执行成功但覆盖不足时，应保留计算结果及不通过的检查，不能把failed直接改写为success。</p></div></div></article><article><span class="p-subnumber">03</span><div><h3>根据实际计算形态选择运行后端</h3><p>短小、依赖简单的解析可在受限Worker内执行；需要独立依赖的工具可使用容器；长时间、GPU或多节点任务交给已有调度器。所有后端实现同一逻辑操作合同，但保留各自能力差异：本地进程取消、容器资源回收和HPC作业取消并不具有相同接口或时延。</p><p>在Slurm中，sbatch成功表示控制器接收脚本并分配Job ID，并不表示资源已获得或科学计算已完成；官方还说明除脚本本身外并不替用户搬运文件。因此提交前要验证集群能访问输入、临时目录与输出位置，提交后保存集群身份和Job ID，后续查询队列及记账记录。</p></div></article><article><span class="p-subnumber">04</span><div><h3>把资源和排队时间作为计划的一部分</h3><p>为工具设置经测量或保守估计的CPU、内存、GPU、临时磁盘、运行时长与并发上限；由服务策略映射到允许的partition和账户。排队等待与实际运行分开计时，资源请求超出范围应被拒绝或明确升级，不能让模型无限增大资源重试。单次预算还应覆盖失败尝试与产生的大文件。</p><p>轮询调度器应合并请求、限制频率并退避；squeue官方特别提示避免程序高频循环制造控制器RPC压力。作业从当前队列消失不意味着失败，可能需要查看sacct历史；记账是否启用及保留多久依赖集群配置。状态未知应显式保留，而不是自行猜测终态。</p></div></article><article><span class="p-subnumber">05</span><div><h3>环境可重建，升级可验证</h3><p>固定工具提交或发布版本、依赖锁、容器镜像摘要、配置及输入数据版本；还要记录影响数值的硬件/驱动或外部数据库条件。Apptainer定义文件可记录构建环境和测试，但“用了容器”不等于已覆盖所有宿主依赖，也不自动保证每次数值逐位相同。可重复性应按实际接受容差验证。</p><p>工具上线前核对软件与数据的获取、运行和分发条件，并保存对应版本的许可信息；这是项目资产管理步骤，不能把所有GitHub仓库都当作可自由商用。新版本先跑参考、边界与失败任务，对比产物schema和科学判据，再切换工具注册；已有Run继续引用原版本。</p></div></article><article><span class="p-subnumber">06</span><div><h3>四种编排各有职责，已有科学流程可以作为复合工具</h3><p>Agent编排决定如何依据观察选择下一步；业务持久执行保存任务状态并处理等待与恢复；科学workflow表达数据依赖、计算步骤和环境；资源调度器决定作业何时在哪些资源上运行。LangGraph、Temporal、Nextflow/Snakemake与Slurm分别可在这些层承担职责，但不应据此给每层都部署一套新系统。</p><p>已有稳定科学流程时，可把经验证的Nextflow或Snakemake流程包装成复合工具，让Agent提交合同内的输入与参数，再收集流程身份、产物和失败记录。这样可复用既有依赖管理与执行能力；上层仍要核对对象、权限、预算与科学验收，不能把pipeline完成等同于研究结论成立。</p></div></article></div></section><section class="section" id="decisions"><div class="section-head"><div><div class="section-no">03 / DESIGN DECISIONS</div><h2>把技术选型写成有条件的判断</h2></div></div><details class="p-decision"><summary>本地函数、容器还是HPC？</summary><div><b>本参考设计：</b>根据依赖、资源、时长和现有基础设施选择后端，共用上层操作合同。<p><b>为什么：</b>模型工具接口不应暴露每个集群的零散提交细节，但适配层要保留真实后端状态。</p><p><b>何时调整：</b>资源需求、隔离要求或任务规模变化时增加后端，不把每个工具强行塞进一种执行形态。</p></div></details><details class="p-decision"><summary>怎么确认工具已接入成功？</summary><div><b>本参考设计：</b>分别记录已注册、环境健康、参考任务通过与领域支持范围。<p><b>为什么：</b>可调用目录和真实运行能力之间存在依赖与质量验证缺口。</p><p><b>何时调整：</b>工具或数据升级、部署节点变化后重做对应探针与回归。</p></div></details><details class="p-decision"><summary>OUT_OF_MEMORY是否直接无限重试？</summary><div><b>本参考设计：</b>按受控资源升级策略、尝试上限和总预算处理，保留原失败。<p><b>为什么：</b>相同条件重试可能只重复浪费；自动扩大资源也可能挤占共享集群。</p><p><b>何时调整：</b>实测资源画像支持新的合理请求，且仍在该用户与任务的授权配额内时。</p></div></details></section><section class="section" id="failure"><div class="section-head"><div><div class="section-no">04 / FAILURE WALKTHROUGH</div><h2>用故障检查设计，而不只看正常流程</h2></div></div><p class=lead>设计推演，用来暴露状态和责任边界；并非本站的真实事故记录。</p><div class="p-fault-trigger"><span>触发情形</span><p>sbatch已返回Job ID，但任务停留PENDING；前端把“提交成功”显示为“分析完成”。</p></div><div class="p-fault-pair"><div><span>容易发生的处理</span><p>报告尚未生成的科学结论，或因用户等待而再次提交同一计算。</p></div><div><span>有依据的处理</span><p>展示已接收与排队原因，分别记录等待和运行时长；关联Job ID继续查询，只有收集产物并完成相应验证后才报告计算结果。</p></div></div><div class="p-fault-evidence"><b>应留下的证据：</b>提交回执、队列状态及原因、资源请求、输入可见性、最终退出信息、实际产物摘要和验证记录。</div></section><section class="section" id="deliver"><div class="section-head"><div><div class="section-no">05 / DELIVER &amp; VERIFY</div><h2>读完后应能交付什么</h2></div></div><ol class="reading-checklist"><li>每个工具有维护者、版本、支持范围和验证任务。</li><li>适配层能明确返回执行失败、产物失败与领域检查失败。</li><li>至少验证一次目标后端的输入输出路径、资源限制与取消行为。</li><li>升级不会覆盖旧产物或悄悄改变既有Run的工具身份。</li></ol><details class="details"><summary>展开：工具与计算环境相关的JSON模板</summary><div class="details-body"><p class="small">待绑定模板，字段占位符需替换；不是执行记录。</p><pre class="code-example">{
+  &quot;record_kind&quot;: &quot;illustrative_template_not_an_installed_tool&quot;,
+  &quot;schema_version&quot;: &quot;tool-manifest/example-1&quot;,
+  &quot;tool_id&quot;: &quot;provided-coordinate-comparison&quot;,
+  &quot;tool_version&quot;: &quot;example-1&quot;,
+  &quot;capability&quot;: &quot;比较已提供且已明确选择的坐标，输出几何结果及映射，不进行序列或功能设计。&quot;,
+  &quot;input_contract_ref&quot;: &quot;task-contract/example-1&quot;,
+  &quot;output_contract_ref&quot;: &quot;comparison-output/example-1&quot;,
+  &quot;supported_inputs&quot;: {
+    &quot;formats&quot;: [
+      &quot;mmCIF&quot;
+    ],
+    &quot;unit&quot;: &quot;angstrom&quot;,
+    &quot;selection&quot;: &quot;显式模型、链命名空间、链和Cα选择&quot;,
+    &quot;mapping&quot;: &quot;显式、可追溯的残基映射&quot;,
+    &quot;unsupported_action&quot;: &quot;RETURN_STRUCTURED_ERROR&quot;
+  },
+  &quot;environment&quot;: {
+    &quot;container_image_digest&quot;: &quot;&lt;实际镜像不可变摘要&gt;&quot;,
+    &quot;source_commit&quot;: &quot;&lt;实际工具封装提交&gt;&quot;,
+    &quot;dependency_lock_sha256&quot;: &quot;&lt;依赖锁文件摘要&gt;&quot;,
+    &quot;license_review_ref&quot;: &quot;&lt;适用于部署环境和数据用途的许可证核对记录&gt;&quot;,
+    &quot;supported_backends&quot;: [
+      &quot;isolated_local_worker&quot;,
+      &quot;batch_adapter&quot;
+    ]
+  },
+  &quot;permissions&quot;: {
+    &quot;input_mount&quot;: &quot;read_only_bound_artifacts&quot;,
+    &quot;output_mount&quot;: &quot;attempt_scoped_directory&quot;,
+    &quot;network&quot;: &quot;disabled_unless_explicitly_declared&quot;,
+    &quot;credentials&quot;: &quot;not_in_model_context&quot;,
+    &quot;shell_arguments&quot;: &quot;validated_and_structured&quot;
+  },
+  &quot;execution_semantics&quot;: {
+    &quot;side_effects&quot;: [
+      &quot;写入本Attempt专属输出目录&quot;,
+      &quot;通过适配器提交外部作业时产生Job&quot;
+    ],
+    &quot;retry_class&quot;: &quot;RECONCILE_EXTERNAL_STATE_BEFORE_RESUBMISSION&quot;,
+    &quot;idempotency_scope&quot;: &quot;服务记录的逻辑operation_key，不宣称后端天然exactly-once&quot;,
+    &quot;backend_capability_required&quot;: [
+      &quot;真实Job身份&quot;,
+      &quot;状态查询&quot;,
+      &quot;产物定位&quot;,
+      &quot;可解释的取消结果&quot;
+    ],
+    &quot;cancellation&quot;: &quot;记录取消请求，查询真实终态；完成与取消竞争时保留两者事件&quot;
+  },
+  &quot;error_contract&quot;: [
+    {
+      &quot;code&quot;: &quot;INPUT_INVALID&quot;,
+      &quot;retry&quot;: &quot;NEVER_WITH_IDENTICAL_INPUT&quot;,
+      &quot;action&quot;: &quot;修正合同或输入&quot;
+    },
+    {
+      &quot;code&quot;: &quot;RESOURCE_EXHAUSTED&quot;,
+      &quot;retry&quot;: &quot;ONLY_AFTER_RESOURCE_POLICY_DECISION&quot;,
+      &quot;action&quot;: &quot;记录证据并按预算调整或停止&quot;
+    },
+    {
+      &quot;code&quot;: &quot;EXTERNAL_STATE_UNKNOWN&quot;,
+      &quot;retry&quot;: &quot;RECONCILE_FIRST&quot;,
+      &quot;action&quot;: &quot;查真实Job状态，不能盲目重复提交&quot;
+    },
+    {
+      &quot;code&quot;: &quot;VALIDATION_REJECTED&quot;,
+      &quot;retry&quot;: &quot;ONLY_ALLOWED_REPAIR_WITH_NEW_ATTEMPT&quot;,
+      &quot;action&quot;: &quot;按具体失败层修复，不改写原产物&quot;
+    }
+  ],
+  &quot;validation&quot;: {
+    &quot;independent_validator_ref&quot;: &quot;coordinate-checker/example-1&quot;,
+    &quot;capability_admission_evidence&quot;: &quot;&lt;直接函数、正常输入、拒绝输入、恢复及独立检查的测试报告&gt;&quot;,
+    &quot;deployment_status&quot;: &quot;NOT_DEPLOYED_TEMPLATE&quot;
+  }
+}</pre></div></details><p><a href="../engineering/production_blueprints.zip">下载合同、案例与交付检查模板 →</a></p></section><section class="section" id="sources"><div class="section-head"><div><div class="section-no">06 / PRIMARY REFERENCES</div><h2>回到官方资料核对机制与版本</h2></div></div><div class="p-source-list"><article><a href="https://slurm.schedmd.com/sbatch.html" target="_blank" rel="noopener">Slurm：sbatch ↗</a><p>sbatch接收并分配作业ID不代表立即开始；除脚本外不负责搬运用户文件。</p></article><article><a href="https://slurm.schedmd.com/job_state_codes.html" target="_blank" rel="noopener">Slurm：Job State Codes ↗</a><p>区分PENDING、RUNNING、COMPLETED、OUT_OF_MEMORY、TIMEOUT等调度状态。</p></article><article><a href="https://slurm.schedmd.com/squeue.html" target="_blank" rel="noopener">Slurm：squeue ↗</a><p>队列状态和原因查询；官方提醒避免高频循环造成RPC负载。</p></article><article><a href="https://slurm.schedmd.com/sacct.html" target="_blank" rel="noopener">Slurm：sacct ↗</a><p>作业与步骤的记账数据取决于配置，可查询状态和退出码等。</p></article><article><a href="https://apptainer.org/docs/user/latest/definition_files.html" target="_blank" rel="noopener">Apptainer：Definition Files ↗</a><p>定义文件记录构建与运行相关配置，%test支持按项目需要设计容器检查。</p></article><article><a href="https://docs.seqera.io/nextflow" target="_blank" rel="noopener">Nextflow：官方文档 ↗</a><p>Nextflow采用数据流模型描述可扩展的计算流程，支持本地、HPC与云执行平台；本手册建议将已验证流程封装成受控复合工具。</p></article><article><a href="https://snakemake.readthedocs.io/en/stable/" target="_blank" rel="noopener">Snakemake：官方文档 ↗</a><p>Snakemake以规则定义可复现分析流程，并提供执行插件、环境管理与报告；本手册将其职责与Agent决策及资源调度区分。</p></article></div></section><nav class="p-next" aria-label="前后专题"><a href="../engineering/02-architecture.html">← 架构与数据模型</a><a href="../engineering/04-recovery.html">持久执行与恢复 →</a></nav><footer class="footer"><p>机制图依据现有资料整理，属于解释性示意；跨论文连线为阅读关系。</p><p><a href="../论文索引.html">原文、版本与来源</a> · <a href="../00_总导航.html">返回阅读地图</a></p></footer></main></body></html>

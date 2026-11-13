@@ -1,0 +1,3627 @@
+{
+  "version": "0.2",
+  "status": "ENGINEERING_DESIGN_NOT_IMPLEMENTED",
+  "updated_on": "2026-11-04",
+  "api": {
+    "version": "0.2.0-draft",
+    "status": "DESIGN_CONTRACT_ONLY_NOT_IMPLEMENTED",
+    "checked_on": "2026-11-03",
+    "contract_files": [
+      "contracts/openapi.json",
+      "contracts/api-contracts.schema.json",
+      "contracts/task_spec.example.json",
+      "contracts/result_manifest.example.json"
+    ],
+    "summary": {
+      "operations": 22,
+      "p0_operations": 21,
+      "p1_reserved": 1,
+      "schemas": 70
+    },
+    "added_operations": [
+      {
+        "id": "API-19",
+        "reason": "导入返回202必须有状态查询，避免重复下载提交。"
+      },
+      {
+        "id": "API-20",
+        "reason": "Task在无活动Run时也要能新增不可变请求修订。"
+      },
+      {
+        "id": "API-21",
+        "reason": "反馈提交后需能查处理进度和历史。"
+      },
+      {
+        "id": "API-22",
+        "reason": "FR24复现/争议/修复需要维护员接口及版本并发控制。"
+      }
+    ],
+    "endpoints": [
+      {
+        "id": "API-01",
+        "method": "GET",
+        "path": "/api/v1/projects",
+        "summary": "列出当前成员可访问的项目",
+        "phase": "P0",
+        "minimum_role": "viewer",
+        "request_schema": null,
+        "response_schema": "ProjectPage",
+        "status_codes": [
+          "200",
+          "401",
+          "403",
+          "404",
+          "409",
+          "422",
+          "429",
+          "503",
+          "500"
+        ],
+        "fr": [
+          "FR-01",
+          "FR-18"
+        ],
+        "ac": [
+          "AC-10"
+        ],
+        "behavior": "当前身份来自认证会话。P0项目/成员由管理员受控配置，不通过模型或该API自注册。"
+      },
+      {
+        "id": "API-02",
+        "method": "POST",
+        "path": "/api/v1/projects/{project_id}/artifacts",
+        "summary": "上传并注册不可变坐标输入",
+        "phase": "P0",
+        "minimum_role": "researcher",
+        "request_schema": "UploadForm",
+        "response_schema": "Artifact",
+        "status_codes": [
+          "201",
+          "401",
+          "403",
+          "404",
+          "409",
+          "413",
+          "415",
+          "422",
+          "429",
+          "503",
+          "500"
+        ],
+        "fr": [
+          "FR-02",
+          "FR-18"
+        ],
+        "ac": [
+          "AC-01",
+          "AC-02",
+          "AC-10"
+        ],
+        "behavior": "按流写私有临时区、累计大小并算SHA；完成原子发布与元数据登记后返回。解析/对象检查在INSPECT/ANALYZE中完成；注册不等于科学接受。未知格式/HTML错误页不进入可执行输入。"
+      },
+      {
+        "id": "API-03",
+        "method": "POST",
+        "path": "/api/v1/projects/{project_id}/imports/rcsb",
+        "summary": "创建受控RCSB导入",
+        "phase": "P0",
+        "minimum_role": "researcher",
+        "request_schema": "ImportRequest",
+        "response_schema": "Import",
+        "status_codes": [
+          "202",
+          "401",
+          "403",
+          "404",
+          "409",
+          "422",
+          "429",
+          "503",
+          "500"
+        ],
+        "fr": [
+          "FR-02",
+          "FR-19"
+        ],
+        "ac": [
+          "AC-01",
+          "AC-10",
+          "AC-12"
+        ],
+        "behavior": "先登记import_id后异步下载。仅固定RCSB来源、验证TLS、限制重定向/响应体/时间并校验实际格式；完成后冻结字节。导入发生在分析Run之前，消耗单独项目网络/存储导入配额，不调用模型；以import_id保留资源账本，不虚构零成本。"
+      },
+      {
+        "id": "API-04",
+        "method": "POST",
+        "path": "/api/v1/projects/{project_id}/tasks",
+        "summary": "创建原始请求TaskRevision",
+        "phase": "P0",
+        "minimum_role": "researcher",
+        "request_schema": "TaskRequest",
+        "response_schema": "TaskRevision",
+        "status_codes": [
+          "201",
+          "401",
+          "403",
+          "404",
+          "409",
+          "422",
+          "429",
+          "503",
+          "500"
+        ],
+        "fr": [
+          "FR-01",
+          "FR-03",
+          "FR-04"
+        ],
+        "ac": [
+          "AC-01",
+          "AC-10"
+        ],
+        "behavior": "输入必须是当前项目可用的不可变输入工件。仅保存原始请求，不调用模型、不创建游离预算规划任务。"
+      },
+      {
+        "id": "API-05",
+        "method": "GET",
+        "path": "/api/v1/tasks/{task_id}",
+        "summary": "读取原始请求与相关Run摘要",
+        "phase": "P0",
+        "minimum_role": "viewer",
+        "request_schema": null,
+        "response_schema": "TaskDetail",
+        "status_codes": [
+          "200",
+          "401",
+          "403",
+          "404",
+          "409",
+          "422",
+          "429",
+          "503",
+          "500"
+        ],
+        "fr": [
+          "FR-01",
+          "FR-13"
+        ],
+        "ac": [
+          "AC-10",
+          "AC-19"
+        ],
+        "behavior": "无revision取当前head_revision；运行摘要按created_at/run_id稳定降序分页。候选/正式规格归属于具体Run，不覆盖TaskRevision。"
+      },
+      {
+        "id": "API-06",
+        "method": "POST",
+        "path": "/api/v1/runs/{run_id}/clarifications",
+        "summary": "回答澄清或显式新建科学合同分支",
+        "phase": "P0",
+        "minimum_role": "researcher",
+        "request_schema": "ClarificationRequest",
+        "response_schema": "ClarificationResult",
+        "status_codes": [
+          "201",
+          "401",
+          "403",
+          "404",
+          "409",
+          "422",
+          "429",
+          "503",
+          "500"
+        ],
+        "fr": [
+          "FR-05"
+        ],
+        "ac": [
+          "AC-01",
+          "AC-07",
+          "AC-14"
+        ],
+        "behavior": "answer只允许尚未冻结且当前阻塞问题匹配时追加事件，不改原始请求、不延长deadline或重置预算。冻结后amend事务校验expected_task_revision与expected_state_version，创建新请求修订、新Run并独立原子预留新预算；任一步失败整体回滚。旧Run的UNKNOWN/费用/产物不删除或释放，按真实状态停止/核查。"
+      },
+      {
+        "id": "API-07",
+        "method": "POST",
+        "path": "/api/v1/tasks/{task_id}/runs",
+        "summary": "预分配Run并启动完整受控流程",
+        "phase": "P0",
+        "minimum_role": "researcher",
+        "request_schema": "CreateRunRequest",
+        "response_schema": "RunAccepted",
+        "status_codes": [
+          "202",
+          "401",
+          "403",
+          "404",
+          "409",
+          "422",
+          "429",
+          "503",
+          "500"
+        ],
+        "fr": [
+          "FR-06",
+          "FR-07",
+          "FR-11",
+          "FR-20"
+        ],
+        "ac": [
+          "AC-06",
+          "AC-08",
+          "AC-10",
+          "AC-13"
+        ],
+        "behavior": "DRAFT阶段即可启动ANALYZE，从SPECIFYING到REPORTING所有模型/工具尝试共享同一总预算。先持久化身份、请求、输入、配置、scope和预算再派发；模型配置、价格、数据许可不满足则拒绝，不静默回退reference。INSPECT只走固定预处理，无模型。 冻结前/独立INSPECT仅可用PREFLIGHT已注册inspect_structure，plan/step/frozen_spec为空；MODEL也可pre-freeze。普通科学TOOL必须在有效FrozenSpec与PASSED Plan内。"
+      },
+      {
+        "id": "API-08",
+        "method": "GET",
+        "path": "/api/v1/plans/{plan_id}",
+        "summary": "读取不可变计划版本与编译结果",
+        "phase": "P0",
+        "minimum_role": "viewer",
+        "request_schema": null,
+        "response_schema": "Plan",
+        "status_codes": [
+          "200",
+          "401",
+          "403",
+          "404",
+          "409",
+          "422",
+          "429",
+          "503",
+          "500"
+        ],
+        "fr": [
+          "FR-07",
+          "FR-19"
+        ],
+        "ac": [
+          "AC-01",
+          "AC-11",
+          "AC-19"
+        ],
+        "behavior": "编译PASSED才可执行。候选PENDING只作为RunEvent保存，正式Plan仅在编译完成时插入不可变版本。模型候选、程序编译与实际执行分开记录；接口仅提供可核对决策摘要，不提供私有思维链。"
+      },
+      {
+        "id": "API-09",
+        "method": "POST",
+        "path": "/api/v1/runs/{run_id}/resume",
+        "summary": "恢复同Run的允许等待状态",
+        "phase": "P0",
+        "minimum_role": "researcher",
+        "request_schema": "ResumeRequest",
+        "response_schema": "RunAccepted",
+        "status_codes": [
+          "202",
+          "401",
+          "403",
+          "404",
+          "409",
+          "422",
+          "429",
+          "503",
+          "500"
+        ],
+        "fr": [
+          "FR-11",
+          "FR-13",
+          "FR-19"
+        ],
+        "ac": [
+          "AC-13",
+          "AC-14",
+          "AC-15"
+        ],
+        "behavior": "CAS expected_state_version；仅WAITING_INPUT且答案完整/同合同可继续时进入队列。已终态返回200原状态，其他状态409。UNKNOWN必须先由维护协调器查事实，不能resume盲重提；不接受增额、新模型或合同修改。"
+      },
+      {
+        "id": "API-10",
+        "method": "GET",
+        "path": "/api/v1/runs/{run_id}",
+        "summary": "读取执行、科学、预算与版本快照",
+        "phase": "P0",
+        "minimum_role": "viewer",
+        "request_schema": null,
+        "response_schema": "RunDetail",
+        "status_codes": [
+          "200",
+          "401",
+          "403",
+          "404",
+          "409",
+          "422",
+          "429",
+          "503",
+          "500"
+        ],
+        "fr": [
+          "FR-13",
+          "FR-14",
+          "FR-19"
+        ],
+        "ac": [
+          "AC-08",
+          "AC-10",
+          "AC-19"
+        ],
+        "behavior": "attempt摘要按创建顺序游标分页；状态、phase与science独立。费用UNKNOWN和未决预留必须可见。scope授权可以被撤销，即使旧Run仍存在也重新检查当前访问。 正式规格返回frozen_spec_id/spec_artifact_id/spec_schema_id引用；客户端按既有工件ACL获取内容，服务只使用固定schema registry，不内嵌比较专属JSON冒充通用规格。"
+      },
+      {
+        "id": "API-11",
+        "method": "GET",
+        "path": "/api/v1/runs/{run_id}/events",
+        "summary": "重放持久事件并持续SSE推送",
+        "phase": "P0",
+        "minimum_role": "viewer",
+        "request_schema": null,
+        "response_schema": null,
+        "status_codes": [
+          "200",
+          "400",
+          "401",
+          "403",
+          "404",
+          "409",
+          "410",
+          "429",
+          "503",
+          "500"
+        ],
+        "fr": [
+          "FR-13",
+          "FR-19"
+        ],
+        "ac": [
+          "AC-10",
+          "AC-14",
+          "AC-19"
+        ],
+        "behavior": "Last-Event-ID格式run_uuid:seq，与after_seq互斥，游标所属Run必须匹配。只重放seq>cursor；初次无cursor从可用首事件开始，先用GET Run快照定位状态。大于当前max_seq返回409，旧于保留窗口返回410+min_available_seq/snapshot_url。SSE UTF8，15秒注释心跳为初始配置建议；断开不取消Run。会话撤销时关闭流。客户端按event_id去重，持久事件事务是事实，网络投递允许重复。"
+      },
+      {
+        "id": "API-12",
+        "method": "POST",
+        "path": "/api/v1/runs/{run_id}/cancel",
+        "summary": "发出取消意图并等待真实终止确认",
+        "phase": "P0",
+        "minimum_role": "researcher",
+        "request_schema": "CancelRequest",
+        "response_schema": "RunAccepted",
+        "status_codes": [
+          "202",
+          "401",
+          "403",
+          "404",
+          "409",
+          "422",
+          "429",
+          "503",
+          "500"
+        ],
+        "fr": [
+          "FR-13"
+        ],
+        "ac": [
+          "AC-14",
+          "AC-15"
+        ],
+        "behavior": "已终态返回200原状态；非终态记录CANCEL_REQUESTED。未确认子进程/后端停止不写CANCELLED，未知状态先RECONCILING/UNKNOWN，剩余已知/未知费用照常保留。"
+      },
+      {
+        "id": "API-13",
+        "method": "GET",
+        "path": "/api/v1/runs/{run_id}/artifacts",
+        "summary": "分页列出当前有权读取的产物",
+        "phase": "P0",
+        "minimum_role": "viewer",
+        "request_schema": null,
+        "response_schema": "ArtifactPage",
+        "status_codes": [
+          "200",
+          "401",
+          "403",
+          "404",
+          "409",
+          "422",
+          "429",
+          "503",
+          "500"
+        ],
+        "fr": [
+          "FR-14",
+          "FR-16",
+          "FR-21"
+        ],
+        "ac": [
+          "AC-09",
+          "AC-10",
+          "AC-19"
+        ],
+        "behavior": "按created_at/artifact_id稳定排序。候选、拒绝和已验证工件都标状态；未登记临时字节不出现在列表。"
+      },
+      {
+        "id": "API-14",
+        "method": "GET",
+        "path": "/api/v1/artifacts/{artifact_id}/content",
+        "summary": "按当前权限下载不可变工件",
+        "phase": "P0",
+        "minimum_role": "viewer",
+        "request_schema": null,
+        "response_schema": null,
+        "status_codes": [
+          "200",
+          "400",
+          "401",
+          "403",
+          "404",
+          "409",
+          "416",
+          "429",
+          "503",
+          "500"
+        ],
+        "fr": [
+          "FR-16",
+          "FR-18"
+        ],
+        "ac": [
+          "AC-09",
+          "AC-10",
+          "AC-12",
+          "AC-18"
+        ],
+        "behavior": "每次先验证当前项目访问，再读元数据/范围。artifact_id映射可信存储，不接受路径。完整内容200；合法可满足单范围206；无可满足范围416带Content-Range bytes */N。默认attachment+nosniff+private no-store。未知/无权统一404，不能用Range探测私有文件大小。"
+      },
+      {
+        "id": "API-15",
+        "method": "GET",
+        "path": "/api/v1/runs/{run_id}/report",
+        "summary": "读取结构化证据报告或明确待完成状态",
+        "phase": "P0",
+        "minimum_role": "viewer",
+        "request_schema": null,
+        "response_schema": "Report",
+        "status_codes": [
+          "200",
+          "401",
+          "403",
+          "404",
+          "409",
+          "422",
+          "429",
+          "503",
+          "500"
+        ],
+        "fr": [
+          "FR-14",
+          "FR-15",
+          "FR-21"
+        ],
+        "ac": [
+          "AC-05",
+          "AC-18",
+          "AC-19"
+        ],
+        "behavior": "无报告时返回200 PENDING且metrics/conclusions为空，不编造科学结果。交付标签由程序联合执行/科学/权限/证据判据决定。客户端转义文本并仅使用受控链接；原始HTML报告下载隔离。"
+      },
+      {
+        "id": "API-16",
+        "method": "GET",
+        "path": "/api/v1/capabilities",
+        "summary": "列出当前项目可执行的能力版本",
+        "phase": "P0",
+        "minimum_role": "viewer",
+        "request_schema": null,
+        "response_schema": "CapabilityPage",
+        "status_codes": [
+          "200",
+          "401",
+          "403",
+          "404",
+          "409",
+          "422",
+          "429",
+          "503",
+          "500"
+        ],
+        "fr": [
+          "FR-06",
+          "FR-22"
+        ],
+        "ac": [
+          "AC-11",
+          "AC-12",
+          "AC-20"
+        ],
+        "behavior": "project_id仅选择上下文，成员关系仍由服务器验证。不可部署、未通过参考任务或被禁用版本不返回为READY。目录schema不是授权策略。"
+      },
+      {
+        "id": "API-17",
+        "method": "POST",
+        "path": "/api/v1/actions/{action_id}/approvals",
+        "summary": "P1预留：对确切高影响动作批准/拒绝",
+        "phase": "P1_RESERVED",
+        "minimum_role": "maintainer",
+        "request_schema": "ApprovalRequest",
+        "response_schema": "Approval",
+        "status_codes": [
+          "201",
+          "401",
+          "403",
+          "404",
+          "409",
+          "422",
+          "429",
+          "503",
+          "500"
+        ],
+        "fr": [
+          "FR-17"
+        ],
+        "ac": [
+          "AC-16"
+        ],
+        "behavior": "P0路由不挂载/能力不开启；在已认证API上下文返回404 P1_FEATURE_DISABLED。仅P1完成人员认证、授权、持久一次性消费/撤销与并发验收后才实现下述201合同。"
+      },
+      {
+        "id": "API-18",
+        "method": "POST",
+        "path": "/api/v1/runs/{run_id}/feedback",
+        "summary": "创建待复现反馈线索",
+        "phase": "P0",
+        "minimum_role": "researcher",
+        "request_schema": "FeedbackCreate",
+        "response_schema": "Feedback",
+        "status_codes": [
+          "201",
+          "401",
+          "403",
+          "404",
+          "409",
+          "422",
+          "429",
+          "503",
+          "500"
+        ],
+        "fr": [
+          "FR-24",
+          "FR-18"
+        ],
+        "ac": [
+          "AC-10",
+          "AC-21"
+        ],
+        "behavior": "必须校验Run、artifact与report_version属于同项目/同Run当前可访问范围。初始NEEDS_REPRODUCTION。用户不能写scientific_truth/status/resolved等字段，反馈不是自动科学真值。 GET/创建/PATCH的完整Feedback及history响应始终包含可空resolution_type；RESOLVED为非空类型，仅FIXED需真实回归/修复引用。"
+      },
+      {
+        "id": "API-19",
+        "method": "GET",
+        "path": "/api/v1/imports/{import_id}",
+        "summary": "查询异步导入状态与输入工件",
+        "phase": "P0",
+        "minimum_role": "viewer",
+        "request_schema": null,
+        "response_schema": "Import",
+        "status_codes": [
+          "200",
+          "401",
+          "403",
+          "404",
+          "409",
+          "422",
+          "429",
+          "503",
+          "500"
+        ],
+        "fr": [
+          "FR-02",
+          "FR-13"
+        ],
+        "ac": [
+          "AC-01",
+          "AC-10",
+          "AC-19"
+        ],
+        "behavior": "补足导入202的查询入口。FAILED仍是200资源状态，error_code说明原因；客户端不轮询后自动重复POST。"
+      },
+      {
+        "id": "API-20",
+        "method": "POST",
+        "path": "/api/v1/tasks/{task_id}/revisions",
+        "summary": "以CAS新增原始请求修订",
+        "phase": "P0",
+        "minimum_role": "researcher",
+        "request_schema": "CreateRevisionRequest",
+        "response_schema": "TaskRevision",
+        "status_codes": [
+          "201",
+          "401",
+          "403",
+          "404",
+          "409",
+          "422",
+          "429",
+          "503",
+          "500"
+        ],
+        "fr": [
+          "FR-05",
+          "FR-21"
+        ],
+        "ac": [
+          "AC-01",
+          "AC-14",
+          "AC-19"
+        ],
+        "behavior": "补足编辑已有Task但尚无活动Run的入口。expected_revision必须匹配head；旧payload不改，新revision成为head。此端点不自动运行，不释放/删除旧Run或未知预算。"
+      },
+      {
+        "id": "API-21",
+        "method": "GET",
+        "path": "/api/v1/runs/{run_id}/feedback",
+        "summary": "分页读取反馈与维护证据",
+        "phase": "P0",
+        "minimum_role": "viewer",
+        "request_schema": null,
+        "response_schema": "FeedbackPage",
+        "status_codes": [
+          "200",
+          "401",
+          "403",
+          "404",
+          "409",
+          "422",
+          "429",
+          "503",
+          "500"
+        ],
+        "fr": [
+          "FR-24",
+          "FR-18"
+        ],
+        "ac": [
+          "AC-10",
+          "AC-21"
+        ],
+        "behavior": "补足用户反馈后的查询与复核入口，按created_at/feedback_id稳定排序，描述与证据引用都重新做项目访问检查。 GET/创建/PATCH的完整Feedback及history响应始终包含可空resolution_type；RESOLVED为非空类型，仅FIXED需真实回归/修复引用。"
+      },
+      {
+        "id": "API-22",
+        "method": "PATCH",
+        "path": "/api/v1/feedback/{feedback_id}",
+        "summary": "维护员追加反馈复现/争议/解决记录",
+        "phase": "P0",
+        "minimum_role": "maintainer",
+        "request_schema": "FeedbackPatch",
+        "response_schema": "Feedback",
+        "status_codes": [
+          "200",
+          "401",
+          "403",
+          "404",
+          "409",
+          "422",
+          "429",
+          "503",
+          "500"
+        ],
+        "fr": [
+          "FR-24"
+        ],
+        "ac": [
+          "AC-21"
+        ],
+        "behavior": "补足FR24生命周期。expected_version做CAS，不覆盖旧历史。REPRODUCED/DISPUTED/RESOLVED必须附可访问证据和理由；FIXED需回归用例与修复版本。普通用户不得改变状态，修复不能直接改变原Run科学判定；重新验证要新Validation记录。 GET/创建/PATCH的完整Feedback及history响应始终包含可空resolution_type；RESOLVED为非空类型，仅FIXED需真实回归/修复引用。"
+      }
+    ],
+    "contract_decisions": [
+      {
+        "id": "HTTP-01",
+        "decision": "P0同源Web采用真实认证会话，CLI可用独立短期Bearer；身份和项目权限来自后端。",
+        "implementation": "cookie HttpOnly+Secure+SameSite；变更验证CSRF和Origin。仅trusted proxy可传认证头且必须剥离外部同名头。",
+        "proof": [
+          "AC-10",
+          "AC-17"
+        ]
+      },
+      {
+        "id": "HTTP-02",
+        "decision": "每个POST/PATCH都带Idempotency-Key，任务/Run修改另有版本CAS。",
+        "implementation": "数据库键绑定actor/project/method/route/key+规范payload摘要；并发进行中409+Retry-After，payload不同409。完成响应重放前重新授权；保留期初始30天并随政策版本保存。超保留期不自动重提，客户端先取已有资源/人工核查。",
+        "proof": [
+          "AC-14"
+        ]
+      },
+      {
+        "id": "HTTP-03",
+        "decision": "一个预分配ANALYZE Run覆盖意图、澄清、计划、科学计算、报告及全部重试费用。",
+        "implementation": "createRun事务先预留6维总预算；恢复不增额。FrozenTaskSpec计算前冻结，同合同PlanRevision追加。科学合同变化创建关联的新TaskRevision与Run，新预算独立预留，不能冲销旧UNKNOWN费用。",
+        "proof": [
+          "AC-08",
+          "AC-13",
+          "AC-14"
+        ]
+      },
+      {
+        "id": "HTTP-04",
+        "decision": "列表使用不透明游标、稳定排序和当前资源权限，不返回内部路径。",
+        "implementation": "默认20/最大100；游标绑定过滤条件、项目、身份与排序并签名/过期。未知/无权ID统一404；已可见资源但无变更角色403。",
+        "proof": [
+          "AC-10"
+        ]
+      },
+      {
+        "id": "HTTP-05",
+        "decision": "SSE只投递已持久化的安全事件摘要；网络允许重复，业务事实不重复。",
+        "implementation": "id=run_id:seq；Last-Event-ID与after_seq二选一；过期410取GET Run快照再接流。断线不取消；按event_id去重。15秒心跳与事件保留30天为初始运维建议，需先导配置。",
+        "proof": [
+          "AC-14",
+          "AC-19"
+        ]
+      },
+      {
+        "id": "HTTP-06",
+        "decision": "文件按artifact_id读取；先授权后处理Range，HTML默认附件。",
+        "implementation": "200/206/416单范围；强ETag、Content-Range、private no-store、nosniff、safe filename。报告主界面读取结构JSON安全渲染，不直接信任模型HTML。",
+        "proof": [
+          "AC-09",
+          "AC-10",
+          "AC-18"
+        ]
+      },
+      {
+        "id": "HTTP-07",
+        "decision": "导入在分析前有独立import_id与项目导入配额，没有模型。",
+        "implementation": "固定RCSB来源，规范ID，禁止任意URL，验证TLS、DNS/重定向/出口、下载大小和实际格式。初始3次/45秒为可配建议；导入失败留资源记录，不用分析Run的成功率掩盖。",
+        "proof": [
+          "AC-01",
+          "AC-12",
+          "AC-19"
+        ]
+      },
+      {
+        "id": "HTTP-08",
+        "decision": "P0不挂载审批功能，不让假批准绕过未支持动作。",
+        "implementation": "外发、覆盖、HPC/GPU等能力不登记为可执行；P1路由返回P1_FEATURE_DISABLED，真实认证/消费/撤销实现后才启用。",
+        "proof": [
+          "AC-11",
+          "AC-16"
+        ]
+      },
+      {
+        "id": "HTTP-09",
+        "decision": "JSON Schema只校验结构；真实科学语义与授权在编译/执行层再次检查。",
+        "implementation": "严格JSON拒重复key、NaN/Inf、过深/过大；配对、对象身份、DAG无环、单位、资源与权限用真实工件检查。",
+        "proof": [
+          "AC-01",
+          "AC-02",
+          "AC-03",
+          "AC-04",
+          "AC-12"
+        ]
+      },
+      {
+        "id": "HTTP-10",
+        "decision": "线上的整数均限制在JSON/JavaScript安全整数范围0..2^53-1，DB仍可bigint。",
+        "implementation": "预算/序号/lease_epoch/计数超界明确拒绝或通过新版本decimal-string编码，不进行隐式舍入；规范摘要使用确定性JSON与UTF8，不依赖浏览器float处理大整数。",
+        "proof": [
+          "AC-01",
+          "AC-13",
+          "AC-19"
+        ]
+      }
+    ],
+    "roles": [
+      {
+        "role": "viewer",
+        "allows": "同项目已授权元数据、Run/证据/下载/反馈读取"
+      },
+      {
+        "role": "researcher",
+        "allows": "viewer + 上传/导入/任务/Run/澄清/取消/创建反馈"
+      },
+      {
+        "role": "maintainer",
+        "allows": "researcher + 有证据的反馈复现/争议/解决；P1审批还需明确批准权限"
+      },
+      {
+        "role": "owner",
+        "allows": "maintainer + 项目策略责任；成员与策略配置本PRD不新增UI接口"
+      }
+    ],
+    "sequence": [
+      {
+        "step": 1,
+        "call": "POST /projects/{project_id}/artifacts（或POST imports/rcsb→GET imports/{id}）",
+        "expected": "输入工件不可变，注册/检查状态分开。",
+        "negative": "文件太大413，未知/无权项目404，无模型调用。"
+      },
+      {
+        "step": 2,
+        "call": "POST /projects/{project_id}/tasks",
+        "expected": "201原始TaskRevision；没有游离规划成本。",
+        "negative": "不同payload重用Idempotency-Key→409。"
+      },
+      {
+        "step": 3,
+        "call": "POST /tasks/{task_id}/runs",
+        "expected": "202单Run与authoritative limits；SPECIFYING前持久化和预留。",
+        "negative": "模型/价目/数据许可缺失明确阻断，不假冒reference。"
+      },
+      {
+        "step": 4,
+        "call": "GET /runs/{id}/events + GET /runs/{id}",
+        "expected": "事件与快照同一账本；WAITING_INPUT仅需决定性补充。",
+        "negative": "游标过期410取快照；事件断线不重复Run。"
+      },
+      {
+        "step": 5,
+        "call": "POST /runs/{id}/clarifications(answer) → POST resume（若需要）",
+        "expected": "冻结前同Run追加答案；剩余预算继续，不覆盖原请求。",
+        "negative": "版本冲突409；冻结后修改不能当answer偷偷改变合同。"
+      },
+      {
+        "step": 6,
+        "call": "GET plan / GET run / GET artifacts",
+        "expected": "实际Attempt绑plan_id；各PlanRevision共享预算。",
+        "negative": "科学拒绝/UNKNOWN如实显示，不默认成功。"
+      },
+      {
+        "step": 7,
+        "call": "GET /runs/{id}/report → GET artifacts/{id}/content",
+        "expected": "已验证报告与复算工件；同权限正常下载不审批。",
+        "negative": "HTML安全隔离；无权Range不泄露文件长度。"
+      },
+      {
+        "step": 8,
+        "call": "POST feedback → GET feedback → PATCH feedback（维护员）",
+        "expected": "NEEDS_REPRODUCTION→有证据的复现/争议/修复历史。",
+        "negative": "用户不能直接写真值或RESOLVED；修复不覆盖旧科学判断。"
+      }
+    ],
+    "example_ids": {
+      "project": "00000001-0001-4001-8001-000000000001",
+      "actor": "00000002-0002-4002-8002-000000000002",
+      "task": "00000003-0003-4003-8003-000000000003",
+      "run": "00000004-0004-4004-8004-000000000004",
+      "spec": "00000005-0005-4005-8005-000000000005",
+      "plan": "00000006-0006-4006-8006-000000000006",
+      "attempt": "00000007-0007-4007-8007-000000000007",
+      "input4ake": "00000008-0008-4008-8008-000000000008",
+      "input1ake": "00000009-0009-4009-8009-000000000009",
+      "result": "0000000a-000a-400a-800a-00000000000a",
+      "question": "0000000b-000b-400b-800b-00000000000b",
+      "feedback": "0000000c-000c-400c-800c-00000000000c",
+      "model": "0000000d-000d-400d-800d-00000000000d",
+      "event": "0000000e-000e-400e-800e-00000000000e",
+      "import": "0000000f-000f-400f-800f-00000000000f",
+      "mapping": "0000001e-001e-401e-801e-00000000001e",
+      "fit_indexes": "0000001f-001f-401f-801f-00000000001f",
+      "evaluation_indexes": "00000020-0020-4020-8020-000000000020",
+      "validation": "00000021-0021-4021-8021-000000000021",
+      "validation_evidence": "00000022-0022-4022-8022-000000000022",
+      "reproduction": "00000023-0023-4023-8023-000000000023"
+    },
+    "examples": {
+      "task_request": {
+        "question": "比较4AKE与1AKE首个模型auth链A的Cα，全链拟合并给RMSD与逐位偏差。",
+        "input_artifact_ids": [
+          "00000008-0008-4008-8008-000000000008",
+          "00000009-0009-4009-8009-000000000009"
+        ],
+        "selection_hints": [
+          {
+            "artifact_id": "00000008-0008-4008-8008-000000000008",
+            "role": "reference",
+            "model_index_zero_based": 0,
+            "chain_namespace": "auth",
+            "chain_ids": [
+              "A"
+            ],
+            "atom_names": [
+              "CA"
+            ]
+          },
+          {
+            "artifact_id": "00000009-0009-4009-8009-000000000009",
+            "role": "moving",
+            "model_index_zero_based": 0,
+            "chain_namespace": "auth",
+            "chain_ids": [
+              "A"
+            ],
+            "atom_names": [
+              "CA"
+            ]
+          }
+        ],
+        "requested_limits": {
+          "input_tokens": 12000,
+          "output_tokens": 6000,
+          "model_calls": 8,
+          "cpu_ms": 300000,
+          "tool_attempts": 12,
+          "money_microunits": 2000000,
+          "wall_seconds": 900,
+          "max_repairs": 2,
+          "max_transient_retries_per_step": 2
+        }
+      },
+      "create_run": {
+        "task_revision": 1,
+        "purpose": "ANALYZE",
+        "mode": "agent",
+        "model_profile_id": "0000000d-000d-400d-800d-00000000000d",
+        "requested_limits": {
+          "input_tokens": 12000,
+          "output_tokens": 6000,
+          "model_calls": 8,
+          "cpu_ms": 300000,
+          "tool_attempts": 12,
+          "money_microunits": 2000000,
+          "wall_seconds": 900,
+          "max_repairs": 2,
+          "max_transient_retries_per_step": 2
+        }
+      },
+      "request_error": {
+        "request_id": "0000000e-000e-400e-800e-00000000000e",
+        "run_id": "00000004-0004-4004-8004-000000000004",
+        "error": {
+          "code": "STATE_VERSION_CONFLICT",
+          "message": "状态已变化，请读取最新Run后重试允许的操作。",
+          "retryable": false,
+          "safe_next_action": "FETCH_SNAPSHOT",
+          "field_errors": [],
+          "min_available_seq": null,
+          "snapshot_url": "/api/v1/runs/00000004-0004-4004-8004-000000000004"
+        }
+      },
+      "task_spec": {
+        "schema_version": "task-spec.v1",
+        "task_id": "00000003-0003-4003-8003-000000000003",
+        "task_revision": 1,
+        "run_id": "00000004-0004-4004-8004-000000000004",
+        "frozen_spec_id": "00000005-0005-4005-8005-000000000005",
+        "spec_state": "FROZEN",
+        "task_type": "structure_comparison",
+        "goal": "比较4AKE与1AKE首模型auth A的214对Cα，全链求右手Kabsch变换并评价同一区域。",
+        "inputs": [
+          {
+            "role": "reference",
+            "artifact_id": "00000008-0008-4008-8008-000000000008",
+            "sha256": "fcb2ff49a3e255797fee277ce28e0acace67f6e6ddf432841f8451f00cbde9e9",
+            "format": "mmcif"
+          },
+          {
+            "role": "moving",
+            "artifact_id": "00000009-0009-4009-8009-000000000009",
+            "sha256": "01f41b1b42318a1a5df7f650dbab881677aa0e8d825f7c42dd26ae16a94c0948",
+            "format": "mmcif"
+          }
+        ],
+        "selection": {
+          "coordinate_set": "deposited_model",
+          "model_index_zero_based": 0,
+          "chain_namespace": "auth",
+          "reference_chain": "A",
+          "moving_chain": "A",
+          "polymer_type": "protein",
+          "atom_names": [
+            "CA"
+          ],
+          "include_hetero": false,
+          "include_water": false,
+          "altloc_policy": "reject_ambiguous",
+          "missing_policy": "reject_unmatched"
+        },
+        "mapping": {
+          "strategy": "same_auth_residue_and_name",
+          "mapping_artifact_id": "0000001e-001e-401e-801e-00000000001e",
+          "applicability_policy": "verified_AdK_reference_pair@1",
+          "required_pairs": 214,
+          "trim_outliers": false
+        },
+        "measurement": {
+          "method": "kabsch_right_handed",
+          "coordinate_convention": "row_vectors_X_at_R_plus_t",
+          "weighting": "uniform",
+          "fit_pair_index_artifact_id": "0000001f-001f-401f-801f-00000000001f",
+          "evaluation_pair_index_artifact_id": "00000020-0020-4020-8020-000000000020",
+          "fit_region_label": "all_214_matched_CA",
+          "evaluation_region_label": "all_214_matched_CA",
+          "units": "angstrom",
+          "region_policy_version": "verified_AdK_all_matched@1"
+        },
+        "requested_outputs": [
+          "residue_mapping",
+          "rigid_transform",
+          "rmsd_summary",
+          "per_residue_displacement",
+          "validation",
+          "evidence_report",
+          "reproduction_manifest"
+        ],
+        "acceptance_policy": "p0_structure_comparison@1",
+        "field_provenance": [
+          {
+            "field_pointer": "/goal",
+            "source_type": "USER_REQUEST",
+            "source_ref": "fictional-user-request"
+          },
+          {
+            "field_pointer": "/selection",
+            "source_type": "INSPECTOR",
+            "source_ref": "existing-offline-AdK-reference"
+          },
+          {
+            "field_pointer": "/mapping",
+            "source_type": "REGISTERED_POLICY",
+            "source_ref": "verified_AdK_reference_pair@1"
+          }
+        ],
+        "synthetic": true,
+        "evidence_status": "CONTRACT_EXAMPLE_NOT_NEW_EXECUTION"
+      },
+      "result_manifest": {
+        "schema_version": "result-manifest.v1",
+        "task_id": "00000003-0003-4003-8003-000000000003",
+        "task_revision": 1,
+        "run_id": "00000004-0004-4004-8004-000000000004",
+        "frozen_spec_id": "00000005-0005-4005-8005-000000000005",
+        "plan_id": "00000006-0006-4006-8006-000000000006",
+        "mode": "reference",
+        "execution_state": "COMPLETED",
+        "scientific_status": "NOT_EVALUATED",
+        "method": {
+          "method": "kabsch_right_handed",
+          "coordinate_convention": "row_vectors_X_at_R_plus_t",
+          "weighting": "uniform",
+          "fit_pair_index_artifact_id": "0000001f-001f-401f-801f-00000000001f",
+          "evaluation_pair_index_artifact_id": "00000020-0020-4020-8020-000000000020",
+          "fit_region_label": "all_214_matched_CA",
+          "evaluation_region_label": "all_214_matched_CA",
+          "units": "angstrom",
+          "region_policy_version": "verified_AdK_all_matched@1"
+        },
+        "input_artifacts": [
+          {
+            "artifact_id": "00000008-0008-4008-8008-000000000008",
+            "sha256": "fcb2ff49a3e255797fee277ce28e0acace67f6e6ddf432841f8451f00cbde9e9"
+          },
+          {
+            "artifact_id": "00000009-0009-4009-8009-000000000009",
+            "sha256": "01f41b1b42318a1a5df7f650dbab881677aa0e8d825f7c42dd26ae16a94c0948"
+          }
+        ],
+        "object_summary": {
+          "model_index_zero_based": 0,
+          "chain_namespace": "auth",
+          "reference_chain": "A",
+          "moving_chain": "A",
+          "atom_name": "CA",
+          "matched_atoms": 214,
+          "mapping_policy": "verified_AdK_reference_pair@1",
+          "excluded_hetero": true,
+          "excluded_water": true,
+          "outlier_trimming": false
+        },
+        "metrics": [
+          {
+            "name": "rmsd",
+            "value": 7.130700222878167,
+            "units": "angstrom",
+            "fit_atom_count": 214,
+            "evaluation_atom_count": 214,
+            "source_artifact_id": "0000000a-000a-400a-800a-00000000000a"
+          }
+        ],
+        "artifacts": [
+          {
+            "artifact_id": "0000000a-000a-400a-800a-00000000000a",
+            "kind": "coordinate-result.v1",
+            "producer_attempt_id": "00000007-0007-4007-8007-000000000007",
+            "sha256": "876bd154cbe3860c9322ab2cb7490a729868321fcdafd071c6257c93ff2d9814",
+            "bytes": 23700,
+            "content_url": "/api/v1/artifacts/0000000a-000a-400a-800a-00000000000a/content"
+          }
+        ],
+        "validation": null,
+        "limitations": [
+          "这份带synthetic标记的清单只演示未来接口形状；所有UUID、Validator记录和版本身份均为虚构。",
+          "数值及原始输出字节摘要沿用已有固定计划AdK教学结果；当前API/Worker/独立检查器并未实际运行。",
+          "原教学验证器与评分共用validate，正式生产验收仍需独立参考；本例保留NOT_EVALUATED且validation=null，不声称新检查器通过。",
+          "静态坐标几何差异不自动证明亲和力、动力学或因果机制。"
+        ],
+        "reproduction_manifest_artifact_id": "00000023-0023-4023-8023-000000000023",
+        "synthetic": true,
+        "evidence_status": "CONTRACT_EXAMPLE_NOT_NEW_EXECUTION"
+      }
+    },
+    "implementation_gates": [
+      "所有请求对象拒额外字段；单独验证UUID、枚举、数值、上传流量与JSON解析限制。",
+      "18旧路由+4必要补口都能从OpenAPI生成契约测试；示例只做schema校验，不能宣称真实服务通过。",
+      "认证/项目/CSRF/错误防枚举与幂等冲突必须在真实HTTP+数据库集成环境验收。",
+      "SSE重连、事件保留、Range和文件访问用浏览器/HTTP实际验证，不以OpenAPI文本替代。"
+    ],
+    "references": [
+      {
+        "title": "OpenAPI Specification 3.1.1",
+        "url": "https://spec.openapis.org/oas/v3.1.1.html",
+        "checked_on": "2026-11-03",
+        "use": "路径、参数、schema、响应与security描述格式；本项目RBAC和路由语义为拟定决策。"
+      },
+      {
+        "title": "JSON Schema Validation 2020-12",
+        "url": "https://json-schema.org/draft/2020-12/json-schema-validation",
+        "checked_on": "2026-11-03",
+        "use": "严格对象/组合/条件校验；实际解析器还拒绝非标准JSON与非有限数。"
+      },
+      {
+        "title": "WHATWG Server-sent events",
+        "url": "https://html.spec.whatwg.org/multipage/server-sent-events.html",
+        "checked_on": "2026-11-03",
+        "use": "UTF8 text/event-stream与Last-Event-ID机制；业务事件账本、游标期限和ACL是本项目约定。"
+      },
+      {
+        "title": "RFC 9110 HTTP Semantics",
+        "url": "https://www.rfc-editor.org/rfc/rfc9110.html",
+        "checked_on": "2026-11-03",
+        "use": "状态码、Range、Content-Range和条件下载语义。"
+      }
+    ],
+    "example_validation": {
+      "task_spec_schema": "FrozenTaskSpecContractExample",
+      "result_manifest_schema": "ResultManifestContractExample",
+      "production_schemas": "FrozenTaskSpec / ResultManifest reject synthetic/evidence_status marker fields",
+      "source_reference": "existing offline AdK fixed-plan output; no new execution",
+      "scientific_convention": "row-vector X@R+t; F estimates transform, E measures displacement",
+      "stored_byte_hashes": {
+        "4AKE": "fcb2ff49a3e255797fee277ce28e0acace67f6e6ddf432841f8451f00cbde9e9",
+        "1AKE": "01f41b1b42318a1a5df7f650dbab881677aa0e8d825f7c42dd26ae16a94c0948"
+      }
+    },
+    "http_examples": [
+      {
+        "id": "HTTP-EX-01",
+        "title": "创建不可变原始请求",
+        "api_id": "API-04",
+        "method": "POST",
+        "url": "/api/v1/projects/00000001-0001-4001-8001-000000000001/tasks",
+        "request_headers": {
+          "Content-Type": "application/json",
+          "Idempotency-Key": "fictional-task-create-key-0001",
+          "X-CSRF-Token": "<真实会话的CSRF值；示例未提供>"
+        },
+        "request_schema": "TaskRequest",
+        "request_body": {
+          "question": "比较4AKE与1AKE首个模型auth链A的Cα，全链拟合并给RMSD与逐位偏差。",
+          "input_artifact_ids": [
+            "00000008-0008-4008-8008-000000000008",
+            "00000009-0009-4009-8009-000000000009"
+          ],
+          "selection_hints": [
+            {
+              "artifact_id": "00000008-0008-4008-8008-000000000008",
+              "role": "reference",
+              "model_index_zero_based": 0,
+              "chain_namespace": "auth",
+              "chain_ids": [
+                "A"
+              ],
+              "atom_names": [
+                "CA"
+              ]
+            },
+            {
+              "artifact_id": "00000009-0009-4009-8009-000000000009",
+              "role": "moving",
+              "model_index_zero_based": 0,
+              "chain_namespace": "auth",
+              "chain_ids": [
+                "A"
+              ],
+              "atom_names": [
+                "CA"
+              ]
+            }
+          ],
+          "requested_limits": {
+            "input_tokens": 12000,
+            "output_tokens": 6000,
+            "model_calls": 8,
+            "cpu_ms": 300000,
+            "tool_attempts": 12,
+            "money_microunits": 2000000,
+            "wall_seconds": 900,
+            "max_repairs": 2,
+            "max_transient_retries_per_step": 2
+          }
+        },
+        "response_status": 201,
+        "response_headers": {
+          "Location": "/api/v1/tasks/00000003-0003-4003-8003-000000000003"
+        },
+        "response_schema": "TaskRevision",
+        "response_body": {
+          "task_id": "00000003-0003-4003-8003-000000000003",
+          "revision": 1,
+          "project_id": "00000001-0001-4001-8001-000000000001",
+          "question": "比较4AKE与1AKE首个模型auth链A的Cα，全链拟合并给RMSD与逐位偏差。",
+          "input_artifact_ids": [
+            "00000008-0008-4008-8008-000000000008",
+            "00000009-0009-4009-8009-000000000009"
+          ],
+          "selection_hints": [
+            {
+              "artifact_id": "00000008-0008-4008-8008-000000000008",
+              "role": "reference",
+              "model_index_zero_based": 0,
+              "chain_namespace": "auth",
+              "chain_ids": [
+                "A"
+              ],
+              "atom_names": [
+                "CA"
+              ]
+            },
+            {
+              "artifact_id": "00000009-0009-4009-8009-000000000009",
+              "role": "moving",
+              "model_index_zero_based": 0,
+              "chain_namespace": "auth",
+              "chain_ids": [
+                "A"
+              ],
+              "atom_names": [
+                "CA"
+              ]
+            }
+          ],
+          "request_state": "ACTIVE",
+          "payload_sha256": "c0b6675b03b45a38266d7d2568e17f3ae8c0cda72e5468db319170d51e323467",
+          "created_by": "00000002-0002-4002-8002-000000000002",
+          "created_at": "2026-11-03T00:00:00Z",
+          "source_run_id": null
+        },
+        "assertions": [
+          "数据库成功提交后才201；不调用模型。",
+          "相同key+同payload重放返回相同task_id；同key不同payload409。"
+        ]
+      },
+      {
+        "id": "HTTP-EX-02",
+        "title": "预留同Run预算后才调模型",
+        "api_id": "API-07",
+        "method": "POST",
+        "url": "/api/v1/tasks/00000003-0003-4003-8003-000000000003/runs",
+        "request_headers": {
+          "Content-Type": "application/json",
+          "Idempotency-Key": "fictional-run-create-key-0001",
+          "X-CSRF-Token": "<真实会话的CSRF值；示例未提供>"
+        },
+        "request_schema": "CreateRunRequest",
+        "request_body": {
+          "task_revision": 1,
+          "purpose": "ANALYZE",
+          "mode": "agent",
+          "model_profile_id": "0000000d-000d-400d-800d-00000000000d",
+          "requested_limits": {
+            "input_tokens": 12000,
+            "output_tokens": 6000,
+            "model_calls": 8,
+            "cpu_ms": 300000,
+            "tool_attempts": 12,
+            "money_microunits": 2000000,
+            "wall_seconds": 900,
+            "max_repairs": 2,
+            "max_transient_retries_per_step": 2
+          }
+        },
+        "response_status": 202,
+        "response_headers": {
+          "Location": "/api/v1/runs/00000004-0004-4004-8004-000000000004"
+        },
+        "response_schema": "RunAccepted",
+        "response_body": {
+          "run_id": "00000004-0004-4004-8004-000000000004",
+          "task_id": "00000003-0003-4003-8003-000000000003",
+          "task_revision": 1,
+          "execution_state": "QUEUED",
+          "phase": "INSPECTING",
+          "scientific_status": "NOT_EVALUATED",
+          "state_version": 1,
+          "effective_limits": {
+            "input_tokens": 12000,
+            "output_tokens": 6000,
+            "model_calls": 8,
+            "cpu_ms": 300000,
+            "tool_attempts": 12,
+            "money_microunits": 2000000,
+            "wall_seconds": 900,
+            "max_repairs": 2,
+            "max_transient_retries_per_step": 2,
+            "currency": "USD",
+            "price_version": "fictional-price-profile@0",
+            "policy_version": "fictional-project-policy@0"
+          },
+          "event_url": "/api/v1/runs/00000004-0004-4004-8004-000000000004/events",
+          "status_url": "/api/v1/runs/00000004-0004-4004-8004-000000000004"
+        },
+        "assertions": [
+          "限额是拟定配置示例，并非真实消费或测得性能。",
+          "price_profile必须真实存在且报价同币种；UNKNOWN不记0。",
+          "意图/澄清/规划/计算/报告共享这个Run的总预算。"
+        ]
+      },
+      {
+        "id": "HTTP-EX-03",
+        "title": "版本冲突先取最新快照",
+        "api_id": "API-09",
+        "method": "POST",
+        "url": "/api/v1/runs/00000004-0004-4004-8004-000000000004/resume",
+        "request_headers": {
+          "Content-Type": "application/json",
+          "Idempotency-Key": "fictional-run-resume-key-0001"
+        },
+        "request_schema": "ResumeRequest",
+        "request_body": {
+          "expected_state_version": 1
+        },
+        "response_status": 409,
+        "response_headers": {},
+        "response_schema": "ErrorEnvelope",
+        "response_body": {
+          "request_id": "0000000e-000e-400e-800e-00000000000e",
+          "run_id": "00000004-0004-4004-8004-000000000004",
+          "error": {
+            "code": "STATE_VERSION_CONFLICT",
+            "message": "状态已变化，请读取最新Run后重试允许的操作。",
+            "retryable": false,
+            "safe_next_action": "FETCH_SNAPSHOT",
+            "field_errors": [],
+            "min_available_seq": null,
+            "snapshot_url": "/api/v1/runs/00000004-0004-4004-8004-000000000004"
+          }
+        },
+        "assertions": [
+          "不在409后忽略version继续副作用。",
+          "客户端先GET Run，再判断用户意图和状态是否仍允许resume；不自动增额。"
+        ]
+      },
+      {
+        "id": "HTTP-EX-04",
+        "title": "反馈先成为待复现线索",
+        "api_id": "API-18",
+        "method": "POST",
+        "url": "/api/v1/runs/00000004-0004-4004-8004-000000000004/feedback",
+        "request_headers": {
+          "Content-Type": "application/json",
+          "Idempotency-Key": "fictional-feedback-key-0001"
+        },
+        "request_schema": "FeedbackCreate",
+        "request_body": {
+          "category": "REPORT_EVIDENCE",
+          "description": "请复核报告中拟合区和评价区的说明是否一致。",
+          "report_version": 1,
+          "field_ref": "/methods/0"
+        },
+        "response_status": 201,
+        "response_headers": {
+          "Location": "/api/v1/runs/00000004-0004-4004-8004-000000000004/feedback"
+        },
+        "response_schema": "Feedback",
+        "response_body": {
+          "feedback_id": "0000000c-000c-400c-800c-00000000000c",
+          "run_id": "00000004-0004-4004-8004-000000000004",
+          "project_id": "00000001-0001-4001-8001-000000000001",
+          "frozen_spec_id": "00000005-0005-4005-8005-000000000005",
+          "category": "REPORT_EVIDENCE",
+          "description": "请复核报告中拟合区和评价区的说明是否一致。",
+          "artifact_id": null,
+          "report_version": 1,
+          "field_ref": "/methods/0",
+          "status": "NEEDS_REPRODUCTION",
+          "version": 1,
+          "created_by": "00000002-0002-4002-8002-000000000002",
+          "created_at": "2026-11-03T00:00:00Z",
+          "updated_at": "2026-11-03T00:00:00Z",
+          "history": [
+            {
+              "version": 1,
+              "status": "NEEDS_REPRODUCTION",
+              "actor_id": "00000002-0002-4002-8002-000000000002",
+              "reason": "创建反馈线索，尚未复现。",
+              "evidence_refs": [],
+              "regression_case_id": null,
+              "fix_version": null,
+              "occurred_at": "2026-11-03T00:00:00Z",
+              "resolution_type": null
+            }
+          ],
+          "resolution_type": null
+        },
+        "assertions": [
+          "普通用户不提交scientific_truth/status/resolved。",
+          "维护员后续PATCH用expected_version、证据与理由；FIXED还需回归与修复版本。"
+        ]
+      }
+    ],
+    "http_examples_note": "全部为虚构请求/响应，未调用真实API，不提供凭证，UUID及状态只用于合同/客户端联调夹具。科学数值例子单独标synthetic。",
+    "geometry_contracts": {
+      "registry": [
+        {
+          "schema_id": "urn:structbio-agent:spec:comparison:1",
+          "schema": "FrozenTaskSpec",
+          "meaning": "结构比较专用profile"
+        },
+        {
+          "schema_id": "urn:structbio-agent:spec:contacts:1",
+          "schema": "ContactsFrozenTaskSpec",
+          "meaning": "几何接触专用profile"
+        },
+        {
+          "schema_id": "urn:structbio-agent:spec:geometry-workflow:1",
+          "schema": "GeometryWorkflowSpec",
+          "meaning": "同一个冻结目标的typed measurements组合"
+        }
+      ],
+      "lookup": "RunDetail仅给受控spec_artifact_id与spec_schema_id；GET Artifact仍做当前ACL。freeze事务要求AVAILABLE不可变字节按注册schema解析，核对payload等价与输入身份，再关联DB FrozenSpec。payload_digest是版本化canonical对象摘要，Artifact.sha256是实际字节摘要，不默认二者相等。",
+      "materialization": "Freeze固定选择/映射策略/F-E区域与接触阈值。inspect提供可信对象清单；编译器从清单物化Selection/F-E索引工件，mapping可在有效Plan内生成，再把真实Artifact UUID注入Worker严格Params。禁止为满足FrozenSpec的派生UUID先在规格外执行科学工具。",
+      "comparison_and_contacts_example": {
+        "frozen_goal": "比较两份构象，并描述其中配体的沉积坐标接触；一个Run与总预算。",
+        "measurements": [
+          {
+            "measurement_id": "compare_states",
+            "kind": "structure_comparison",
+            "depends_on": []
+          },
+          {
+            "measurement_id": "ligand_contacts",
+            "kind": "geometric_contacts",
+            "depends_on": []
+          }
+        ],
+        "expanded_plan": "inspect已注册输入 → materialize已冻结选择 → map → rmsd；另一分支materialize蛋白/配体选择 → contacts；render_report依赖两分支的实际工件与Validation。",
+        "rules": [
+          "measurement逻辑ID唯一，依赖存在、无环；每条Plan边校验类型、frame、单位和来源。",
+          "本例两measurement独立，不为展示连线而伪造contacts依赖RMSD；若未来改变坐标框架，需新的显式profile并同时转换相关对象。",
+          "某分支失败保留可复核工件，但不能把部分成功提升为整个冻结目标ACCEPTED。",
+          "同一FrozenSpec下有限计划修复共用原预算；改变科学目标/阈值/选择仍走新TaskRevision和Run。"
+        ]
+      },
+      "scope": "没有新增路由/科学能力，只将P0既有比较、接触和组合的正式规格类型补齐。"
+    }
+  },
+  "storage": {
+    "title": "数据库、事务与不可变产物工程规格",
+    "version": "0.2-design-draft",
+    "authored_on": "2026-11-03",
+    "status": "DESIGN_NOT_APPLIED",
+    "sql_file": "contracts/001_core.sql",
+    "evidence_boundary": "仅静态合同与PostgreSQL语法解析；没有启动数据库、执行迁移、接入真实模型或证明并发/恢复行为。SQL约束与事务须在独立开发库按本页用例验证后才可进入试点。",
+    "design_decisions": [
+      {
+        "id": "DB-01",
+        "decision": "PostgreSQL 16+作为DDL功能基线；部署锁定实际受支持版本与镜像摘要。",
+        "reason": "事务、行锁和SKIP LOCKED支撑轻量队列；不再引入Redis/Celery作为P0依赖。"
+      },
+      {
+        "id": "DB-02",
+        "decision": "业务事实、图checkpoint、遥测分开。",
+        "reason": "Run/Attempt/工件/预算/事件是业务真值；LangGraph检查点仅保存控制图状态，不赋予副作用exactly-once。"
+      },
+      {
+        "id": "DB-03",
+        "decision": "UUID实体身份加project复合FK。",
+        "reason": "阻断错误关联，不用随机ID替代认证；应用每次仍检查当前membership、对象和操作权限。"
+      },
+      {
+        "id": "DB-04",
+        "decision": "P0单dispatcher，每Run串行一个科学Attempt，全局最多两个CPU子进程。",
+        "reason": "保留队列/epoch接口为扩展准备；未验证多worker原子性前不宣称支持多实例。"
+      },
+      {
+        "id": "DB-05",
+        "decision": "不可变字节和追加证据，允许受控状态变化。",
+        "reason": "Run配置/请求与FrozenSpec不可改；计划修复追加，存储状态与科学接受分开。"
+      },
+      {
+        "id": "DB-06",
+        "decision": "Project周期预算+Run预算双重限额；文件字节配额独立。",
+        "reason": "新Run不能刷新项目额度；所有尝试暂存和产物继续占文件额度，不按Attempt重置。"
+      }
+    ],
+    "table_count": 29,
+    "tables": [
+      {
+        "table": "projects",
+        "group": "身份与范围",
+        "purpose": "项目政策与单一账本币种",
+        "primary_key": "project_id",
+        "key_columns": "policy_version / ledger_currency / state",
+        "constraint_and_application_boundary": "UNIQUE(project_id,ledger_currency)供货币复合FK；未配置币种时不能建货币预算账户"
+      },
+      {
+        "table": "memberships",
+        "group": "身份与范围",
+        "purpose": "真实身份的项目成员关系",
+        "primary_key": "project_id + principal_id",
+        "key_columns": "role / membership_version / revoked_at",
+        "constraint_and_application_boundary": "角色viewer/researcher/maintainer/owner；撤销保留历史行，读写和每个动作重新鉴权"
+      },
+      {
+        "table": "tasks",
+        "group": "任务与合同",
+        "purpose": "原始请求的当前修订指针",
+        "primary_key": "task_id",
+        "key_columns": "project_id / head_revision / created_by",
+        "constraint_and_application_boundary": "head_revision延迟复合FK；创建Task和revision=1在同一事务"
+      },
+      {
+        "table": "task_revisions",
+        "group": "任务与合同",
+        "purpose": "不可变用户请求快照",
+        "primary_key": "project_id + task_id + revision",
+        "key_columns": "request_payload / request_digest / lifecycle",
+        "constraint_and_application_boundary": "payload UPDATE和DELETE触发器阻止；lifecycle单独允许变化"
+      },
+      {
+        "table": "runs",
+        "group": "任务与合同",
+        "purpose": "一次完整预分配运行",
+        "primary_key": "run_id",
+        "key_columns": "task_revision / config+scope_digest / frozen_spec_id / initial,current_plan_id / state_version / next_event_seq",
+        "constraint_and_application_boundary": "任务/输入/配置/总deadline不可变；FrozenSpec和initial_plan一次绑定，current_plan仅指同Run编译通过的计划"
+      },
+      {
+        "table": "run_queue",
+        "group": "执行与恢复",
+        "purpose": "持久调度及租约真值",
+        "primary_key": "run_id",
+        "key_columns": "queue_state / available_at / lease_owner / lease_expires_at / lease_epoch",
+        "constraint_and_application_boundary": "仅READY参与领取；epoch递增，过期LEASED必须先核查，不直接重复启动"
+      },
+      {
+        "table": "frozen_task_specs",
+        "group": "任务与合同",
+        "purpose": "正式科学合同",
+        "primary_key": "frozen_spec_id",
+        "key_columns": "run_id / schema_version / spec_schema_id / spec_artifact_id / payload / payload_digest",
+        "constraint_and_application_boundary": "每Run至多一份；append-only；Run与Spec复合FK阻断跨Run，spec_artifact_id同project延迟FK。freeze服务验证当时Artifact为AVAILABLE、注册schema匹配且解析payload一致；日后文件缺失仍可标MISSING并阻断交付。"
+      },
+      {
+        "table": "capability_versions",
+        "group": "工具版本",
+        "purpose": "全局版本化适配器清单",
+        "primary_key": "capability_id + tool_version",
+        "key_columns": "manifest / digest / enabled / checked_at",
+        "constraint_and_application_boundary": "版本内容一经使用由发布流程冻结；执行前健康/启用/代码摘要需再次核对"
+      },
+      {
+        "table": "project_capabilities",
+        "group": "工具版本",
+        "purpose": "项目允许的能力版本",
+        "primary_key": "project_id + capability_id + tool_version",
+        "key_columns": "enabled",
+        "constraint_and_application_boundary": "项目复合FK阻断未登记版本，enabled/实际权限仍由执行边界检查"
+      },
+      {
+        "table": "plans",
+        "group": "执行与恢复",
+        "purpose": "编译后的不可变计划快照",
+        "primary_key": "plan_id",
+        "key_columns": "run_id / frozen_spec_id / plan_revision / parent_plan_id / compile_status / compiler_version",
+        "constraint_and_application_boundary": "同Run计划版本号唯一，父计划同Run；只存PASSED/REJECTED，尚在生成的候选存事件"
+      },
+      {
+        "table": "plan_steps",
+        "group": "执行与恢复",
+        "purpose": "计划内步骤与已校验参数",
+        "primary_key": "project_id + run_id + plan_id + step_id",
+        "key_columns": "capability+version / request_digest / parameters / depends_on / timeout_ms",
+        "constraint_and_application_boundary": "同项目能力FK；类型/依赖无环/科学语义由编译器，不由JSON列自动保证"
+      },
+      {
+        "table": "attempts",
+        "group": "执行与恢复",
+        "purpose": "一次真实模型或工具尝试",
+        "primary_key": "attempt_id / operation_id UNIQUE",
+        "key_columns": "plan,step / capability_id,tool_version / attempt_no / request_digest / worker_id / lease_epoch / completion_digest",
+        "constraint_and_application_boundary": "operation_kind=MODEL/PREFLIGHT/TOOL/IMPORT。只有PREFLIGHT的已注册inspect_structure可在冻结前以空Plan/Step运行，必须显式保存inspect_structure及版本并过同项目registry FK；普通科学TOOL仍必须有效Plan/Step→FrozenSpec。模型/导入可无计划；真正重试新Attempt，重放同Attempt不换operation_id。"
+      },
+      {
+        "table": "artifacts",
+        "group": "文件与科学证据",
+        "purpose": "不可变内容身份与存储登记",
+        "primary_key": "artifact_id",
+        "key_columns": "project / origin_kind / kind / SHA256 / bytes / storage_key / storage_state / producer_run,attempt,event",
+        "constraint_and_application_boundary": "origin_kind=INPUT/ATTEMPT/CONTROL_EVENT。INPUT无Run/Attempt/Event且有来源元数据；ATTEMPT必须同项目Run+Attempt且无Event；CONTROL_EVENT必须同项目Run+RunEvent且无Attempt，以延迟复合FK绑定。来源与内容身份触发器不可变；科学接受仍在Validation。"
+      },
+      {
+        "table": "artifact_parents",
+        "group": "文件与科学证据",
+        "purpose": "输入及派生关系",
+        "primary_key": "project_id + child + parent",
+        "key_columns": "child_artifact_id / parent_artifact_id",
+        "constraint_and_application_boundary": "同项目双FK，禁止直接自环；更长环/血缘完整性由应用检查"
+      },
+      {
+        "table": "task_inputs",
+        "group": "文件与科学证据",
+        "purpose": "请求修订的固定输入",
+        "primary_key": "project_id + task_id + revision + input_role",
+        "key_columns": "artifact_id",
+        "constraint_and_application_boundary": "同时引用同项目TaskRevision与Artifact；不以文件名取最新字节"
+      },
+      {
+        "table": "imports",
+        "group": "文件与科学证据",
+        "purpose": "受控公开来源导入作业",
+        "primary_key": "import_id",
+        "key_columns": "entry_id / state / artifact_id / source_url / retrieved_at / error_code",
+        "constraint_and_application_boundary": "只接受注册来源ID；REGISTERED必须有实际工件和来源，URL白名单由连接器执行"
+      },
+      {
+        "table": "validations",
+        "group": "文件与科学证据",
+        "purpose": "追加科学检查记录",
+        "primary_key": "validation_id",
+        "key_columns": "run/spec/artifact / checker_version / policy_version / validation_digest / evidence",
+        "constraint_and_application_boundary": "同输入判据指纹在Run内唯一；ACCEPTED/REJECTED/INCONCLUSIVE与进程退出码独立"
+      },
+      {
+        "table": "run_events",
+        "group": "事件与幂等",
+        "purpose": "不可采样丢失的业务事件",
+        "primary_key": "project_id + run_id + seq",
+        "key_columns": "event_id / event_type / schema_version / actor_id / payload / occurred_at",
+        "constraint_and_application_boundary": "event_id唯一，project/run/event三列唯一供CONTROL_EVENT Artifact引用；payload≤64KiB；序号由锁住Run的next_event_seq分配，不使用MAX(seq)+1。"
+      },
+      {
+        "table": "event_outbox",
+        "group": "事件与幂等",
+        "purpose": "可重复投递的通知工作项",
+        "primary_key": "event_id",
+        "key_columns": "available_at / delivery_attempts / delivered_at",
+        "constraint_and_application_boundary": "事务内与事件一同插入；SSE仍读持久run_events，不以通知成功当业务成功"
+      },
+      {
+        "table": "idempotency_keys",
+        "group": "事件与幂等",
+        "purpose": "写请求去重与已提交回执",
+        "primary_key": "project+principal+method+resource_scope+key_digest",
+        "key_columns": "request_digest / state / response_code,body / response_expires_at",
+        "constraint_and_application_boundary": "同key不同规范请求409；过期保留摘要墓碑返回KEY_EXPIRED，不自动当新请求执行"
+      },
+      {
+        "table": "budget_accounts",
+        "group": "资源与预算",
+        "purpose": "Run与项目周期的整数额度账本",
+        "primary_key": "account_id",
+        "key_columns": "scope / run_id或period / metric / currency / limit,reserved,confirmed,unknown_reserved / account_version",
+        "constraint_and_application_boundary": "六维独立；同项目币种FK；预留检查上限，晚到真实费用仍可登记超额事实"
+      },
+      {
+        "table": "budget_reservations",
+        "group": "资源与预算",
+        "purpose": "一次真实操作的预留组",
+        "primary_key": "reservation_id",
+        "key_columns": "run_id / operation_id / pricing_snapshot",
+        "constraint_and_application_boundary": "operation_id唯一且必须属于同Run Attempt；快照不包含凭证"
+      },
+      {
+        "table": "usage_entries",
+        "group": "资源与预算",
+        "purpose": "估计、未知和确认使用量历史",
+        "primary_key": "usage_id",
+        "key_columns": "reservation / metric / usage_version / certainty / quantity / currency / price_version",
+        "constraint_and_application_boundary": "同操作维度版本唯一；UNKNOWN.quantity=NULL，确认记录追加，不能将各版本简单相加"
+      },
+      {
+        "table": "budget_reservation_lines",
+        "group": "资源与预算",
+        "purpose": "同一操作在Run及项目账本的预留和结算",
+        "primary_key": "project+reservation+account",
+        "key_columns": "metric / state / reserved_units / applied_usage_id,quantity / line_version",
+        "constraint_and_application_boundary": "计费usage只报告一次；Run与项目是双重额度视角，禁止把两行相加当成本"
+      },
+      {
+        "table": "storage_quota_accounts",
+        "group": "资源与预算",
+        "purpose": "项目及Run累计文件字节配额",
+        "primary_key": "account_id",
+        "key_columns": "scope / limit_bytes / reserved_bytes / retained_bytes / quota_version",
+        "constraint_and_application_boundary": "覆盖全部尝试暂存+保留工件；不属于第七个计费维度，也不能替代OS磁盘限制"
+      },
+      {
+        "table": "storage_reservations",
+        "group": "资源与预算",
+        "purpose": "上传、导入或工具输出的字节预留组",
+        "primary_key": "reservation_id / operation_id UNIQUE",
+        "key_columns": "project_id / optional run_id / operation_kind",
+        "constraint_and_application_boundary": "上传无Run也必须占项目存储额；工具输出同时占项目与Run存储额"
+      },
+      {
+        "table": "storage_reservation_lines",
+        "group": "资源与预算",
+        "purpose": "字节配额预留及保留量",
+        "primary_key": "project+reservation+account",
+        "key_columns": "state / reserved_bytes / retained_bytes / line_version",
+        "constraint_and_application_boundary": "未知文件仍占预留；可信supervisor确认实际字节后结算，不能每次重试重置Run配额"
+      },
+      {
+        "table": "feedback_issues",
+        "group": "反馈闭环",
+        "purpose": "问题线索的当前处理状态",
+        "primary_key": "feedback_id",
+        "key_columns": "run / artifact,report,field / category / description / status / resolution_type / version / regression_case_ref,fix_version",
+        "constraint_and_application_boundary": "默认NEEDS_REPRODUCTION；RESOLVED必须有resolution_type。FIXED必须有回归用例与修复版本，NOT_A_DEFECT或DUPLICATE可不填fix/regression且不编造修复；普通用户不可直接设置状态。数据库regression_case_ref映射wire regression_case_id。"
+      },
+      {
+        "table": "feedback_history",
+        "group": "反馈闭环",
+        "purpose": "复现、分歧和解决的追加依据",
+        "primary_key": "project+feedback+version",
+        "key_columns": "changed_by / status / resolution_type / reason / evidence_refs / regression_case_ref,fix_version",
+        "constraint_and_application_boundary": "append-only；非待复现状态必须有证据；RESOLVED必须保留处理类型，FIXED才要求回归与修复版本。issue当前状态与本条history同事务CAS，保留判定依据。"
+      }
+    ],
+    "enforced_by_database": [
+      "主键/UNIQUE、项目复合FK、基础enum/非负数、Run/FrozenSpec/Plan/Attempt关联、不可变/append-only事实触发器。",
+      "当前计划必须编译PASSED且绑定相同FrozenSpec；Run原始请求/配置/deadline不被UPDATE改变。",
+      "UNKNOWN.quantity=NULL，货币账户绑定项目币种，SETTLED行保存已应用usage身份，反馈解决有回归/修复字段。"
+    ],
+    "still_enforced_by_services": [
+      "真实认证、当前权限/撤销、能力enabled/健康、对象选择/单位/科学前提、依赖无环、操作合法迁移。",
+      "SQL JSON列不是完整JSON Schema；finite/strict类型、来源和字节路径验证须由契约层/适配器继续完成。",
+      "账户锁顺序、scope匹配、reserved/confirmed缓存与明细一致、同operation资源对应及文件目录实际隔离。",
+      "复合FK不阻止数据库superuser；迁移owner与运行角色分离。运行角色不得ALTER/禁用触发器或作为表owner。",
+      "RLS不是本草案已实现能力；若后续启用，必须验证事务连接池的每请求project/principal上下文和BYPASSRLS边界。",
+      "API JSON整数限制为0至2^53-1；数据库bigint并不授权更大的wire数字，超出需明确拒绝或新契约，不经浮点round。SETTLED所引用usage必须是可信CONFIRMED，不能把估计值直接当结算真值。",
+      "冻结前PREFLIGHT仅允许inspect_structure及受控输入/参数；普通科学TOOL必须引用同Run编译PASSED的Plan/FrozenSpec。PREFLIGHT完成不表示科学分析已ACCEPTED。",
+      "冻结合同通过spec_artifact_id引用同项目不可变字节；freeze时验证AVAILABLE、注册spec_schema_id与payload一致。payload_digest是版本化规范对象摘要，Artifact.sha256为原始字节摘要，不能因pretty JSON格式差异混用。API只给frozen_spec_id/spec_artifact_id/spec_schema_id，经Artifact ACL读取，未支持profile不回退成比较合同。",
+      "CONTROL_EVENT由可信controller生成，事件、Artifact、FrozenSpec及Run绑定在冻结事务内原子登记；它是控制面字节的来源，不是一次模型/科学执行或科学接受证据。"
+    ],
+    "transaction_protocols": [
+      {
+        "id": "TX-01",
+        "title": "写API受理、幂等与预分配Run",
+        "locks": "membership → task → idempotency key → 新Run与queue；以固定顺序获取短锁，不能在锁内调用模型/下载。",
+        "steps": [
+          "解析真实会话并在当前项目验证role/revoked_at；规范化已验证请求，计算request_digest与版本化规范化规则。",
+          "BEGIN；读取membership FOR SHARE。获取作用域为project/principal/method/resource/key_digest的幂等行。若已有COMMITTED且digest相同，重新校验当前访问权限后返回原回执；digest不同409。PENDING冲突短暂等待或返回IDEMPOTENCY_IN_PROGRESS，不发起第二次工作。",
+          "核对原请求revision与固定输入权限/AVAILABLE状态。创建原始TaskRevision或读取既有不可变revision；创建UUID Run、有效总限制与配置/scope摘要。ANALYZE可从尚未形成规格的请求开始，准备、模型、规划和报告均归本Run。",
+          "插入Run预算账户（额度配置而非已花费）；插入queue=READY。追加业务事件/outbox；把稳定身份及202响应写入幂等行COMMITTED；COMMIT后返回已受理。",
+          "每个真正模型/工具动作再走TX-04原子预留。模型/价目/数据许可未配置的agent请求按OpenAPI阻断，不默默切reference。"
+        ],
+        "commit_invariant": "业务事实、队列和幂等回执原子受理；浏览器超时后同key查询仍得到同Run。",
+        "abort": "事务回滚不产生已受理身份或后台调用；提交后发送HTTP失败也不重复建Run。",
+        "acceptance": [
+          "ST-01",
+          "ST-02",
+          "AC-10",
+          "AC-14"
+        ]
+      },
+      {
+        "id": "TX-02",
+        "title": "冻结科学合同与追加计划版本",
+        "locks": "Run FOR UPDATE；按project/run核对FrozenSpec、目录版本与Plan。",
+        "steps": [
+          "冻结前的固定对象检查登记为operation_kind=PREFLIGHT，仅允许已注册inspect_structure；保存capability_id/tool_version，plan_id/step_id为空。它仍须授权、预算、隔离和真实工件，但只交对象清单，不给科学ACCEPTED。MODEL也可在冻结前形成候选。",
+          "冻结前的候选/澄清以RunEvent追加，原请求payload不改。进入科学执行前验证选择、映射、方法、接受政策和字段来源。",
+          "可信controller先按已注册spec_schema_id验证候选，并生成版本化canonical Spec字节；broker关闭/fsync、核对实际hash和bytes后以不覆盖方式发布。这里只产生控制面合同工件，不伪造MODEL/PREFLIGHT Attempt。写前后继续适用现有权限、额度、lease和GC边界。",
+          "BEGIN；锁Run并确认expected_state_version、Run可继续、frozen_spec_id为空且无已启动科学TOOL。由next_event_seq分配序号，插入SPEC_FROZEN RunEvent和outbox；插入origin_kind=CONTROL_EVENT的AVAILABLE Spec Artifact（producer_run_id+producer_event_id，producer_attempt_id=NULL）；插入FrozenTaskSpec引用该Artifact与注册schema_id；一次绑定Run.frozen_spec_id并更新状态版本；COMMIT。事件、Artifact、FrozenSpec和Run绑定在同一事务可见，必要FK延迟至提交校验。",
+          "编译器纯函数产生计划与诊断；需要新模型候选的调用也先记Attempt与预算。编译候选PENDING仅作为事件保存，plans表插入时结果已是PASSED或REJECTED。",
+          "BEGIN；锁Run，核对同一FrozenSpec及当前启用目录/编译版本。INSERT不可变PlanRevision和Steps；PASSED时设置initial_plan_id（仅首次）及current_plan_id，追加PLAN_COMPILED事件；COMMIT。",
+          "同合同修复可追加PlanRevision和真实Attempt，继续消耗原Run剩余预算。科学合同实质改变时原子创建新TaskRevision/Run并记录source_run_id，旧Run按真实执行状态取消或核查，旧UNKNOWN预留不可转为新余额。"
+        ],
+        "commit_invariant": "Run固定原始请求、已冻结科学合同和总限制；动态计划只增加版本，不改历史。",
+        "abort": "冻结冲突、目录变化、取消或版本冲突则回滚全部DB记录；已发布但未登记的字节按既有孤儿GC规则清点回收，不伪造执行Attempt或科学成功。",
+        "acceptance": [
+          "ST-03",
+          "ST-04",
+          "AC-01",
+          "AC-19"
+        ]
+      },
+      {
+        "id": "TX-03",
+        "title": "单dispatcher领取与租约心跳",
+        "locks": "进程持有专用数据库连接上的session advisory lock；领取单条queue/Run短事务锁。",
+        "steps": [
+          "P0仅一个dispatcher。启动用固定应用命名空间的pg_try_advisory_lock获取session锁，失败的第二实例退出；连接丢失立即停止新派发并进入受控子进程核查。锁不等于OS进程隔离。",
+          "BEGIN；SELECT run_id FROM run_queue WHERE queue_state='READY' AND available_at<=clock_timestamp() ORDER BY available_at,run_id FOR UPDATE SKIP LOCKED LIMIT 1；锁Run并重新检查取消、deadline、当前授权及项目并发。",
+          "UPDATE run_queue SET queue_state='LEASED', lease_owner=:worker_id, lease_epoch=lease_epoch+1, lease_expires_at=:bounded_deadline, heartbeat_at=clock_timestamp() WHERE run_id=:run_id AND queue_state='READY' RETURNING lease_epoch；更新Run状态/版本并追加事件；COMMIT。",
+          "每次心跳只在owner+lease_epoch+LEASED匹配时延长至不超过Run总deadline；0行受影响即停止继续提交新动作。每Run串行一个科学Attempt，P0全局最多两个CPU子进程处理不同Run。",
+          "过期LEASED不能被普通claim直接重新启动。reconciler先fence旧epoch，记录RECONCILING/UNKNOWN，核对进程控制组、operation和已封存工件；确认旧执行已结束且语义允许后，才能重排READY或接受已完成证据。"
+        ],
+        "commit_invariant": "每次租约有单调epoch；陈旧结果不能覆盖新控制事实。",
+        "abort": "丢锁/心跳/DB不可用即停止新派发；不能因为lease超时就假定旧子进程已死。",
+        "acceptance": [
+          "ST-05",
+          "ST-06",
+          "AC-14",
+          "AC-15"
+        ]
+      },
+      {
+        "id": "TX-04",
+        "title": "Attempt、六维资源和文件字节原子预留",
+        "locks": "Run/queue/attempt → budget_accounts按account_id排序 → storage_quota_accounts按account_id排序；所有调用统一这一顺序。",
+        "steps": [
+          "确定真实请求的operation_id与request_digest；重放同Attempt复用原operation_id，真正重试在确认前次失败/未提交后创建新Attempt，attempt_no递增。不能对UNKNOWN盲建新Attempt。",
+          "BEGIN；锁Run及当前租约，核对scope、能力版本、固定参数和deadline。MODEL可形成冻结前候选；仅PREFLIGHT=registered inspect_structure可空Plan/Step执行固定对象检查，保存capability_id/tool_version。普通科学TOOL必须引用已通过编译计划及同FrozenSpec。INSERT Attempt(CREATED)。",
+          "依据服务端价格快照与provider严格max_tokens/timeout等计算保守预留，不接受模型自报cost。锁定本Run和所属项目周期所有相关metric账户，验证currency一致、confirmed+reserved+new<=limit。",
+          "六维为input_tokens、output_tokens、model_calls、cpu_ms、tool_attempts、money_microunits，全部整数非负；money为1e-6项目账本币种，报价currency和price_version必须明确，P0不静默换汇。",
+          "插入唯一operation的reservation及各账本line；更新account.reserved与版本。上传/导入/工具输出同时锁项目字节额度，工具还锁Run累计字节额；预留本次最大暂存+输出量。",
+          "将Attempt置AUTHORIZED，追加AUTHORIZATION/BUDGET_RESERVED事件；COMMIT后才交受限子进程/模型连接器执行。外部调用绝不发生在DB锁事务内。",
+          "PREFLIGHT消耗实际CPU及tool_attempts等适用额度，与科学TOOL共享Run总预算；不能借PREFLIGHT启动RMSD/接触或任意其他能力。"
+        ],
+        "commit_invariant": "操作、权限、所有额度及Attempt一同获准或全部失败；新Run不能绕过项目周期预算。",
+        "abort": "任一维不足就回滚整组预留并返回BUDGET_EXCEEDED/资源原因；不能部分预留后先启动。",
+        "acceptance": [
+          "ST-07",
+          "ST-08",
+          "ST-09",
+          "AC-12",
+          "AC-13"
+        ]
+      },
+      {
+        "id": "TX-05",
+        "title": "可信产物登记、完成回执与事件",
+        "locks": "文件发布前后均核对租约；最终短事务锁Run/queue/Attempt/相关额度，按固定顺序。",
+        "steps": [
+          "子进程仅写其私有输出目录；可信supervisor核对文件类型/路径、字节总量和退出情况。trusted artifact broker在隔离写入根处理实际文件，模型不提交宿主路径。",
+          "关闭并fsync文件，计算SHA256与bytes。INSERT STAGED Artifact及parents，所有派生关系同项目；记录预期内容地址。之后在同一文件系统内以不覆盖方式原子发布，已存在内容必须核对hash+size。",
+          "BEGIN；核对operation_id/request_digest、lease_owner/epoch、期望状态和取消事实。重复完成若completion_digest相同则返回原回执；不同内容同operation冲突，进入核查，不覆盖既有工件。",
+          "可信broker确认内容仍存在且hash/size一致，Artifact转AVAILABLE；Attempt写SUCCEEDED/FAILED及不可变completion_receipt，追加事件。进程成功只代表执行，不把science直接写ACCEPTED。",
+          "Usage采用TX-06结算；独立检查生成append-only Validation。所需工件和检查都完整后，controller才可将Run置COMPLETED并给科学ACCEPTED/REJECTED/INCONCLUSIVE；追加事件与outbox同事务。",
+          "Artifact来源必须如实登记：原始输入用INPUT；真实模型/工具尝试产物用ATTEMPT；controller生成的正式Spec字节用CONTROL_EVENT绑定同Run业务事件，不用假MODEL/PREFLIGHT填充producer。"
+        ],
+        "commit_invariant": "没有AVAILABLE身份、完整内容及独立检查的结果，不能显示已验证交付。",
+        "abort": "陈旧epoch的普通finish不推进状态；实际已消耗资源仍由reconciler核实记账，不能因拒收陈旧回执隐去成本。",
+        "acceptance": [
+          "ST-10",
+          "ST-11",
+          "ST-12",
+          "AC-05",
+          "AC-19"
+        ]
+      },
+      {
+        "id": "TX-06",
+        "title": "使用量结算、UNKNOWN和晚到更正",
+        "locks": "reservation lines/usage操作身份 → 对应账户按account_id排序；line_version与applied_usage_id做CAS。",
+        "steps": [
+          "每次provider/OS观察都保存不可变usage_version。ESTIMATED是估计，CONFIRMED是可信实际量，UNKNOWN.quantity必须NULL；输出计数以可信provider响应/supervisor为依据。",
+          "调用超时且可能已计费：预算line置UNKNOWN，预留额仍保留在reserved，unknown_reserved标其子集；不能当作0或直接退还。计费UNKNOWN与Run执行UNKNOWN是不同维度。",
+          "收到可信确认后在同一事务将保留预留移除，并把actual-applied_quantity增量加入confirmed；line记录该usage_id/quantity/version，重复同版本不再加账。",
+          "真实账单更正以新usage_version追加并按增量修正，不能把多个版本总和当费用。若真实费用晚到超限，仍记录事实并阻止新预留/触发告警；因此SQL不设会拒绝真实费用的sum<=limit CHECK。",
+          "只有可核实未执行/未计费或已完成结算，才能释放相应剩余额。费用无法确认的挂账按责任人+期限核查，策略性核销也保留UNKNOWN/调整依据，不伪造已知零费用。",
+          "Run与项目账户是同一次usage的两种限额视角；最终费用报表从操作级可信usage最新版本读取，禁止将两层账户相加。"
+        ],
+        "commit_invariant": "全部尝试、失败、重试和未知费用保留；已确认事实不会因预算错误而无法落账。",
+        "abort": "结算版本冲突重新读取line，不能重复扣/加；价格币种不一致进入核查而非自动换算。",
+        "acceptance": [
+          "ST-08",
+          "ST-13",
+          "AC-08",
+          "AC-13"
+        ]
+      },
+      {
+        "id": "TX-07",
+        "title": "反馈处理与版本冲突",
+        "locks": "feedback_issue FOR UPDATE；真实maintainer/owner membership FOR SHARE。",
+        "steps": [
+          "普通成员POST反馈仅创建NEEDS_REPRODUCTION和首条history，绑定可访问Run/工件/报告版本，不接收resolved/scientific_truth。",
+          "维护员PATCH带expected_version；BEGIN锁issue，核对角色及证据权限；状态变为REPRODUCED/DISPUTED/RESOLVED需reason和evidence_refs。",
+          "RESOLVED必须声明resolution_type并提供可访问证据与reason。FIXED必须有regression_case_id（数据库regression_case_ref）及fix_version；NOT_A_DEFECT/DUPLICATE以证据说明非缺陷或重复，不要求也不编造修复版本。UPDATE issue WHERE version=:expected_version并保存处理类型，同时INSERT不可变history(version+1)记录相同状态/类型/证据；COMMIT。",
+          "反馈只产生待复现线索，不能改旧Validation或已冻结评分标签；确认缺陷进入新版本回归和发布流程。"
+        ],
+        "commit_invariant": "反馈状态和追加依据一致，旧科学证据保持不变。",
+        "abort": "并发PATCH一成功一409；跨项目工件引用拒绝，普通用户不能提升反馈为真值。",
+        "acceptance": [
+          "ST-14",
+          "AC-21"
+        ]
+      }
+    ],
+    "budget_contract": {
+      "metrics": [
+        "input_tokens",
+        "output_tokens",
+        "model_calls",
+        "cpu_ms",
+        "tool_attempts",
+        "money_microunits"
+      ],
+      "units": "前五者为其名称表示的整数计量；money_microunits=1e-6所选项目账本币种。USD仅为初始示例，P0不做静默换汇。",
+      "pricing": "额度账户只保存余额币种；每次reservation.pricing_snapshot及货币usage保存currency+price_version。报价版本更新不创建游离于项目周期总额的新余额。未配置模型/价格/许可时禁止agent收费调用。",
+      "reservation_invariant": "预留时必须同时满足每个适用RUN及PROJECT_PERIOD账户：confirmed_units + reserved_units + requested <= limit_units；持锁后检查并更新全部维度。",
+      "unknown": "unknown_reserved_units是reserved_units的子集，不是再加一份费用；UNKNOWN usage quantity=NULL。费用未知与Run执行状态未知分别记录。",
+      "settlement": "同操作/维度的多个usage_version是观察与更正历史，报表取可信最新值，预算按actual-applied_quantity差额CAS。Run和project账户不能相加当两笔收费。",
+      "overage": "真实量晚到超出保守预留也必须落账，并冻结后续预留/告警；不设置会拒绝实际事实的sum<=limit表CHECK。",
+      "window": "项目周期边界由服务器UTC配置冻结；一项长Run首次动作所占的周期身份固定或按明示跨期政策分摊，禁止通过延迟结算切换到新周期逃逸旧额度。",
+      "counter_reconciliation": "定期以reservation lines最新applied_quantity/有效reserved重算account缓存；差异告警并停新预留，修正必须有审计原因，不覆盖usage历史。"
+    },
+    "file_publication": {
+      "root_layout": [
+        "inputs/<project_uuid>/<sha_prefix>/<sha256>",
+        "staging/<project_uuid>/<run_uuid>/<attempt_uuid>/",
+        "content/<project_uuid>/<sha_prefix>/<sha256>"
+      ],
+      "rules": [
+        "路径由trusted artifact broker生成；文件名/模型输出不能指定宿主路径。输入原始文件和派生产物使用同一内容身份规则，公开下载只通过artifact_id授权解析。",
+        "子进程只能写隔离的私有输出目录，内容目录由可信broker发布；只依靠字符串resolve或路径前缀不构成隔离。",
+        "staging与content必须在同一经验证文件系统；文件关闭并fsync，再用不覆盖的原子创建/发布，随后fsync目标目录。普通rename可能覆盖已有文件，应使用平台支持的no-replace或等价安全原语。",
+        "已存在内容按hash+size核对后才能复用；项目内去重不免除当前权限。跨项目共享必须创建授权副本/引用与访问协议，P0不以相同hash自动跨项目返回。",
+        "storage_key只写相对、服务生成的项目内容地址，不暴露到API；媒体类型、下载文件名及Content-Disposition由允许列表与安全编码产生。"
+      ],
+      "quota": "项目总存储配额覆盖上传/导入；Run配额覆盖该Run所有Attempt的暂存、保留输出和受限日志。DB预留是控制账本，仍须由OS/挂载/可信supervisor限制实际字节与磁盘，不能宣称DDL已提供文件系统硬配额。",
+      "dedup_accounting": "P0可按逻辑Artifact字节保守计入项目/Run配额，避免共享文件GC提前退款；物理使用另监测。更精确去重摊销需要独立引用计数协议后才启用。",
+      "garbage_collection": "GC只处理无活跃lease、无合法引用且超过grace期的私有暂存/孤儿；先写清理计划，核对内容/producer，删除后以真实字节结算。AVAILABLE内容不能仅按mtime删除；保留期/撤销/备份引用共同决定可回收性。"
+    },
+    "crash_matrix": [
+      {
+        "id": "C-01",
+        "crash_point": "API提交前宕机",
+        "database_truth": "没有COMMITTED幂等回执/Run事务",
+        "file_truth": "无合法后台调用",
+        "recovery": "同key重试可重新受理；不得残留未登记工具执行",
+        "test_id": "ST-01"
+      },
+      {
+        "id": "C-02",
+        "crash_point": "事务提交后HTTP响应丢失",
+        "database_truth": "Run/queue/幂等回执已提交",
+        "file_truth": "尚未或已开始的同一Run",
+        "recovery": "同key返回同run_id；当前权限重新核对",
+        "test_id": "ST-02"
+      },
+      {
+        "id": "C-03",
+        "crash_point": "输出暂存中崩溃",
+        "database_truth": "Attempt RUNNING；租约可能过期",
+        "file_truth": "未封存临时文件",
+        "recovery": "先核对/终止旧控制组；不接受半文件；保留额度至可信清点",
+        "test_id": "ST-10"
+      },
+      {
+        "id": "C-04",
+        "crash_point": "STAGED Artifact提交后、文件发布前崩溃",
+        "database_truth": "有STAGED预期hash/size/producer",
+        "file_truth": "临时文件可能完整",
+        "recovery": "验证临时文件身份、当前租约/取消与quota后由broker继续，或标缺失/失败；不称AVAILABLE",
+        "test_id": "ST-10"
+      },
+      {
+        "id": "C-05",
+        "crash_point": "文件原子发布后、DB完成前崩溃",
+        "database_truth": "Artifact仍STAGED，Attempt未成功",
+        "file_truth": "内容地址已存在",
+        "recovery": "按操作身份核对hash/size，由当前fenced reconciler完成登记；若已取消/无权则隔离，不直接接受科学结果",
+        "test_id": "ST-11"
+      },
+      {
+        "id": "C-06",
+        "crash_point": "DB成功后完成回执丢失",
+        "database_truth": "Attempt completion_digest与工件已提交",
+        "file_truth": "不可变内容已发布",
+        "recovery": "重放同operation与同digest返回原结果；不同digest冲突；不再次花费",
+        "test_id": "ST-12"
+      },
+      {
+        "id": "C-07",
+        "crash_point": "子进程活着但dispatcher/DB连接丢失",
+        "database_truth": "epoch无效/租约过期",
+        "file_truth": "旧进程可能仍写暂存",
+        "recovery": "新实例先核查旧控制组并确认终止，不能因拿到新advisory lock马上重复启动",
+        "test_id": "ST-06"
+      },
+      {
+        "id": "C-08",
+        "crash_point": "模型请求响应丢失",
+        "database_truth": "Attempt/usage UNKNOWN，预算仍保留",
+        "file_truth": "可能无返回文本但已被计费",
+        "recovery": "按provider request_id与账单核查；无去重保证时不盲重发，未知费用不记0",
+        "test_id": "ST-13"
+      },
+      {
+        "id": "C-09",
+        "crash_point": "清理临时文件时断电",
+        "database_truth": "GC计划/引用核对记录存在",
+        "file_truth": "部分文件已删或仍在",
+        "recovery": "GC只删无活跃lease/无引用且超过grace的暂存；重复GC幂等；AVAILABLE内容不按文件年龄直接删",
+        "test_id": "ST-15"
+      },
+      {
+        "id": "C-10",
+        "crash_point": "DB与文件从不同时间恢复",
+        "database_truth": "可能指向不存在的AVAILABLE内容",
+        "file_truth": "缺失或多出未引用对象",
+        "recovery": "恢复后按内容清单全量核对，缺失标MISSING/阻断交付；孤儿隔离；不以数据库ACCEPTED恢复标签直接对用户发布",
+        "test_id": "ST-16"
+      }
+    ],
+    "idempotency_contract": {
+      "scope": "project_id + principal_id + HTTP method + canonical resource scope + SHA256(Idempotency-Key)；request_digest来自版本化的严格规范化请求。",
+      "conflict": "相同key相同digest返回原已提交回执；相同key不同digest返回409。业务对象的稳定operation_id仍需保留，不能只依赖HTTP缓存。",
+      "retention": "response_expires_at是回执缓存有效期，之后保留摘要墓碑并返回KEY_EXPIRED，客户端明确发起新请求才使用新key。最终清除窗口由最大客户端重试时域/Run保留/组织策略决定，清除后不再宣称同key永远去重。",
+      "security": "返回缓存回执前重新鉴权；不能借曾经有效的key读取已被撤销访问的项目数据。响应缓存同样避免凭证、宿主路径和不必要上下文。"
+    },
+    "migration_and_backup": {
+      "baseline": "PostgreSQL 16+语法；正式部署锁版本。001_core.sql是空新schema的初始草案，不应对现有NBDB或静态3188服务执行。",
+      "migration_gate": [
+        "迁移文件checksum进入版本表；变更经开发库完整apply/rollback或forward-fix、约束负例与兼容API测试。",
+        "运行角色与迁移owner分开，运行角色无ALTER/触发器禁用/任意DDL；连接限制、statement_timeout、lock_timeout按实际负载验证。",
+        "扩展字段采用expand→兼容读写→回填→校验→contract；大表加索引/NOT NULL等需演练锁影响，不能照搬初始迁移到已有库。",
+        "上线前备份并实际恢复演练，记录SQL/应用/契约/镜像与输入清单；回滚代码不能自动逆转已发生的文件/外部副作用。"
+      ],
+      "backup": [
+        "数据库与不可变内容存储分别备份，并保存可对应的artifact hash manifest与备份时间/版本。",
+        "备份完成不等于可恢复：在隔离环境还原DB、内容与所需软件/密钥引用（秘密由受控凭证系统恢复），全量核对AVAILABLE身份与内容。",
+        "缺失工件标MISSING并阻断可信下载/报告；孤儿先隔离。按已恢复事件和外部事实核对在途Run，不立即重放全部旧任务。"
+      ],
+      "rpo_rto": "RPO/RTO目标由课题组允许损失和实际环境确认；本次不填未经演练的保证。每次恢复保留实际耗时、丢失范围、缺失/孤儿数量与签收人。"
+    },
+    "verification_tests": [
+      {
+        "id": "ST-01",
+        "category": "事务",
+        "setup": "创建Run事务各步故障",
+        "action": "任一点commit前抛异常",
+        "expected": "无孤立已受理Run/queue/预算/回执；没有外部工具调用",
+        "acceptance_refs": [
+          "AC-14"
+        ]
+      },
+      {
+        "id": "ST-02",
+        "category": "并发幂等",
+        "setup": "同project/principal/method/resource/key 20并发请求",
+        "action": "同payload与不同payload两组",
+        "expected": "同payload只一个业务身份；不同digest409；撤权后旧key不能读原回执",
+        "acceptance_refs": [
+          "AC-10",
+          "AC-14"
+        ]
+      },
+      {
+        "id": "ST-03",
+        "category": "合同不可变",
+        "setup": "已冻结Run与已有成功工件",
+        "action": "直接UPDATE请求/FrozenSpec/旧Plan/Validation及切current_plan到另一项目",
+        "expected": "触发器/FK拒绝；业务服务不能覆盖旧事实；普通DAG修复新plan有效",
+        "acceptance_refs": [
+          "AC-01",
+          "AC-19"
+        ]
+      },
+      {
+        "id": "ST-04",
+        "category": "跨项目约束",
+        "setup": "两个项目各自有任务/输入/计划/尝试",
+        "action": "在每类join中替换project_id或同项目的错误run_id",
+        "expected": "复合FK与服务授权均拒绝；不因UUID难猜替代权限",
+        "acceptance_refs": [
+          "AC-02",
+          "AC-10"
+        ]
+      },
+      {
+        "id": "ST-05",
+        "category": "队列",
+        "setup": "两个候选dispatcher同时启动、两条READY Run",
+        "action": "抢同一个advisory lock和同queue row",
+        "expected": "P0只一个dispatcher存活；每条被领取行epoch单调；不支持的多dispatcher部署拒绝启动",
+        "acceptance_refs": [
+          "AC-14"
+        ]
+      },
+      {
+        "id": "ST-06",
+        "category": "租约",
+        "setup": "旧子进程延迟、心跳丢失",
+        "action": "过期后尝试旧epoch finish及新dispatcher启动",
+        "expected": "旧finish不推进状态；先核对旧执行；无未经证明的第二次启动；实际费用不丢",
+        "acceptance_refs": [
+          "AC-14",
+          "AC-15"
+        ]
+      },
+      {
+        "id": "ST-07",
+        "category": "额度",
+        "setup": "Run/项目余额只够一次动作",
+        "action": "两Run并发各请求一次且同操作重复reserve",
+        "expected": "最多合法的一次组预留，另一拒绝；同operation不双扣；不同账户锁顺序无死锁",
+        "acceptance_refs": [
+          "AC-13"
+        ]
+      },
+      {
+        "id": "ST-08",
+        "category": "计费",
+        "setup": "模型调用超时、费用未知",
+        "action": "UNKNOWN→CONFIRMED→同版本重复→更正版本",
+        "expected": "未知仍占预留；确认一次结算；更正按差额；两层账户不重复汇总",
+        "acceptance_refs": [
+          "AC-08",
+          "AC-13"
+        ]
+      },
+      {
+        "id": "ST-09",
+        "category": "文件配额",
+        "setup": "Run总100MiB起始建议，多次失败输出累积",
+        "action": "每次Attempt输出低于单次额但合计超Run/项目额",
+        "expected": "再次预留被拒；旧暂存/保留字节继续占额；上传也受项目配额",
+        "acceptance_refs": [
+          "AC-12",
+          "AC-13"
+        ]
+      },
+      {
+        "id": "ST-10",
+        "category": "文件故障",
+        "setup": "私有暂存目录/正常结果文件",
+        "action": "写一半、hash后改文件、STAGED后宕机",
+        "expected": "无半文件AVAILABLE，无不匹配hash交付；恢复先验身份与配额",
+        "acceptance_refs": [
+          "AC-05",
+          "AC-19"
+        ]
+      },
+      {
+        "id": "ST-11",
+        "category": "双写窗口",
+        "setup": "完整文件已原子发布但DB仍STAGED",
+        "action": "杀死broker/重启reconciler",
+        "expected": "依内容hash/operation/producer修复，或明确隔离；不重复科学计算刷成功",
+        "acceptance_refs": [
+          "AC-14",
+          "AC-19"
+        ]
+      },
+      {
+        "id": "ST-12",
+        "category": "完成幂等",
+        "setup": "已提交Attempt回执",
+        "action": "同operation同receipt与不同receipt分别重放",
+        "expected": "前者返回原结果，无重复事件/费用；后者409并保留冲突证据",
+        "acceptance_refs": [
+          "AC-14",
+          "AC-19"
+        ]
+      },
+      {
+        "id": "ST-13",
+        "category": "超额实际值",
+        "setup": "合法预留后provider给出高于估计的实际量",
+        "action": "结算晚到confirmed",
+        "expected": "真实费用记录成功，后续动作被阻断并告警；不能由CHECK失败抹去实际消耗",
+        "acceptance_refs": [
+          "AC-08",
+          "AC-13"
+        ]
+      },
+      {
+        "id": "ST-14",
+        "category": "反馈",
+        "setup": "研究员提交、维护员两次并发复现",
+        "action": "普通用户伪造RESOLVED、跨项目证据、过期版本PATCH；维护员分别提交FIXED缺修复/回归、NOT_A_DEFECT及DUPLICATE无fix/regression。",
+        "expected": "默认待复现；非法/跨项目拒绝；并发一成功一409。RESOLVED缺类型或FIXED缺回归/修复被拒；NOT_A_DEFECT/DUPLICATE有理由和证据即可解决且无需伪造fix/regression；类型随history追加保留。",
+        "acceptance_refs": [
+          "AC-21"
+        ]
+      },
+      {
+        "id": "ST-15",
+        "category": "GC",
+        "setup": "活跃Run与无引用的过期暂存混合",
+        "action": "清理重放、权限变化、内容去重多个引用",
+        "expected": "不删活跃或有引用对象，已删除项重试幂等；清理后释放字节额度有记录",
+        "acceptance_refs": [
+          "AC-19"
+        ]
+      },
+      {
+        "id": "ST-16",
+        "category": "恢复",
+        "setup": "隔离环境中的DB备份+工件快照",
+        "action": "恢复后删除一份内容/多一份孤儿/旧配置缺失",
+        "expected": "清点后缺失阻断交付；孤儿隔离；已恢复的身份与版本可追；记录RPO/RTO实测而非预填承诺",
+        "acceptance_refs": [
+          "AC-21"
+        ]
+      },
+      {
+        "id": "ST-17",
+        "category": "冻结前边界",
+        "setup": "尚无FrozenSpec的ANALYZE Run和注册inspect_structure能力",
+        "action": "分别提交PREFLIGHT inspect_structure、PREFLIGHT calculate_rmsd、TOOL无Plan及正常冻结后TOOL",
+        "expected": "第一项可登记并受预算/隔离检查；第二、三项被CHECK/执行边界拒绝；第四项按既定合同执行。对象检查只交清单，不能写科学ACCEPTED。",
+        "acceptance_refs": [
+          "AC-01",
+          "AC-02",
+          "AC-12",
+          "AC-13"
+        ]
+      },
+      {
+        "id": "ST-18",
+        "category": "控制面工件来源",
+        "setup": "controller生成Spec字节；两个项目和两个Run均有业务事件",
+        "action": "在冻结事务各步回滚，或将CONTROL_EVENT引用替换为其他project/run事件；并尝试CONTROL_EVENT带producer_attempt_id",
+        "expected": "有效事务内事件/Artifact/FrozenSpec/Run绑定一同提交，Artifact无虚构Attempt；回滚后无DB半完成，字节按孤儿GC；跨project/run或同时带Attempt均被FK/CHECK拒绝；新origin/event身份不能UPDATE覆盖。",
+        "acceptance_refs": [
+          "AC-01",
+          "AC-10",
+          "AC-19"
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "title": "PostgreSQL 16 SELECT",
+        "url": "https://www.postgresql.org/docs/16/sql-select.html",
+        "checked_on": "2026-11-03",
+        "supports": "行锁、NOWAIT/SKIP LOCKED语法。队列和租约协议为本项目设计，需真实数据库验证。"
+      },
+      {
+        "title": "PostgreSQL 16 Constraints",
+        "url": "https://www.postgresql.org/docs/16/ddl-constraints.html",
+        "checked_on": "2026-11-03",
+        "supports": "CHECK、主键、UNIQUE与复合外键；应用语义和数据库约束职责分开。"
+      },
+      {
+        "title": "PostgreSQL 16 Advisory Lock Functions",
+        "url": "https://www.postgresql.org/docs/16/functions-admin.html#FUNCTIONS-ADVISORY-LOCKS",
+        "checked_on": "2026-11-03",
+        "supports": "session advisory lock的API；单dispatcher与失联处理是项目建议，不自动保证子进程已退出。"
+      }
+    ]
+  },
+  "worker": {
+    "schema_version": "prd-engineering-worker.v0.2",
+    "authored_on": "2026-11-03",
+    "status": "ENGINEERING_DRAFT_NOT_IMPLEMENTED",
+    "scope": "P0受控CPU结构分析的执行器、领域适配器和运维合同；不启动服务、不调用模型、不改变3188静态资料站。",
+    "canonical_terms": {
+      "ids": "实体ID为UUID；样例ID均虚构，不表示新增执行。",
+      "fencing": "run_queue.lease_epoch递增；Attempt.lease_epoch为领取时不可变快照，消息context.lease_epoch等于该值，提交CAS核对当前租约。所有协议及配置均用lease_epoch字段名。",
+      "ownership": "lease_owner是dispatcher实例UUID，worker_id是后端分配的执行身份；科学子进程不能自行选择身份、直接读写DB或续租。",
+      "budget_metrics": [
+        "input_tokens",
+        "output_tokens",
+        "model_calls",
+        "cpu_ms",
+        "tool_attempts",
+        "money_microunits"
+      ],
+      "money": "非负整数，1 money_microunit = 1e-6项目账本币种。currency和price_version必填，P0同一项目一个币种，报价同币种且不自动换汇；配置示例USD只是选定值。",
+      "cost_ownership": "所有SPECIFYING至REPORTING模型调用和全部科学Attempt归同一个预分配Run。Worker只处理科学/确定性渲染，cpu_ms来自可信OS/cgroup计量，child报数只作核对。",
+      "concurrency": "P0仅一个dispatcher持有singleton锁，跨Run最多2个CPU子进程；每个Run同时仅一个科学Attempt。增加多dispatcher或同Run并行须另行验证。",
+      "attempt_identity": "重放同一Attempt保持operation_id；前一次明确终结后才可创建新Attempt和新operation_id。UNKNOWN先核事实，不能当失败盲重提。",
+      "storage_quota": "Run级storage_quota_accounts及storage_reservation_lines累计所有尝试的暂存/保留字节；文件quota独立于六维计费预算，仍需OS/挂载层实际限制。",
+      "wire_integer": "JSON协议计数/seq/epoch/预算上限为2^53-1安全整数；DB仍可bigint。超过wire范围显式报错或升级decimal-string版本，不隐式round。"
+    },
+    "repository_layout": [
+      {
+        "path": "apps/api",
+        "responsibility": "认证、项目ACL、OpenAPI请求/响应、SSE与下载；不调用科学解析库或直接执行命令。",
+        "owner": "后端"
+      },
+      {
+        "path": "apps/web",
+        "responsibility": "任务/合同/执行/证据四视图；数值来自已验证工件，原始工具HTML不直接挂载。",
+        "owner": "前端"
+      },
+      {
+        "path": "orchestrator",
+        "responsibility": "Run状态图、模型适配、候选规格/澄清、计划编译、有界修复与报告解释。",
+        "owner": "Agent开发"
+      },
+      {
+        "path": "domain/contracts",
+        "responsibility": "请求/结果/事件/Worker/能力包schema及版本兼容；严格解码。",
+        "owner": "后端+科学"
+      },
+      {
+        "path": "domain/science",
+        "responsibility": "对象身份、选区、映射、Kabsch、接触及确定性单位/不变量。",
+        "owner": "科学计算"
+      },
+      {
+        "path": "capabilities/{capability_id}/v1",
+        "responsibility": "manifest、固定adapter、schema、参考输入/预期、错误分类、支持范围和回归。",
+        "owner": "每个能力维护者"
+      },
+      {
+        "path": "dispatcher",
+        "responsibility": "领取、预算/文件quota预留、隔离启动、OS计量、续租、取消、fencing与产物提交。",
+        "owner": "平台/后端"
+      },
+      {
+        "path": "workers/scientific",
+        "responsibility": "固定入口读取协议FD，在隔离范围内计算并输出候选工件；无模型、数据库和主机凭证。",
+        "owner": "科学+平台"
+      },
+      {
+        "path": "artifact_store",
+        "responsibility": "按授权ID解析、open安全访问、临时/不可变发布与摘要，不接模型路径。",
+        "owner": "后端"
+      },
+      {
+        "path": "evals",
+        "responsibility": "dev/reg/test分开；独立参考、合成不变量、真实模型端到端与故障注入。",
+        "owner": "独立验收"
+      },
+      {
+        "path": "ops",
+        "responsibility": "配置合同、探针、迁移、备份恢复、发布/停止/回滚runbook与证据记录。",
+        "owner": "平台"
+      }
+    ],
+    "interfaces": [
+      {
+        "id": "W-IF-01",
+        "signature": "Registry.resolve(capability_id, tool_version, project_scope) -> RegisteredAdapter",
+        "input": "服务端注册目录与当前授权；不是模型提供可执行文件。",
+        "output": "不可变代码/环境digest、严格schema、资源profile、科学接受协议。",
+        "invariant": "未登记/禁用/未通过部署回归的能力不产生执行入口。",
+        "fr": [
+          "FR-06",
+          "FR-22"
+        ]
+      },
+      {
+        "id": "W-IF-02",
+        "signature": "InputResolver.prepare(attempt, artifact_refs) -> ReadOnlyInputSet",
+        "input": "同项目已授权artifact_id、摘要、预期类型与引用闭包。",
+        "output": "后端生成input_0001等别名，映射到已核对的只读输入，不向模型暴露宿主路径。",
+        "invariant": "逐对象ACL、字节hash/size/fstat核对；所有间接输入也须在允许闭包。",
+        "fr": [
+          "FR-02",
+          "FR-03",
+          "FR-16",
+          "FR-18"
+        ]
+      },
+      {
+        "id": "W-IF-03",
+        "signature": "Dispatcher.claim_and_reserve(worker_instance) -> ClaimedAttempt | None",
+        "input": "单例租约、READY队列、Run剩余总预算与存储quota。",
+        "output": "Attempt、operation_id、Attempt.lease_epoch快照、预留引用与effective limits。",
+        "invariant": "短DB事务锁/版本CAS后提交；不在事务锁内调用模型、fork或等待文件。",
+        "fr": [
+          "FR-11",
+          "FR-12",
+          "FR-19"
+        ]
+      },
+      {
+        "id": "W-IF-04",
+        "signature": "IsolatedRunner.spawn(validated_dispatch) -> ExecutionHandle",
+        "input": "可信Dispatch、固定profile与受控文件集。",
+        "output": "execution_scope_id、boot_id、进程身份/pidfd或等效句柄、开始事件。",
+        "invariant": "固定程序/argv；无shell拼接、eval、任意Python、运行时安装和宿主控制socket。",
+        "fr": [
+          "FR-11",
+          "FR-18"
+        ]
+      },
+      {
+        "id": "W-IF-05",
+        "signature": "Supervisor.observe(handle) -> OSUsage + ChildMessages",
+        "input": "真实进程/cgroup句柄和有大小/帧数限制的管道。",
+        "output": "可信CPU/内存/退出事实、心跳与候选结果。",
+        "invariant": "科学子进程输出不是授权、租约真值或计费真值；坏JSON/超长输出转OUTPUT_INVALID。",
+        "fr": [
+          "FR-13",
+          "FR-19"
+        ]
+      },
+      {
+        "id": "W-IF-06",
+        "signature": "ArtifactPublisher.stage_and_commit(handle, proposals, expected_epoch) -> ArtifactRefs",
+        "input": "候选文件别名、内容、类型；DB当前授权/租约/预算/文件quota。",
+        "output": "新不可变Artifact及producer Attempt/plan/spec关系。",
+        "invariant": "fencing通过才提交业务事实；晚到旧epoch结果不得覆盖新状态。",
+        "fr": [
+          "FR-14",
+          "FR-16",
+          "FR-21"
+        ]
+      },
+      {
+        "id": "W-IF-07",
+        "signature": "ScientificValidator.evaluate(frozen_spec, artifacts, checker_version) -> Validation",
+        "input": "实际字节及对象/映射/方法合同、独立参考与冻结容差。",
+        "output": "ACCEPTED / REJECTED / INCONCLUSIVE；追加检查证据。",
+        "invariant": "不读模型“成功”措辞；同一validate实现不能成为唯一独立真值。",
+        "fr": [
+          "FR-14",
+          "FR-23"
+        ]
+      },
+      {
+        "id": "W-IF-08",
+        "signature": "ReportRenderer.render(ReportData, template_version) -> NewHtmlArtifact",
+        "input": "结构化结果、Validation引用、限制和选区摘要；模板ID白名单。",
+        "output": "经过转义的报告、图表数据和复现清单。",
+        "invariant": "不执行工具/模型给出的HTML、JS、SVG；不以渲染状态改变科学状态。",
+        "fr": [
+          "FR-15",
+          "FR-16"
+        ]
+      }
+    ],
+    "worker_protocol": {
+      "schema": "contracts/worker-protocol.schema.json",
+      "messages": [
+        "dispatch",
+        "heartbeat",
+        "finish"
+      ],
+      "transport": "P0使用同机受控管道/继承FD，固定入口读取有界JSON；科学子进程不暴露HTTP监听。协议例子仅证明文档schema与示例可配对。",
+      "context": "project_id/run_id/attempt_id/operation_id/worker_id/lease_owner、lease_epoch、request_digest、purpose、plan_id/frozen_spec_id及step_id。INSPECT可无正式科学合同；计算前必须有冻结规格和已编译计划。",
+      "dispatch": "action只允许inspect_structure/map_residues/calculate_rmsd/geometric_contacts/render_report的v1参数；inputs为artifact/hash/size/kind/alias；reservations仅是服务器预留引用；limits为有效硬上限。",
+      "heartbeat": "递增heartbeat_seq、observed_at与阶段；由supervisor验证执行身份并通过DB CAS续租，续租不超Run deadline。重复/乱序心跳不可倒退状态。",
+      "finish": "只报告SUCCEEDED/FAILED/CANCELLED与候选文件；科学状态仅NOT_EVALUATED或适用的NOT_APPLICABLE。ACCEPTED只能由科学验证器持久化。",
+      "field_rules": [
+        "严格JSON解码先拒绝NaN/Infinity；additionalProperties=false不替代ACL、有限数、hash和语义检查。",
+        "所有action引用及映射间接引用都必须落在本次已授权输入闭包；schema正确但漏输入时拒绝执行。",
+        "单个message和stdout体积有界，未知protocol_version拒绝；schema更新需兼容/迁移证据。",
+        "capability_id与parameters采用oneOf约束；消息没有shell、command、env_secret、原始主机路径等扩权字段。",
+        "示例中的UUID、时间、输出hash/bytes是虚构；部分输入hash来自既有公开AdK参考，不能当本次执行证据。",
+        "operation_kind=PREFLIGHT只允许inspect_structure；plan_id/frozen_spec_id/step_id全部null，仍计CPU/tool_attempts并受隔离和授权。普通TOOL三者必须非null，INSPECT purpose只能PREFLIGHT；科学子进程协议不用于MODEL调用。"
+      ],
+      "semantic_checks": [
+        {
+          "check": "execution_identity",
+          "rule": "校验Attempt/Run/project/plan/spec组合、Attempt.lease_epoch快照与当前queue lease_epoch、lease_owner及request_digest。"
+        },
+        {
+          "check": "immutable_scientific_contract",
+          "rule": "非预检计算必须绑定FrozenTaskSpec；参数不得改变拟合/评价区、映射、单位或接受阈值。"
+        },
+        {
+          "check": "manifest_closure",
+          "rule": "输入别名唯一、artifact/hash/size匹配，所有引用闭包齐全；output_alias唯一且没有目录或路径分隔符。"
+        },
+        {
+          "check": "outcome_consistency",
+          "rule": "SUCCEEDED需exit_code=0/error=null且有允许类型工件；FAILED需error；inspect以外不得自报科学接受。"
+        },
+        {
+          "check": "budget",
+          "rule": "引用预留真实存在且作用域匹配；effective limits取请求与服务器政策较严者，不接受child自报更高额度。"
+        }
+      ]
+    },
+    "execution_lifecycle": [
+      {
+        "step": "1. 领取与预留",
+        "transaction": "验证单例锁→锁Run/队列/预算与存储quota→确认无在途Attempt→创建Attempt+稳定operation_id→增加/绑定lease_epoch→提交派发事件。",
+        "outside_transaction": "建立已知执行scope和只读输入。",
+        "failure": "事务失败没有Attempt可运行；预留后启动失败要按实际未启动证据结算，不静默删除。"
+      },
+      {
+        "step": "2. 隔离启动",
+        "transaction": "记录launch intent及scope_id、registry/profile digest。",
+        "outside_transaction": "可信runner建立隔离边界并启动固定入口。",
+        "failure": "spawn已发生但DB未写PID时，按预先确定scope_id核查真实进程；无法确认则UNKNOWN，不立即重提。"
+      },
+      {
+        "step": "3. 观察与续租",
+        "transaction": "以run_state_version/lease_epoch CAS保存心跳及当前观测，必要时续租。",
+        "outside_transaction": "OS/cgroup计量、读取有界管道、检查deadline和取消。",
+        "failure": "租约失联只表示控制面不确定；转RECONCILING，确认旧执行停止后才可能重新排队。"
+      },
+      {
+        "step": "4. 输出与计量",
+        "transaction": "暂存候选元数据/实际usage/预留关系。",
+        "outside_transaction": "fstat+hash+size校验、fsync、不可变发布；检查累计暂存/保留quota。",
+        "failure": "异常输出、空间耗尽或摘要不符拒绝候选；已产生文件保留归属用于核查/GC。"
+      },
+      {
+        "step": "5. 完成提交",
+        "transaction": "重核当前授权、frozen_spec/plan、epoch、取消/终态→创建Artifact关联→记录真实费用/UNKNOWN→追加事件/outbox→CAS Attempt/Run。",
+        "outside_transaction": "触发独立Validator与确定性报告。",
+        "failure": "晚到旧epoch提交只存受控调查记录，不覆盖新事实；验证失败保留产物但不标科学成功。"
+      }
+    ],
+    "isolation_contract": [
+      {
+        "boundary": "文件与路径",
+        "required": "后端从artifact_id解析；以安全目录句柄/openat2或经验证等效打开，禁止symlink/..与非普通文件。核对同一打开句柄的身份/hash/size，再制成私有只读输入。输出写入每Attempt专用目录。",
+        "verification": "临时目录内测试符号链接、替换竞态、FIFO/设备、路径前缀碰撞、同名不同字节；确认无越界读写。",
+        "limit": "字符串resolve不封闭检查到使用的竞态；平台不支持安全机制时不能宣称完成隔离。"
+      },
+      {
+        "boundary": "进程/网络/凭证",
+        "required": "非特权身份；输入只读、根只读、专用输出；无宿主秘密/SSH代理/数据库DSN/Docker socket；科学子进程网络none，依赖在镜像构建期固定。",
+        "verification": "在隔离环境用无害探针确认无法读取测试宿主标记、访问网络/DB或控制其他进程。",
+        "limit": "容器名或Pydantic字段并不证明边界生效。现有3188运行账号无Docker/系统管理权限，不表示这些要求已实施。"
+      },
+      {
+        "boundary": "CPU/内存/PID/字节",
+        "required": "Linux cgroup或经验证等效机制施加cpu.max/memory.max/pids.max，并记录真实effective值；另有运行墙钟、stdout和文件quota。限额按Run与项目累计，不因新Attempt重置。",
+        "verification": "合成忙循环/内存/进程数/输出超额fixture分别触发终止或拒绝且能回收。",
+        "limit": "RLIMIT_CPU/AS可作补充，不等同完整沙盒；单进程限制不能独自约束全部后代或总磁盘。"
+      },
+      {
+        "boundary": "取消与进程身份",
+        "required": "存execution_scope_id、boot_id、创建时间和pidfd/等效安全句柄。先发取消、宽限后仅终止已验证归属scope；确认进程退出与输出收拢后写CANCELLED。",
+        "verification": "PID复用、晚到完成、取消与提交竞争、supervisor重启；不得杀相同数字的无关PID。",
+        "limit": "发送signal/取消请求不等于后端已停止。身份不明时UNKNOWN并告警，禁止猜测kill。"
+      }
+    ],
+    "scientific_adapters": [
+      {
+        "id": "SCI-01",
+        "capability": "inspect_structure@1",
+        "request_fields": [
+          "coordinate_artifact_id",
+          "format=pdb|mmcif",
+          "coordinate_set=deposited_model",
+          "parse_policy_version"
+        ],
+        "algorithm_contract": [
+          "原始字节hash不可变；拒绝压缩魔数/未支持二进制/超限输入，不能只看扩展名；真实解析在受限子进程内完成。",
+          "以Gemmi作为默认解析器，输出model/entity/链/残基/原子层级与raw→normalized映射。mmCIF同时保留auth/label、插入码、altloc、comp/atom name、element、occupancy及记录分类。",
+          "P0不静默生成装配体、补缺失、变更残基/链编号或化学准备。多模型、多链及歧义alternative位置先列清单，按显式合同选择。",
+          "标准蛋白Cα比较规则与蛋白/配体接触选择不同；HETATM不能不加解释地全部当作非生物对象删掉，非标准残基需明确支持/排除原因。"
+        ],
+        "artifacts": [
+          "structure_manifest.json",
+          "selection_summary.json",
+          "parse_warnings.json"
+        ],
+        "failure_codes": [
+          "INPUT_INVALID",
+          "INPUT_IDENTITY_MISMATCH",
+          "SCIENTIFIC_PRECONDITION_FAILED"
+        ],
+        "independent_tests": [
+          "PDB/mmCIF同对象规范化一致；原文件字节保持不变。",
+          "多模型、auth/label不同、插入码/缺失、altloc、非标准残基、离子/水/配体分离。",
+          "1AKE中蛋白与AP5实例身份不能只凭auth链字母合并。"
+        ],
+        "allowed_claim": "解析与对象身份检查，不等于完整结构质量或实验支持。"
+      },
+      {
+        "id": "SCI-02",
+        "capability": "map_residues@1",
+        "request_fields": [
+          "reference_selection_artifact_id",
+          "moving_selection_artifact_id",
+          "strategy",
+          "explicit_pairs_artifact_id",
+          "mapping_policy_version"
+        ],
+        "algorithm_contract": [
+          "输出每一对原子的完整AtomKey及坐标来源；一对一、非空、类型兼容，不能只按数组顺序或同残基编号配对。",
+          "explicit_pairs按用户/参考映射来源校验；sequence_alignment_checked固定算法/参数并呈现缺失、冲突与覆盖，实质歧义先澄清。",
+          "分别报告matched_count/requested_reference_count与matched_count/requested_moving_count，保留未配对列表和原因，不用一个模糊覆盖率隐藏缺失。",
+          "AdK同auth编号+残基名规则仅适用于冻结hash明确的参考夹具；不能作为通用同源映射。"
+        ],
+        "artifacts": [
+          "atom_mapping.json",
+          "mapping_summary.json"
+        ],
+        "failure_codes": [
+          "SELECTION_EMPTY",
+          "MAPPING_INVALID"
+        ],
+        "independent_tests": [
+          "重复原子对/错对象/同编号不同序列/插入码/缺失及反向映射负例。",
+          "等价合法映射允许；相同输入/规则产生稳定排序及摘要。"
+        ],
+        "allowed_claim": "该映射下的坐标对应；显式映射来源与科学假设须在报告保留。"
+      },
+      {
+        "id": "SCI-03",
+        "capability": "calculate_rmsd@1",
+        "request_fields": [
+          "mapping_artifact_id",
+          "fit_pair_index_artifact_id",
+          "evaluation_pair_index_artifact_id",
+          "method=kabsch_right_handed",
+          "weighting=uniform",
+          "trim_outliers=false",
+          "units=angstrom"
+        ],
+        "algorithm_contract": [
+          "float64；moving X与reference Y按同一映射排序。拟合区F至少3对非共线点，重复/非有限数拒绝；rank阈值按数值精度、点数与尺度的版本化策略决定，不能误拒所有平面(rank2)点。",
+          "采用行向量：H=(X_F-meanX).T@(Y_F-meanY)，U,S,Vt=svd(H)，D=diag(1,1,sign(det(U@Vt)))，R=U@D@Vt，t=meanY-meanX@R。记录约定与det(R)；禁止用反射降低RMSD。",
+          "变换只由F求得；E单独评价 sqrt(mean(sum((X_E@R+t-Y_E)^2)))。F/E索引、原子数量、参考/移动方向与单位全部入产物。",
+          "不自动剔除离群点或调整阈值。SVD不收敛/非有限输出/不变量失败由数值错误报告，不能让模型反复跑同一计算刷成功。"
+        ],
+        "artifacts": [
+          "transform.json",
+          "rmsd_summary.json",
+          "per_residue_displacement.csv",
+          "aligned_coordinates.cif"
+        ],
+        "failure_codes": [
+          "GEOMETRY_DEGENERATE",
+          "NUMERICAL_FAILURE",
+          "MAPPING_INVALID"
+        ],
+        "independent_tests": [
+          "相同结构、已知平移/右手旋转得到预期零残差（冻结数值容差）。",
+          "满秩非共面镜像夹具不得用det(R)=-1反射伪装完美；rank1拒绝、rank2非共线点允许正确拟合。",
+          "改变评价区不改变已由F计算的变换；交换方向满足相应约定且记录一致。",
+          "独立参考实现/已知变换核对；现有AdK约7.130700Å等仅为回归锚点，不能代替其他对象族。"
+        ],
+        "allowed_claim": "所选原子与指定参考系中的几何差异，不单独支持功能、亲和力、因果或动力学。"
+      },
+      {
+        "id": "SCI-04",
+        "capability": "geometric_contacts@1",
+        "request_fields": [
+          "protein_selection_artifact_id",
+          "ligand_selection_artifact_id",
+          "cutoff_angstrom",
+          "distance_comparison=le",
+          "include_hydrogen=false"
+        ],
+        "algorithm_contract": [
+          "选择明确蛋白与配体实例和已确定替代构象；按元素排除氢/氘，不能用原子名第一字母推断元素。",
+          "使用沉积模型坐标的欧氏距离与明确 <= cutoff；P0不隐式添加晶体对称、PBC或装配体。邻居搜索如有周期/对称默认项必须关闭或不用。",
+          "采用受内存约束的块计算/空间索引，不能为大对象无界创建N×M矩阵；输出原子对去重排序、距离及按完整残基身份汇总。",
+          "阈值与单位来自冻结合同，正数/有限数/服务器支持上限前置检查；边界比较规则不能在重试中偷偷改成cutoff+epsilon。"
+        ],
+        "artifacts": [
+          "contacts.csv",
+          "contact_residue_summary.json",
+          "contact_definition.json"
+        ],
+        "failure_codes": [
+          "SELECTION_EMPTY",
+          "SCIENTIFIC_PRECONDITION_FAILED",
+          "RESOURCE_LIMIT"
+        ],
+        "independent_tests": [
+          "用小合成坐标标量双循环核对；刚好等于阈值、相邻浮点值及零距离用例。",
+          "重复编号不同链、多个配体、H/D、altloc和对称关系不会错误合并。",
+          "独立检查原子对数与残基数；AP5具体计数仅对原定义夹具成立。"
+        ],
+        "allowed_claim": "几何接近及距离接触，不自动称氢键、结合强度或因果。"
+      },
+      {
+        "id": "SCI-05",
+        "capability": "render_report@1",
+        "request_fields": [
+          "result_artifact_ids",
+          "validation_ids",
+          "template_id",
+          "locale"
+        ],
+        "algorithm_contract": [
+          "ReportData必须含question、对象/选择、mapping与覆盖、方法/参数/单位、关键结果、Validation引用、限制/未完成、版本与复算清单。",
+          "每个数值以artifact_id+field_ref关联实际已检查数据；最终语言模型解释必须再核对引用，不直接填入未产生的数值。",
+          "模板固定；不可信文本HTML转义，链接限定协议/目标；CSV单元格等下载按其用途做公式注入防护。",
+          "绘图使用确定性数据与固定模板；不执行工具返回的JS/HTML/SVG，原始候选文件在受控下载域提供。"
+        ],
+        "artifacts": [
+          "report_data.json",
+          "report.html",
+          "plot_data.csv",
+          "reproduction_manifest.json"
+        ],
+        "failure_codes": [
+          "OUTPUT_INVALID",
+          "INPUT_IDENTITY_MISMATCH"
+        ],
+        "independent_tests": [
+          "故意错引用/换单位/缺Validation不能发布已验证结论。",
+          "合成script/img/onerror/危险URL/CSV公式文本只显示为数据，不产生副作用。",
+          "REJECTED/INCONCLUSIVE/部分完成的报告清楚保留科学边界。"
+        ],
+        "allowed_claim": "忠实展示已有证据，界面/报告成功不改变科学状态。"
+      }
+    ],
+    "error_policy": [
+      {
+        "class": "INPUT / SCIENTIFIC_PRECONDITION",
+        "examples": [
+          "SELECTION_EMPTY",
+          "MAPPING_INVALID",
+          "GEOMETRY_DEGENERATE"
+        ],
+        "automatic_retry": "否",
+        "next": "定位合同/对象问题；同冻结合同可证明修复时追加PlanRevision，否则澄清或新修订/Run。",
+        "evidence": "保留首个失败步骤、原工件、修订原因和全部代价。"
+      },
+      {
+        "class": "NUMERICAL",
+        "examples": [
+          "SVD未收敛",
+          "非有限输出"
+        ],
+        "automatic_retry": "不盲目重试",
+        "next": "检查输入、算法/环境与独立基准；不更改接受阈值。",
+        "evidence": "数值诊断与环境digest，必要时INCONCLUSIVE。"
+      },
+      {
+        "class": "TRANSIENT INFRASTRUCTURE",
+        "examples": [
+          "已确认未启动的暂时后端不可用"
+        ],
+        "automatic_retry": "仅在次数、总预算和deadline内",
+        "next": "指数退避/抖动；前一次Attempt明确终结后才新建Attempt。",
+        "evidence": "错误分类、attempt_no和operation_id；所有尝试计费。"
+      },
+      {
+        "class": "RESOURCE / DEADLINE",
+        "examples": [
+          "内存/CPU/PID/输出额度/墙钟超限"
+        ],
+        "automatic_retry": "否，不能以重试增额",
+        "next": "停止相应执行scope，核对退出与usage；如需新资源合同由显式新Run处理。",
+        "evidence": "effective limit、实际观测、取消/回收事实。"
+      },
+      {
+        "class": "UNKNOWN / STALE LEASE",
+        "examples": [
+          "失去supervisor",
+          "无法确认旧进程",
+          "晚到结果"
+        ],
+        "automatic_retry": "禁止盲重提",
+        "next": "RECONCILING核对真实scope、文件和ledger；确认已停止后才重新排队或保留UNKNOWN。",
+        "evidence": "epoch/owner/进程身份、最后心跳、核查记录。"
+      },
+      {
+        "class": "POLICY / AUTH",
+        "examples": [
+          "跨项目",
+          "撤销授权",
+          "未知工具或外发"
+        ],
+        "automatic_retry": "否",
+        "next": "拒绝具体动作；不依赖该动作且仍满足原合同的合法分支可继续。",
+        "evidence": "可信政策/对象/原因码，日志不含秘密。"
+      }
+    ],
+    "health_and_observability": {
+      "probes": [
+        {
+          "name": "live",
+          "contract": "仅说明进程/事件循环可响应；不得依赖昂贵外部调用，不表示科学工具或模型可用。"
+        },
+        {
+          "name": "ready",
+          "contract": "检查DB/schema兼容、注册目录digest、存储读写、单例/runner有效隔离证据及所选模式必要配置。team模式认证/模型缺失时不可就绪；reference可单独声明可用，不伪装agent。"
+        },
+        {
+          "name": "capability_health",
+          "contract": "每个能力记录固定环境、最近参考回归与健康状态；新镜像/内核/配置变更使旧隔离证据失效。探针缓存有有效期，不在每请求跑完整科学套件。"
+        }
+      ],
+      "metrics": [
+        {
+          "name": "structbio_run_queue_depth / oldest_ready_age_seconds",
+          "purpose": "区分准入、排队与计算瓶颈；固定低基数模式/能力标签。"
+        },
+        {
+          "name": "structbio_active_cpu_children / lease_reconcile_total / unknown_attempts",
+          "purpose": "发现超过全局并发、租约失联和未知在途工作。"
+        },
+        {
+          "name": "structbio_run_outcomes_total / scientific_outcomes_total",
+          "purpose": "执行与科学状态分开；有效任务误拒与不支持任务正确拒绝分开。"
+        },
+        {
+          "name": "structbio_budget_reserved_units / confirmed_usage_units / unknown_usage_count",
+          "purpose": "按metric和币种/价格版本分项；UNKNOWN不能被汇总成0。"
+        },
+        {
+          "name": "structbio_attempt_cpu_ms / wall_ms / max_rss_bytes / output_bytes",
+          "purpose": "可信OS计量与实际文件字节，不用child自报替代。"
+        },
+        {
+          "name": "structbio_auth_denials_total / report_reference_failures_total",
+          "purpose": "安全与证据错配可行动告警；不要把高拒绝率当质量提升。"
+        }
+      ],
+      "logs": "允许request_id/trace_id/run_id/attempt_id/operation_id/plan_id/frozen_spec_id、版本与原因码、脱敏资源观测；禁止token/Cookie/认证头、完整私有坐标、原始敏感上下文与模型私有推理。业务事件不可采样丢弃，trace采样另行配置。",
+      "alert_examples": "以下为待先导校准的配置示例：队列最老READY>120s、失联超过45s租约+15sgrace、UNKNOWN>60s均触发有负责人处理；任何越权/负余额/错误科学接受立即停止相关准入。不是现有SLO或实测阈值。",
+      "cardinality": "metrics不把Run/Artifact/用户ID当无限标签；通过受限日志/trace关联个案。metrics与运维探针不对匿名资料站公开。"
+    },
+    "runbooks": [
+      {
+        "id": "RB-W01",
+        "trigger": "Worker/dispatcher重启",
+        "steps": [
+          "停止新增领取并取得singleton状态。",
+          "读取DB LEASED/UNKNOWN与真实execution_scope列表；不只根据过期时间判失败。",
+          "对照owner/boot_id/epoch/进程创建身份与已发布工件；仍运行则接管监控或按策略终止。",
+          "确认旧执行停止和usage/文件事实后，CAS终结或重新READY；不重置预算。"
+        ],
+        "exit": "无未归属进程，所有在途Attempt有终态或明确UNKNOWN责任，才恢复领取。"
+      },
+      {
+        "id": "RB-W02",
+        "trigger": "空间/配额耗尽",
+        "steps": [
+          "停止新分析准入及超额写入。",
+          "按RunStorageQuota与可信实际字节核查暂存、候选、已发布/孤儿文件；不按年龄直接删在途文件。",
+          "保留受影响Run证据；只按GC策略清理确认无引用/无在途的对象。",
+          "恢复配额与写入探针，相关Run按原状态核对。"
+        ],
+        "exit": "字节账本与实际存储一致，未丢已承诺工件，余量满足冻结准入条件。"
+      },
+      {
+        "id": "RB-W03",
+        "trigger": "坏科学结果/报告引用错误",
+        "steps": [
+          "禁用受影响能力/模板的新Run。",
+          "定位输入、选区、映射、版本和首个失效不变量；保全旧产物与验证记录。",
+          "用独立参考复现，修复后加入dev/reg，不把测试答案馈回当前holdout。",
+          "受影响旧结果追加重评记录并标记范围，不覆盖历史报告。"
+        ],
+        "exit": "数值、正常任务、错误输入与报告引用回归通过，责任人审阅后分阶段恢复。"
+      },
+      {
+        "id": "RB-W04",
+        "trigger": "升级/回滚",
+        "steps": [
+          "发布包固定代码、镜像/依赖、schema、能力、提示/模型和检查器版本。",
+          "先迁移兼容的增量schema，跑合同/科学/故障/隔离回归，参考模式与真实模型先导分开。",
+          "小范围放新Run；在途Run保持其旧合同/环境可重现，不强换工具版本。",
+          "回滚先停新准入；确认旧程序兼容当前DB/对象，再回应用版本；数据库回退仅按演练后的灾难恢复流程。"
+        ],
+        "exit": "没有被误覆盖的在途状态，旧/新报告都能追溯，必要恢复演练完成。"
+      }
+    ],
+    "ci_release_gates": [
+      {
+        "gate": "CI-01 合同",
+        "required": [
+          "JSON Schema自身有效，示例与负例校验；额外命令/身份字段被拒绝。",
+          "请求/消息与API、SQL状态/epoch/预算名一致。"
+        ],
+        "evidence": "schema报告+冻结版本hash"
+      },
+      {
+        "gate": "CI-02 科学",
+        "required": [
+          "每能力有效/边界/无效输入、不变量与独立参考。",
+          "至少包含非AdK对象族；数值容差在跑隐藏验收前固定。"
+        ],
+        "evidence": "原始输入hash、结果/检查器版本与失败日志"
+      },
+      {
+        "gate": "CI-03 执行与恢复",
+        "required": [
+          "fork前后、写文件/提交事务前后、取消/续租/迟到结果故障注入。",
+          "全局2子进程、每Run1Attempt、epoch/CAS、六维预算和文件quota真实生效。"
+        ],
+        "evidence": "可重放故障时间线与无重复副作用账本"
+      },
+      {
+        "gate": "CI-04 隔离与隐私",
+        "required": [
+          "实际目标Linux环境的挂载/网络/身份/cgroup/取消探针。",
+          "模型/日志/报告无秘密或错误原始内容外发。"
+        ],
+        "evidence": "有效配置、环境digest、探针和剩余限制"
+      },
+      {
+        "gate": "CI-05 产品试点",
+        "required": [
+          "真实模型端到端与reference分开，所有预分配Run进入分母。",
+          "质量/成本/误拒/隐错/时延按冻结协议，实际认证与项目隔离通过。"
+        ],
+        "evidence": "发布候选报告、签收人、回滚/恢复证明"
+      }
+    ],
+    "implementation_tasks": [
+      {
+        "id": "ENG-W01",
+        "depends_on": [
+          "M0合同"
+        ],
+        "task": "建立capability registry及固定adapter调用签名；实现严格JSON解码与参数schema。",
+        "deliverable": "manifest加载器、worker.v1 schema与正/反例报告。",
+        "done": "额外shell/路径/身份字段、NaN及未知能力在执行前被拒绝。",
+        "fr": [
+          "FR-06",
+          "FR-11",
+          "FR-22"
+        ],
+        "ac": [
+          "AC-01",
+          "AC-11",
+          "AC-12"
+        ]
+      },
+      {
+        "id": "ENG-W02",
+        "depends_on": [
+          "ENG-W01"
+        ],
+        "task": "Gemmi解析与完整对象身份清单，保留原始字节和预处理差异。",
+        "deliverable": "inspect_structure@1与选区产物。",
+        "done": "多模型/auth-label/插入码/altloc负例与非AdK输入独立核对。",
+        "fr": [
+          "FR-02",
+          "FR-03"
+        ],
+        "ac": [
+          "AC-01",
+          "AC-02"
+        ]
+      },
+      {
+        "id": "ENG-W03",
+        "depends_on": [
+          "ENG-W02"
+        ],
+        "task": "显式映射与覆盖/未配对列表，冻结规则和选择索引。",
+        "deliverable": "map_residues@1、AtomKey/atom_pairs契约。",
+        "done": "重复/错序/错链/同编号不同对象不被误接受。",
+        "fr": [
+          "FR-08"
+        ],
+        "ac": [
+          "AC-02",
+          "AC-03"
+        ]
+      },
+      {
+        "id": "ENG-W04",
+        "depends_on": [
+          "ENG-W03"
+        ],
+        "task": "实现float64右手Kabsch与F/E分离；交独立参考。",
+        "deliverable": "R/t、RMSD、逐位移与对齐坐标工件。",
+        "done": "刚体/反射/退化/区域与AdK回归通过且全输入可追。",
+        "fr": [
+          "FR-09",
+          "FR-14"
+        ],
+        "ac": [
+          "AC-03",
+          "AC-05"
+        ]
+      },
+      {
+        "id": "ENG-W05",
+        "depends_on": [
+          "ENG-W02"
+        ],
+        "task": "明确实例的重原子接触与残基汇总；限内存块计算。",
+        "deliverable": "geometric_contacts@1与阈值/原子对证据。",
+        "done": "独立小坐标枚举、阈值边界、H/D/多个配体用例通过。",
+        "fr": [
+          "FR-10",
+          "FR-14"
+        ],
+        "ac": [
+          "AC-04",
+          "AC-05"
+        ]
+      },
+      {
+        "id": "ENG-W06",
+        "depends_on": [
+          "数据库队列/预算合同",
+          "ENG-W01"
+        ],
+        "task": "单例dispatcher、领取/epoch、execution scope与监督管道。",
+        "deliverable": "IsolatedRunner接口和OSUsage来源。",
+        "done": "双dispatcher竞争不超单例；Run内串行、全局2子进程；晚到epoch不能完成。",
+        "fr": [
+          "FR-11",
+          "FR-13",
+          "FR-19"
+        ],
+        "ac": [
+          "AC-12",
+          "AC-13",
+          "AC-14"
+        ]
+      },
+      {
+        "id": "ENG-W07",
+        "depends_on": [
+          "ENG-W06",
+          "存储发布合同"
+        ],
+        "task": "文件安全打开、暂存/不可变提交、总字节quota与崩溃核查。",
+        "deliverable": "InputResolver/ArtifactPublisher与孤儿GC策略。",
+        "done": "符号链接/替换竞态/空间超额/DB完成丢失都保留正确事实。",
+        "fr": [
+          "FR-16",
+          "FR-18",
+          "FR-21"
+        ],
+        "ac": [
+          "AC-09",
+          "AC-10",
+          "AC-19"
+        ]
+      },
+      {
+        "id": "ENG-W08",
+        "depends_on": [
+          "ENG-W06"
+        ],
+        "task": "取消、超时、PID归属与UNKNOWN reconciliation。",
+        "deliverable": "取消状态机与RB-W01演练。",
+        "done": "无无关PID终止、无盲目新Attempt，确认停止后才CANCELLED。",
+        "fr": [
+          "FR-12",
+          "FR-13"
+        ],
+        "ac": [
+          "AC-14",
+          "AC-15"
+        ]
+      },
+      {
+        "id": "ENG-W09",
+        "depends_on": [
+          "ENG-W04",
+          "ENG-W05",
+          "ENG-W07"
+        ],
+        "task": "Validator与确定性报告数据/模板，引用校验与转义。",
+        "deliverable": "Validation/ReportData/HTML/复现清单。",
+        "done": "错误单位/缺证据/恶意文本不成为可信结论或执行内容。",
+        "fr": [
+          "FR-14",
+          "FR-15",
+          "FR-21"
+        ],
+        "ac": [
+          "AC-05",
+          "AC-18",
+          "AC-19"
+        ]
+      },
+      {
+        "id": "ENG-W10",
+        "depends_on": [
+          "ENG-W06",
+          "ENG-W09"
+        ],
+        "task": "metrics、脱敏日志、探针与发布包。",
+        "deliverable": "监控看板、告警责任、RB-W02/03/04与配置候选。",
+        "done": "UNKNOWN费用不归0；业务事件不断采样；备份/回滚在目标环境演练。",
+        "fr": [
+          "FR-19",
+          "FR-21",
+          "FR-23"
+        ],
+        "ac": [
+          "AC-08",
+          "AC-17",
+          "AC-21",
+          "AC-22"
+        ]
+      }
+    ],
+    "offline_validation_boundary": "本次只编写并离线验证schema/示例/配置语法。没有部署dispatcher、运行科学子进程、调用模型、验证Linux隔离、迁移数据库或替代正式验收。",
+    "sources": [
+      {
+        "id": "SRC-W-GEMMI",
+        "title": "Gemmi Macromolecular models",
+        "url": "https://gemmi.readthedocs.io/en/latest/mol.html",
+        "checked_on": "2026-11-03",
+        "supports": "结构/模型/链/残基/原子层级与坐标处理接口。字段规范化、P0范围及科学接受规则为本项目设计；锁定实际发布依赖，不追随latest开发页。"
+      },
+      {
+        "id": "SRC-W-NUMPY",
+        "title": "NumPy numpy.linalg.svd",
+        "url": "https://numpy.org/doc/stable/reference/generated/numpy.linalg.svd.html",
+        "checked_on": "2026-11-03",
+        "supports": "SVD的U/S/Vh分解和未收敛异常。Kabsch约定、数值不变量与参考验证另行定义。"
+      },
+      {
+        "id": "SRC-W-DOCKER",
+        "title": "Docker Engine Security",
+        "url": "https://docs.docker.com/engine/security/",
+        "checked_on": "2026-11-03",
+        "supports": "namespaces/cgroups与daemon/配置攻击面；权限、挂载与有效隔离需要实际验证。"
+      },
+      {
+        "id": "SRC-W-CGROUP",
+        "title": "Linux kernel Control Group v2",
+        "url": "https://docs.kernel.org/admin-guide/cgroup-v2.html",
+        "checked_on": "2026-11-03",
+        "supports": "资源层级控制及控制器语义；平台需提供有效委派/配置。本文限额是初始提案，不是内核通用推荐值。"
+      }
+    ]
+  },
+  "implementation": {
+    "version": "0.2",
+    "status": "ENGINEERING_DESIGN_NOT_DEPLOYED",
+    "decisions": [
+      {
+        "id": "ED-01",
+        "choice": "一仓库、一个LangGraph主控、PostgreSQL业务账本与持久检查点、一个dispatcher及受限CPU子进程",
+        "why": "先控制科学合同、权限和恢复，P0不引入Redis、Celery、Kubernetes或第二个Agent主控。",
+        "exit": "运行事实不依赖浏览器、内存或追踪平台。"
+      },
+      {
+        "id": "ED-02",
+        "choice": "原始请求、冻结科学合同、计划版本、实际尝试分离",
+        "why": "同一合同可修计划；改变科学问题生成关联的新请求修订/Run。",
+        "exit": "每个数值定位到frozen_spec_id、plan_id、attempt_id和产物hash。"
+      },
+      {
+        "id": "ED-03",
+        "choice": "全流程同Run预算、六维整数账本",
+        "why": "意图解析、重试、规划、报告均收费；恢复不能重置额度。",
+        "exit": "input_tokens/output_tokens/model_calls/cpu_ms/tool_attempts/money_microunits均可追溯。"
+      },
+      {
+        "id": "ED-04",
+        "choice": "文件不可变，数据库保存可见性和验收事实",
+        "why": "文件系统与DB不能组成天然原子事务，要显式处理中间状态。",
+        "exit": "完成态不指向缺失/错误字节，孤儿文件有回收条件。"
+      },
+      {
+        "id": "ED-05",
+        "choice": "接口/类型能校验结构，编译器/授权/科学检查继续校验语义",
+        "why": "合法JSON不代表链、映射、单位、权限或科学结论成立。",
+        "exit": "模型候选在执行前通过明确的确定性检查。"
+      }
+    ],
+    "repository": [
+      [
+        "apps/web/",
+        "任务/规格/计划/证据UI；不得自建执行事实或持有模型密钥"
+      ],
+      [
+        "apps/api/",
+        "认证、项目ACL、OpenAPI、幂等、SSE与产物下载"
+      ],
+      [
+        "packages/contracts/",
+        "从受审schema生成客户端类型；版本、schema测试和兼容策略"
+      ],
+      [
+        "packages/domain/",
+        "对象选择、映射、单位、冻结规格与科学判据"
+      ],
+      [
+        "packages/orchestrator/",
+        "模型适配器和有限状态图，所有动作走同一账本"
+      ],
+      [
+        "packages/capabilities/",
+        "inspect/map/rmsd/contacts及report适配器、manifest和参考数据"
+      ],
+      [
+        "packages/worker/",
+        "claim、lease_epoch、固定执行入口、资源/停止/结果上交"
+      ],
+      [
+        "packages/storage/",
+        "DB事务、文件发布、引用完整性、缓存与保留策略"
+      ],
+      [
+        "migrations/",
+        "独立Agent数据库的前向迁移；不指向现有NBDB业务库"
+      ],
+      [
+        "evals/",
+        "dev/reg/hidden-test清单、独立参考、预分配Run与分析脚本"
+      ],
+      [
+        "tests/",
+        "契约、数值、故障、并发、权限与端到端测试分目录"
+      ],
+      [
+        "ops/",
+        "配置模板、镜像/依赖锁、探针、runbook、备份与发布检查"
+      ]
+    ],
+    "model_modules": [
+      {
+        "module": "Specifier",
+        "inputs": "原问题、输入Artifact引用、对象清单、允许能力、字段来源与剩余额度",
+        "outputs": "严格候选TaskSpec或typed clarifying_questions；不产出shell/路径",
+        "checks": "未知字段拒绝、对象引用存在、关键歧义不猜、默认值依据入记录",
+        "persist": "调用ID、model/prompt/schema版本、脱敏输入摘要、候选、usage状态"
+      },
+      {
+        "module": "Planner",
+        "inputs": "FrozenTaskSpec、能力快照、可用上游产物、结构化观察",
+        "outputs": "有界typed DAG：capability/version、artifact refs、参数、依赖、预期产物",
+        "checks": "无环、引用/类型、方法前提、权限、预算；通过编译才成为可执行PlanRevision",
+        "persist": "父plan_id、compile结果、决策摘要与操作身份"
+      },
+      {
+        "module": "RepairPolicy",
+        "inputs": "稳定错误码、失败步骤、独立诊断、已有工件与剩余限制",
+        "outputs": "retry_transient / revise_plan / clarify / stop之一",
+        "checks": "不改FrozenTaskSpec和接受阈值；不把UNKNOWN当未执行；不反复刷通过",
+        "persist": "repair_reason、父Attempt、全部代价与终止依据"
+      },
+      {
+        "module": "Reporter",
+        "inputs": "已验收指标、Validation引用、选择/覆盖、限制和未完成部分",
+        "outputs": "结构化结论与证据引用；渲染器生成安全HTML",
+        "checks": "每项数值从工件字段取值，引用可解析；无有效结果不包装科学成功",
+        "persist": "report_version、模板/模型版本、证据到字段的映射"
+      }
+    ],
+    "model_call_protocol": [
+      "先由事务预留一次model_calls、输入/最大输出token与货币预算，再调用所选提供方。服务端固定model_profile，不接受模型选自己的权限。",
+      "模型请求、超时、取消、流式中断分别登记。收到可信usage后结算；响应丢失时保留UNKNOWN与必要预留，不能当0费用或立即盲重发。",
+      "输出有字节/token/深度/数组长度上限；仅提取约定JSON对象并严格验证。修复一次格式也属于真实model call，消耗同Run预算。",
+      "上下文压缩前后比较结构ID、hash、选区、映射、合同和证据引用；这些事实来自持久状态，不由摘要覆盖。",
+      "工具观察包含来源和稳定状态，按大小截断仅展示部分并保留完整Artifact引用；不静默截断科学输入。",
+      "P0保留当前任务的结构化状态，不建立跨项目长期记忆。参考资料不得授予新工具或扩大动作范围。"
+    ],
+    "frontend": [
+      {
+        "view": "项目/任务列表",
+        "state": "project_id、task_id、head_revision、最近Run摘要",
+        "behavior": "列表分页、权限拒绝统一处理；创建按钮携幂等身份，网络重试复用同key"
+      },
+      {
+        "view": "Run详情",
+        "state": "execution_state、phase、scientific_status、state_version、frozen_spec_id、plan版本",
+        "behavior": "从GET快照起步后订阅SSE；断线重取/补齐；不以spinner推断终态"
+      },
+      {
+        "view": "澄清表单",
+        "state": "当前question_id、typed answer schema、是否已冻结",
+        "behavior": "只显示决定性问题；提交expected_state_version；409重取，不覆盖他人变更"
+      },
+      {
+        "view": "计划与尝试",
+        "state": "parent_plan_id、step依赖、Attempt/usage/诊断",
+        "behavior": "支持查看历史计划；失败展示错误类别和下一步，保留合法部分"
+      },
+      {
+        "view": "结果与报告",
+        "state": "Artifact、Validation、指标字段引用、报告版本",
+        "behavior": "候选/拒绝/已验收视觉区分；3D为P1可选，表格和复算信息P0可用"
+      },
+      {
+        "view": "反馈入口",
+        "state": "反馈category、artifact/field/report_version、状态",
+        "behavior": "反馈只创建待复现线索；维护与专家裁决有权限、状态版本和追加历史"
+      }
+    ],
+    "sse_client_rules": [
+      "首次GET /runs返回快照和最后seq；EventSource使用认证同源会话。不得把长期访问令牌放进URL。",
+      "仅应用所属Run、严格增序且event_id未处理的事件；重复事件忽略，发现缺口按服务端保留政策补齐或重新同步。",
+      "SSE是通知通道，关键界面变更以受审快照/事件账本为真值；断开不自动取消。",
+      "退出项目/权限撤销后停止订阅并清除敏感前端缓存；下载和事件服务均重新查ACL。"
+    ],
+    "test_matrix": [
+      {
+        "id": "ET-01",
+        "layer": "合同",
+        "fixture": "合法/额外字段/NaN/未知枚举/越界数组",
+        "assertion": "请求schema拒绝非法候选；任何校验拒绝不产生科学调用",
+        "evidence": "schema版本、请求/响应、调用账本",
+        "maps": [
+          "FR-04",
+          "FR-07",
+          "AC-01"
+        ]
+      },
+      {
+        "id": "ET-02",
+        "layer": "身份与科学对象",
+        "fixture": "auth/label差异、插入码、altloc、多模型、空选区",
+        "assertion": "选择引用真实对象，明确默认与排除；歧义先澄清",
+        "evidence": "对象/选择/映射清单与参考",
+        "maps": [
+          "FR-03",
+          "FR-08",
+          "AC-02"
+        ]
+      },
+      {
+        "id": "ET-03",
+        "layer": "数值",
+        "fixture": "同结构、已知刚体变换、退化点集、独立RMSD复算",
+        "assertion": "满足冻结容差和方向约定；非法/非有限结果拒绝",
+        "evidence": "独立参考与变换/误差",
+        "maps": [
+          "FR-09",
+          "AC-03",
+          "AC-05"
+        ]
+      },
+      {
+        "id": "ET-04",
+        "layer": "几何接触",
+        "fixture": "阈值边界、重复原子、配体实例错误、单位变化",
+        "assertion": "计数和距离可独立重算，不越界推断亲和力",
+        "evidence": "逐原子对和残基归并检查",
+        "maps": [
+          "FR-10",
+          "AC-04"
+        ]
+      },
+      {
+        "id": "ET-05",
+        "layer": "幂等/并发",
+        "fixture": "同key同请求、同key异请求、并发受理与预算争用",
+        "assertion": "同请求身份唯一；冲突409；预算不被并发绕过",
+        "evidence": "DB行数、唯一键、锁/事务结果",
+        "maps": [
+          "FR-01",
+          "FR-11",
+          "AC-13",
+          "AC-14"
+        ]
+      },
+      {
+        "id": "ET-06",
+        "layer": "租约与恢复",
+        "fixture": "claim后断电、超时回报、旧Worker晚到、取消竞态",
+        "assertion": "旧epoch不提交；未知先核查；不产生危险重复",
+        "evidence": "lease与Attempt事件链、进程/工件事实",
+        "maps": [
+          "FR-13",
+          "AC-15"
+        ]
+      },
+      {
+        "id": "ET-07",
+        "layer": "文件/DB一致",
+        "fixture": "写临时、rename、DB提交各阶段故障",
+        "assertion": "没有完成态引用缺失字节，孤儿可定位并按规则回收",
+        "evidence": "故障点快照、manifest、checksum与reconcile记录",
+        "maps": [
+          "FR-16",
+          "FR-21",
+          "AC-19"
+        ]
+      },
+      {
+        "id": "ET-08",
+        "layer": "认证和执行边界",
+        "fixture": "跨项目ID、污染资料、越域路径、外发/未知程序",
+        "assertion": "服务端拒绝非法动作；正常新工件与下载无额外审批",
+        "evidence": "实际访问/调用账本、拒绝码和正常任务分母",
+        "maps": [
+          "FR-17",
+          "FR-18",
+          "AC-09",
+          "AC-10",
+          "AC-11",
+          "AC-12"
+        ]
+      },
+      {
+        "id": "ET-09",
+        "layer": "真实模型",
+        "fixture": "冻结有效/澄清/不支持任务，预分配多次Run",
+        "assertion": "模型真实提出动作并利用观察；全部费用/失败进入冻结分母",
+        "evidence": "配置/trace/产物/评分/usage覆盖率",
+        "maps": [
+          "FR-20",
+          "FR-23",
+          "AC-06",
+          "AC-07",
+          "AC-08"
+        ]
+      },
+      {
+        "id": "ET-10",
+        "layer": "界面与报告",
+        "fixture": "SSE重复/断线、409、候选结果、HTML注入文本",
+        "assertion": "可恢复且不伪终态；渲染转义；证据可定位",
+        "evidence": "浏览器事件、API快照与报告字段核对",
+        "maps": [
+          "FR-15",
+          "AC-18"
+        ]
+      },
+      {
+        "id": "ET-11",
+        "layer": "发布与数据恢复",
+        "fixture": "迁移/回滚、备份恢复、配置/检查器变更",
+        "assertion": "旧Run仍可查可解释；新配置通过关联回归才试点",
+        "evidence": "迁移记录、恢复校验、发布门控报告",
+        "maps": [
+          "FR-21",
+          "FR-22",
+          "AC-20",
+          "AC-21"
+        ]
+      },
+      {
+        "id": "ET-12",
+        "layer": "容量与费用",
+        "fixture": "声明硬件/负载下冷/热缓存、失败/未知计费",
+        "assertion": "达到先导后冻结目标；未知费用报告覆盖率且不当0",
+        "evidence": "p50/p95、队列、全部usage/预留/结算账本",
+        "maps": [
+          "FR-19",
+          "AC-22"
+        ]
+      }
+    ],
+    "ci_stages": [
+      [
+        "提交检查",
+        "格式/类型、schema编译、OpenAPI引用和示例、迁移语法、未知字段/枚举负例"
+      ],
+      [
+        "确定性测试",
+        "领域对象与数值不变量、独立参考、错误分类、报告引用和escape"
+      ],
+      [
+        "DB/执行集成",
+        "临时独立测试库，真正执行约束/事务/并发/崩溃恢复；静态SQL解析不能替代此层"
+      ],
+      [
+        "模型先导",
+        "显式配置模型和预算后运行dev/reg；mock通过不等于此层通过"
+      ],
+      [
+        "发布门控",
+        "冻结候选配置、隐藏测试与安全/恢复回归；版本包和回退/剩余风险签收"
+      ]
+    ],
+    "issues": [
+      {
+        "id": "ENG-01",
+        "module": "合同",
+        "task": "冻结HTTP/schema/错误码/状态与单位",
+        "files": "packages/contracts + OpenAPI + schema fixtures",
+        "depends": [],
+        "done": "正反例校验通过；每个FR/AC引用可定位；UUID/预算字段统一",
+        "owner": "后端+科学负责人"
+      },
+      {
+        "id": "ENG-02",
+        "module": "数据",
+        "task": "实现独立Agent数据库迁移与ACL上下文",
+        "files": "migrations + packages/storage",
+        "depends": [
+          "ENG-01"
+        ],
+        "done": "在临时库验证FK/UNIQUE/CHECK与跨项目负例；不连接现有NBDB库",
+        "owner": "后端"
+      },
+      {
+        "id": "ENG-03",
+        "module": "文件",
+        "task": "输入导入、不可变存储与manifest",
+        "files": "apps/api/artifacts + storage/files",
+        "depends": [
+          "ENG-01",
+          "ENG-02"
+        ],
+        "done": "超限/伪格式/路径负例拒绝；同名不同字节不混淆；崩溃可reconcile",
+        "owner": "后端"
+      },
+      {
+        "id": "ENG-04",
+        "module": "领域",
+        "task": "对象检查与选择/映射",
+        "files": "packages/domain + capabilities/inspect,map",
+        "depends": [
+          "ENG-03"
+        ],
+        "done": "模型/编号/altloc/插入码/空集合用例有独立核对",
+        "owner": "科学工具开发"
+      },
+      {
+        "id": "ENG-05",
+        "module": "领域",
+        "task": "Kabsch与几何接触适配器",
+        "files": "capabilities/rmsd,contacts + independent reference",
+        "depends": [
+          "ENG-04"
+        ],
+        "done": "ET-03/04通过；方法、单位、覆盖、变换/原子对产物完整",
+        "owner": "科学工具开发"
+      },
+      {
+        "id": "ENG-06",
+        "module": "执行",
+        "task": "队列、租约、fencing与结果发布",
+        "files": "packages/worker + storage/transactions",
+        "depends": [
+          "ENG-02",
+          "ENG-03",
+          "ENG-05"
+        ],
+        "done": "ET-05/06/07在真测试库/隔离执行环境通过",
+        "owner": "后端/平台"
+      },
+      {
+        "id": "ENG-07",
+        "module": "验收",
+        "task": "科学检查与证据报告",
+        "files": "domain/validators + report renderer",
+        "depends": [
+          "ENG-05",
+          "ENG-06"
+        ],
+        "done": "程序成功但科学失败被识别；关键值绑定工件；未定/失败可读",
+        "owner": "科学+后端"
+      },
+      {
+        "id": "ENG-08",
+        "module": "模型",
+        "task": "provider-neutral适配器和全流程账本",
+        "files": "orchestrator/model_adapter + prompt versions",
+        "depends": [
+          "ENG-01",
+          "ENG-02"
+        ],
+        "done": "真实调用/usage、超时UNKNOWN与预算预留可审计；无配置明确阻断",
+        "owner": "Agent开发"
+      },
+      {
+        "id": "ENG-09",
+        "module": "主控",
+        "task": "Specifier/Planner/repair/report有限状态图",
+        "files": "orchestrator/graph + typed nodes",
+        "depends": [
+          "ENG-04",
+          "ENG-06",
+          "ENG-07",
+          "ENG-08"
+        ],
+        "done": "真实模型先导展示计划与观察；修订不改冻结科学合同",
+        "owner": "Agent开发"
+      },
+      {
+        "id": "ENG-10",
+        "module": "界面",
+        "task": "项目/任务/澄清/计划/证据工作台",
+        "files": "apps/web + generated types",
+        "depends": [
+          "ENG-01"
+        ],
+        "done": "契约mock可先开发；最终与真API通过ET-10，刷新不重算",
+        "owner": "前端"
+      },
+      {
+        "id": "ENG-11",
+        "module": "安全",
+        "task": "真实身份、项目ACL、隔离与配额",
+        "files": "api/auth + worker runtime + policy",
+        "depends": [
+          "ENG-02",
+          "ENG-06"
+        ],
+        "done": "团队入口启用前ET-08、凭证/数据外发/日志回归通过",
+        "owner": "平台+独立复核"
+      },
+      {
+        "id": "ENG-12",
+        "module": "试点",
+        "task": "冻结评估、备份恢复与发布签收",
+        "files": "evals + ops + runbooks",
+        "depends": [
+          "ENG-07",
+          "ENG-09",
+          "ENG-10",
+          "ENG-11"
+        ],
+        "done": "全量预分配分母、已测范围、成本覆盖率、恢复与回退证据完整",
+        "owner": "科学/产品+独立验收"
+      }
+    ]
+  }
+}

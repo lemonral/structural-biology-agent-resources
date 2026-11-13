@@ -1,0 +1,21 @@
+{
+  "case_id": "unit_unsupported",
+  "task_id": "unit_unsupported",
+  "policy": "fixed_teaching_plan@1",
+  "contains_llm": false,
+  "fault_fixture": null,
+  "attempts": [
+    {
+      "attempt_id": "unit_unsupported:inspect:1",
+      "step_id": "inspect",
+      "tool_id": "inspect_coordinates@1",
+      "state": "REJECTED"
+    }
+  ],
+  "artifacts": {},
+  "state": "REJECTED",
+  "reason": "UNSUPPORTED_UNIT",
+  "actual_scientific_calculations": 0,
+  "simulated_external_submissions": 0,
+  "tool_attempt_count": 1
+}

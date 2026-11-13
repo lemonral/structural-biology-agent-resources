@@ -1,0 +1,230 @@
+{
+  "schema": "contact-result.v1",
+  "task_id": "ligand_contacts",
+  "objects": {
+    "reference": {
+      "entry": "1AKE",
+      "sha256": "01f41b1b42318a1a5df7f650dbab881677aa0e8d825f7c42dd26ae16a94c0948",
+      "model_index": 0,
+      "chain_namespace": "auth",
+      "chain": "A",
+      "atom": "heavy"
+    }
+  },
+  "units": "angstrom",
+  "method": "heavy_atom_Euclidean_distance_inclusive_cutoff@1",
+  "cutoff_A": 4.0,
+  "ligand": {
+    "name": "AP5",
+    "auth_residue": 215,
+    "chain": "A",
+    "heavy_atoms": 57
+  },
+  "contact_residues": [
+    {
+      "auth_residue": 9,
+      "resname": "PRO",
+      "min_distance": 3.549087291169909,
+      "atom_pairs_within_cutoff": 3
+    },
+    {
+      "auth_residue": 10,
+      "resname": "GLY",
+      "min_distance": 3.0114986310781378,
+      "atom_pairs_within_cutoff": 13
+    },
+    {
+      "auth_residue": 11,
+      "resname": "ALA",
+      "min_distance": 3.0523031088325854,
+      "atom_pairs_within_cutoff": 5
+    },
+    {
+      "auth_residue": 12,
+      "resname": "GLY",
+      "min_distance": 2.981669896159172,
+      "atom_pairs_within_cutoff": 16
+    },
+    {
+      "auth_residue": 13,
+      "resname": "LYS",
+      "min_distance": 2.7792515564871327,
+      "atom_pairs_within_cutoff": 16
+    },
+    {
+      "auth_residue": 14,
+      "resname": "GLY",
+      "min_distance": 2.6992412196128726,
+      "atom_pairs_within_cutoff": 6
+    },
+    {
+      "auth_residue": 15,
+      "resname": "THR",
+      "min_distance": 2.7142974838471,
+      "atom_pairs_within_cutoff": 10
+    },
+    {
+      "auth_residue": 31,
+      "resname": "THR",
+      "min_distance": 2.8306834256934508,
+      "atom_pairs_within_cutoff": 5
+    },
+    {
+      "auth_residue": 32,
+      "resname": "GLY",
+      "min_distance": 3.725820418047338,
+      "atom_pairs_within_cutoff": 4
+    },
+    {
+      "auth_residue": 35,
+      "resname": "LEU",
+      "min_distance": 3.733490374343,
+      "atom_pairs_within_cutoff": 2
+    },
+    {
+      "auth_residue": 36,
+      "resname": "ARG",
+      "min_distance": 3.016362374870375,
+      "atom_pairs_within_cutoff": 6
+    },
+    {
+      "auth_residue": 53,
+      "resname": "MET",
+      "min_distance": 3.267910011738133,
+      "atom_pairs_within_cutoff": 5
+    },
+    {
+      "auth_residue": 57,
+      "resname": "LYS",
+      "min_distance": 2.6832658981755593,
+      "atom_pairs_within_cutoff": 4
+    },
+    {
+      "auth_residue": 58,
+      "resname": "LEU",
+      "min_distance": 3.926340548778478,
+      "atom_pairs_within_cutoff": 2
+    },
+    {
+      "auth_residue": 59,
+      "resname": "VAL",
+      "min_distance": 3.1455762072373874,
+      "atom_pairs_within_cutoff": 8
+    },
+    {
+      "auth_residue": 64,
+      "resname": "VAL",
+      "min_distance": 3.3431592746222014,
+      "atom_pairs_within_cutoff": 6
+    },
+    {
+      "auth_residue": 85,
+      "resname": "GLY",
+      "min_distance": 2.8577428901297095,
+      "atom_pairs_within_cutoff": 5
+    },
+    {
+      "auth_residue": 86,
+      "resname": "PHE",
+      "min_distance": 3.623975380125901,
+      "atom_pairs_within_cutoff": 2
+    },
+    {
+      "auth_residue": 88,
+      "resname": "ARG",
+      "min_distance": 2.835689419407741,
+      "atom_pairs_within_cutoff": 18
+    },
+    {
+      "auth_residue": 92,
+      "resname": "GLN",
+      "min_distance": 2.9844546790126683,
+      "atom_pairs_within_cutoff": 9
+    },
+    {
+      "auth_residue": 119,
+      "resname": "ARG",
+      "min_distance": 3.552731811225338,
+      "atom_pairs_within_cutoff": 14
+    },
+    {
+      "auth_residue": 123,
+      "resname": "ARG",
+      "min_distance": 2.748046268667898,
+      "atom_pairs_within_cutoff": 21
+    },
+    {
+      "auth_residue": 132,
+      "resname": "VAL",
+      "min_distance": 3.5386521376724502,
+      "atom_pairs_within_cutoff": 2
+    },
+    {
+      "auth_residue": 133,
+      "resname": "TYR",
+      "min_distance": 2.9615599331967886,
+      "atom_pairs_within_cutoff": 6
+    },
+    {
+      "auth_residue": 134,
+      "resname": "HIS",
+      "min_distance": 3.285222432922728,
+      "atom_pairs_within_cutoff": 8
+    },
+    {
+      "auth_residue": 137,
+      "resname": "PHE",
+      "min_distance": 3.404629029474469,
+      "atom_pairs_within_cutoff": 6
+    },
+    {
+      "auth_residue": 156,
+      "resname": "ARG",
+      "min_distance": 2.0020472131266303,
+      "atom_pairs_within_cutoff": 15
+    },
+    {
+      "auth_residue": 158,
+      "resname": "ASP",
+      "min_distance": 3.8827584521598966,
+      "atom_pairs_within_cutoff": 1
+    },
+    {
+      "auth_residue": 167,
+      "resname": "ARG",
+      "min_distance": 3.3715563872338055,
+      "atom_pairs_within_cutoff": 2
+    },
+    {
+      "auth_residue": 198,
+      "resname": "GLY",
+      "min_distance": 3.8434718076969436,
+      "atom_pairs_within_cutoff": 1
+    },
+    {
+      "auth_residue": 200,
+      "resname": "LYS",
+      "min_distance": 2.7705780609831363,
+      "atom_pairs_within_cutoff": 4
+    },
+    {
+      "auth_residue": 201,
+      "resname": "PRO",
+      "min_distance": 3.63303379481879,
+      "atom_pairs_within_cutoff": 1
+    },
+    {
+      "auth_residue": 202,
+      "resname": "VAL",
+      "min_distance": 3.295567645060304,
+      "atom_pairs_within_cutoff": 7
+    },
+    {
+      "auth_residue": 205,
+      "resname": "VAL",
+      "min_distance": 3.746990517524553,
+      "atom_pairs_within_cutoff": 1
+    }
+  ],
+  "interpretation_limit": "Geometric contact under a declared cutoff, not binding affinity or causal functional evidence."
+}

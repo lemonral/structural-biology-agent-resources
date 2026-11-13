@@ -1,0 +1,22 @@
+{
+  "author": "周熠",
+  "archive_date": "2026-11-14",
+  "repository": "lemonral/structural-biology-agent-resources",
+  "visibility": "private",
+  "site_file_count": 945,
+  "site_total_bytes": 619186267,
+  "current_presentation": {
+    "path": "site/brief/structbio-agent-landscape-30-20261113.pptx",
+    "pages": 30,
+    "version": "2026-11-13",
+    "sha256": "e4b0be985d6dc9baaf31e787f75efbdd325d7afacb43be0073c0e7504871a36d"
+  },
+  "excluded": [
+    "macOS metadata",
+    "Office lock files",
+    "deployment credentials and connection state",
+    "build caches",
+    "intermediate PPT exports",
+    "old build directory backups"
+  ]
+}

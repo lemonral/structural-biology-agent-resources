@@ -1,0 +1,15 @@
+{
+  "status": "ok",
+  "difference": "B minus A",
+  "mean_difference": 0.041666666666666664,
+  "percentile_interval_95": [
+    -0.0625,
+    0.125
+  ],
+  "object_groups": 8,
+  "resamples": 5000,
+  "seed": 20261101,
+  "weighting": "mean repeats per task, equal tasks per cluster, equal clusters",
+  "limit": "Percentile bootstrap is illustrative; few clusters, dependence and chosen target population limit interpretation.",
+  "label": "SIMULATED_ABSTRACT_TEACHING_DATA_NO_AGENT_RUNS"
+}

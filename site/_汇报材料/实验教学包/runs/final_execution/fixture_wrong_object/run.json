@@ -1,0 +1,44 @@
+{
+  "case_id": "fixture_wrong_object",
+  "task_id": "fixture_wrong_object",
+  "policy": "fixed_teaching_plan@1",
+  "contains_llm": false,
+  "fault_fixture": "wrong_object",
+  "attempts": [
+    {
+      "attempt_id": "fixture_wrong_object:inspect:1",
+      "step_id": "inspect",
+      "tool_id": "inspect_coordinates@1",
+      "state": "COMPLETED"
+    },
+    {
+      "attempt_id": "fixture_wrong_object:mapping:1",
+      "step_id": "mapping",
+      "tool_id": "map_residues@1",
+      "state": "COMPLETED"
+    },
+    {
+      "attempt_id": "fixture_wrong_object:measure:1",
+      "step_id": "measure",
+      "tool_id": "calculate_rmsd@1",
+      "state": "FAILED"
+    }
+  ],
+  "artifacts": {
+    "result": {
+      "filename": "result.json",
+      "content_id": "28d772f55ae4a318b69006f3f0e1ee55ca00165e556129e4ffa0637a9d62cd14",
+      "attempt_id": "fixture_wrong_object:measure:1"
+    },
+    "validation": {
+      "filename": "validation.json",
+      "content_id": "1c45b03f803780532d21a96ffdee6560bf160aa13bbc63e6600dec1d53103634",
+      "attempt_id": "validator:1"
+    }
+  },
+  "state": "FAILED",
+  "reason": "SCIENTIFIC_VALIDATION",
+  "actual_scientific_calculations": 1,
+  "simulated_external_submissions": 0,
+  "tool_attempt_count": 3
+}

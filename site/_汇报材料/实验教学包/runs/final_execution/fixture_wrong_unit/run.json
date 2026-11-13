@@ -1,0 +1,44 @@
+{
+  "case_id": "fixture_wrong_unit",
+  "task_id": "fixture_wrong_unit",
+  "policy": "fixed_teaching_plan@1",
+  "contains_llm": false,
+  "fault_fixture": "wrong_unit",
+  "attempts": [
+    {
+      "attempt_id": "fixture_wrong_unit:inspect:1",
+      "step_id": "inspect",
+      "tool_id": "inspect_coordinates@1",
+      "state": "COMPLETED"
+    },
+    {
+      "attempt_id": "fixture_wrong_unit:mapping:1",
+      "step_id": "mapping",
+      "tool_id": "map_residues@1",
+      "state": "COMPLETED"
+    },
+    {
+      "attempt_id": "fixture_wrong_unit:measure:1",
+      "step_id": "measure",
+      "tool_id": "calculate_rmsd@1",
+      "state": "FAILED"
+    }
+  ],
+  "artifacts": {
+    "result": {
+      "filename": "result.json",
+      "content_id": "48ef7f4f4bb8ecf7a865421f01200ade05dc588a521b3266fc1efd8df1302d9c",
+      "attempt_id": "fixture_wrong_unit:measure:1"
+    },
+    "validation": {
+      "filename": "validation.json",
+      "content_id": "6159eba219c75c2995b2b19746669f72fd6a61fa5ea5e8a13ae90e542d83fa64",
+      "attempt_id": "validator:1"
+    }
+  },
+  "state": "FAILED",
+  "reason": "SCIENTIFIC_VALIDATION",
+  "actual_scientific_calculations": 1,
+  "simulated_external_submissions": 0,
+  "tool_attempt_count": 3
+}

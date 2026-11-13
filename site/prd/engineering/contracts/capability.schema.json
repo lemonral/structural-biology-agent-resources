@@ -1,0 +1,439 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:structbio:capability:v1",
+  "title": "P0 capability manifest — engineering draft, not deployed",
+  "description": "P0 trusted allowlist manifest. Files must be packaged with checksums, tested, reviewed and installed via release; passing this schema alone is insufficient.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "capability_id",
+    "tool_version",
+    "owner",
+    "code_digest",
+    "environment_digest",
+    "license",
+    "enabled",
+    "adapter_id",
+    "supported_scope",
+    "request_schema",
+    "response_schema",
+    "permissions",
+    "execution_profile_id",
+    "artifact_kinds",
+    "acceptance",
+    "regression_suite_id",
+    "release_evidence_id"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "capability.v1"
+    },
+    "capability_id": {
+      "enum": [
+        "inspect_structure",
+        "map_residues",
+        "calculate_rmsd",
+        "geometric_contacts",
+        "render_report"
+      ]
+    },
+    "tool_version": {
+      "const": "1"
+    },
+    "owner": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120
+    },
+    "code_digest": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "environment_digest": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "license": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120
+    },
+    "enabled": {
+      "type": "boolean"
+    },
+    "adapter_id": {
+      "enum": [
+        "inspect_v1",
+        "mapping_v1",
+        "rmsd_v1",
+        "contacts_v1",
+        "report_v1"
+      ]
+    },
+    "supported_scope": {
+      "$ref": "#/$defs/SupportedScope"
+    },
+    "request_schema": {
+      "$ref": "#/$defs/VersionedSchema"
+    },
+    "response_schema": {
+      "$ref": "#/$defs/VersionedSchema"
+    },
+    "permissions": {
+      "$ref": "#/$defs/Permissions"
+    },
+    "execution_profile_id": {
+      "const": "p0_cpu_no_network_v1"
+    },
+    "artifact_kinds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9_]{0,63}$"
+      },
+      "minItems": 1,
+      "maxItems": 20,
+      "uniqueItems": true
+    },
+    "acceptance": {
+      "$ref": "#/$defs/Acceptance"
+    },
+    "regression_suite_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100
+    },
+    "release_evidence_id": {
+      "type": "string",
+      "format": "uuid"
+    }
+  },
+  "$defs": {
+    "VersionedSchema": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_id": {
+          "type": "string",
+          "pattern": "^urn:structbio:[a-z0-9:-]+$"
+        },
+        "file": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9_.-]{0,120}\\.json$"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "schema_id",
+        "file",
+        "sha256"
+      ]
+    },
+    "Acceptance": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "checker_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]{0,63}$"
+        },
+        "checker_version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40
+        },
+        "reference_dataset_digest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "tolerance_policy_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "allowed_scientific_statuses": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "ACCEPTED",
+              "REJECTED",
+              "INCONCLUSIVE",
+              "NOT_APPLICABLE"
+            ]
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "checker_id",
+        "checker_version",
+        "reference_dataset_digest",
+        "tolerance_policy_id",
+        "allowed_scientific_statuses"
+      ]
+    },
+    "SupportedScope": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "formats": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "pdb",
+              "mmcif",
+              "json",
+              "csv"
+            ]
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "objects": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "protein",
+              "ligand",
+              "coordinate_model",
+              "analysis_artifact"
+            ]
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "limits_policy_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "preconditions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 300
+          },
+          "minItems": 1,
+          "maxItems": 30
+        },
+        "unsupported": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 300
+          },
+          "maxItems": 30
+        }
+      },
+      "required": [
+        "formats",
+        "objects",
+        "limits_policy_id",
+        "preconditions",
+        "unsupported"
+      ]
+    },
+    "Permissions": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "input_access": {
+          "const": "project_scoped_read"
+        },
+        "output_access": {
+          "const": "new_immutable_project_artifact"
+        },
+        "network": {
+          "const": "none"
+        },
+        "overwrite_existing": {
+          "const": false
+        },
+        "arbitrary_code": {
+          "const": false
+        },
+        "automatic_when_authorized": {
+          "const": true
+        }
+      },
+      "required": [
+        "input_access",
+        "output_access",
+        "network",
+        "overwrite_existing",
+        "arbitrary_code",
+        "automatic_when_authorized"
+      ]
+    }
+  },
+  "examples": [
+    {
+      "schema_version": "capability.v1",
+      "capability_id": "calculate_rmsd",
+      "tool_version": "1",
+      "owner": "example-scientific-maintainer",
+      "code_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "environment_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "license": "example-license-review-required",
+      "enabled": false,
+      "adapter_id": "rmsd_v1",
+      "supported_scope": {
+        "formats": [
+          "mmcif",
+          "pdb",
+          "json"
+        ],
+        "objects": [
+          "protein",
+          "analysis_artifact"
+        ],
+        "limits_policy_id": "p0_cpu_limits_v1",
+        "preconditions": [
+          "One-to-one explicit atom mapping; finite coordinates; distinct fit/evaluation indices."
+        ],
+        "unsupported": [
+          "Automatic claim of function or affinity; arbitrary fitting outlier removal."
+        ]
+      },
+      "request_schema": {
+        "schema_id": "urn:structbio:rmsd-request:v1",
+        "file": "rmsd-request.schema.json",
+        "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      },
+      "response_schema": {
+        "schema_id": "urn:structbio:rmsd-result:v1",
+        "file": "rmsd-result.schema.json",
+        "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+      },
+      "permissions": {
+        "input_access": "project_scoped_read",
+        "output_access": "new_immutable_project_artifact",
+        "network": "none",
+        "overwrite_existing": false,
+        "arbitrary_code": false,
+        "automatic_when_authorized": true
+      },
+      "execution_profile_id": "p0_cpu_no_network_v1",
+      "artifact_kinds": [
+        "transform",
+        "rmsd_summary",
+        "per_residue_displacement"
+      ],
+      "acceptance": {
+        "checker_id": "comparison_checker",
+        "checker_version": "1",
+        "reference_dataset_digest": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "tolerance_policy_id": "kabsch_tolerance_v1",
+        "allowed_scientific_statuses": [
+          "ACCEPTED",
+          "REJECTED",
+          "INCONCLUSIVE"
+        ]
+      },
+      "regression_suite_id": "example-rmsd-regression-v1",
+      "release_evidence_id": "00000000-0000-4000-8000-000000000020"
+    }
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "capability_id": {
+            "const": "inspect_structure"
+          }
+        },
+        "required": [
+          "capability_id"
+        ]
+      },
+      "then": {
+        "properties": {
+          "adapter_id": {
+            "const": "inspect_v1"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "capability_id": {
+            "const": "map_residues"
+          }
+        },
+        "required": [
+          "capability_id"
+        ]
+      },
+      "then": {
+        "properties": {
+          "adapter_id": {
+            "const": "mapping_v1"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "capability_id": {
+            "const": "calculate_rmsd"
+          }
+        },
+        "required": [
+          "capability_id"
+        ]
+      },
+      "then": {
+        "properties": {
+          "adapter_id": {
+            "const": "rmsd_v1"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "capability_id": {
+            "const": "geometric_contacts"
+          }
+        },
+        "required": [
+          "capability_id"
+        ]
+      },
+      "then": {
+        "properties": {
+          "adapter_id": {
+            "const": "contacts_v1"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "capability_id": {
+            "const": "render_report"
+          }
+        },
+        "required": [
+          "capability_id"
+        ]
+      },
+      "then": {
+        "properties": {
+          "adapter_id": {
+            "const": "report_v1"
+          }
+        }
+      }
+    }
+  ]
+}

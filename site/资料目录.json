@@ -1,0 +1,190 @@
+{
+  "title": "AI Agent与结构生物学研究资料 · 四板块整合版",
+  "integration_date": "2026-10-27",
+  "modules": [
+    {
+      "number": 1,
+      "title": "Agent 框架：发展脉络与选型",
+      "path": "01_Agent框架发展与选型/01_Agent框架发展与选型.html"
+    },
+    {
+      "number": 2,
+      "title": "Agent 工程：实现、运行与评价",
+      "path": "02_Agent工程实现与评价/02_Agent工程实现与评价.html"
+    },
+    {
+      "number": 3,
+      "title": "生物学与结构生物学 Agent 研究",
+      "path": "03_生物学与结构生物学Agent/03_生物学与结构生物学Agent.html"
+    },
+    {
+      "number": 4,
+      "title": "结构生物学计算流程与工具",
+      "path": "04_结构生物学计算流程与工具/04_结构生物学计算流程与工具.html"
+    }
+  ],
+  "paper_catalog": "论文索引.html",
+  "paper_metadata": "论文索引.json",
+  "archive": "_资料来源与原文",
+  "source_policy": "保留原87个文件及目录布局；旧报告不覆盖改写。新增补充论文另放来源目录。",
+  "verification_dates": {
+    "framework_and_engineering": "2026-10-27",
+    "biology_and_structural_tools": "2026-10-23",
+    "depth_supplement": "2026-10-28"
+  },
+  "counts": {
+    "paper_count": 80,
+    "physical_pdf_files": 76,
+    "distinct_pdf_contents": 75
+  },
+  "depth_revision": "2026-10-28",
+  "depth_content": "四板块逐篇论文机制、比较证据、结构操作示例及可证伪研究设计；旧版文件快照保存在来源目录 ZIP。",
+  "overview_presentation": {
+    "path": "_汇报材料/Structural_Biology_Agent_Design_Implementation_Course_2026-11-10.pptx",
+    "sha256": "c137a62103c9ae6657b462606ee427fc56f1a0b2b8f201716992f081011b9a28",
+    "title": "结构生物学通用计算Agent：架构设计与开发实操",
+    "slide_count": 168,
+    "slides": 168,
+    "main_slide_count": 162,
+    "main_slides": 162,
+    "appendix_slide_count": 6,
+    "appendix_slides": 6,
+    "preview_url": "preview/",
+    "sources": "_汇报材料/架构设计与开发实操_逐页资料.html",
+    "language": "Chinese",
+    "learning_handbook": "_汇报材料/评估优化与安全_学习手册.html",
+    "format": "PowerPoint with editable text, tables and technical diagrams",
+    "updated_at": "2026-11-10",
+    "design_chapter": [
+      60,
+      81
+    ]
+  },
+  "previous_overview_presentations": [
+    {
+      "path": "_汇报材料/总体汇报_AI_Agent与结构生物学_2026-10-28.pptx",
+      "created_date": "2026-10-28",
+      "slides": 34,
+      "format": "editable PowerPoint",
+      "sha256": "ab4e5d7ebcafaf2207079aeefd445598b1928990494b5555027eacf2fd996252"
+    },
+    {
+      "path": "_汇报材料/Verifiable_Structural_Biology_Agents_Academic_2026-10-29.pptx",
+      "created_date": "2026-10-29",
+      "slides": 47,
+      "main_slides": 39,
+      "appendix_slides": 8,
+      "language": "English",
+      "format": "PowerPoint with editable text, tables and chart",
+      "speaker_notes": "Mechanisms, assumptions, limitations and primary-source URLs",
+      "sha256": "4f384af64d1c53ad948e8ed69f2b09caeaac31a171c98a235f60bbbad6bfcdde"
+    },
+    {
+      "path": "_汇报材料/历史版本/Structural_Biology_Agent_27slides_2026-10-30.pptx",
+      "sha256": "ed5db6498c82c64791684ac7e6bd9942e1c6005ff9a7146093cd4f11402b47df",
+      "slide_count": 27,
+      "slides": 27,
+      "title": "结构生物学通用计算Agent：深化研究方案（旧版27页）",
+      "preview_available": false
+    },
+    {
+      "path": "_汇报材料/Structural_Biology_Agent_Research_and_Engineering_2026-10-31.pptx",
+      "sha256": "14a8520fb4dfdf823eea654009f7dc06d5b465581d30218798d85cbe392d3330",
+      "title": "面向结构生物学的通用计算Agent：研究与工程方案",
+      "slide_count": 30,
+      "slides": 30,
+      "main_slide_count": 27,
+      "main_slides": 27,
+      "appendix_slide_count": 3,
+      "appendix_slides": 3,
+      "preview_url": "preview/",
+      "sources": "_汇报材料/研究与工程方案_资料对照.html",
+      "language": "Chinese",
+      "format": "PowerPoint with editable text, tables and technical diagrams",
+      "updated_at": "2026-11-01T01:30:37+08:00",
+      "preview_available": false
+    },
+    {
+      "path": "_汇报材料/Structural_Biology_Agent_Research_Proposal_2026-11-01.pptx",
+      "sha256": "571ed75886a458c57710bbb46f14b727c643e808a14e90d5fd2cd2f0bd64d012",
+      "title": "面向结构生物学的通用计算Agent：研究立项与技术方案",
+      "slide_count": 34,
+      "slides": 34,
+      "main_slide_count": 30,
+      "main_slides": 30,
+      "appendix_slide_count": 4,
+      "appendix_slides": 4,
+      "preview_url": "preview/",
+      "sources": "_汇报材料/研究立项与技术方案_资料对照.html",
+      "language": "Chinese",
+      "format": "PowerPoint with editable text, tables and technical diagrams",
+      "updated_at": "2026-11-01T14:47:05+08:00",
+      "preview_available": false
+    },
+    {
+      "path": "_汇报材料/Structural_Biology_Agent_Technical_Course_2026-11-01.pptx",
+      "sha256": "228a8e97c2d5f9476a33649b16864ed23bbc01cbd6e8e44a5bc85596148ada30",
+      "title": "结构生物学通用计算Agent：原理、方法、实现与实验",
+      "slide_count": 112,
+      "slides": 112,
+      "main_slide_count": 106,
+      "main_slides": 106,
+      "appendix_slide_count": 6,
+      "appendix_slides": 6,
+      "sources": "_汇报材料/原理方法实现与实验_逐页资料.html",
+      "language": "Chinese",
+      "format": "PowerPoint with editable text, tables and technical diagrams",
+      "updated_at": "2026-11-02T00:15:53+08:00",
+      "preview_available": false
+    },
+    {
+      "path": "_汇报材料/Structural_Biology_Agent_Governance_Course_2026-11-02.pptx",
+      "sha256": "7c1980a66bdf4f97e68e20c5284ce5acaf22f032ef1e49e5e3a295849d32c6fb",
+      "title": "结构生物学通用计算Agent：原理、实现、评估与安全",
+      "slide_count": 146,
+      "slides": 146,
+      "main_slide_count": 140,
+      "main_slides": 140,
+      "appendix_slide_count": 6,
+      "appendix_slides": 6,
+      "preview_url": "preview/",
+      "sources": "_汇报材料/原理实现评估与安全_逐页资料.html",
+      "language": "Chinese",
+      "learning_handbook": "_汇报材料/评估优化与安全_学习手册.html",
+      "format": "PowerPoint with editable text, tables and technical diagrams",
+      "updated_at": "2026-11-02T04:56:48+08:00"
+    }
+  ],
+  "development_resources": {
+    "updated_at": "2026-10-30",
+    "framework_and_project_map": "projects/index.html",
+    "project_metadata": "projects/project_catalogue.json",
+    "frameworks": 20,
+    "application_projects": 14,
+    "learning_route": "learn/index.html",
+    "learning_metadata": "05_Agent开发学习路线/learning_resources.json",
+    "infrastructure": 5,
+    "project_depth": "projects/project_depth.json",
+    "paper_depth": "_阅读资源/论文深度导读.json",
+    "reading_guide": "guide/index.html",
+    "offline_lab": "learn/structure_agent_lab.zip"
+  },
+  "production_handbook": {
+    "url": "engineering/index.html",
+    "chapters": 8,
+    "failure_cases": 3,
+    "scope": "参考设计、教学案例、交付检查与离线模拟练习"
+  },
+  "agent_product_requirements": {
+    "title": "结构生物学通用计算Agent · 产品需求文档PRD",
+    "path": "prd/index.html",
+    "version": "0.2",
+    "status": "engineering_design_review_baseline",
+    "requirements": 24,
+    "acceptance": 22,
+    "updated_on": "2026-11-04",
+    "api_contracts": 22,
+    "engineering_spec": "prd/engineering/index.html"
+  },
+  "current_development_entry": "prd/"
+}

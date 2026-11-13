@@ -1,0 +1,65 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>科学验收与Agent评测：怎样证明结果值得使用 · 结构生物学 Agent 研究导读</title><meta name="description" content="以研究问题组织 Agent 论文、机制图、证据与边界，连接通用方法和结构生物学计算。"><link rel="stylesheet" href="../_阅读资源/reading.css?v=deep-reviews-20261030"><script defer src="../_阅读资源/reading.js?v=deep-reviews-20261030"></script><link rel="stylesheet" href="../_阅读资源/production.css?v=production-handbook"><script defer src="../_阅读资源/production.js?v=production-handbook"></script></head><body><a class="skip" href="#main">跳到正文</a><aside class="rail"><a class="brand" href="../00_总导航.html">结构生物学<br>Agent 研究导读<small>FROM QUESTION TO EVIDENCE</small></a><button class="mobile-menu" aria-expanded="false" aria-label="展开导航">目录 ☰</button><nav aria-label="研究资料目录"><div class="nav-group-label">开发与学习</div><a class="" href="../00_总导航.html"><em>◉</em>阅读地图</a><a class="" href="../prd/"><em>▤</em>开发文档（PRD）</a><a class="" href="../speaker/"><em>▧</em>PPT逐页讲稿</a><a class="" href="../projects/index.html"><em>▦</em>框架与开源项目</a><a class="" href="../05_Agent开发学习路线/05_Agent开发学习路线.html"><em>↗</em>Agent 开发学习路线</a><div class="nav-group-label">研究方法与科学任务</div><a class="" href="../01_Agent框架发展与选型/01_Agent框架发展与选型.html"><em>01</em>决策与编排</a><a class="active" href="../02_Agent工程实现与评价/02_Agent工程实现与评价.html"><em>02</em>工程落地与验收</a><a class="" href="../03_生物学与结构生物学Agent/03_生物学与结构生物学Agent.html"><em>03</em>科学 Agent 图谱</a><a class="" href="../04_结构生物学计算流程与工具/04_结构生物学计算流程与工具.html"><em>04</em>结构任务与工具</a><div class="nav-group-label">文献索引</div><a class="" href="../论文索引.html"><em>↗</em>全部论文 · 80 篇</a></nav><div class="rail-bottom">以问题组织文献<br>以证据约束结论<br><br><a href="../preview/">168 页技术讲义 →</a><br><a href="../guide/">阅读方法与术语 →</a><br>资料快照：2026.10<br>导读重编：2026.10.30</div></aside><main class="page" id="main"><div class="crumbs"><a href="../00_总导航.html">研究导读</a> / 科学验收与Agent评测：怎样证明结果值得使用</div><header class="hero"><div class="eyebrow">ENGINEERING HANDBOOK / 05 OF 08</div><h1>科学验收与Agent评测：怎样证明结果值得使用</h1><p class="intro">成熟系统要回答两个不同问题：这个科研结果能不能使用，以及这套Agent在哪些任务上比基线更可靠。前者依靠领域判据，后者依靠受控评测；两者都不能由一段流畅的总结代替。</p><div class="tags"><span class="tag">参考设计</span><span class="tag">机制 · 取舍 · 故障 · 验收</span></div><div class="actions"><a class="btn" href="../engineering/">← 手册总览</a><a class="btn" href="#deliver">查看本篇交付标准</a></div></header><p class="small"><a href="../guide/#engineering-terms">工程术语对照 →</a> · 图与故障用于理解机制，正文展开实现边界，末尾列交付标准。</p><nav class="article-toc" aria-label="专题目录"><a href="#picture">先看图</a><a href="#implementation">实现与边界</a><a href="#decisions">关键取舍</a><a href="#failure">故障推演</a><a href="#deliver">交付检查</a><a href="#sources">官方资料</a></nav><section class="section" id="picture"><div class="section-head"><div><div class="section-no">01 / THE PROBLEM</div><h2>从一个具体问题开始</h2></div></div><p class="p-problem">结构比较任务可以顺利返回一个数值，却比较了错误的链、不同的生物组装或不一致的残基集合。若只统计工具没有报错，系统会把语义错误奖励成成功；若只看最后回答，又无法分辨模型、执行环境和验证器分别贡献了什么。</p><div class="p-quality-gates"><div><span>01</span><div><h3>执行完成</h3><p>进程或外部作业的实际退出状态、日志与完整性。</p></div><b>能否收集？</b></div><div><span>02</span><div><h3>产物有效</h3><p>文件格式、摘要、对象、模型/链/残基选择与单位一致。</p></div><b>是否算对对象？</b></div><div><span>03</span><div><h3>科学检查</h3><p>参考结果、不变性质、质量规则、适用条件和容差。</p></div><b>证据支持到哪里？</b></div><div><span>04</span><div><h3>解释与交付</h3><p>每项主张对应产物与判定，保留失败、限制和未评估项。</p></div><b>是否如实回答？</b></div></div><p class="small">前一层通过是进入后一层的条件；未进入的层标为NOT_EVALUATED，不能记作通过。</p></section><section class="section" id="implementation"><div class="section-no">02 / IMPLEMENTATION & BOUNDARIES</div><h2>怎样实现，为什么这样分工</h2><div class="p-reading-sections"><article><span class="p-subnumber">01</span><div><h3>建立四道验收门，而不是一个success字段</h3><p>第一道检查执行：指定版本的操作是否真正运行，退出状态、日志和必要输出是否完整。第二道检查产物：文件能否解析，输入摘要是否一致，模型、链、残基和原子选择是否对应任务。第三道检查科学判据：在已确认的对象上，结果是否满足事先定义的数值、几何或实验数据质量要求。第四道检查解释：报告中的每个结论能否指回通过检查的结果，并保留适用范围。</p><p>四层各保存判定、原因、验证器版本和证据产物。允许出现“执行完成、产物有效、科学未通过”的终态；也允许明确的证据不足。某层失败时，后续报告只解释失败，不能靠重新措辞把状态改成通过。结构质量还与实验方法、局部区域和数据支持有关，一个全局分数不应成为所有任务共用的门槛。</p><div class="p-example"><b>具体例子</b><p>结构比较的验收记录可以同时包含：对象映射已确认、比较原子数、覆盖率、叠合范围、数值结果、独立检查状态，以及不能从这个比较推出的结论。阈值必须随问题定义，不能从某篇论文抄一个通用值。</p></div></div></article><article><span class="p-subnumber">02</span><div><h3>为计算结果建立独立的参考与不变性检查</h3><p>有明确数值的问题先用小规模解析参考值或可信独立实现建立测试，再检查误差容限、单位和非有限数处理。容限应来自算法精度、数据质量与用途，而不是看到失败后不断放宽。若两个实现共用相同解析和映射代码，它们一致也可能共享同一个错误，因此应说明参考的独立程度。</p><p>缺少完整真值时，可使用问题本身的性质作为补充。例如对同一结构施加整体刚体变换，内部成对距离应保持不变；在显式保持对象映射的前提下改变记录顺序，几何结果也应一致。这类检查能发现坐标处理和身份映射错误，但不能证明所选科学问题正确，更不能取代实验数据支持或领域专家判断。</p></div></article><article><span class="p-subnumber">03</span><div><h3>测试集围绕任务和对象划分，防止熟悉案例冒充泛化</h3><p>建立数据集清单，给每项任务记录输入版本、对象来源、接受标准、参考依据和预期失败类型。开发集用于修改提示、选择框架和调参数；冻结的测试集用于最终比较。仅随机拆分文件通常不够：同一结构的不同文件版本、近重复任务和高度相关的对象可能跨集合出现，应按对象族、来源或任务模板分组审查。</p><p>测试既要有支持范围内的正常任务，也要有明确无效输入、缺失关键选择、工具不可用和产物损坏等案例。超出声明能力的任务应检查系统能否说明限制；不能把合理拒绝与错误拒绝混成一个失败率。真实使用中发现的新故障先进入回归集，下一轮发布再增加新的独立测试，避免长期只对同一套题优化。</p></div></article><article><span class="p-subnumber">04</span><div><h3>冻结系统，再用消融拆开改进来源</h3><p>一次评测固定模型标识、提示与策略版本、工具清单和环境摘要、验证器、数据版本、预算和停止规则。先比较直接函数或固定工作流与单Agent；若新增独立检查，先只记录它的判定，不改变轨迹，以测出错误发现和误拒；再允许限定的反馈修正，才能看出纠错是否增加科学通过率。多Agent、记忆或搜索也应在相同资源边界下逐项加入。</p><p>随机系统需保留多次运行和失败尝试。报告每次尝试的表现、任务级聚合及不确定性；一次最佳结果与实际部署的一次调用不是同一指标。模型升级、工具升级和数据更新分别比较，避免同时变更多个环节后，把收益都归给某一个新框架。离线评测负责版本比较，线上追踪负责发现漂移和新错误，两者相互补充。</p></div></article><article><span class="p-subnumber">05</span><div><h3>分母、成本与覆盖范围一起报告</h3><p>主结果按预先声明的适用测试集统计端到端科学通过率，执行失败也留在分母内；另给出执行完成率、产物有效率和各门的条件通过率，用于定位损失。对于无效输入测试，分别统计正确拒绝、错误放行与对有效输入的误拒。验证器自己也要对独立标注样本评测，不能默认它是真值。</p><p>总成本包括模型调用、失败重试、计算资源和必要的人工作业；延迟分开排队、计算与系统处理。对于不能自动判断的任务，报告人工复核比例和结论未定的比例。评测报告最终应使读者知道系统支持什么、在哪一层失败，以及达到结果需要付出多少资源。</p></div></article></div></section><section class="section" id="decisions"><div class="section-head"><div><div class="section-no">03 / DESIGN DECISIONS</div><h2>把技术选型写成有条件的判断</h2></div></div><details class="p-decision"><summary>什么可以自动判定？</summary><div><b>本参考设计：</b>优先用确定的合同检查和数值判据；解释性判断保留独立复核。<p><b>为什么：</b>可计算的事实应由可审计规则承担，语言模型评审不宜替代坐标与对象真值。</p><p><b>何时调整：</b>任务的专家一致性与验证器准确性有独立证据后，再扩大自动判定范围。</p></div></details><details class="p-decision"><summary>先测检查器，还是直接让它纠错？</summary><div><b>本参考设计：</b>先记录检查结果，再分阶段启用修复。<p><b>为什么：</b>这样才能分开错误发现能力、误拒损失和修复带来的实际收益。</p><p><b>何时调整：</b>检查器达到项目接受标准且修复动作的代价和停止条件明确后，才启用闭环。</p></div></details><details class="p-decision"><summary>上线前看一个总成功率够不够？</summary><div><b>本参考设计：</b>同时给端到端指标、分层指标、成本和支持范围。<p><b>为什么：</b>同一个总分可能来自不同故障分布，无法直接指导维护或科学使用。</p><p><b>何时调整：</b>不同任务族的质量与成本差异明显时，进一步分组报告。</p></div></details></section><section class="section" id="failure"><div class="section-head"><div><div class="section-no">04 / FAILURE WALKTHROUGH</div><h2>用故障检查设计，而不只看正常流程</h2></div></div><p class=lead>设计推演，用来暴露状态和责任边界；并非本站的真实事故记录。</p><div class="p-fault-trigger"><span>触发情形</span><p>两个输入均可解析，工具返回了合理范围内的结构差异数值，但其中一份文件使用了不对应的链。</p></div><div class="p-fault-pair"><div><span>容易发生的处理</span><p>把退出码为零与数值不异常视为比较成功，生成生物学差异的解释。</p></div><div><span>有依据的处理</span><p>对象映射检查阻断科学通过状态，保留已有结果并说明该数值不满足任务合同；补充正确选择后创建可追溯的新尝试，原失败仍进入评测分母。</p></div></div><div class="p-fault-evidence"><b>应留下的证据：</b>核对任务选择、结构标识、实际映射、比较原子集合、覆盖率和验证器日志；不能仅凭最终文本认定发生了链错配。</div></section><section class="section" id="deliver"><div class="section-head"><div><div class="section-no">05 / DELIVER &amp; VERIFY</div><h2>读完后应能交付什么</h2></div></div><ol class="reading-checklist"><li>任务集有版本、对象分组与参考依据。</li><li>四层判定有独立记录和失败原因。</li><li>验证器接受过正例、负例与边界例检查。</li><li>对照固定模型、工具、预算和停止规则。</li><li>报告端到端分母、失败成本和未定结论。</li></ol><details class="details"><summary>展开：科学验收与评测相关的JSON模板</summary><div class="details-body"><p class="small">待绑定模板，字段占位符需替换；不是执行记录。</p><pre class="code-example">{
+  &quot;record_kind&quot;: &quot;illustrative_template_no_artifact_created&quot;,
+  &quot;schema_version&quot;: &quot;artifact-manifest/example-1&quot;,
+  &quot;artifact_id&quot;: &quot;artifact-demo-comparison&quot;,
+  &quot;materialization_status&quot;: &quot;TEMPLATE_ONLY&quot;,
+  &quot;storage_ref&quot;: &quot;artifact://artifact-demo-comparison&quot;,
+  &quot;sha256&quot;: &quot;&lt;真实产物生成后计算的摘要&gt;&quot;,
+  &quot;media_type&quot;: &quot;application/json&quot;,
+  &quot;task_id&quot;: &quot;task-demo-001&quot;,
+  &quot;contract_revision&quot;: 1,
+  &quot;run_id&quot;: &quot;run-demo-001&quot;,
+  &quot;step_id&quot;: &quot;step-demo-compare&quot;,
+  &quot;attempt_id&quot;: &quot;attempt-demo-001&quot;,
+  &quot;operation_key&quot;: &quot;&lt;由稳定逻辑操作身份及固定规范生成&gt;&quot;,
+  &quot;external_job&quot;: {
+    &quot;backend&quot;: &quot;&lt;实际执行后端&gt;&quot;,
+    &quot;cluster_id&quot;: null,
+    &quot;job_id&quot;: null,
+    &quot;submission_state&quot;: &quot;NOT_SUBMITTED&quot;,
+    &quot;job_id_source&quot;: &quot;真实提交回执或有证据的恢复认领；不得从Attempt ID猜测&quot;
+  },
+  &quot;lineage&quot;: {
+    &quot;input_artifact_ids&quot;: [
+      &quot;input-demo-reference&quot;,
+      &quot;input-demo-mobile&quot;,
+      &quot;input-demo-residue-map&quot;
+    ],
+    &quot;input_sha256&quot;: [
+      &quot;&lt;reference摘要&gt;&quot;,
+      &quot;&lt;mobile摘要&gt;&quot;,
+      &quot;&lt;mapping摘要&gt;&quot;
+    ],
+    &quot;resolved_selection_sha256&quot;: &quot;&lt;实际展开选择记录摘要&gt;&quot;,
+    &quot;parameters_sha256&quot;: &quot;&lt;固定参数序列化规范下的摘要&gt;&quot;,
+    &quot;parameter_serialization_version&quot;: &quot;project-canonicalization/example-1&quot;,
+    &quot;tool_id&quot;: &quot;provided-coordinate-comparison&quot;,
+    &quot;tool_version&quot;: &quot;example-1&quot;,
+    &quot;container_image_digest&quot;: &quot;&lt;实际镜像摘要&gt;&quot;,
+    &quot;randomness&quot;: {
+      &quot;mode&quot;: &quot;&lt;deterministic或记录实际随机条件&gt;&quot;,
+      &quot;seed&quot;: null
+    }
+  },
+  &quot;gate_results&quot;: {
+    &quot;execution&quot;: &quot;NOT_EXECUTED&quot;,
+    &quot;artifact_integrity&quot;: &quot;NOT_EVALUATED&quot;,
+    &quot;scientific_acceptance&quot;: &quot;NOT_EVALUATED&quot;,
+    &quot;interpretation_support&quot;: &quot;NOT_EVALUATED&quot;
+  },
+  &quot;validation_refs&quot;: [],
+  &quot;required_validation_identity&quot;: {
+    &quot;profile_id&quot;: &quot;coordinate-comparison/example-1&quot;,
+    &quot;profile_sha256&quot;: &quot;&lt;固定验收配置摘要&gt;&quot;,
+    &quot;validator_id&quot;: &quot;coordinate-checker&quot;,
+    &quot;validator_version&quot;: &quot;example-1&quot;,
+    &quot;validator_image_digest&quot;: &quot;&lt;验证环境摘要&gt;&quot;,
+    &quot;reference_bundle_sha256&quot;: &quot;&lt;参考结果与领域规则摘要&gt;&quot;,
+    &quot;validation_id&quot;: null
+  },
+  &quot;report_policy&quot;: {
+    &quot;publish_only_after_required_gates&quot;: true,
+    &quot;historical_records&quot;: &quot;append_only_with_explicit_supersession&quot;,
+    &quot;current_policy_reevaluation&quot;: &quot;创建新的Validation和报告修订；不覆写计算产物或历史判定&quot;
+  }
+}</pre></div></details><p><a href="../engineering/production_blueprints.zip">下载合同、案例与交付检查模板 →</a></p></section><section class="section" id="sources"><div class="section-head"><div><div class="section-no">06 / PRIMARY REFERENCES</div><h2>回到官方资料核对机制与版本</h2></div></div><div class="p-source-list"><article><a href="https://docs.langchain.com/langsmith/evaluation-concepts" target="_blank" rel="noopener">LangSmith · Evaluation concepts ↗</a><p>支持按组件定义评价、用离线数据集比较版本，并从线上运行中发现问题；本文四层科学验收是面向本课题的设计建议。</p></article><article><a href="https://numpy.org/doc/stable/reference/generated/numpy.testing.assert_allclose.html" target="_blank" rel="noopener">NumPy · assert_allclose ↗</a><p>提供绝对/相对容差及比较行为的正式定义；容差取值与科学接受标准仍需由具体任务决定。</p></article><article><a href="https://www.rcsb.org/docs/general-help/assessing-the-quality-of-3d-structures" target="_blank" rel="noopener">RCSB PDB · Assessing the Quality of 3D Structures ↗</a><p>结构质量评估需要结合实验方法与多项质量信息，不能等同于Agent执行完成。</p></article></div></section><nav class="p-next" aria-label="前后专题"><a href="../engineering/04-recovery.html">← 持久执行与恢复</a><a href="../engineering/06-governance.html">权限与数据治理 →</a></nav><footer class="footer"><p>机制图依据现有资料整理，属于解释性示意；跨论文连线为阅读关系。</p><p><a href="../论文索引.html">原文、版本与来源</a> · <a href="../00_总导航.html">返回阅读地图</a></p></footer></main></body></html>

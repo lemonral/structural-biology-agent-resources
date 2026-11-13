@@ -1,0 +1,3519 @@
+{
+  "frameworks": 20,
+  "applications": 14,
+  "infrastructure": 5,
+  "groups": [
+    [
+      "通用Agent与工具接口",
+      "framework",
+      [
+        "F01",
+        "F07",
+        "F08",
+        "F09",
+        "F11",
+        "F15"
+      ]
+    ],
+    [
+      "状态、记忆与复杂任务",
+      "framework",
+      [
+        "F02",
+        "F03",
+        "F06",
+        "F10",
+        "F12",
+        "F14",
+        "F16"
+      ]
+    ],
+    [
+      "数据检索与程序优化",
+      "framework",
+      [
+        "F04",
+        "F05",
+        "F13"
+      ]
+    ],
+    [
+      "TypeScript应用开发",
+      "framework",
+      [
+        "F17",
+        "F18"
+      ]
+    ],
+    [
+      "历史框架与迁移",
+      "framework",
+      [
+        "F19",
+        "F20"
+      ]
+    ],
+    [
+      "可视化应用与自动化",
+      "application",
+      [
+        "P01",
+        "P02",
+        "P07",
+        "P09"
+      ]
+    ],
+    [
+      "文档、交互与执行系统",
+      "application",
+      [
+        "P03",
+        "P04",
+        "P05",
+        "P06",
+        "P08",
+        "P10",
+        "P11"
+      ]
+    ],
+    [
+      "科学工具与方法接入",
+      "application",
+      [
+        "S01",
+        "S02",
+        "S03"
+      ]
+    ],
+    [
+      "协议、数据与运行基础设施",
+      "infrastructure",
+      [
+        "I01",
+        "I02",
+        "I03",
+        "I04",
+        "I05"
+      ]
+    ]
+  ],
+  "projects": [
+    {
+      "id": "F01",
+      "name": "LangChain",
+      "repo_url": "https://github.com/langchain-ai/langchain",
+      "docs_url": "https://docs.langchain.com/oss/python/langchain/overview",
+      "start_url": "https://docs.langchain.com/oss/python/langchain/quickstart",
+      "role": "轻量Agent构建框架与模型、工具集成层",
+      "hook": "用统一模型和工具接口，快速组装自己的Agent循环",
+      "mechanism": [
+        "定义模型和工具",
+        "配置提示与中间件",
+        "运行工具调用循环",
+        "按任务补充记忆"
+      ],
+      "best_for": "先完成单Agent原型，再按需加入记忆、结构化输出和控制逻辑。",
+      "not_for": "不替代科学软件、HPC调度器或独立科学验证。",
+      "what_to_read": "先读Quickstart与Tools，再看Middleware和Memory。",
+      "structbio_use": "把结构检查和几何计算封装为工具，记录输入、选择范围和结果。",
+      "relations": "代理基于LangGraph；DeepAgents在LangChain代理上增加文件、子代理和上下文管理。",
+      "status_note": "当前文档以create_agent与中间件为核心；结构生物学用法属于迁移建议。",
+      "source_urls": [
+        "https://github.com/langchain-ai/langchain",
+        "https://docs.langchain.com/oss/python/langchain/overview",
+        "https://docs.langchain.com/oss/python/langchain/quickstart"
+      ],
+      "verified_at": "2026-10-30",
+      "review": {
+        "position": "LangChain提供较高层的Agent构建与模型、工具集成。先理解模型消息怎样变成工具调用，再理解中间件和状态；不要把集成组件多等同于任务成功率高。",
+        "components": [
+          {
+            "name": "模型与消息",
+            "responsibility": "模型接口统一消息和工具调用形式。适配器解决协议差异，应用仍要判断模型是否支持当前任务要求的工具调用和结构化输出。"
+          },
+          {
+            "name": "工具与Schema",
+            "responsibility": "Python工具把函数描述、参数与返回值暴露给模型。工具名与参数合法只完成接口校验；文件身份、链选择和数值判据属于工具及验证器。"
+          },
+          {
+            "name": "Agent工厂与中间件",
+            "responsibility": "create_agent将调用循环与可插入处理逻辑组合起来。沿工厂追到模型节点、工具节点和中间件，比只记住一个函数名更有助于理解运行边界。"
+          },
+          {
+            "name": "底层状态运行时",
+            "responsibility": "Agent复用LangGraph的状态控制能力。消息历史、应用状态和持久化配置分别考虑，内存中的一次运行不等于已经持久保存。"
+          }
+        ],
+        "runtime": [
+          "应用把问题、任务数据和允许的工具交给Agent。",
+          "模型返回答案或带参数的工具调用；执行器运行工具并记录真实返回。",
+          "新的观察再次进入模型；中间件可处理上下文或调用策略。",
+          "满足停止条件后整理输出；应用再独立检查产物和科学判据。"
+        ],
+        "state": "区分消息历史、业务任务状态与科学产物。长作业只在状态中保留稳定引用和作业标识，实际结果文件另有版本与来源。恢复时仍须核对外部工具已经发生的操作。",
+        "deployment": "最小开发形态是Python进程加模型服务和本地工具；持久化、远程工具、部署服务按需加入。固定langchain与相关运行时版本，避免把classic旧Agent API与当前create_agent示例混用。",
+        "tradeoffs": "优点是模型和工具接入集中、上手快；代价是抽象与依赖层较多，排错时必须能追到实际模型请求和工具执行。若需要精确控制每个分支，应比较直接使用LangGraph的方案。",
+        "exercise": "把一个结构文件检查函数接成工具。分别检查正常输入、未知链与解析失败，保存原始参数和工具观察；再比较固定工作流与Agent选择工具的差别。",
+        "reading_focus": "按工厂→中间件类型→工具基础接口阅读。重点找状态怎样更新、异常怎样回传、哪些检查发生在模型之外。"
+      },
+      "code_evidence": [
+        {
+          "id": "F01",
+          "path": "libs/core/langchain_core/tools/base.py",
+          "url": "https://github.com/langchain-ai/langchain/blob/5b0aeb7637fc415eb408dc31523609272bbb38e1/libs/core/langchain_core/tools/base.py",
+          "bytes": 71669,
+          "sha256": "a2f7b4f18aaa3f6db1399f224f6303691cb46ac3b9ba36bf1aa87704a504edd1",
+          "symbols": [
+            "SchemaAnnotationError",
+            "create_schema_from_function",
+            "ToolException",
+            "BaseTool",
+            "ChildTool",
+            "InjectedToolArg",
+            "InjectedToolCallId",
+            "get_all_basemodel_annotations",
+            "BaseToolkit"
+          ],
+          "status": "fetched",
+          "commit": "5b0aeb7637fc415eb408dc31523609272bbb38e1"
+        },
+        {
+          "id": "F01",
+          "path": "libs/langchain_v1/langchain/agents/factory.py",
+          "url": "https://github.com/langchain-ai/langchain/blob/5b0aeb7637fc415eb408dc31523609272bbb38e1/libs/langchain_v1/langchain/agents/factory.py",
+          "bytes": 87471,
+          "sha256": "cc4a7d9a620224558c4eddd4e13edc988a9ac9e328b7a67deeb71ed2c5ec5174",
+          "symbols": [
+            "create_agent",
+            "create_agent",
+            "create_agent",
+            "create_agent"
+          ],
+          "status": "fetched",
+          "commit": "5b0aeb7637fc415eb408dc31523609272bbb38e1"
+        }
+      ],
+      "tree_snapshot": "864754c5e293fba981302408fa3e2cf2f5f2d889",
+      "coverage": "架构资料与源码入口核对"
+    },
+    {
+      "id": "F02",
+      "name": "LangGraph",
+      "repo_url": "https://github.com/langchain-ai/langgraph",
+      "docs_url": "https://docs.langchain.com/oss/python/langgraph/overview",
+      "start_url": "https://docs.langchain.com/oss/python/langgraph/quickstart",
+      "role": "有状态Agent与工作流的底层编排运行时",
+      "hook": "显式定义状态、节点和分支，把执行与恢复过程控制在代码里",
+      "mechanism": [
+        "定义共享状态",
+        "配置节点与条件边",
+        "执行并保存检查点",
+        "恢复或等待人工输入"
+      ],
+      "best_for": "有明确分支、循环、人工介入或持久恢复需求的多步任务。",
+      "not_for": "不自动提供HPC调度和科学验收；外部工具副作用仍需单独管理。",
+      "what_to_read": "先读计算器Quickstart，再看State、Persistence与Interrupts。",
+      "structbio_use": "编排结构检查、计算提交、结果收集和验证，保存作业标识与产物引用。",
+      "relations": "可独立使用；LangChain代理与DeepAgents复用其运行时，不必三者同时直接编程。",
+      "status_note": "持久恢复需配置相应存储；不能据此承诺外部操作自动exactly-once。",
+      "source_urls": [
+        "https://github.com/langchain-ai/langgraph",
+        "https://docs.langchain.com/oss/python/langgraph/overview",
+        "https://docs.langchain.com/oss/python/langgraph/quickstart"
+      ],
+      "verified_at": "2026-10-30",
+      "review": {
+        "position": "LangGraph将长链决策表达为显式状态与图运行；它既能组织Agent循环，也能组织确定性节点。选择它的理由应来自控制与恢复需求，而不是图形看起来更复杂。",
+        "components": [
+          {
+            "name": "State与更新规则",
+            "responsibility": "State定义节点共享的信息及更新方式。消息、计划、候选产物与验收结果需要清楚的键和类型；并发写入时尤其要核对合并语义。"
+          },
+          {
+            "name": "Node与条件边",
+            "responsibility": "节点执行模型、工具或业务函数，边决定继续、分支与结束。将确定性转换和不确定决策分开，才能解释某一步为什么由模型控制。"
+          },
+          {
+            "name": "执行引擎",
+            "responsibility": "底层调度负责推进已就绪节点、处理执行事件及停止条件。图描述的是执行依赖；真正的GPU任务和调度器状态仍在外部系统。"
+          },
+          {
+            "name": "Checkpointer与Interrupt",
+            "responsibility": "检查点为恢复提供状态材料，中断让运行等待外部输入或审阅。恢复不是自动撤销或消除所有外部副作用，需要业务层核对已提交的操作。"
+          }
+        ],
+        "runtime": [
+          "创建任务状态，给输入与预期产物稳定标识。",
+          "执行输入校验节点，再根据状态决定计算、补信息或停止。",
+          "工具节点产出结果引用，质量节点执行独立验收。",
+          "需要等待作业或审阅时保存状态；恢复后核对外部事实，再继续图。"
+        ],
+        "state": "图状态与调度器真实状态要分开。检查点、线程或运行标识不能替代外部Job ID；重复执行的节点必须有明确的操作身份及恢复核对逻辑。",
+        "deployment": "本地原型只需运行时与工具；恢复需求通常还需要相应checkpointer和持久存储。把模型服务、工具进程、存储和集群作业适配器分别部署和记录版本。",
+        "tradeoffs": "显式控制便于测试分支和定位错误，但节点、状态与恢复逻辑由开发者维护。过细的图会放大编排成本；简单短任务可能更适合固定函数或高层Agent。",
+        "exercise": "画出校验→计算→验证三节点图，并加入“输入缺失”和“验证失败”两种分支。中途恢复时证明不会仅凭旧内存误认外部作业状态。",
+        "reading_focus": "先看StateGraph与执行引擎，再看checkpoint接口。检查哪些状态可序列化，哪些外部动作必须由应用实现恢复语义。"
+      },
+      "code_evidence": [
+        {
+          "id": "F02",
+          "path": "libs/langgraph/langgraph/graph/state.py",
+          "url": "https://github.com/langchain-ai/langgraph/blob/e5c961d7fbe7ca6fdd4c94c84d90511372514d55/libs/langgraph/langgraph/graph/state.py",
+          "bytes": 76310,
+          "sha256": "d8c8021a93a8fc895d62335a9482e50d51353343bf885901e6487611dcd0d212",
+          "symbols": [
+            "StateGraph",
+            "CompiledStateGraph"
+          ],
+          "status": "fetched",
+          "commit": "e5c961d7fbe7ca6fdd4c94c84d90511372514d55"
+        },
+        {
+          "id": "F02",
+          "path": "libs/langgraph/langgraph/pregel/main.py",
+          "url": "https://github.com/langchain-ai/langgraph/blob/e5c961d7fbe7ca6fdd4c94c84d90511372514d55/libs/langgraph/langgraph/pregel/main.py",
+          "bytes": 183710,
+          "sha256": "6067e1c48d1eedc24b6ede058a1fd9d8026d5f430db0b21667563210564f1e7e",
+          "symbols": [
+            "NodeBuilder",
+            "Pregel"
+          ],
+          "status": "fetched",
+          "commit": "e5c961d7fbe7ca6fdd4c94c84d90511372514d55"
+        }
+      ],
+      "tree_snapshot": "6f2df053f4487ce6ea8decc0d7482c8e46e0f132",
+      "coverage": "架构资料与源码入口核对"
+    },
+    {
+      "id": "F03",
+      "name": "Deep Agents",
+      "repo_url": "https://github.com/langchain-ai/deepagents",
+      "docs_url": "https://docs.langchain.com/oss/python/deepagents/overview",
+      "start_url": "https://docs.langchain.com/oss/python/deepagents/quickstart",
+      "role": "预装文件、上下文管理与子代理能力的高层Agent框架",
+      "hook": "减少从零搭建配套能力的工作，集中实现自己的领域工具",
+      "mechanism": [
+        "规划与任务清单",
+        "文件承载上下文",
+        "子代理分工",
+        "工具执行与回传"
+      ],
+      "best_for": "需要文件操作、子任务委派和较长上下文管理的复杂任务原型。",
+      "not_for": "不是科学软件集合；文件访问、Shell和子代理也不保证计算正确。",
+      "what_to_read": "先读SDK Quickstart，再看Backends、Subagents和Context engineering。",
+      "structbio_use": "分工阅读手册、整理计算计划与报告，结构计算仍调用受控工具并独立验收。",
+      "relations": "以LangChain的create_agent为基础，使用LangGraph运行时，预装文件与子代理等能力。",
+      "status_note": "SDK与托管服务分开理解；默认行为依实际配置，结构生物学用法为迁移建议。",
+      "source_urls": [
+        "https://github.com/langchain-ai/deepagents",
+        "https://docs.langchain.com/oss/python/deepagents/overview",
+        "https://docs.langchain.com/oss/python/deepagents/quickstart"
+      ],
+      "verified_at": "2026-10-30",
+      "review": {
+        "position": "Deep Agents把常见Agent配套能力预装在较高层harness中。它适合研究规划、文件上下文和子代理如何配合；这些是可组合能力，不是每次任务必须顺序经过的阶段。",
+        "components": [
+          {
+            "name": "Agent构建入口",
+            "responsibility": "构建器将基础Agent与中间件组合，配置模型、工具、后端和子代理。先阅读这一层，才能知道当前实例实际启用了哪些能力。"
+          },
+          {
+            "name": "文件与上下文",
+            "responsibility": "文件系统中间件为材料、笔记和中间内容提供读写接口；后端决定文件落在状态、真实文件系统还是其他存储。文件可读不代表科学产物已验收。"
+          },
+          {
+            "name": "子代理委派",
+            "responsibility": "子代理中间件组织子任务和返回。明确子任务输入、预算和交付物，避免将多角色对话误当作独立核验。"
+          },
+          {
+            "name": "Backend协议",
+            "responsibility": "后端抽象控制文件与执行能力。不同后端提供的隔离、持久化和执行功能不同，不能从统一接口推断配置完全等价。"
+          }
+        ],
+        "runtime": [
+          "主Agent读取目标与可用能力，生成待办或选择直接处理。",
+          "需要额外材料时读文件，需要隔离子问题时调用子代理。",
+          "领域计算通过工具或指定后端运行，观察与文件引用返回主任务。",
+          "主Agent整合产物；应用核对文件身份、质量与解释。"
+        ],
+        "state": "上下文文件、长期存储、子代理工作区和科学结果文件不是同一种状态。为每类内容记录生命周期及来源，区分模型写的笔记与工具产生的计算证据。",
+        "deployment": "SDK、命令行或托管服务是不同使用形态。先固定后端、模型与工作区规则，再决定是否需要沙箱执行；不要把远程服务行为套到本地文件后端。",
+        "tradeoffs": "预装能力能减少搭建工作，但也增加默认行为和上下文管理策略。遇到科学任务失败时，需区分规划错误、文件选择错误、子代理交接错误与实际计算失败。",
+        "exercise": "让一个子代理只整理软件手册，主Agent只调用已验证工具。要求最终报告逐项链接真实产物，而不是引用子代理的一句“已完成”。",
+        "reading_focus": "按构建器→filesystem/subagents中间件→backend协议阅读，核对能力何时装入、数据写往哪里、子任务返回的实际类型。"
+      },
+      "code_evidence": [
+        {
+          "id": "F03",
+          "path": "libs/deepagents/deepagents/graph.py",
+          "url": "https://github.com/langchain-ai/deepagents/blob/e21ce33d4486899069dda55254e6ec56e874a854/libs/deepagents/deepagents/graph.py",
+          "bytes": 50866,
+          "sha256": "5964f538571f415331870230b86eae1833f11e52c0d91b38e3c37e6e0c609569",
+          "symbols": [
+            "DeepAgentState",
+            "get_default_model",
+            "create_deep_agent"
+          ],
+          "status": "fetched",
+          "commit": "e21ce33d4486899069dda55254e6ec56e874a854"
+        },
+        {
+          "id": "F03",
+          "path": "libs/deepagents/deepagents/middleware/subagents.py",
+          "url": "https://github.com/langchain-ai/deepagents/blob/e21ce33d4486899069dda55254e6ec56e874a854/libs/deepagents/deepagents/middleware/subagents.py",
+          "bytes": 44071,
+          "sha256": "66d1a30c8669309a306db73f0ce7376ee9ca1e627e7a4456b57bde7f84fec2e5",
+          "symbols": [
+            "SubAgent",
+            "CompiledSubAgent",
+            "TaskToolSchema",
+            "create_sub_agent",
+            "SubAgentMiddleware"
+          ],
+          "status": "fetched",
+          "commit": "e21ce33d4486899069dda55254e6ec56e874a854"
+        },
+        {
+          "id": "F03",
+          "path": "libs/deepagents/deepagents/backends/protocol.py",
+          "url": "https://github.com/langchain-ai/deepagents/blob/e21ce33d4486899069dda55254e6ec56e874a854/libs/deepagents/deepagents/backends/protocol.py",
+          "bytes": 37033,
+          "sha256": "c4cb24fbcde9b34f1fde1c9f4fabccc389d6bd8fbefebc29cb09661718a65fbf",
+          "symbols": [
+            "FileDownloadResponse",
+            "FileUploadResponse",
+            "FileInfo",
+            "ContextLine",
+            "GrepMatch",
+            "FileData",
+            "ReadResult",
+            "WriteResult",
+            "EditResult",
+            "DeleteResult",
+            "LsResult",
+            "GrepResult"
+          ],
+          "status": "fetched",
+          "commit": "e21ce33d4486899069dda55254e6ec56e874a854"
+        }
+      ],
+      "tree_snapshot": "e9f0d8855cff6d7e79d87afc15c2defc62214a71",
+      "coverage": "架构资料与源码入口核对"
+    },
+    {
+      "id": "F04",
+      "name": "LlamaIndex",
+      "repo_url": "https://github.com/run-llama/llama_index",
+      "docs_url": "https://developers.llamaindex.ai/python/framework/",
+      "start_url": "https://developers.llamaindex.ai/python/framework/getting_started/starter_example/",
+      "role": "面向数据的RAG、Agent与工作流工具包",
+      "hook": "把自己的资料变成可检索上下文，再交给Agent作为工具使用",
+      "mechanism": [
+        "接入与处理数据",
+        "构建索引和检索",
+        "把查询封装为工具",
+        "编排Agent与工作流"
+      ],
+      "best_for": "论文、工具文档与研究记录的检索问答，以及需要数据上下文的Agent。",
+      "not_for": "文档检索不能替代坐标计算；资料入库也不保证回答科学正确。",
+      "what_to_read": "先读Starter Tutorial，再看Agents、RAG与Workflows。",
+      "structbio_use": "检索工具手册和结构注释，向规划器提供来源片段；数值计算交给领域工具。",
+      "relations": "独立于LangChain三层栈；检索能力可封装成工具，由其他Agent调用。",
+      "status_note": "开源框架与LlamaParse云产品有区别；当前官方重心转向文档解析与提取。",
+      "source_urls": [
+        "https://github.com/run-llama/llama_index",
+        "https://developers.llamaindex.ai/python/framework/",
+        "https://developers.llamaindex.ai/python/framework/getting_started/starter_example/"
+      ],
+      "verified_at": "2026-10-30",
+      "review": {
+        "position": "LlamaIndex面向数据进入语言模型应用的全过程，覆盖文档接入、索引、检索和Agent工具。把检索查询作为一种工具，有助于连接资料系统与计算Agent。",
+        "components": [
+          {
+            "name": "Document与Node",
+            "responsibility": "接入的数据需要被切分或组织成可检索单元，并保留来源、位置和元信息。分块策略决定哪些上下文可以被模型看到。"
+          },
+          {
+            "name": "Index与Retriever",
+            "responsibility": "索引组织检索结构，Retriever按查询找候选内容。相似度、重排和过滤会影响上下文覆盖，不能仅因检索到片段就认定证据充分。"
+          },
+          {
+            "name": "Query与工具接口",
+            "responsibility": "查询流程把检索内容与生成结合，也可作为Agent的工具。需要区分返回的是原始证据、聚合摘要还是生成答案。"
+          },
+          {
+            "name": "Agent与Workflow",
+            "responsibility": "Agent根据任务选择数据或计算工具，Workflow组织事件和处理步骤。数据框架的工作流不自动理解结构坐标与科学接受标准。"
+          }
+        ],
+        "runtime": [
+          "解析论文或工具手册，保存来源与版本，建立索引。",
+          "用户问题触发检索或由Agent选择查询工具。",
+          "检索结果携带出处进入生成或后续计算计划。",
+          "计算工具执行数值操作，答案中把文献证据与计算产物分别引用。"
+        ],
+        "state": "区分原文、分块、向量索引、检索结果和会话记忆。手册更新时索引需有重建或更新策略；不能让旧参数说明与新版本工具混合使用而不提示。",
+        "deployment": "可用开源框架在本地接入文档与存储，部分解析和云产品另有服务配置。需要记录解析器、嵌入模型、索引快照、过滤条件与Agent配置。",
+        "tradeoffs": "适合数据上下文复杂的应用；成本在于数据整理、检索质量和引用验证。若主要问题是数小时数值计算恢复，应将检索层与执行运行时解耦。",
+        "exercise": "为一份结构分析工具手册建索引，比较两个参数问题能否检索到正确版本的原文，再把检索工具与一个实际计算工具分开调用。",
+        "reading_focus": "先看Agent工作流与检索/索引基础类，沿一次Query追到返回证据。阅读开源框架时同时区分LlamaParse等独立云产品。"
+      },
+      "code_evidence": [
+        {
+          "id": "F04",
+          "path": "llama-index-core/llama_index/core/agent/workflow/function_agent.py",
+          "url": "https://github.com/run-llama/llama_index/blob/619d74664e8404612038bc15a1a40c686037277c/llama-index-core/llama_index/core/agent/workflow/function_agent.py",
+          "bytes": 7002,
+          "sha256": "21cbcba4817b2bd128218d113647e2b3e5508e07a1074d3b6153c0f1df9b67fa",
+          "symbols": [
+            "FunctionAgent"
+          ],
+          "status": "fetched",
+          "commit": "619d74664e8404612038bc15a1a40c686037277c"
+        },
+        {
+          "id": "F04",
+          "path": "llama-index-core/llama_index/core/indices/base.py",
+          "url": "https://github.com/run-llama/llama_index/blob/619d74664e8404612038bc15a1a40c686037277c/llama-index-core/llama_index/core/indices/base.py",
+          "bytes": 22566,
+          "sha256": "23f3d622dcb6981d2d42e550ae7cc2a621fe409bf20944b5b8502e07ad5c5b51",
+          "symbols": [
+            "BaseIndex"
+          ],
+          "status": "fetched",
+          "commit": "619d74664e8404612038bc15a1a40c686037277c"
+        }
+      ],
+      "tree_snapshot": "619d74664e8404612038bc15a1a40c686037277c",
+      "coverage": "架构资料与源码入口核对"
+    },
+    {
+      "id": "F05",
+      "name": "Haystack",
+      "repo_url": "https://github.com/deepset-ai/haystack",
+      "docs_url": "https://docs.haystack.deepset.ai/docs/intro",
+      "start_url": "https://github.com/deepset-ai/haystack#readme",
+      "role": "组件式RAG、Agent与数据处理编排框架",
+      "hook": "用显式组件与管道，控制检索、路由和生成的连接",
+      "mechanism": [
+        "定义输入与组件",
+        "连接检索和生成",
+        "加入Agent与工具",
+        "追踪管道执行"
+      ],
+      "best_for": "需要可组合检索流程、文档处理与工具Agent的Python应用。",
+      "not_for": "检索管道不提供结构坐标计算；领域对象与科学验收需要另外实现。",
+      "what_to_read": "先读README Documentation与Get Started，再读Components、Pipelines和Agents。",
+      "structbio_use": "为科学软件手册建立有来源的检索工具，并将检索结果连接到计算计划。",
+      "relations": "可对照LlamaIndex的数据接入；与LangChain相比重点关注组件和管道的表达。",
+      "status_note": "当前README包含Agent生命周期钩子与技能入口；具体API应固定所用版本。",
+      "archived": false,
+      "source_urls": [
+        "https://github.com/deepset-ai/haystack"
+      ],
+      "verified_at": "2026-10-30",
+      "review": {
+        "position": "Haystack以组件和可连接管道表达LLM应用。其价值在于把检索、路由、生成和Agent行为显式化，使开发者能够比较和替换某个步骤。",
+        "components": [
+          {
+            "name": "Component与端口",
+            "responsibility": "组件以规定的输入输出参与管道。端口兼容只说明数据能传递，应用仍需定义数据含义、来源和质量。"
+          },
+          {
+            "name": "Pipeline连接",
+            "responsibility": "管道连接各组件并控制数据流。检索、重排、路由与生成可按任务组合，便于单独评价某段流程。"
+          },
+          {
+            "name": "Agent组件与工具",
+            "responsibility": "Agent在可用工具和运行条件下交互，工具返回数据供下一步使用。生命周期钩子用于观察或处理关键节点，而不是科学真值来源。"
+          },
+          {
+            "name": "存储和集成",
+            "responsibility": "文档存储、模型连接器和相关集成承担外部能力。具体依赖、索引和模型状态需要与核心管道分别记录。"
+          }
+        ],
+        "runtime": [
+          "将数据加载和检索组件连接成最小可测管道。",
+          "向管道输入问题，检查每个组件实际接收与输出的内容。",
+          "需要动态选择时让Agent调用工具，而确定的处理仍保留为组件。",
+          "最终记录生成结果与被使用的证据，再执行任务特定的检查。"
+        ],
+        "state": "管道配置、文档库、模型上下文与工具产物分属不同层。版本变化会改变端口与数据结构，复现时应保存完整管道及外部索引快照。",
+        "deployment": "Python原型可本地运行；生产集成还需模型、文档存储与相应服务。集成包和核心包分别固定版本，不能从一个示例推断所有后端可互换。",
+        "tradeoffs": "模块化便于替换与测量，但增加数据连接与类型管理成本。文档问题适合管道实验；科学计算还需专用工具和作业适配器。",
+        "exercise": "构建检索→参数说明→计算工具三段流程，分别测检索是否正确、参数是否兼容以及数值结果是否通过独立检查。",
+        "reading_focus": "从Pipeline运行入口、Agent组件和Tool接口读起，检查管道中数据何时被模型看到、错误怎样在组件间传播。"
+      },
+      "code_evidence": [
+        {
+          "id": "F05",
+          "path": "haystack/core/pipeline/pipeline.py",
+          "url": "https://github.com/deepset-ai/haystack/blob/8e38c633190ee43b80c136b335f8c9d6c79cc5d6/haystack/core/pipeline/pipeline.py",
+          "bytes": 66504,
+          "sha256": "5260957fbf291dd43337a534a8daba2c8005579ed778924f3b043c8bfa72d7ac",
+          "symbols": [
+            "PipelineStreamHandle",
+            "Pipeline"
+          ],
+          "status": "fetched",
+          "commit": "8e38c633190ee43b80c136b335f8c9d6c79cc5d6"
+        },
+        {
+          "id": "F05",
+          "path": "haystack/components/agents/agent.py",
+          "url": "https://github.com/deepset-ai/haystack/blob/8e38c633190ee43b80c136b335f8c9d6c79cc5d6/haystack/components/agents/agent.py",
+          "bytes": 67131,
+          "sha256": "2851b990de70b14e03e1b457a725c667f2b500a23f6318030dbf0384c09c177a",
+          "symbols": [
+            "Agent"
+          ],
+          "status": "fetched",
+          "commit": "8e38c633190ee43b80c136b335f8c9d6c79cc5d6"
+        }
+      ],
+      "tree_snapshot": "8e38c633190ee43b80c136b335f8c9d6c79cc5d6",
+      "coverage": "架构资料与源码入口核对"
+    },
+    {
+      "id": "F06",
+      "name": "CrewAI",
+      "repo_url": "https://github.com/crewAIInc/crewAI",
+      "docs_url": "https://docs.crewai.com",
+      "start_url": "https://github.com/crewAIInc/crewAI#readme",
+      "role": "角色协作与事件驱动工作流框架",
+      "hook": "用Agents、Tasks和Crews表达协作，用Flows控制执行",
+      "mechanism": [
+        "定义角色与工具",
+        "安排任务与依赖",
+        "组织Crew协作",
+        "用Flow管理控制"
+      ],
+      "best_for": "有明确分工和交付物的协作任务，或要结合Agent与确定性流程的应用。",
+      "not_for": "角色数量不保证科学正确；共享状态、外部作业与验证规则需明确设计。",
+      "what_to_read": "先读README中Crews与Flows的区别，再看Getting Started和最小任务示例。",
+      "structbio_use": "将资料检索、工具规划和报告整理分工，按文件与验证结果交接。",
+      "relations": "Crew负责角色协作，Flow负责事件与控制；可与图式编排框架对照。",
+      "status_note": "开源框架与商业控制平台分开理解；先在同预算下比较单Agent与协作。",
+      "archived": false,
+      "source_urls": [
+        "https://github.com/crewAIInc/crewAI"
+      ],
+      "verified_at": "2026-10-30",
+      "review": {
+        "position": "CrewAI用角色、任务和协作团队组织Agent，并用Flows表达事件驱动的控制逻辑。理解Crews与Flows的职责差别比只定义多个角色更重要。",
+        "components": [
+          {
+            "name": "Agent角色",
+            "responsibility": "角色配置目标、工具和模型等能力。角色名只是职责描述，必须进一步约束它可使用的数据和应提交的产物。"
+          },
+          {
+            "name": "Task与交付物",
+            "responsibility": "任务定义要求、依赖及预期输出。协作可靠性取决于交付物是否能被检查，而不只依赖另一角色对其文字的信任。"
+          },
+          {
+            "name": "Crew协作",
+            "responsibility": "Crew安排角色与任务的执行关系。顺序、委派或协作模式带来不同上下文与通信成本，应通过同预算对照验证收益。"
+          },
+          {
+            "name": "Flow状态控制",
+            "responsibility": "Flow用事件和状态组织较确定的流程，可在其中调用单次模型或Crew。不要把复杂控制全部藏在自由对话里。"
+          }
+        ],
+        "runtime": [
+          "用户目标先分解为有输入和交付物的任务。",
+          "Flow推进确定步骤，需要Agent判断时进入对应Agent或Crew。",
+          "角色调用工具并提交约定结果，后续角色读取经验证的交付物。",
+          "汇总者生成报告，独立检查器评价最终产物及失败。"
+        ],
+        "state": "角色上下文、任务输出和Flow状态应区分保存。多Agent同时修改内容时需有所有权和版本规则；模型反思不能自动升级为长期事实。",
+        "deployment": "开源框架可作本地代码原型，商业控制平台和托管能力另行配置。固定工具、模型、任务描述与协作模式，单独记录平台功能是否启用。",
+        "tradeoffs": "分工清晰时容易表达协作，但角色、通信与上下文管理增加成本。没有可检查交接物时，多角色可能放大同一错误。",
+        "exercise": "将手册检索、工具计划和报告分为三项任务。用相同模型与预算比较单Agent，验证多角色是否改善最终科学验收。",
+        "reading_focus": "沿Agent、Crew和Flow入口阅读，找任务完成条件、结构化输出与错误传播，而不是只阅读角色提示词。"
+      },
+      "code_evidence": [
+        {
+          "id": "F06",
+          "path": "lib/crewai/src/crewai/agent/core.py",
+          "url": "https://github.com/crewAIInc/crewAI/blob/97bbfb64811775a965304bda45c8ec0e8e4ef3a2/lib/crewai/src/crewai/agent/core.py",
+          "bytes": 89229,
+          "sha256": "7fae6d342f6e849d2a160b840059441190d0b123c11ec335fa699976a6fa818e",
+          "symbols": [
+            "Agent"
+          ],
+          "status": "fetched",
+          "commit": "97bbfb64811775a965304bda45c8ec0e8e4ef3a2"
+        },
+        {
+          "id": "F06",
+          "path": "lib/crewai/src/crewai/crew.py",
+          "url": "https://github.com/crewAIInc/crewAI/blob/97bbfb64811775a965304bda45c8ec0e8e4ef3a2/lib/crewai/src/crewai/crew.py",
+          "bytes": 99495,
+          "sha256": "77350dd6b63a77f6e1586fb3cdc6cf069f7bad87e2cc7019e0f5defde5917909",
+          "symbols": [
+            "Crew"
+          ],
+          "status": "fetched",
+          "commit": "97bbfb64811775a965304bda45c8ec0e8e4ef3a2"
+        },
+        {
+          "id": "F06",
+          "path": "lib/crewai/src/crewai/flow/flow.py",
+          "url": "https://github.com/crewAIInc/crewAI/blob/97bbfb64811775a965304bda45c8ec0e8e4ef3a2/lib/crewai/src/crewai/flow/flow.py",
+          "bytes": 1503,
+          "sha256": "58341abb3313f043d0531255c2cc585ac79f086320a298765cca9db676bbb475",
+          "symbols": [
+            "Flow"
+          ],
+          "status": "fetched",
+          "commit": "97bbfb64811775a965304bda45c8ec0e8e4ef3a2"
+        }
+      ],
+      "tree_snapshot": "97bbfb64811775a965304bda45c8ec0e8e4ef3a2",
+      "coverage": "架构资料与源码入口核对"
+    },
+    {
+      "id": "F07",
+      "name": "PydanticAI",
+      "repo_url": "https://github.com/pydantic/pydantic-ai",
+      "docs_url": "https://pydantic.dev/docs/ai/",
+      "start_url": "https://github.com/pydantic/pydantic-ai#readme",
+      "role": "强调类型、依赖与输出约束的Python AI SDK",
+      "hook": "把工具、上下文与输出类型接进同一Agent循环",
+      "mechanism": [
+        "定义依赖和输出类型",
+        "注册函数工具",
+        "执行模型工具循环",
+        "校验并返回结果"
+      ],
+      "best_for": "希望用Python类型约束接口，控制结构化输出和应用依赖的Agent。",
+      "not_for": "类型符合约束不证明科学对象选对、物理假设成立或计算数值正确。",
+      "what_to_read": "先读README最小Agent示例，再读Agent、Tools、Dependencies与Output。",
+      "structbio_use": "为结构检查输入、依赖上下文和结果定义类型，并连接独立的领域验证函数。",
+      "relations": "PydanticAI是Agent SDK；Pydantic是其相关的数据约束工具，两者职责不同。",
+      "status_note": "当前项目还包含Harness与其他能力；Evals和Graph等独立组件分别核对。",
+      "archived": false,
+      "source_urls": [
+        "https://github.com/pydantic/pydantic-ai"
+      ],
+      "verified_at": "2026-10-30",
+      "review": {
+        "position": "PydanticAI以类型化的Agent循环连接模型、工具、依赖和输出。关注点是把应用契约放到可检查的代码位置，而不只是将回答约束成某种文本格式。",
+        "components": [
+          {
+            "name": "Agent与运行图",
+            "responsibility": "Agent定义模型、工具和输出要求，运行层在模型请求与工具调用之间推进。需要识别最终结果与工具观察，不能将两者混成一份自然语言总结。"
+          },
+          {
+            "name": "依赖上下文",
+            "responsibility": "依赖将数据库、服务或业务对象传给工具，避免把所有运行资源写入提示。业务对象的生命周期与会话状态应分别管理。"
+          },
+          {
+            "name": "工具与输出类型",
+            "responsibility": "工具参数和最终输出可受类型与验证约束。验证发现结构错误后可触发相应处理，但不能证明生物学解释或几何选择正确。"
+          },
+          {
+            "name": "Graph与Evals等配套",
+            "responsibility": "图式控制、评价、持久执行与其他harness能力有独立层次或组件。选择其中一项不代表自动获得完整生产执行体系。"
+          }
+        ],
+        "runtime": [
+          "定义任务输入、依赖上下文与可接受的输出类型。",
+          "模型选择工具，运行层校验参数后调用实际函数。",
+          "工具将结构化结果或可辨识的错误返回循环。",
+          "最终输出通过类型检查，再进入应用的科学与产物验证。"
+        ],
+        "state": "类型定义、运行消息、注入依赖和科学数据需要分层。对象可以序列化不代表外部连接可以恢复；结果中保留文件与版本引用，不能只保留模型摘要。",
+        "deployment": "Python SDK可在应用进程中使用；模型服务、数据库和持久执行后端按需配置。代码中Pydantic版本、模型能力及配套组件应一并固定。",
+        "tradeoffs": "契约清晰有利于测试与重构，但过宽的类型约束会掩盖语义错误。对于复杂分支，可对照显式图结构；对于简单Agent，不必提前引入所有高级组件。",
+        "exercise": "用不同类型表达输入不合法、计算失败和质量不合格三种结果，验证调用方不会把任一异常当成成功分析。",
+        "reading_focus": "先从Agent运行图追到工具定义及输出处理。查看哪些错误由解析器发现，哪些必须由领域函数与独立判据发现。"
+      },
+      "code_evidence": [
+        {
+          "id": "F07",
+          "path": "pydantic_ai_slim/pydantic_ai/tools.py",
+          "url": "https://github.com/pydantic/pydantic-ai/blob/39269caf0a4e2dbc5846ff796191c42a4736735a/pydantic_ai_slim/pydantic_ai/tools.py",
+          "bytes": 42808,
+          "sha256": "9bf474ef3091f11ffd49a51f41ea6e4a2ddc92ee6e39c1bdae98152eccd69d18",
+          "symbols": [
+            "only_if_42",
+            "hitchhiker",
+            "turn_on_strict_if_openai",
+            "matches_tool_selector",
+            "GenerateToolJsonSchema",
+            "Tool",
+            "KindedToolPlainDecorator",
+            "KindedToolDecorator",
+            "ToolDefinition"
+          ],
+          "status": "fetched",
+          "commit": "39269caf0a4e2dbc5846ff796191c42a4736735a"
+        },
+        {
+          "id": "F07",
+          "path": "pydantic_ai_slim/pydantic_ai/_agent_graph.py",
+          "url": "https://github.com/pydantic/pydantic-ai/blob/39269caf0a4e2dbc5846ff796191c42a4736735a/pydantic_ai_slim/pydantic_ai/_agent_graph.py",
+          "bytes": 265481,
+          "sha256": "f9ef338bb991efa22a114f60f3e10dfa8ee99c15345addc5e1cf0c09b05e022c",
+          "symbols": [
+            "set_agent_graph_sleep",
+            "resolve_conversation_id",
+            "resolve_conversation",
+            "resolve_run_id",
+            "StepModelSettings",
+            "GraphAgentState",
+            "GraphAgentDeps",
+            "AgentNode",
+            "is_agent_node",
+            "drain_node_event_stream",
+            "UserPromptNode",
+            "first_step_selection_messages"
+          ],
+          "status": "fetched",
+          "commit": "39269caf0a4e2dbc5846ff796191c42a4736735a"
+        }
+      ],
+      "tree_snapshot": "43ddebfc88ac8ba29b3a59dd3c48e5467c2df7a3",
+      "coverage": "架构资料与源码入口核对"
+    },
+    {
+      "id": "F08",
+      "name": "smolagents",
+      "repo_url": "https://github.com/huggingface/smolagents",
+      "docs_url": "https://huggingface.co/docs/smolagents/index",
+      "start_url": "https://github.com/huggingface/smolagents#readme",
+      "role": "以代码动作调用工具的轻量Agent库",
+      "hook": "让模型写代码来组织动作，再读取执行结果",
+      "mechanism": [
+        "配置模型与工具",
+        "生成代码动作",
+        "在执行器运行",
+        "读取观察继续决策"
+      ],
+      "best_for": "学习代码行动式Agent、工具组合及小型可读的运行循环。",
+      "not_for": "生成代码不能代替科学检查；执行环境、依赖和适用范围需明确配置。",
+      "what_to_read": "先读README Quick demo，再沿agents.py理解CodeAgent循环与工具接口。",
+      "structbio_use": "在明确输入与工具边界下组合结构检查函数，保留代码、参数和结果记录。",
+      "relations": "支持多模型与多种工具来源，可对照函数调用式SDK观察行动表示的区别。",
+      "status_note": "代码行动与开发软件的编码Agent是不同概念；执行方式按配置选择。",
+      "archived": false,
+      "source_urls": [
+        "https://github.com/huggingface/smolagents"
+      ],
+      "verified_at": "2026-10-30",
+      "review": {
+        "position": "smolagents突出代码作为行动表示。模型不是只输出函数名和JSON参数，也可以生成调用多个工具的程序片段；这使工具组合更灵活，同时把执行环境变成重要系统组件。",
+        "components": [
+          {
+            "name": "模型与Agent循环",
+            "responsibility": "Agent维护任务和观察，模型产生下一项行动。先比较CodeAgent的代码动作与函数调用式动作，理解表达方式如何影响执行与调试。"
+          },
+          {
+            "name": "工具集合",
+            "responsibility": "工具提供有限的外部能力。工具来自本地、Hub或协议适配时，仍需核对实际依赖、输入输出和当前版本。"
+          },
+          {
+            "name": "代码执行器",
+            "responsibility": "执行器决定代码在哪里运行、允许哪些能力及如何返回观察。受控执行与模型推理是不同问题，不能从“生成代码正确”推断环境或文件选择正确。"
+          },
+          {
+            "name": "步骤与结果记录",
+            "responsibility": "运行记录帮助还原计划、动作、错误和返回。对于科学计算，还应把代码与真实输入、产物版本和检查结果对应起来。"
+          }
+        ],
+        "runtime": [
+          "给Agent任务与经过选择的工具集合。",
+          "模型生成代码或相应动作，由执行器运行。",
+          "工具和执行器返回观察、错误或变量结果。",
+          "Agent决定继续还是停止，应用核对最终产物和独立计算结果。"
+        ],
+        "state": "执行器变量、文件系统、对话轨迹与外部服务状态有不同持久性。不能依赖一个解释器内存变量作为长作业恢复的唯一依据。",
+        "deployment": "模型可接本地或远端服务，执行器可采用相应本地或隔离方案。固定模型、工具包、导入配置与环境；不同执行器之间不保证能力等价。",
+        "tradeoffs": "代码行动便于紧凑地表达循环和组合，但排错必须同时检查模型逻辑与运行环境。与严格函数工具方案的比较应控制任务、工具和预算。",
+        "exercise": "让代码动作组合两个只读检查工具，故意提供一份缺失文件，观察错误如何进入下一步；用独立参考验证最终数值。",
+        "reading_focus": "重点读agents.py中的行动循环以及执行器接口，区分模型写出的代码、执行器实际运行的代码和工具返回值。"
+      },
+      "code_evidence": [
+        {
+          "id": "F08",
+          "path": "src/smolagents/local_python_executor.py",
+          "url": "https://github.com/huggingface/smolagents/blob/96f33faaf028479119ec8d34507b47694cf14e34/src/smolagents/local_python_executor.py",
+          "bytes": 68159,
+          "sha256": "41859e622bae8ad85ed861b7abef12b02f9106133a273c2f4d8a1e37a743d1ca",
+          "symbols": [
+            "InterpreterError",
+            "custom_print",
+            "nodunder_getattr",
+            "check_safer_result",
+            "safer_eval",
+            "safer_func",
+            "PrintContainer",
+            "BreakException",
+            "ContinueException",
+            "ReturnException",
+            "ExecutionTimeoutError",
+            "timeout"
+          ],
+          "status": "fetched",
+          "commit": "96f33faaf028479119ec8d34507b47694cf14e34"
+        },
+        {
+          "id": "F08",
+          "path": "src/smolagents/agents.py",
+          "url": "https://github.com/huggingface/smolagents/blob/96f33faaf028479119ec8d34507b47694cf14e34/src/smolagents/agents.py",
+          "bytes": 80780,
+          "sha256": "da0da2e258c346e28d97b3584dfe58dcd203fc20fbde6c6533e333f9b1a06352",
+          "symbols": [
+            "populate_template",
+            "ActionOutput",
+            "ToolOutput",
+            "PlanningPromptTemplate",
+            "ManagedAgentPromptTemplate",
+            "FinalAnswerPromptTemplate",
+            "PromptTemplates",
+            "RunResult",
+            "MultiStepAgent",
+            "ToolCallingAgent",
+            "CodeAgent"
+          ],
+          "status": "fetched",
+          "commit": "96f33faaf028479119ec8d34507b47694cf14e34"
+        }
+      ],
+      "tree_snapshot": "96f33faaf028479119ec8d34507b47694cf14e34",
+      "coverage": "架构资料与源码入口核对"
+    },
+    {
+      "id": "F09",
+      "name": "Google ADK",
+      "repo_url": "https://github.com/google/adk-python",
+      "docs_url": "https://adk.dev/",
+      "start_url": "https://github.com/google/adk-python#readme",
+      "role": "代码优先的Agent、工作流与任务委派框架",
+      "hook": "把Agent、工具和状态工作流放进可测试的运行框架",
+      "mechanism": [
+        "定义Agent和工具",
+        "组织任务与工作流",
+        "维护运行状态",
+        "执行及收集结果"
+      ],
+      "best_for": "需要模块化多Agent、状态分支或Google生态集成，同时希望保留模型选择的应用。",
+      "not_for": "运行时不自动提供结构计算环境、HPC资源和独立领域验收。",
+      "what_to_read": "先读README基本Agent，再看Workflow Runtime、Task API与官方recipes。",
+      "structbio_use": "组织文件检查、工具调用和任务交付，记录运行状态与结构对象选择。",
+      "relations": "与其他代码优先Agent框架可对照；官方定位模型与部署无关，不限于Gemini。",
+      "status_note": "当前README为ADK 2.0；旧版工作流示例需按所用版本核对，避免混用接口。",
+      "archived": false,
+      "source_urls": [
+        "https://github.com/google/adk-python"
+      ],
+      "verified_at": "2026-10-30",
+      "review": {
+        "position": "Google ADK提供代码优先的Agent、工作流、任务委派和开发运行组件。尽管与Google生态集成紧密，官方定位并不限于一种模型或部署环境。",
+        "components": [
+          {
+            "name": "Agent与工具",
+            "responsibility": "Agent描述指令、模型和可用工具。工具返回实际观察，Agent再选择下一步；应把模型能力与工具执行能力分别测试。"
+          },
+          {
+            "name": "Runner与会话",
+            "responsibility": "运行入口将会话、事件和Agent连接起来。会话标识帮助关联对话，但外部计算仍需独立的任务和作业身份。"
+          },
+          {
+            "name": "工作流运行时",
+            "responsibility": "工作流表达顺序、路由、循环、并行及恢复等控制关系。应检查状态和重试规则的实际配置，而非凭工作流名称判断可靠性。"
+          },
+          {
+            "name": "任务委派",
+            "responsibility": "任务接口和多Agent结构组织跨角色执行。委派需要明确输入、接受标准、取消和完成语义，不能只传一句宽泛目标。"
+          }
+        ],
+        "runtime": [
+          "应用创建Agent、会话及任务上下文。",
+          "Runner推进事件与模型调用，Agent选择工具或子任务。",
+          "工作流依据状态组织后续节点与结果收集。",
+          "返回事件和产物后，由应用检查科学结果与可追溯性。"
+        ],
+        "state": "会话消息、运行事件、工作流状态和外部Job需要关联但不混同。长任务应保存稳定引用，不能假设会话记录包含全部计算证据。",
+        "deployment": "本地开发、容器和相应托管环境是不同形态。固定ADK版本及模型适配；当前2.0相关运行时不应与旧版教程API直接混用。",
+        "tradeoffs": "适合需要模块化Agent和工作流、并希望接入Google相关服务的团队；代价是需掌握框架运行对象和云/本地配置差别。",
+        "exercise": "实现校验、计算和汇报三个任务节点，再以一次缺失输入和一次工具错误测试事件链，检查错误是否被正确保留。",
+        "reading_focus": "按llm_agent与Runner入口阅读，再查看会话及工作流资料。关注事件何时生成、状态归谁管理、任务怎样声明完成。"
+      },
+      "code_evidence": [
+        {
+          "id": "F09",
+          "path": "src/google/adk/agents/llm_agent.py",
+          "url": "https://github.com/google/adk-python/blob/8cd3b12c8a5d658c5e0d3ea0731d8be34a092a4a/src/google/adk/agents/llm_agent.py",
+          "bytes": 50339,
+          "sha256": "c35094376ae09f02f9b81a63fe99329ade0f82a573aeb0fd7821e17903e73ab8",
+          "symbols": [
+            "LlmAgent"
+          ],
+          "status": "fetched",
+          "commit": "8cd3b12c8a5d658c5e0d3ea0731d8be34a092a4a"
+        },
+        {
+          "id": "F09",
+          "path": "src/google/adk/runners.py",
+          "url": "https://github.com/google/adk-python/blob/8cd3b12c8a5d658c5e0d3ea0731d8be34a092a4a/src/google/adk/runners.py",
+          "bytes": 91521,
+          "sha256": "2e5cc91e313a70595239fa762d4e501b45a9b42b01038402b6829c4838d89fcf",
+          "symbols": [
+            "Runner",
+            "InMemoryRunner"
+          ],
+          "status": "fetched",
+          "commit": "8cd3b12c8a5d658c5e0d3ea0731d8be34a092a4a"
+        }
+      ],
+      "tree_snapshot": "491d7dbdaa784011d5768d43341df25f13256d71",
+      "coverage": "架构资料与源码入口核对"
+    },
+    {
+      "id": "F10",
+      "name": "Microsoft Agent Framework",
+      "repo_url": "https://github.com/microsoft/agent-framework",
+      "docs_url": "https://learn.microsoft.com/en-us/agent-framework/",
+      "start_url": "https://github.com/microsoft/agent-framework#readme",
+      "role": "跨语言Agent与图式协作工作流框架",
+      "hook": "把模型Agent和有状态工作流连接到一致的开发与运行接口",
+      "mechanism": [
+        "配置模型和工具",
+        "构建Agent与工作流",
+        "保存检查点并交接",
+        "追踪及恢复执行"
+      ],
+      "best_for": "需要Python/.NET、明确协作模式、持久状态或微软服务集成的应用。",
+      "not_for": "检查点不保证外部计算自动只执行一次；科学质量和集群作业状态仍需验证。",
+      "what_to_read": "先读README基本Agent，再读工作流示例、Observability与迁移指南。",
+      "structbio_use": "表达分析、作业查询和验证节点，按步骤保存任务、产物和人工审阅状态。",
+      "relations": "官方提供从AutoGen与Semantic Kernel迁移的指南；历史项目、论文和当前API分别阅读。",
+      "status_note": "当前README含本地与云模式；模型接入和托管能力随配置选择。",
+      "archived": false,
+      "source_urls": [
+        "https://github.com/microsoft/agent-framework"
+      ],
+      "verified_at": "2026-10-30",
+      "review": {
+        "position": "Microsoft Agent Framework将Agent和图式协作工作流放入跨语言开发体系。学习时应同时理解当前接口与AutoGen、Semantic Kernel的历史迁移关系。",
+        "components": [
+          {
+            "name": "Agent及模型客户端",
+            "responsibility": "Agent通过客户端调用模型并接入工具，语言绑定和服务后端各有配置。Azure示例并不等于框架只能在Azure运行。"
+          },
+          {
+            "name": "函数工具与中间件",
+            "responsibility": "工具提供具体应用行为，中间件参与请求、响应及异常处理。把接口处理与科学验证分开，便于定位错误究竟出现在哪层。"
+          },
+          {
+            "name": "工作流与执行器",
+            "responsibility": "工作流表达顺序、并发、handoff或团队关系。执行器的输入输出及状态决定角色如何交接，而不只是角色提示词。"
+          },
+          {
+            "name": "检查点与观测",
+            "responsibility": "检查点、流式事件和追踪为运行管理提供材料。外部计算提交、实际作业核对和科学产物判定仍由应用接入。"
+          }
+        ],
+        "runtime": [
+          "创建模型客户端、Agent和允许的应用工具。",
+          "直接运行单Agent，或把Agent放入工作流执行节点。",
+          "状态与事件推动后续执行、交接或人工输入。",
+          "收集产物并核对外部事实，再将支持的结论交给用户。"
+        ],
+        "state": "区分框架状态、客户端会话、追踪和外部业务对象。检查点恢复仅能依据已保存材料，不能自动证明远端作业尚未执行或已正确完成。",
+        "deployment": "Python、.NET与相关语言形态按项目选取，模型后端和托管模式另行配置。实验模块、稳定包及旧项目API不要混用。",
+        "tradeoffs": "在跨语言集成和明确协作模式中有价值；运行层和服务生态较完整，也意味着更多客户端、配置和生命周期概念。",
+        "exercise": "先用本地工具完成一个单Agent任务，再比较顺序与并发工作流。记录实际工具开始/结束和验证结果，检查恢复是否引入重复外部操作。",
+        "reading_focus": "从_agents与_tools进入，再沿工作流目录寻找执行器和检查点。用官方迁移指南逐项比较旧概念，而非机械改包名。"
+      },
+      "code_evidence": [
+        {
+          "id": "F10",
+          "path": "python/packages/core/agent_framework/_agents.py",
+          "url": "https://github.com/microsoft/agent-framework/blob/b7884ad88eb85c27b2a7bf40c0e15948e7ccc28d/python/packages/core/agent_framework/_agents.py",
+          "bytes": 97537,
+          "sha256": "c9be53117cd636dda668ca66d989a94023051fe193ec2652ce1033e81a0d871f",
+          "symbols": [
+            "SupportsAgentRun",
+            "BaseAgent",
+            "RawAgent",
+            "Agent"
+          ],
+          "status": "fetched",
+          "commit": "b7884ad88eb85c27b2a7bf40c0e15948e7ccc28d"
+        },
+        {
+          "id": "F10",
+          "path": "python/packages/core/agent_framework/_tools.py",
+          "url": "https://github.com/microsoft/agent-framework/blob/b7884ad88eb85c27b2a7bf40c0e15948e7ccc28d/python/packages/core/agent_framework/_tools.py",
+          "bytes": 298103,
+          "sha256": "c24d37208ac7f5f17c63f98c9a57132a6a442f1e959a317126c691ee20ec5fad",
+          "symbols": [
+            "FunctionTool",
+            "normalize_tools",
+            "tool",
+            "tool",
+            "tool",
+            "FunctionInvocationConfiguration",
+            "normalize_function_invocation_configuration",
+            "FunctionInvocationLayer"
+          ],
+          "status": "fetched",
+          "commit": "b7884ad88eb85c27b2a7bf40c0e15948e7ccc28d"
+        }
+      ],
+      "tree_snapshot": "4d4e2168fe57ee20903e152928a61cf276372d29",
+      "coverage": "架构资料与源码入口核对"
+    },
+    {
+      "id": "P01",
+      "name": "Dify",
+      "repo_url": "https://github.com/langgenius/dify",
+      "docs_url": "https://docs.dify.ai",
+      "start_url": "https://github.com/langgenius/dify#readme",
+      "role": "可视化LLM应用与工作流平台",
+      "hook": "从可视化编排到模型、知识、工具和应用API的一体化项目",
+      "mechanism": [
+        "配置模型与知识",
+        "搭建工作流或Agent",
+        "连接外部工具",
+        "发布交互及应用API"
+      ],
+      "best_for": "快速理解完整LLM应用的页面、工作流、知识接入与服务发布。",
+      "not_for": "可视化平台不提供结构软件的输入约束、资源调度或科学验收判据。",
+      "what_to_read": "先读README Workflow与RAG功能，再看官方文档中的自托管和应用开发。",
+      "structbio_use": "为已有结构分析API提供文件输入、任务交互与结果展示，计算后端独立实现。",
+      "relations": "与Flowise可对照可视化编排，与LangChain等代码框架对照控制粒度。",
+      "status_note": "云服务、自托管与不同组件功能分别核对；本次只读查看项目说明。",
+      "archived": false,
+      "source_urls": [
+        "https://github.com/langgenius/dify"
+      ],
+      "verified_at": "2026-10-30",
+      "review": {
+        "position": "Dify是完整LLM应用平台，连接可视化工作流、Agent、知识、模型与应用接口。阅读重点是从画布定义到实际后端执行的链路，而不只是界面如何拖节点。",
+        "components": [
+          {
+            "name": "应用与流程定义",
+            "responsibility": "前端编辑应用、节点与连接，后端读取配置形成运行任务。应找清画布中的一个节点怎样对应可执行操作及参数。"
+          },
+          {
+            "name": "工作流和工具执行",
+            "responsibility": "工作流入口组织实际节点，模型、检索及外部工具产生不同类型的输出。工具失败、节点失败和应用生成失败需要分别呈现。"
+          },
+          {
+            "name": "知识、模型与服务",
+            "responsibility": "模型管理、知识检索、插件或工具服务承担外部能力；它们与任务状态、运行日志和产物存储各有边界。"
+          }
+        ],
+        "runtime": [
+          "在应用或工作流中配置输入、模型和工具。",
+          "用户请求经API进入相应运行入口。",
+          "后端推进节点，保存执行事件并接收外部观察。",
+          "界面或API返回结果；科学后端另行核对文件、对象与质量。"
+        ],
+        "state": "应用版本、运行状态、知识索引与用户文件应分别管理。编辑工作流后的新运行不应与旧配置的结果混作同一实验。",
+        "deployment": "通常涉及Web、API、执行组件及存储等服务，具体依部署文件。模型服务、插件依赖、科学API和文件存储需要独立配置。",
+        "tradeoffs": "低代码能快速建立可用入口，但复杂科学状态不宜全部藏在可视化节点的文本配置中。用稳定接口连接专业计算后端更易验证。",
+        "exercise": "做一个只调用结构检查API的应用：上传文件、显示真实任务状态、提供产物链接，并让失败明确可见。",
+        "reading_focus": "从workflow_entry追到节点执行和事件，再对照前端画布配置。检查应用版本与实际执行参数如何关联。"
+      },
+      "code_evidence": [
+        {
+          "id": "P01",
+          "path": "api/core/workflow/workflow_entry.py",
+          "url": "https://github.com/langgenius/dify/blob/dcb332693ef6c282baaab182a738ec9af56b90e8/api/core/workflow/workflow_entry.py",
+          "bytes": 25882,
+          "sha256": "611d2f8cc0ce1519bea439e2f5cf484879121468d8ace77f0cb56d3054d27335",
+          "symbols": [
+            "iter_dify_graph_engine_events",
+            "SingleNodeGraphDict",
+            "WorkflowEntry"
+          ],
+          "status": "fetched",
+          "commit": "dcb332693ef6c282baaab182a738ec9af56b90e8"
+        },
+        {
+          "id": "P01",
+          "path": "README.md",
+          "url": "https://github.com/langgenius/dify/blob/dcb332693ef6c282baaab182a738ec9af56b90e8/README.md",
+          "bytes": 12132,
+          "sha256": "3c7fe487f1e89e6faec52f5421c71e749c1cecc3486725be3e03fb3fbb62e484",
+          "symbols": [],
+          "status": "fetched",
+          "commit": "dcb332693ef6c282baaab182a738ec9af56b90e8"
+        }
+      ],
+      "tree_snapshot": "34c94386237a84c31c7551836913d1d88069d0e7",
+      "coverage": "架构资料与源码入口核对"
+    },
+    {
+      "id": "P02",
+      "name": "Flowise",
+      "repo_url": "https://github.com/FlowiseAI/Flowise",
+      "docs_url": "https://github.com/FlowiseAI/Flowise#readme",
+      "start_url": "https://github.com/FlowiseAI/Flowise#readme",
+      "role": "可视化Agent与工具流程的源码学习项目",
+      "hook": "把模型、工具和流程节点连接成可以交互的应用",
+      "mechanism": [
+        "配置模型与节点",
+        "连接可视化流程",
+        "运行Agent与工具",
+        "以接口交付结果"
+      ],
+      "best_for": "作为可视化节点、图执行和应用接口的源码学习案例。",
+      "not_for": "当前仓库已归档；新应用应另评估持续维护、版本兼容和接入条件。",
+      "what_to_read": "先读README归档说明，再读Developers与Documentation部分理解系统组成。",
+      "structbio_use": "借鉴结构工具节点和流程编辑器的交互，实际科学执行和验证由独立后端负责。",
+      "relations": "可与Dify和n8n对照节点式产品设计，注意项目状态与当前实现的区别。",
+      "status_note": "官方README明确已归档；本导读仅作为源码学习案例保留。",
+      "archived": true,
+      "source_urls": [
+        "https://github.com/FlowiseAI/Flowise"
+      ],
+      "verified_at": "2026-10-30",
+      "review": {
+        "position": "Flowise的官方仓库已归档。本页把它作为可视化Agent产品的源码案例：理解节点、图配置、应用服务如何连接，同时区分历史实现与持续维护的部署选择。",
+        "components": [
+          {
+            "name": "可视化画布",
+            "responsibility": "画布让用户连接模型、工具和流程节点。节点的视觉连接只有在类型、变量和运行顺序被正确解释后才成为执行计划。"
+          },
+          {
+            "name": "节点与执行后端",
+            "responsibility": "每个节点需要具体运行实现，连接图由服务端执行。分析时应检查图配置怎样变成真实调用，而不是把截图当作系统架构。"
+          },
+          {
+            "name": "应用与API",
+            "responsibility": "会话、调用接口和结果展示把流程包装成应用。执行日志、外部工具状态和最终回答仍需清楚区分。"
+          }
+        ],
+        "runtime": [
+          "创建流程并记录图与节点配置。",
+          "服务端将输入传给可执行节点。",
+          "节点调用模型和工具，返回值沿连接传播。",
+          "应用交付结果；领域系统执行独立验收。"
+        ],
+        "state": "至少区分流程定义、会话和执行结果。节点配置变更后应能追溯旧结果使用了哪套图与依赖。",
+        "deployment": "按归档版本资料学习环境与开发方式。新部署应重新评价维护、兼容和迁移条件；本导读未将归档代码安装为当前服务。",
+        "tradeoffs": "适合研究图编辑器与Agent工作流的产品化；归档状态使其更适合作为源码对照，而不是默认新项目底座。",
+        "exercise": "画出一个结构检查节点的输入、输出和失败状态，对照Dify或Langflow的实现方式，说明各自如何把图配置变成调用。",
+        "reading_focus": "先看官方归档与开发说明，再从画布配置进入节点实现和服务端执行；历史路径未逐项源码核对的部分明确保留限度。"
+      },
+      "code_evidence": [],
+      "tree_snapshot": null,
+      "coverage": "官方资料与历史源码说明"
+    },
+    {
+      "id": "P03",
+      "name": "RAGFlow",
+      "repo_url": "https://github.com/infiniflow/ragflow",
+      "docs_url": "https://ragflow.io/docs/dev/",
+      "start_url": "https://github.com/infiniflow/ragflow#readme",
+      "role": "文档处理、知识检索与Agent上下文应用系统",
+      "hook": "从复杂资料中形成可检索上下文，并展示来源依据",
+      "mechanism": [
+        "解析和组织文档",
+        "分块与知识构建",
+        "检索或多步检索",
+        "生成并展示引用"
+      ],
+      "best_for": "学习论文、手册和研究记录的解析、知识组织、检索与引用展示。",
+      "not_for": "文档理解和检索不能替代坐标计算；引用存在也不等于结论被证实。",
+      "what_to_read": "先读README What is与Key Features，再看System Architecture及文档处理流程。",
+      "structbio_use": "为工具手册和结构分析记录建立来源可追溯的上下文服务，与计算Agent连接。",
+      "relations": "可与LlamaIndex/Haystack区分完整应用和开发组件；可向其他Agent提供检索上下文。",
+      "status_note": "当前README包含上下文引擎与Agentic Retrieval；所用模式和版本应分别记录。",
+      "archived": false,
+      "source_urls": [
+        "https://github.com/infiniflow/ragflow"
+      ],
+      "verified_at": "2026-10-30",
+      "review": {
+        "position": "RAGFlow围绕文档理解、知识组织、检索和Agent上下文构建完整应用。当前源码快照中关键运行与检索接口位于internal目录的Go实现，不能直接套用旧版Python路径。",
+        "components": [
+          {
+            "name": "文档处理",
+            "responsibility": "文档解析和分块为检索提供基础，复杂版面、表格及原文位置影响证据是否可追溯。解析成功并不意味着信息都被正确保留。"
+          },
+          {
+            "name": "检索和上下文服务",
+            "responsibility": "检索接口组织查询、候选片段及相关上下文。需要检查过滤、来源和重排条件，避免把相关性分数当成事实可信度。"
+          },
+          {
+            "name": "Agent与应用状态",
+            "responsibility": "运行状态和组件把检索与Agent流程连接起来。当前目录的state和retrieval接口为识别真实服务边界提供入口。"
+          }
+        ],
+        "runtime": [
+          "导入文档并记录解析、分块及版本。",
+          "用户查询触发检索或Agent式多步查询。",
+          "候选证据进入上下文，按配置生成答案及引用。",
+          "用户检查引用是否确实支持结论，科学计算另走工具后端。"
+        ],
+        "state": "文档版本、知识库、索引、会话和运行状态分别保留。引用到某个片段不证明模型对其解释正确，也不能替代实验或数值计算。",
+        "deployment": "应用、解析、存储与检索引擎依版本和部署配置提供。先按当前架构阅读，再决定本地数据和模型服务怎样接入。",
+        "tradeoffs": "完整数据链路便于从资料到问答，但数据准备和解析质量成为主要工程工作。需要科学执行时，应明确检索层只提供上下文。",
+        "exercise": "用同一手册两版本检验参数问答：确认检索到正确版本、引用定位准确，再把相关参数传给受控计算工具。",
+        "reading_focus": "从当前Go运行状态与检索接口进入，再读文档解析入口，对照官方资料检查组件间的数据契约。"
+      },
+      "code_evidence": [
+        {
+          "id": "P03",
+          "path": "internal/agent/runtime/state.go",
+          "url": "https://github.com/infiniflow/ragflow/blob/12d9a38e24bf3fb8573b83bc41a2fe75dcd2c281/internal/agent/runtime/state.go",
+          "bytes": 32949,
+          "sha256": "8d412040c9afed206db80280b5895ed0053f9e330b89721a3c1db4fd0e8cdad2",
+          "symbols": [
+            "CanvasState",
+            "canvasStateJSON"
+          ],
+          "status": "fetched",
+          "commit": "12d9a38e24bf3fb8573b83bc41a2fe75dcd2c281"
+        },
+        {
+          "id": "P03",
+          "path": "internal/agent/runtime/retrieval.go",
+          "url": "https://github.com/infiniflow/ragflow/blob/12d9a38e24bf3fb8573b83bc41a2fe75dcd2c281/internal/agent/runtime/retrieval.go",
+          "bytes": 13543,
+          "sha256": "c500076ed7dcfdd0d677055862dcc29a217c8adfd3e15312b2422d84b8094dec",
+          "symbols": [
+            "RetrievalChunk",
+            "RetrievalRequest",
+            "RetrievalService",
+            "MemoryRetrievalService",
+            "KGRetrievalService",
+            "GrepService",
+            "GrepRequest",
+            "Bm25Service",
+            "Bm25Request",
+            "stubRetrievalService",
+            "stubMemoryRetrievalService",
+            "stubKGRetrievalService"
+          ],
+          "status": "fetched",
+          "commit": "12d9a38e24bf3fb8573b83bc41a2fe75dcd2c281"
+        },
+        {
+          "id": "P03",
+          "path": "internal/deepdoc/parser/office/parser.go",
+          "url": "https://github.com/infiniflow/ragflow/blob/12d9a38e24bf3fb8573b83bc41a2fe75dcd2c281/internal/deepdoc/parser/office/parser.go",
+          "bytes": 1562,
+          "sha256": "bfe804c7a10e0a09f9b69a19ef0474b36bb57ace40f43835c4783f8e1f0fea22",
+          "symbols": [],
+          "status": "fetched",
+          "commit": "12d9a38e24bf3fb8573b83bc41a2fe75dcd2c281"
+        }
+      ],
+      "tree_snapshot": "94369fc289e61be2f7e43bd0c65862269207d9c4",
+      "coverage": "架构资料与源码入口核对"
+    },
+    {
+      "id": "P04",
+      "name": "DeerFlow",
+      "repo_url": "https://github.com/bytedance/deer-flow",
+      "docs_url": "https://github.com/bytedance/deer-flow#readme",
+      "start_url": "https://github.com/bytedance/deer-flow#readme",
+      "role": "具备技能、子代理和执行环境的完整Agent系统",
+      "hook": "从文件、记忆、技能与沙箱学习复杂任务的端到端交付",
+      "mechanism": [
+        "接收任务与上下文",
+        "规划和子代理委派",
+        "使用技能工具与环境",
+        "整理文件和交付结果"
+      ],
+      "best_for": "学习任务工作台、子任务委派、文件环境与结果交付如何整合。",
+      "not_for": "通用执行系统不自动提供结构对象约束、科学软件环境或质量验收。",
+      "what_to_read": "先读README的版本说明和核心能力，再沿后端、工具与运行状态追踪流程。",
+      "structbio_use": "借鉴分析任务界面、文件工作空间与产物展示，将科学操作封装成受控工具。",
+      "relations": "当前系统基于LangGraph与LangChain；可与Deep Agents的高层配套能力对照。",
+      "status_note": "DeerFlow 2.0为重写的Agent harness；旧版Deep Research在单独分支，勿混用。",
+      "archived": false,
+      "source_urls": [
+        "https://github.com/bytedance/deer-flow"
+      ],
+      "verified_at": "2026-10-30",
+      "review": {
+        "position": "DeerFlow当前2.0是从早期Deep Research重写的通用Agent harness。它将工作台、文件、技能、子Agent和执行环境整合，适合研究完整任务怎样被组织与交付。",
+        "components": [
+          {
+            "name": "Lead Agent与装配",
+            "responsibility": "主Agent的装配入口决定模型、工具、中间件和运行选项。必须看实际启用能力，不能从产品演示推断所有配置都可用。"
+          },
+          {
+            "name": "子任务、技能与上下文",
+            "responsibility": "子Agent承担独立子任务，技能提供可复用操作知识，文件与记忆帮助管理材料。任务交接应有明确产物和预算。"
+          },
+          {
+            "name": "环境与应用服务",
+            "responsibility": "执行环境、网关与前端把Agent变成可交互系统。任务状态、会话流和实际执行结果存在不同层次与生命周期。"
+          }
+        ],
+        "runtime": [
+          "工作台提交目标、文件与上下文。",
+          "主Agent决定使用工具、技能或子任务。",
+          "执行环境返回观察与结果文件，事件更新交互界面。",
+          "主任务整理交付物，领域验证器再检查科学结论。"
+        ],
+        "state": "区分会话、Run、子任务、工作区和产物。流式显示结束不必然是后台任务的最终状态，恢复应查持久记录及实际环境。",
+        "deployment": "前后端、模型配置和执行环境按当前部署方式组合。2.0与1.x代码不同，文档、插件和运行参数必须配套。",
+        "tradeoffs": "端到端配套能显著减少产品搭建，但系统默认行为更多。研究结构生物学任务时，应把科学操作与质量规则做成独立受控工具。",
+        "exercise": "仅接入结构文件检查与报告整理两个能力，追踪主任务、子任务和结果文件的对应，再测试一次子任务失败如何呈现。",
+        "reading_focus": "从lead_agent装配入口读起，再看网关与环境接口。版本边界和真实Run终态是比演示功能清单更重要的阅读问题。"
+      },
+      "code_evidence": [
+        {
+          "id": "P04",
+          "path": "backend/packages/harness/deerflow/agents/lead_agent/agent.py",
+          "url": "https://github.com/bytedance/deer-flow/blob/793d1edabce0fa1551572d4ba2ebc2d5c02dcc31/backend/packages/harness/deerflow/agents/lead_agent/agent.py",
+          "bytes": 72674,
+          "sha256": "0c49a2a6c3e3350a20dd492809b4c9ce0e1d6fed084972d472ceede96982ba62",
+          "symbols": [
+            "LeadAgentAssembly",
+            "unwrap_agent_graph",
+            "build_middlewares",
+            "make_lead_agent",
+            "assemble_lead_agent"
+          ],
+          "status": "fetched",
+          "commit": "793d1edabce0fa1551572d4ba2ebc2d5c02dcc31"
+        },
+        {
+          "id": "P04",
+          "path": "README.md",
+          "url": "https://github.com/bytedance/deer-flow/blob/793d1edabce0fa1551572d4ba2ebc2d5c02dcc31/README.md",
+          "bytes": 369286,
+          "sha256": "3a17899f7b5ef4d489f1058815c4f3c84c3fd452aec54f35da6f23c6809feda9",
+          "symbols": [],
+          "status": "fetched",
+          "commit": "793d1edabce0fa1551572d4ba2ebc2d5c02dcc31"
+        }
+      ],
+      "tree_snapshot": "882433ae503d2d64ac6469136bc505a4ae4672dc",
+      "coverage": "架构资料与源码入口核对"
+    },
+    {
+      "id": "P05",
+      "name": "Open Deep Research",
+      "repo_url": "https://github.com/langchain-ai/open_deep_research",
+      "docs_url": "https://github.com/langchain-ai/open_deep_research#readme",
+      "start_url": "https://github.com/langchain-ai/open_deep_research#readme",
+      "role": "多步检索与研究报告生成的源码案例",
+      "hook": "把问题、搜索、摘要压缩和报告生成串成可配置研究流程",
+      "mechanism": [
+        "明确研究问题",
+        "多轮检索与研究",
+        "整理压缩材料",
+        "生成有来源的报告"
+      ],
+      "best_for": "学习研究助手中的搜索工具、模型分工、配置和报告生成。",
+      "not_for": "仓库已归档；信息研究报告不能替代结构数值计算或独立科学验证。",
+      "what_to_read": "先读README与configuration.py入口，再跟踪搜索、摘要、压缩和报告阶段。",
+      "structbio_use": "用于工具手册检索和背景材料整理，实际结构计算走独立工具与验收路径。",
+      "relations": "可与DeerFlow的当前系统对照，也可联系LangChain/LangGraph理解组件复用。",
+      "status_note": "官方仓库页面标示已归档，只作源码学习与研究流程案例。",
+      "archived": true,
+      "source_urls": [
+        "https://github.com/langchain-ai/open_deep_research"
+      ],
+      "verified_at": "2026-10-30",
+      "review": {
+        "position": "Open Deep Research是多步检索和研究报告生成的完整源码案例。当前仓库已归档，适合学习任务配置、检索、摘要压缩与报告分工，而不是直接把报告质量当作计算能力。",
+        "components": [
+          {
+            "name": "任务与配置",
+            "responsibility": "配置定义研究所用模型、搜索或MCP能力及其他运行条件。不同阶段可用不同模型，因此系统表现不能简单归给单一模型。"
+          },
+          {
+            "name": "研究与压缩",
+            "responsibility": "搜索和研究阶段收集信息，摘要或压缩阶段形成可管理的研究上下文。压缩可能丢失限定条件，需要保留证据来源。"
+          },
+          {
+            "name": "报告与评价",
+            "responsibility": "报告阶段将研究材料组织成输出；相应基准评价关注报告。引用完整、写作流畅与数值计算正确是不同评价维度。"
+          }
+        ],
+        "runtime": [
+          "将用户问题转为研究任务和配置。",
+          "调用搜索工具或MCP获取资料。",
+          "整理和压缩研究结果，继续查缺补漏。",
+          "生成报告，并检查引用及结论范围。"
+        ],
+        "state": "保存配置、检索结果、压缩内容和最终报告的对应关系。若只保留最终文字，就难以判断错误来自搜索、压缩还是生成。",
+        "deployment": "依归档版本固定模型和搜索服务；旧示例的依赖与接口可能变化。本轮只做资料核对与源码学习，不声明已复现实测分数。",
+        "tradeoffs": "适合学习研究助手的系统分解；不适合用报告基准替代结构几何或物理检查。归档状态需要在新实现选型中单独考虑。",
+        "exercise": "为一个工具选择问题生成带出处的背景报告，再手动核对每条操作条件。实际计算结果必须由另一个受控工具产生。",
+        "reading_focus": "先读README配置和阶段说明，再跟踪研究、压缩与报告之间传递的对象；保留模型分工与搜索条件。"
+      },
+      "code_evidence": [],
+      "tree_snapshot": null,
+      "coverage": "官方资料与历史源码说明"
+    },
+    {
+      "id": "P06",
+      "name": "OpenHands",
+      "repo_url": "https://github.com/OpenHands/OpenHands",
+      "docs_url": "https://github.com/OpenHands/OpenHands#readme",
+      "start_url": "https://github.com/OpenHands/OpenHands#readme",
+      "role": "Agent工作台与执行服务的完整项目入口",
+      "hook": "用Agent Canvas连接执行服务，将交互界面和运行逻辑分开",
+      "mechanism": [
+        "工作台与用户交互",
+        "连接Agent Server",
+        "SDK管理工具与运行",
+        "接收事件并呈现结果"
+      ],
+      "best_for": "学习工作台、Agent服务、工作空间和事件流如何形成完整执行产品。",
+      "not_for": "界面仓库不包含全部Agent运行实现；结构计算和HPC接入要在相应后端设计。",
+      "what_to_read": "先读README Architecture与Repository boundaries，再看software-agent-sdk中的执行组件。",
+      "structbio_use": "借鉴任务工作台、文件与执行事件展示，科学操作通过独立工具及验证器接入。",
+      "relations": "当前OpenHands仓库负责Canvas；software-agent-sdk负责Agent Server、工具、会话与运行。",
+      "status_note": "按当前多仓库边界阅读；避免把旧版单仓库教程直接套用到当前结构。",
+      "archived": false,
+      "source_urls": [
+        "https://github.com/OpenHands/OpenHands"
+      ],
+      "verified_at": "2026-10-30",
+      "review": {
+        "position": "当前OpenHands/OpenHands仓库主要负责Agent Canvas工作台；执行服务、工具与会话运行在独立software-agent-sdk中。将多仓库边界弄清，才能准确学习其系统架构。",
+        "components": [
+          {
+            "name": "Canvas与交互状态",
+            "responsibility": "工作台呈现会话、文件及运行事件，保存客户端相关状态。客户端看到的进度不应被当成执行服务的全部事实。"
+          },
+          {
+            "name": "Agent Server适配",
+            "responsibility": "API适配层连接执行服务并处理兼容、配置与事件。它是前后端契约的重要入口，可用于理解断线或版本不一致的行为。"
+          },
+          {
+            "name": "SDK与自动化边界",
+            "responsibility": "Agent Server和运行语义归SDK，定时或事件调度又归自动化仓库。系统要分别回答何时执行、执行什么和怎样展示。"
+          }
+        ],
+        "runtime": [
+          "用户在Canvas选择执行服务并提交任务。",
+          "客户端通过服务接口创建或继续会话。",
+          "执行服务运行Agent与工具，并返回事件和产物。",
+          "Canvas展示结果；后端真实性与领域检查独立完成。"
+        ],
+        "state": "客户端store、服务会话、工具事件和工作空间要区分。断开浏览器不等于取消任务，重连后应取得服务端真实状态。",
+        "deployment": "工作台、Agent Server和可选自动化服务可以分开部署。当前目录结构与旧单仓库教程不同，先确定每个组件版本和接口。",
+        "tradeoffs": "适合学习完整执行产品的服务边界与交互；照搬工作台并不能得到科学后端。跨仓库接口变化也带来集成与兼容测试成本。",
+        "exercise": "模拟一个长分析任务，在界面断线后重新连接，验证进度、产物和失败状态来自同一服务端任务，而非旧的前端缓存。",
+        "reading_focus": "从agent-server-adapter与会话store进入，再按官方仓库边界阅读SDK；不要把前端仓库当作完整Agent运行实现。"
+      },
+      "code_evidence": [
+        {
+          "id": "P06",
+          "path": "src/api/agent-server-adapter.ts",
+          "url": "https://github.com/OpenHands/OpenHands/blob/11b72301d099403d2c49be9b7e0ee898e646c9a6/src/api/agent-server-adapter.ts",
+          "bytes": 61614,
+          "sha256": "0720a1bf4112ab05e173bd4e7077ba1c8fe5cdfd328a88a1a9dcccb77eec878d",
+          "symbols": [
+            "DirectConversationInfo",
+            "resolveMaxIterations",
+            "RuntimeServicesInfo",
+            "parseRuntimeServicesInfo",
+            "fetchBackendServerInfo",
+            "fetchBackendExecutionRuntime",
+            "buildRuntimeServicesSystemSuffix",
+            "buildRouterAtStartSystemSuffix",
+            "toConversationUrl",
+            "getDefaultConversationTitle",
+            "toAppConversation",
+            "toConversationPage"
+          ],
+          "status": "fetched",
+          "commit": "11b72301d099403d2c49be9b7e0ee898e646c9a6"
+        },
+        {
+          "id": "P06",
+          "path": "src/stores/conversation-store.ts",
+          "url": "https://github.com/OpenHands/OpenHands/blob/11b72301d099403d2c49be9b7e0ee898e646c9a6/src/stores/conversation-store.ts",
+          "bytes": 12909,
+          "sha256": "9c1ebd38f0e69ac58299063ede6954ec761f4a5d61fcd2793c386ccf5f78ce69",
+          "symbols": [
+            "ConversationTab",
+            "ConversationMode",
+            "CommitsPaneSection",
+            "MessageToSendTarget",
+            "IMessageToSend",
+            "ConversationState",
+            "ConversationActions",
+            "ConversationStore"
+          ],
+          "status": "fetched",
+          "commit": "11b72301d099403d2c49be9b7e0ee898e646c9a6"
+        }
+      ],
+      "tree_snapshot": "940dc61587e31f2625d6a59e07d70340878031d2",
+      "coverage": "架构资料与源码入口核对"
+    },
+    {
+      "id": "F11",
+      "name": "OpenAI Agents SDK",
+      "repo_url": "https://github.com/openai/openai-agents-python",
+      "docs_url": "https://openai.github.io/openai-agents-python/",
+      "start_url": "https://github.com/openai/openai-agents-python/blob/main/examples/basic/tools.py",
+      "role": "代码优先的Agent运行循环与工具SDK",
+      "hook": "用Agent、工具和Runner搭起可追踪的调用循环",
+      "mechanism": [
+        "定义Agent与工具",
+        "Runner执行调用循环",
+        "委派或返回结果",
+        "会话和追踪记录"
+      ],
+      "best_for": "快速建立单Agent、函数工具和结构化运行记录，再按需要加入委派。",
+      "not_for": "独立科学验证、实际集群作业状态和领域软件环境仍需实现。",
+      "what_to_read": "先读basic/tools.py与Quickstart，再读Running agents、Sessions和Tracing。",
+      "structbio_use": "调用结构检查与几何函数，把工具调用记录关联到结果和产物。",
+      "relations": "可直接使用，不依赖LangChain；MCP、函数工具和其他Agent可作为能力入口。",
+      "status_note": "SDK与托管Agents API是不同运行方式；本文只读核对，未实际部署。",
+      "source_urls": [
+        "https://github.com/openai/openai-agents-python",
+        "https://developers.openai.com/api/docs/guides/agents/quickstart?lang=python"
+      ],
+      "verified_at": "2026-10-30",
+      "review": {
+        "position": "OpenAI Agents SDK以Agent、Runner、工具、会话与追踪组织代码优先应用。它是应用内运行的一种方式，与托管Agents API的生命周期和环境责任不同。",
+        "components": [
+          {
+            "name": "Agent定义",
+            "responsibility": "Agent保存指令、模型配置、工具及相关控制要求。先把一个明确职责表达清楚，再考虑将其他Agent作为工具或交接目标。"
+          },
+          {
+            "name": "Runner循环",
+            "responsibility": "Runner组织模型请求、工具执行、返回及终止。它决定运行对象怎样交付结果；应用应读真实run结果和异常，而不是只读取最后一段文本。"
+          },
+          {
+            "name": "工具与委派",
+            "responsibility": "函数工具、MCP或其他工具能力连接实际动作。handoff与agents-as-tools的调用和返回结构不同，适用的职责边界也不同。"
+          },
+          {
+            "name": "会话与追踪",
+            "responsibility": "会话管理交互历史，追踪帮助定位模型、工具和委派事件。二者都不等同于完整科学产物登记。"
+          }
+        ],
+        "runtime": [
+          "构造Agent并提供任务、工具与上下文。",
+          "Runner调用模型，按返回执行工具或处理委派。",
+          "真实观察回到运行循环，直至得到终止结果或运行失败。",
+          "应用读取运行状态、工具产物与最终输出，再执行独立检查。"
+        ],
+        "state": "需要关联会话、run、工具调用和文件产物。长作业状态不能只留在对话历史里；要保存实际Job ID、输入摘要与结果版本。",
+        "deployment": "SDK可嵌入自己的Python服务；模型服务、会话存储和工具执行环境按配置提供。与托管API、沙箱Agent或语音等形态分别理解责任边界。",
+        "tradeoffs": "较小的核心概念利于起步和调试，但科学工作流的恢复、资源和领域规则仍需应用负责。控制比较时，不要把不同工具或模型带来的收益归给SDK本身。",
+        "exercise": "用一个函数工具返回结构化检查结果，分别观察成功、工具异常和未通过科学判据三种路径，再选择是否需要委派。",
+        "reading_focus": "按agent.py、run.py和tool.py阅读，查清工具参数如何解析、结果如何回到模型、最终状态与输出分别在哪里。"
+      },
+      "code_evidence": [
+        {
+          "id": "F11",
+          "path": "src/agents/run.py",
+          "url": "https://github.com/openai/openai-agents-python/blob/e355d69152d4f4730dfb03b63dbce53e8d9f5d8c/src/agents/run.py",
+          "bytes": 155777,
+          "sha256": "3cdd652446db22646f24dd8e283dc39d54724a7a76822856c17e39a8f549d997",
+          "symbols": [
+            "set_default_agent_runner",
+            "get_default_agent_runner",
+            "Runner",
+            "AgentRunner"
+          ],
+          "status": "fetched",
+          "commit": "e355d69152d4f4730dfb03b63dbce53e8d9f5d8c"
+        },
+        {
+          "id": "F11",
+          "path": "src/agents/agent.py",
+          "url": "https://github.com/openai/openai-agents-python/blob/e355d69152d4f4730dfb03b63dbce53e8d9f5d8c/src/agents/agent.py",
+          "bytes": 54898,
+          "sha256": "4508357ab85a3d254dade7b4a57540a452fd46d73f114460bc228dc8409059f9",
+          "symbols": [
+            "ToolsToFinalOutputResult",
+            "AgentToolStreamEvent",
+            "StopAtTools",
+            "MCPConfig",
+            "AgentBase",
+            "Agent"
+          ],
+          "status": "fetched",
+          "commit": "e355d69152d4f4730dfb03b63dbce53e8d9f5d8c"
+        },
+        {
+          "id": "F11",
+          "path": "src/agents/tool.py",
+          "url": "https://github.com/openai/openai-agents-python/blob/e355d69152d4f4730dfb03b63dbce53e8d9f5d8c/src/agents/tool.py",
+          "bytes": 116811,
+          "sha256": "fdbc586a84448031f31ce55eafc501fb294c61051f4a60131d93f740734ab64d",
+          "symbols": [
+            "FunctionToolCustomDataContext",
+            "CustomToolCustomDataContext",
+            "ComputerToolCustomDataContext",
+            "ApplyPatchToolCustomDataContext",
+            "ToolOutputText",
+            "ToolOutputTextDict",
+            "ToolOutputImage",
+            "ToolOutputImageDict",
+            "ToolOutputFileContent",
+            "ToolOutputFileContentDict",
+            "ToolOriginType",
+            "ToolOrigin"
+          ],
+          "status": "fetched",
+          "commit": "e355d69152d4f4730dfb03b63dbce53e8d9f5d8c"
+        }
+      ],
+      "tree_snapshot": "cd26bbbc52847845fde73b9952b51e62e2bcbdc0",
+      "coverage": "架构资料与源码入口核对"
+    },
+    {
+      "id": "F12",
+      "name": "Agno",
+      "repo_url": "https://github.com/agno-agi/agno",
+      "docs_url": "https://docs.agno.com",
+      "start_url": "https://github.com/agno-agi/agno#readme",
+      "role": "Agent、团队与工作流的编排及服务平台",
+      "hook": "把Agent和工作流组织成可提供API与MCP的服务",
+      "mechanism": [
+        "定义Agent与团队",
+        "控制工作流执行",
+        "保存状态和记忆",
+        "通过AgentOS提供服务"
+      ],
+      "best_for": "同时研究Agent编排、服务接口、状态与运行管理的应用原型。",
+      "not_for": "不能直接替代结构分析工具、HPC调度或科学结果验收。",
+      "what_to_read": "先读README能力分层与Get started，再看Agents、Workflows及AgentOS教程。",
+      "structbio_use": "研究如何把分析Agent作为服务暴露，关联用户任务、工具调用与产物。",
+      "relations": "当前项目把SDK、AgentOS和服务配套分层；可与外部工具和MCP连接。",
+      "status_note": "当前README重心扩展到平台与持久服务；按实际组件判断依赖和部署。",
+      "source_urls": [
+        "https://github.com/agno-agi/agno"
+      ],
+      "verified_at": "2026-10-30",
+      "review": {
+        "position": "Agno同时覆盖Agent、团队、工作流以及AgentOS服务层。要先确认自己需要的是进程内编排还是完整运行服务，避免把不同层的能力混成单一框架特性。",
+        "components": [
+          {
+            "name": "Agent与工具",
+            "responsibility": "Agent将模型、指令、工具及上下文组合，承担局部决策。工具必须独立定义输入、输出和异常，而不是让模型随意解释所有文件。"
+          },
+          {
+            "name": "Team与Workflow",
+            "responsibility": "团队组织角色协作，工作流表达路由、条件、循环或并行步骤。前者的自由委派和后者的显式控制需要分开评估。"
+          },
+          {
+            "name": "记忆与存储",
+            "responsibility": "会话、记忆和知识保存不同类型的信息。应用需要明确写入条件及版本，不能将一次模型推断直接当作科学事实。"
+          },
+          {
+            "name": "AgentOS服务层",
+            "responsibility": "服务层对外提供API或MCP，并组织运行管理与持久相关能力。实际部署依赖及启用能力需按所选模板和配置核对。"
+          }
+        ],
+        "runtime": [
+          "接收应用任务，选择Agent、团队或确定的工作流。",
+          "读取需要的知识与记忆，执行模型和工具调用。",
+          "在工作流控制或团队委派下收集结果。",
+          "通过服务接口返回运行及产物信息，应用执行领域验收。"
+        ],
+        "state": "Agent上下文、团队共享内容、服务运行状态与科学数据应分层。恢复时关联真实外部作业，不能只靠服务层显示的任务状态判断科学成功。",
+        "deployment": "可从代码原型扩展到AgentOS及存储、接口等服务。读取模板后固定具体组件与版本，再决定是否需要整个平台，避免为单工具任务部署所有配套。",
+        "tradeoffs": "服务集成能减少API与运行管理搭建工作，代价是系统层次和默认配置更多。应以最小任务测清边界后，再增加团队、记忆与持久能力。",
+        "exercise": "把同一结构检查任务分别作为本地Agent和服务运行，对照输入、日志与产物身份是否保持一致，再测试一次外部工具失败。",
+        "reading_focus": "先读Agent核心与Workflow，再对照AgentOS层的接口和存储。将“SDK提供什么”与“服务部署后启用了什么”分别记录。"
+      },
+      "code_evidence": [
+        {
+          "id": "F12",
+          "path": "libs/agno/agno/workflow/agent.py",
+          "url": "https://github.com/agno-agi/agno/blob/a9ea2b48b4d9bc5cfdea10d39ab5b8de66343a5f/libs/agno/agno/workflow/agent.py",
+          "bytes": 13401,
+          "sha256": "487f7d4c2dcaf4ea645743ca917dbab326b144c40a410cedbd48b7b15f7e325a",
+          "symbols": [
+            "WorkflowAgent"
+          ],
+          "status": "fetched",
+          "commit": "a9ea2b48b4d9bc5cfdea10d39ab5b8de66343a5f"
+        },
+        {
+          "id": "F12",
+          "path": "libs/agno/agno/agent/agent.py",
+          "url": "https://github.com/agno-agi/agno/blob/a9ea2b48b4d9bc5cfdea10d39ab5b8de66343a5f/libs/agno/agno/agent/agent.py",
+          "bytes": 85870,
+          "sha256": "d6c0db3080eb1d19c71245695f6cb6f14de5294f00905dfeab361581ae1d2ac4",
+          "symbols": [
+            "Agent",
+            "get_agent_by_id",
+            "get_agents"
+          ],
+          "status": "fetched",
+          "commit": "a9ea2b48b4d9bc5cfdea10d39ab5b8de66343a5f"
+        }
+      ],
+      "tree_snapshot": "37fb076b98c18586fbcac51aad980ecca295ab8d",
+      "coverage": "架构资料与源码入口核对"
+    },
+    {
+      "id": "P07",
+      "name": "n8n",
+      "repo_url": "https://github.com/n8n-io/n8n",
+      "docs_url": "https://docs.n8n.io/",
+      "start_url": "https://github.com/n8n-io/n8n#readme",
+      "role": "可视化工作流与服务连接平台",
+      "hook": "用触发器和节点把现有服务串成可观察的自动化流程",
+      "mechanism": [
+        "接收触发事件",
+        "运行节点与条件分支",
+        "调用模型或外部服务",
+        "记录执行和交付结果"
+      ],
+      "best_for": "文件到达、API调用、状态查询和报告交付等外围业务编排。",
+      "not_for": "复杂科学任务的计算判据、资源调度与领域数据类型需由后端实现。",
+      "what_to_read": "先读README与官方AI指南，跟踪一次触发、节点执行及错误分支。",
+      "structbio_use": "连接结构文件入口、已封装分析服务和结果展示，作为工作流前端参考。",
+      "relations": "可与Agent或科学API组合；工作流节点、Agent决策和集群调度是不同职责。",
+      "status_note": "README将项目称为fair-code/source-available；本页按公开代码项目介绍。",
+      "source_urls": [
+        "https://github.com/n8n-io/n8n"
+      ],
+      "verified_at": "2026-10-30",
+      "review": {
+        "position": "n8n将触发器、节点、条件和外部服务组织成可视化自动化平台。它可以连接Agent与科学API，但业务工作流、Agent决策和计算调度是三种不同职责。",
+        "components": [
+          {
+            "name": "触发与工作流定义",
+            "responsibility": "事件或请求启动工作流，节点和连接描述后续过程。定义版本与一次执行必须关联，才能解释结果使用了哪套流程。"
+          },
+          {
+            "name": "执行引擎",
+            "responsibility": "运行器与执行引擎推进节点、处理条件和返回。应检查失败、重试及外部回调的实际语义，而不只观察画布的绿色状态。"
+          },
+          {
+            "name": "集成节点与AI能力",
+            "responsibility": "节点封装业务服务、模型或Agent能力。一个API节点只能保证调用过程，不能替代目标服务的领域逻辑和验证。"
+          }
+        ],
+        "runtime": [
+          "文件、请求或定时事件触发流程。",
+          "执行引擎按节点与条件传递数据。",
+          "AI节点或HTTP等节点调用外部能力。",
+          "根据真实返回交付报告或继续等待，保存完整执行记录。"
+        ],
+        "state": "区分工作流定义、运行、节点输出和外部任务。重试涉及的副作用应可辨识，不能把工作流恢复等同于外部作业自动去重。",
+        "deployment": "自托管或相应服务模式需要运行与存储配置。README明确其fair-code定位；实际使用按所选版本说明理解。",
+        "tradeoffs": "适合连接系统与交付结果，尤其是外围自动化；复杂科学状态应通过稳定后端接口管理，避免在节点文本中堆积领域规则。",
+        "exercise": "流程仅负责接收文件、提交分析、查询任务并链接结果。注入一次超时，检查它会核对已有任务还是盲目再提交。",
+        "reading_focus": "沿workflow-runner与workflow-execute阅读，再看具体AI或API节点怎样表示参数、错误及外部响应。"
+      },
+      "code_evidence": [
+        {
+          "id": "P07",
+          "path": "packages/cli/src/workflow-runner.ts",
+          "url": "https://github.com/n8n-io/n8n/blob/61055d5cfd6a01b667c73a574cbd2be6d2ab58d0/packages/cli/src/workflow-runner.ts",
+          "bytes": 35535,
+          "sha256": "fc58aef3b8c48851b6098204b79954d508d4a8474a45006e47dc11893b2358e0",
+          "symbols": [
+            "flushResponse",
+            "WorkflowRunner"
+          ],
+          "status": "fetched",
+          "commit": "61055d5cfd6a01b667c73a574cbd2be6d2ab58d0"
+        },
+        {
+          "id": "P07",
+          "path": "packages/core/src/execution-engine/workflow-execute.ts",
+          "url": "https://github.com/n8n-io/n8n/blob/61055d5cfd6a01b667c73a574cbd2be6d2ab58d0/packages/core/src/execution-engine/workflow-execute.ts",
+          "bytes": 107292,
+          "sha256": "08690bf81e4eef57f8ccabd70d4863431ab5fc9bbddaafa376e313037632b8af",
+          "symbols": [
+            "RunWorkflowOptions",
+            "normalizeUnhandledAxiosError",
+            "WorkflowExecute"
+          ],
+          "status": "fetched",
+          "commit": "61055d5cfd6a01b667c73a574cbd2be6d2ab58d0"
+        }
+      ],
+      "tree_snapshot": "cd37d7802ea8c0fadfef4a082b6fc84496136b05",
+      "coverage": "架构资料与源码入口核对"
+    },
+    {
+      "id": "P08",
+      "name": "Open WebUI",
+      "repo_url": "https://github.com/open-webui/open-webui",
+      "docs_url": "https://docs.openwebui.com/",
+      "start_url": "https://github.com/open-webui/open-webui#readme",
+      "role": "可自托管的模型交互与工具接入界面",
+      "hook": "从完整聊天产品学习模型切换、知识接入和工具交互",
+      "mechanism": [
+        "用户对话与文件",
+        "连接模型和知识",
+        "调用工具或扩展",
+        "展示与保存交互结果"
+      ],
+      "best_for": "为研究工具提供易用入口，学习会话、文件、知识与工具的产品整合。",
+      "not_for": "界面可以接入工具，但不会自动提供结构对象约束、HPC状态或科学验收。",
+      "what_to_read": "先读README的工具扩展与Models/Agents，再进入官方开发文档。",
+      "structbio_use": "借鉴文件上传、任务交互和结果展示，把受控结构计算放在独立后端。",
+      "relations": "支持模型API和多种工具扩展；与底层Agent框架处于不同层次。",
+      "status_note": "自托管界面、终端扩展与企业功能分开理解；本次未安装运行。",
+      "source_urls": [
+        "https://github.com/open-webui/open-webui"
+      ],
+      "verified_at": "2026-10-30",
+      "review": {
+        "position": "Open WebUI是模型交互、知识与工具接入的完整应用入口。理解它时应分清界面、会话服务、模型提供商、工具扩展和执行环境，而不把聊天产品当成科学计算引擎。",
+        "components": [
+          {
+            "name": "会话与模型接口",
+            "responsibility": "应用接收用户消息、文件和模型选择，后端连接本地或远端模型。一个模型预设可能组合提示、知识与工具，但不是独立验证过的科研Agent。"
+          },
+          {
+            "name": "知识与工具扩展",
+            "responsibility": "RAG、Tools、Pipes或相关扩展将资料和外部能力接入对话。要检查返回的是检索片段、模型生成内容还是工具真实结果。"
+          },
+          {
+            "name": "文件与结果界面",
+            "responsibility": "文件、消息及任务展示改善可用性，额外执行或终端功能依配置提供。应把界面动作与真正运行任务的服务对应起来。"
+          }
+        ],
+        "runtime": [
+          "用户选择模型并提供任务或文件。",
+          "后端按配置连接知识、工具和模型。",
+          "模型调用受控工具，真实结果返回会话。",
+          "应用展示文件和回答，科学后端执行对象和质量检查。"
+        ],
+        "state": "保存会话、模型配置、知识版本和工具产物。浏览器的完成显示不等于所有外部计算都已完成或被科学验证。",
+        "deployment": "模型提供商、文档处理、存储与工具扩展需要配套。独立终端或企业能力不是所有部署的默认条件，应按当前配置阅读。",
+        "tradeoffs": "适合较快建立研究者可用的界面；系统集成层次多，排错时要定位错误在界面、模型、知识还是工具。",
+        "exercise": "做一个只读科学工具入口，要求每次结果带原始文件和参数引用，并能在界面中区分解析错误、作业失败与质量未达标。",
+        "reading_focus": "先按官方工具扩展与服务文档阅读。本轮未逐项核对该项目内部源码路径，不以猜测路径作教程。"
+      },
+      "code_evidence": [],
+      "tree_snapshot": null,
+      "coverage": "官方资料与历史源码说明"
+    },
+    {
+      "id": "F13",
+      "name": "DSPy",
+      "repo_url": "https://github.com/stanfordnlp/dspy",
+      "docs_url": "https://dspy.ai/",
+      "start_url": "https://github.com/stanfordnlp/dspy#readme",
+      "role": "优化与评测",
+      "hook": "用签名、模块、指标和优化器改进语言模型程序",
+      "mechanism": [
+        "模块与指标",
+        "候选程序",
+        "验证与选择"
+      ],
+      "best_for": "把输入输出声明成签名，以模块组织程序，用训练或开发集和明确指标优化提示或相关参数。",
+      "not_for": "需要按具体任务实现领域输入约束、外部作业状态与独立科学验证。",
+      "what_to_read": "先读README和最小示例，再沿组件、状态与执行入口追踪一次任务。",
+      "structbio_use": "用于理解对应系统层；结构操作通过类型化工具执行，并按任务独立验收。",
+      "relations": "按系统职责与其他框架及应用对照，不能用项目名称推断科学结果质量。",
+      "status_note": "按本轮官方README核对，版本与部署能力分别记录。",
+      "archived": false,
+      "source_urls": [
+        "https://github.com/stanfordnlp/dspy"
+      ],
+      "verified_at": "2026-10-30",
+      "review": {
+        "position": "DSPy把语言模型程序的结构与优化分开：开发者定义任务接口、模块和评价目标，再用开发数据改进程序。它首先是程序与优化框架，不是集群作业运行时。",
+        "components": [
+          {
+            "name": "Signature",
+            "responsibility": "签名描述输入输出的语义和类型。它界定模块要完成的任务，使同一程序可在不同提示或模型配置下比较，而不把所有任务揉进一段提示。"
+          },
+          {
+            "name": "Module与组合",
+            "responsibility": "模块表达预测、检索或Agent等能力，Python代码组织多阶段依赖。模块输出需要与下一阶段的需求一致，并可单独测试。"
+          },
+          {
+            "name": "Metric与优化器",
+            "responsibility": "优化器在明确指标和开发集上搜索程序配置。指标的可验证性与数据划分决定优化是否有意义；错误指标可能优化出错误行为。"
+          }
+        ],
+        "runtime": [
+          "固定任务签名和可回放工具环境。",
+          "准备开发样本与独立评分函数。",
+          "优化器比较候选程序，选择满足指标的配置。",
+          "冻结程序后在未见对象与任务组合上测试。"
+        ],
+        "state": "保存的不只是最终提示，还包括程序结构、优化数据、指标版本、模型和工具环境。开发集结果与冻结后的测试结果必须分开。",
+        "deployment": "需要模型服务及可反复执行的评价环境；工具成本和搜索成本都应计入。小样本科学任务优先验证评价函数，再扩大优化。",
+        "tradeoffs": "能系统化迭代程序，但不能凭优化器名称推断泛化。数据泄漏、评价投机和工具环境漂移会使开发集改进失去解释。",
+        "exercise": "在结构检查的开发集上优化工具选择，另留新结构和错误输入作测试；报告科学验收、误拒和成本，不只看回答格式。",
+        "reading_focus": "从Signature、Module进入优化模块，核对候选怎样被评估、评分是否独立，以及冻结配置能否重新运行。"
+      },
+      "code_evidence": [
+        {
+          "id": "F13",
+          "path": "dspy/signatures/signature.py",
+          "url": "https://github.com/stanfordnlp/dspy/blob/25162c4fc05c2d2d019b0ffb5b6b2a9f315ec007/dspy/signatures/signature.py",
+          "bytes": 35096,
+          "sha256": "bc4cb9abf727eea3864bbde560552a3a33a8589ced59d8c167758706349ae7f7",
+          "symbols": [
+            "SignatureMeta",
+            "Signature",
+            "ensure_signature",
+            "make_signature",
+            "infer_prefix"
+          ],
+          "status": "fetched",
+          "commit": "25162c4fc05c2d2d019b0ffb5b6b2a9f315ec007"
+        },
+        {
+          "id": "F13",
+          "path": "dspy/primitives/module.py",
+          "url": "https://github.com/stanfordnlp/dspy/blob/25162c4fc05c2d2d019b0ffb5b6b2a9f315ec007/dspy/primitives/module.py",
+          "bytes": 13307,
+          "sha256": "0f63191e91db2c1c1d9ae087cecc7ea9997838198500b77d685edc25662687d3",
+          "symbols": [
+            "ProgramMeta",
+            "Module",
+            "set_attribute_by_name"
+          ],
+          "status": "fetched",
+          "commit": "25162c4fc05c2d2d019b0ffb5b6b2a9f315ec007"
+        }
+      ],
+      "tree_snapshot": "25162c4fc05c2d2d019b0ffb5b6b2a9f315ec007",
+      "coverage": "架构资料与源码入口核对"
+    },
+    {
+      "id": "F14",
+      "name": "CAMEL",
+      "repo_url": "https://github.com/camel-ai/camel",
+      "docs_url": "https://docs.camel-ai.org/",
+      "start_url": "https://github.com/camel-ai/camel#readme",
+      "role": "多Agent研究",
+      "hook": "从ChatAgent到角色协作与工具化研究环境",
+      "mechanism": [
+        "Agent与工具",
+        "角色交互",
+        "协作产物"
+      ],
+      "best_for": "以可组合Agent、模型、工具、记忆和society实现多Agent协作与研究实验。",
+      "not_for": "需要按具体任务实现领域输入约束、外部作业状态与独立科学验证。",
+      "what_to_read": "先读README和最小示例，再沿组件、状态与执行入口追踪一次任务。",
+      "structbio_use": "用于理解对应系统层；结构操作通过类型化工具执行，并按任务独立验收。",
+      "relations": "按系统职责与其他框架及应用对照，不能用项目名称推断科学结果质量。",
+      "status_note": "按本轮官方README核对，版本与部署能力分别记录。",
+      "archived": false,
+      "source_urls": [
+        "https://github.com/camel-ai/camel"
+      ],
+      "verified_at": "2026-10-30",
+      "review": {
+        "position": "CAMEL提供研究和构建多Agent系统的组件。角色扮演、协作社会和工具化Agent可以用于探索交互机制，但研究演示的规模不自动代表生产可靠性。",
+        "components": [
+          {
+            "name": "ChatAgent",
+            "responsibility": "Agent围绕消息、模型与工具推进交互。需要核对它维护了什么上下文、何时触发工具、怎样报告终止和异常。"
+          },
+          {
+            "name": "Society与角色关系",
+            "responsibility": "RolePlaying或其他society组织多个Agent的任务与通信。角色目标、消息方向和停止条件影响协作结果，应当显式记录。"
+          },
+          {
+            "name": "工具与研究环境",
+            "responsibility": "工具包及环境提供外部能力，也支撑数据生成和研究实验。实验任务和实际科研软件之间的差距仍需单独测试。"
+          }
+        ],
+        "runtime": [
+          "定义角色、任务和共享工具。",
+          "角色按交互规则交换消息并调用外部工具。",
+          "系统依据完成与终止条件收集交付物。",
+          "评价者检查任务结果及通信成本，保留失败轨迹。"
+        ],
+        "state": "Agent记忆、角色共享消息和环境状态分别保存。模拟角色的“共识”不能取代原始数据、工具日志或科学证据。",
+        "deployment": "Python原型需模型和相应工具依赖；大规模模拟另有资源需求。本导读不将README中的规模宣传视为本地能力保证。",
+        "tradeoffs": "适合研究通信、分工和工具协作；代价是角色行为和交互条件较多。与单Agent或固定工作流对照才能解释协作收益。",
+        "exercise": "让两个角色分别提出分析计划与审阅计划，要求审阅引用具体输入条件；以同预算单Agent检验是否减少真实错误。",
+        "reading_focus": "沿ChatAgent到RolePlaying/Workforce阅读，寻找消息转换、任务分配、终止判断与结果验证的边界。"
+      },
+      "code_evidence": [
+        {
+          "id": "F14",
+          "path": "camel/agents/chat_agent.py",
+          "url": "https://github.com/camel-ai/camel/blob/64b9a613d1c3f4606be64aa6b66ebca437e50cda/camel/agents/chat_agent.py",
+          "bytes": 263597,
+          "sha256": "cb4a0667e1eee31978ad5b54d75b5153e160579dff19d1e2abc7893a3dccb181",
+          "symbols": [
+            "StreamContentAccumulator",
+            "StreamingChatAgentResponse",
+            "AsyncStreamingChatAgentResponse",
+            "ChatAgent"
+          ],
+          "status": "fetched",
+          "commit": "64b9a613d1c3f4606be64aa6b66ebca437e50cda"
+        },
+        {
+          "id": "F14",
+          "path": "camel/societies/role_playing.py",
+          "url": "https://github.com/camel-ai/camel/blob/64b9a613d1c3f4606be64aa6b66ebca437e50cda/camel/societies/role_playing.py",
+          "bytes": 37479,
+          "sha256": "26f89e10f1e19f2bc4ab7da6d50bbb6fc7561d012a2f689357de119b9a878c8b",
+          "symbols": [
+            "RolePlaying"
+          ],
+          "status": "fetched",
+          "commit": "64b9a613d1c3f4606be64aa6b66ebca437e50cda"
+        }
+      ],
+      "tree_snapshot": "64b9a613d1c3f4606be64aa6b66ebca437e50cda",
+      "coverage": "架构资料与源码入口核对"
+    },
+    {
+      "id": "F15",
+      "name": "AgentScope",
+      "repo_url": "https://github.com/agentscope-ai/agentscope",
+      "docs_url": "https://docs.agentscope.io/",
+      "start_url": "https://github.com/agentscope-ai/agentscope#readme",
+      "role": "Agent运行框架",
+      "hook": "将消息、工具、记忆和团队协作组织成可追踪Agent",
+      "mechanism": [
+        "消息和模型",
+        "工具与记忆",
+        "Pipeline协作"
+      ],
+      "best_for": "从ReActAgent、Toolkit等构件建立Agent，再按需求组织Pipeline、团队与服务。",
+      "not_for": "需要按具体任务实现领域输入约束、外部作业状态与独立科学验证。",
+      "what_to_read": "先读README和最小示例，再沿组件、状态与执行入口追踪一次任务。",
+      "structbio_use": "用于理解对应系统层；结构操作通过类型化工具执行，并按任务独立验收。",
+      "relations": "按系统职责与其他框架及应用对照，不能用项目名称推断科学结果质量。",
+      "status_note": "按本轮官方README核对，版本与部署能力分别记录。",
+      "archived": false,
+      "source_urls": [
+        "https://github.com/agentscope-ai/agentscope"
+      ],
+      "verified_at": "2026-10-30",
+      "review": {
+        "position": "AgentScope用Agent、消息、工具、记忆与Pipeline组织应用。当前资料包含团队、SOP和服务等能力，阅读时应固定版本，避免把旧研究接口与当前实现混用。",
+        "components": [
+          {
+            "name": "Agent与消息",
+            "responsibility": "Agent处理输入消息并生成模型、工具或最终响应。消息格式承载的内容与运行状态应区分，不能只根据对话文字判断任务完成。"
+          },
+          {
+            "name": "Toolkit",
+            "responsibility": "工具集合组织Python函数、协议工具和技能。注册成功只表明接口可发现，工具的文件、环境和质量检查仍需实现。"
+          },
+          {
+            "name": "Pipeline与团队",
+            "responsibility": "Pipeline和团队将多个Agent或步骤连起来。顺序、并发、leader委派和SOP是不同控制方式，适合不同依赖与不确定性。"
+          }
+        ],
+        "runtime": [
+          "准备消息、模型与工具集合。",
+          "Agent结合记忆与观察决定行动。",
+          "Pipeline组织调用、共享结果或任务委派。",
+          "运行结果进入应用级验收与来源记录。"
+        ],
+        "state": "消息历史、Agent记忆、工具状态与服务持久数据有不同生命周期。保存状态时明确哪些内容来自实际工具，哪些只是模型判断。",
+        "deployment": "框架、可部署Agent服务、实时或其他实验能力分别核对。按当前版本配置模型与依赖，并记录是否使用远程工具。",
+        "tradeoffs": "组件化和中文资料有利于学习，但高级Pipeline或服务功能仍需理解实际状态与异常语义。不能用团队模板直接代替任务设计。",
+        "exercise": "把结构检查工具放入Toolkit，再用顺序和leader委派各实现一遍。检查两种方式是否使用同一输入与验收条件。",
+        "reading_focus": "从Agent、Toolkit和Pipeline入口阅读，重点追踪消息、工具执行结果和团队交接的实际类型。"
+      },
+      "code_evidence": [
+        {
+          "id": "F15",
+          "path": "src/agentscope/agent/_agent.py",
+          "url": "https://github.com/agentscope-ai/agentscope/blob/4acacb9ffb8c148a1f1e68263657a978bcb1e5a3/src/agentscope/agent/_agent.py",
+          "bytes": 157313,
+          "sha256": "7397fc740ef86a96d4073e444b5ce3150f80dba1557d0f4b1a8f567009ea6aae",
+          "symbols": [
+            "Agent"
+          ],
+          "status": "fetched",
+          "commit": "4acacb9ffb8c148a1f1e68263657a978bcb1e5a3"
+        },
+        {
+          "id": "F15",
+          "path": "src/agentscope/tool/_toolkit.py",
+          "url": "https://github.com/agentscope-ai/agentscope/blob/4acacb9ffb8c148a1f1e68263657a978bcb1e5a3/src/agentscope/tool/_toolkit.py",
+          "bytes": 25072,
+          "sha256": "c8271335631e470acef4f0dc47a93660767bd1bf28f57ca3b40ec04bc2ac01c0",
+          "symbols": [
+            "Toolkit"
+          ],
+          "status": "fetched",
+          "commit": "4acacb9ffb8c148a1f1e68263657a978bcb1e5a3"
+        }
+      ],
+      "tree_snapshot": "2350af908be86c6b9a65affd37f88dc9704c7644",
+      "coverage": "架构资料与源码入口核对"
+    },
+    {
+      "id": "F16",
+      "name": "Letta / Letta Code",
+      "repo_url": "https://github.com/letta-ai/letta-code",
+      "docs_url": "https://docs.letta.com/",
+      "start_url": "https://github.com/letta-ai/letta-code#readme",
+      "role": "状态与记忆",
+      "hook": "把长期记忆、技能和交互运行时当作系统的一部分",
+      "mechanism": [
+        "记忆与身份",
+        "技能和Agent",
+        "持续交互与服务"
+      ],
+      "best_for": "当前源码在letta-code，围绕有记忆的Agent harness、上下文版本、技能和多入口服务组织系统。",
+      "not_for": "需要按具体任务实现领域输入约束、外部作业状态与独立科学验证。",
+      "what_to_read": "先读README和最小示例，再沿组件、状态与执行入口追踪一次任务。",
+      "structbio_use": "用于理解对应系统层；结构操作通过类型化工具执行，并按任务独立验收。",
+      "relations": "按系统职责与其他框架及应用对照，不能用项目名称推断科学结果质量。",
+      "status_note": "按本轮官方README核对，版本与部署能力分别记录。",
+      "archived": false,
+      "source_urls": [
+        "https://github.com/letta-ai/letta-code"
+      ],
+      "verified_at": "2026-10-30",
+      "review": {
+        "position": "Letta当前源码入口已转向Letta Code，而原仓库保留历史说明。重点是有记忆的Agent harness怎样跨会话维护上下文、技能与身份，不能沿用旧V1服务教程描述当前系统。",
+        "components": [
+          {
+            "name": "记忆与上下文",
+            "responsibility": "记忆块和相关文件承载持续上下文，可被Agent更新。学习时要区分观察记录、用户事实、模型推断与可修订的策略。"
+          },
+          {
+            "name": "技能及子Agent",
+            "responsibility": "技能和子Agent提供跨任务复用与委派。复用之前应有适用条件、版本和失败记录，避免把一次成功推广到所有对象。"
+          },
+          {
+            "name": "交互入口与服务",
+            "responsibility": "CLI、App Server和渠道面向同一Agent提供不同入口。客户端状态、服务端运行与记忆存储不是同一层，部署时要分别确认。"
+          }
+        ],
+        "runtime": [
+          "从当前Agent上下文和记忆读取任务背景。",
+          "选择工具或技能，需要时委派子任务。",
+          "记录观察并按规则更新相关记忆。",
+          "跨会话继续任务时核对新的数据与工具版本，而非盲从旧经验。"
+        ],
+        "state": "记忆本身需要版本和来源。被模型写入的内容不自动成为科学事实，经过验证的操作经验也只在记录的条件下可复用。",
+        "deployment": "当前实现与历史Python V1服务器分开阅读；实际运行依赖按当前源码与文档配置。避免以旧API路径或存储结构为当前项目的部署依据。",
+        "tradeoffs": "长期连续任务可以减少重复提供背景，但记忆污染、过期知识和错误策略会持续影响未来任务。应能定位、修订和撤回记忆。",
+        "exercise": "记录一次结构文件选择错误的失败经验，明确仅在何种输入条件下有效；换任务时验证系统不会错误套用该经验。",
+        "reading_focus": "先读当前源码入口说明，再看memory-filesystem和App Server客户端。标出记忆存放、同步与客户端交互的职责。"
+      },
+      "code_evidence": [
+        {
+          "id": "F16",
+          "path": "src/agent/memory-filesystem.ts",
+          "url": "https://github.com/letta-ai/letta-code/blob/59df5424838419e083de0691fa4d08524f348937/src/agent/memory-filesystem.ts",
+          "bytes": 23188,
+          "sha256": "e6ca7ce74ef4f145df2a84933c5617c7df4339d7ffc1359b1ce25e8fb28f5964",
+          "symbols": [
+            "MemoryTreeRenderOptions",
+            "getMemoryFilesystemRoot",
+            "getMemorySystemDir",
+            "getScopedMemoryFilesystemRoot",
+            "ResolveScopedMemoryDirOptions",
+            "resolveScopedMemoryDir",
+            "ensureMemoryFilesystemDirs",
+            "MemfsCreateBodyLike",
+            "stampMemfsTagOnCreateBody",
+            "stampRootMemoryOnCreateBody",
+            "prepareRawCreateAgentBodyForMemfs",
+            "hydrateMemfsSettingFromAgent"
+          ],
+          "status": "fetched",
+          "commit": "59df5424838419e083de0691fa4d08524f348937"
+        },
+        {
+          "id": "F16",
+          "path": "src/app-server-client.ts",
+          "url": "https://github.com/letta-ai/letta-code/blob/59df5424838419e083de0691fa4d08524f348937/src/app-server-client.ts",
+          "bytes": 24144,
+          "sha256": "1e16a4567fd1eddca83a7fec12a668d540809ec16e225bf25dd3387646068127",
+          "symbols": [
+            "AppServerChannel",
+            "AppServerRawCommand",
+            "AppServerRawResponse",
+            "AppServerSendCommand",
+            "AppServerMessageHandler",
+            "AppServerSendHandler",
+            "AppServerDisconnectEvent",
+            "AppServerDisconnectHandler",
+            "AppServerExternalToolCallHandler",
+            "AppServerSocketLike",
+            "AppServerSocketOptions",
+            "AppServerSocketConstructor"
+          ],
+          "status": "fetched",
+          "commit": "59df5424838419e083de0691fa4d08524f348937"
+        }
+      ],
+      "tree_snapshot": "ebc496e532f1a34da9ac8d7e2da41c5920ea77e6",
+      "coverage": "架构资料与源码入口核对"
+    },
+    {
+      "id": "F17",
+      "name": "Mastra",
+      "repo_url": "https://github.com/mastra-ai/mastra",
+      "docs_url": "https://mastra.ai/docs",
+      "start_url": "https://github.com/mastra-ai/mastra#readme",
+      "role": "TypeScript框架",
+      "hook": "在TypeScript中组合Agent、显式工作流与应用服务",
+      "mechanism": [
+        "Agent和Tools",
+        "Workflow状态",
+        "服务与评测"
+      ],
+      "best_for": "围绕Agent和Workflow提供模型、工具、记忆、持久状态、评测与服务集成。",
+      "not_for": "需要按具体任务实现领域输入约束、外部作业状态与独立科学验证。",
+      "what_to_read": "先读README和最小示例，再沿组件、状态与执行入口追踪一次任务。",
+      "structbio_use": "用于理解对应系统层；结构操作通过类型化工具执行，并按任务独立验收。",
+      "relations": "按系统职责与其他框架及应用对照，不能用项目名称推断科学结果质量。",
+      "status_note": "按本轮官方README核对，版本与部署能力分别记录。",
+      "archived": false,
+      "source_urls": [
+        "https://github.com/mastra-ai/mastra"
+      ],
+      "verified_at": "2026-10-30",
+      "review": {
+        "position": "Mastra面向TypeScript应用，将Agent、工作流、工具、记忆和服务结合。对于前后端都使用TS的团队，它提供了一条不同于Python主导生态的开发路线。",
+        "components": [
+          {
+            "name": "Agent与模型",
+            "responsibility": "Agent配置工具与模型，并在需要时循环调用工具。它承担不确定决策；可确定的业务处理可交给工作流。"
+          },
+          {
+            "name": "Workflow",
+            "responsibility": "工作流通过明确的顺序、分支、并行和暂停/恢复表达控制。事件、输入输出和状态构成可测试的执行结构。"
+          },
+          {
+            "name": "应用与存储",
+            "responsibility": "记忆、存储、服务端点和UI集成承载应用运行。框架接口与具体存储、模型服务及科学计算后端分别配置。"
+          }
+        ],
+        "runtime": [
+          "TS应用将任务交给Agent或工作流入口。",
+          "Agent选择工具，Workflow组织确定控制与状态。",
+          "运行可暂停等待外部输入，按配置存储状态。",
+          "结果以服务接口和应用UI呈现，领域后端执行科学检查。"
+        ],
+        "state": "区分UI消息、Agent记忆、工作流快照与科学结果引用。暂停后恢复需要相应存储和真实外部作业核对，不只是重新渲染界面。",
+        "deployment": "Node/TypeScript环境、模型提供商、存储及服务配置共同构成运行条件。可以嵌入现有Web应用，也可独立服务化。",
+        "tradeoffs": "统一TS技术栈降低跨语言应用开发摩擦；已有Python科学生态通常仍通过API或协议工具连接，需要明确序列化和错误边界。",
+        "exercise": "用TS工作流调用一个Python结构检查HTTP接口，保持任务ID、文件摘要和错误类型在两端一致，再测试暂停与继续。",
+        "reading_focus": "沿Agent与Workflow创建入口到服务、存储接口阅读，确认哪些功能在核心包，哪些由外部适配提供。"
+      },
+      "code_evidence": [
+        {
+          "id": "F17",
+          "path": "packages/core/src/workflows/create.ts",
+          "url": "https://github.com/mastra-ai/mastra/blob/697ea99ae93f6dae203cab0f059bc5f9d8316c1e/packages/core/src/workflows/create.ts",
+          "bytes": 5575,
+          "sha256": "15f117d5a65cf8a5889ad25690b3a78c2b9badf8e3d4c345098b0b07ec2dabd0",
+          "symbols": [
+            "createWorkflow",
+            "createEventedWorkflow",
+            "cloneWorkflow"
+          ],
+          "status": "fetched",
+          "commit": "697ea99ae93f6dae203cab0f059bc5f9d8316c1e"
+        },
+        {
+          "id": "F17",
+          "path": "packages/core/src/agent/index.ts",
+          "url": "https://github.com/mastra-ai/mastra/blob/697ea99ae93f6dae203cab0f059bc5f9d8316c1e/packages/core/src/agent/index.ts",
+          "bytes": 2471,
+          "sha256": "cc6cd32ec4356db13b8a02d4ee098f313daf1598baac0475c175c74529baa02b",
+          "symbols": [],
+          "status": "fetched",
+          "commit": "697ea99ae93f6dae203cab0f059bc5f9d8316c1e"
+        }
+      ],
+      "tree_snapshot": "9b3783420945114ad28c5cf18a06859603ff7f85",
+      "coverage": "架构资料与源码入口核对"
+    },
+    {
+      "id": "F18",
+      "name": "Vercel AI SDK",
+      "repo_url": "https://github.com/vercel/ai",
+      "docs_url": "https://ai-sdk.dev/docs",
+      "start_url": "https://github.com/vercel/ai#readme",
+      "role": "TypeScript工具包",
+      "hook": "把模型调用、工具循环和流式UI连接起来",
+      "mechanism": [
+        "Provider与Schema",
+        "ToolLoopAgent",
+        "流式UI和结果"
+      ],
+      "best_for": "通过统一Provider、生成与工具接口，把Agent运行结果以结构化或流式形式交给应用。",
+      "not_for": "需要按具体任务实现领域输入约束、外部作业状态与独立科学验证。",
+      "what_to_read": "先读README和最小示例，再沿组件、状态与执行入口追踪一次任务。",
+      "structbio_use": "用于理解对应系统层；结构操作通过类型化工具执行，并按任务独立验收。",
+      "relations": "按系统职责与其他框架及应用对照，不能用项目名称推断科学结果质量。",
+      "status_note": "按本轮官方README核对，版本与部署能力分别记录。",
+      "archived": false,
+      "source_urls": [
+        "https://github.com/vercel/ai"
+      ],
+      "verified_at": "2026-10-30",
+      "review": {
+        "position": "Vercel AI SDK连接TypeScript模型调用、工具循环、结构化输出和流式界面。它是应用开发工具包，不能仅因名字含AI就当作完整持久任务运行平台。",
+        "components": [
+          {
+            "name": "Provider与生成接口",
+            "responsibility": "统一接口连接不同模型提供商。模型能力、计费和上下文限制仍依具体后端，切换接口不意味着行为等价。"
+          },
+          {
+            "name": "ToolLoopAgent",
+            "responsibility": "工具循环组织模型选择、执行与后续观察。工具的实际实现由应用提供，需明确输入、输出、失败与停止条件。"
+          },
+          {
+            "name": "UI与消息流",
+            "responsibility": "流式接口把执行过程转换为前端可用的消息或事件。界面结束、连接断开与后端计算完成是不同状态。"
+          }
+        ],
+        "runtime": [
+          "Web应用接收请求，选择模型与工具Schema。",
+          "Agent或生成接口发起模型与工具调用。",
+          "结构化结果与流式事件更新应用界面。",
+          "后端登记最终运行状态和产物，前端根据真实状态显示完成或失败。"
+        ],
+        "state": "UI消息、模型会话、工具运行和后台任务必须关联。浏览器连接生命周期不能充当数小时计算的生命周期。",
+        "deployment": "TypeScript/Node及所选UI框架是应用侧条件；模型后端与科学服务另行配置。当前README与旧版本生成/Agent API可能不同，示例应固定包版本。",
+        "tradeoffs": "适合把Agent能力嵌入现有Web产品，尤其是流式交互；如果核心需求是作业恢复，还需要独立持久状态与调度后端。",
+        "exercise": "前端显示分析进度，后端用稳定任务ID返回状态。人为断开前端连接，再检查计算是否继续及结果能否重新取得。",
+        "reading_focus": "从ToolLoopAgent及其settings阅读，再追生成与UI接口；明确协议数据、工具结果和最终状态的边界。"
+      },
+      "code_evidence": [
+        {
+          "id": "F18",
+          "path": "packages/ai/src/agent/tool-loop-agent.ts",
+          "url": "https://github.com/vercel/ai/blob/dffe4053c15709577329518044b1ec1d4c6bb0fe/packages/ai/src/agent/tool-loop-agent.ts",
+          "bytes": 10633,
+          "sha256": "3055c1a8cb0e1271150f63c024335ca0900dbff8167dc26e22c4661239867513",
+          "symbols": [
+            "ToolLoopAgentCallExtensions",
+            "ToolLoopAgent"
+          ],
+          "status": "fetched",
+          "commit": "dffe4053c15709577329518044b1ec1d4c6bb0fe"
+        },
+        {
+          "id": "F18",
+          "path": "packages/ai/src/agent/tool-loop-agent-settings.ts",
+          "url": "https://github.com/vercel/ai/blob/dffe4053c15709577329518044b1ec1d4c6bb0fe/packages/ai/src/agent/tool-loop-agent-settings.ts",
+          "bytes": 14877,
+          "sha256": "7a1de2858d902b0e402485bb320ed1c155d9f6f46a2ea7e8ac9696ebad5aee84",
+          "symbols": [
+            "ToolLoopAgentSettings"
+          ],
+          "status": "fetched",
+          "commit": "dffe4053c15709577329518044b1ec1d4c6bb0fe"
+        }
+      ],
+      "tree_snapshot": "5107fa3c98857df791317c88089a850665eb6304",
+      "coverage": "架构资料与源码入口核对"
+    },
+    {
+      "id": "F19",
+      "name": "AutoGen",
+      "repo_url": "https://github.com/microsoft/autogen",
+      "docs_url": "https://microsoft.github.io/autogen/",
+      "start_url": "https://github.com/microsoft/autogen#readme",
+      "role": "历史与迁移",
+      "hook": "通过消息与团队学习多Agent协作的经典实现",
+      "mechanism": [
+        "消息与Agent",
+        "团队和终止条件",
+        "工具与执行结果"
+      ],
+      "best_for": "经典多Agent研究实现；当前官方仓库明确归档，新实现同时查看Microsoft Agent Framework。",
+      "not_for": "需要按具体任务实现领域输入约束、外部作业状态与独立科学验证。",
+      "what_to_read": "先读README和最小示例，再沿组件、状态与执行入口追踪一次任务。",
+      "structbio_use": "用于理解对应系统层；结构操作通过类型化工具执行，并按任务独立验收。",
+      "relations": "按系统职责与其他框架及应用对照，不能用项目名称推断科学结果质量。",
+      "status_note": "官方仓库已归档，仅作历史机制与源码学习。",
+      "archived": true,
+      "source_urls": [
+        "https://github.com/microsoft/autogen"
+      ],
+      "verified_at": "2026-10-30",
+      "review": {
+        "position": "AutoGen是多Agent通信与团队协作的重要历史实现。当前官方仓库明确归档；它仍有研究与源码价值，但新项目应同时阅读官方迁移路径与当前Agent Framework。",
+        "components": [
+          {
+            "name": "Agent与消息",
+            "responsibility": "Agent通过消息交互，可能调用模型、工具或执行器。消息驱动结构帮助研究协作，但需要清晰的任务和终止条件。"
+          },
+          {
+            "name": "团队与交接",
+            "responsibility": "团队组织轮次、选择与协作角色。团队对话的自洽不等于交付物正确，必须独立检查实际结果。"
+          },
+          {
+            "name": "版本分层",
+            "responsibility": "历史0.2与后续Core、AgentChat、Extensions并非同一API。将论文概念、源码版本和当前迁移目标分开，才能正确复现。"
+          }
+        ],
+        "runtime": [
+          "固定历史版本、Agent配置和任务。",
+          "按照团队规则传递消息并执行工具。",
+          "依据明确终止条件收集交付物。",
+          "独立比较任务结果，并记录迁移到新框架时改变的行为。"
+        ],
+        "state": "研究复现应保存消息顺序、角色配置、工具返回和停止规则。不能拿当前迁移框架运行结果直接冒充旧论文设置。",
+        "deployment": "作为归档源码学习与历史复现，记录精确版本及依赖。官方明确不再维护；部署决策应参照维护状态和迁移说明。",
+        "tradeoffs": "能帮助理解消息驱动协作的演进，但不宜只因历史知名度作为当前新系统默认后端。保留概念，重新验证现代实现。",
+        "exercise": "选一个小型协作任务，列出旧AgentChat对象与当前框架对应概念；迁移后重新测试终止、工具异常和交付物。",
+        "reading_focus": "从官方归档声明和版本文档开始，再阅读对应版本的Agent、团队和消息示例，避免混合API。"
+      },
+      "code_evidence": [],
+      "tree_snapshot": null,
+      "coverage": "官方资料与历史源码说明"
+    },
+    {
+      "id": "F20",
+      "name": "Semantic Kernel",
+      "repo_url": "https://github.com/microsoft/semantic-kernel",
+      "docs_url": "https://learn.microsoft.com/en-us/semantic-kernel/",
+      "start_url": "https://github.com/microsoft/semantic-kernel#readme",
+      "role": "历史与迁移",
+      "hook": "从插件和模型服务理解企业Agent集成",
+      "mechanism": [
+        "模型服务",
+        "插件和函数",
+        "Agent与应用集成"
+      ],
+      "best_for": "通过Kernel、模型服务与插件接入现有应用；官方当前定位Microsoft Agent Framework为继任框架。",
+      "not_for": "需要按具体任务实现领域输入约束、外部作业状态与独立科学验证。",
+      "what_to_read": "先读README和最小示例，再沿组件、状态与执行入口追踪一次任务。",
+      "structbio_use": "用于理解对应系统层；结构操作通过类型化工具执行，并按任务独立验收。",
+      "relations": "按系统职责与其他框架及应用对照，不能用项目名称推断科学结果质量。",
+      "status_note": "按本轮官方README核对，版本与部署能力分别记录。",
+      "archived": false,
+      "source_urls": [
+        "https://github.com/microsoft/semantic-kernel"
+      ],
+      "verified_at": "2026-10-30",
+      "review": {
+        "position": "Semantic Kernel把模型服务、应用函数与插件纳入可组合SDK，是理解企业Agent集成的历史入口。官方当前将Microsoft Agent Framework定位为其继任方向。",
+        "components": [
+          {
+            "name": "Kernel与服务",
+            "responsibility": "Kernel组织模型服务和应用功能。服务适配负责调用协议，应用仍负责数据含义、错误和任务完成判据。"
+          },
+          {
+            "name": "Plugin与Function",
+            "responsibility": "插件将已有函数交给模型或应用调用。函数描述与类型是入口，真实业务行为、外部状态和领域验证由实现承担。"
+          },
+          {
+            "name": "Agent与迁移",
+            "responsibility": "Agent和协作能力随语言与版本演进。阅读旧代码时固定版本，再对照官方迁移指南，而不是机械替换包名。"
+          }
+        ],
+        "runtime": [
+          "应用注册模型服务与可用插件。",
+          "任务进入Agent或相应调用流程，选择并执行函数。",
+          "函数结果回到模型或业务控制层。",
+          "应用验证交付结果，再记录迁移实现与旧版本行为的差别。"
+        ],
+        "state": "插件依赖、模型上下文、业务数据与Agent状态需要独立生命周期。跨语言序列化和异常形式也需要对照测试。",
+        "deployment": "Python、.NET等语言绑定与模型服务各有依赖。当前继任框架和旧SDK的包、样例与托管模式应分别固定。",
+        "tradeoffs": "便于将既有应用函数纳入Agent，但更换运行框架后并不自动保持状态、协作和错误语义，需要行为回归。",
+        "exercise": "把一个只读结构检查函数作为插件，再写出迁移后的同等工具接口；比较参数、返回值及失败行为。",
+        "reading_focus": "从Kernel和函数接口阅读，连接到具体语言绑定，再按官方迁移指南核对新的Agent与工作流对象。"
+      },
+      "code_evidence": [
+        {
+          "id": "F20",
+          "path": "python/semantic_kernel/kernel.py",
+          "url": "https://github.com/microsoft/semantic-kernel/blob/96c9e860db4d7c6da40652d9b421a31b05e98692/python/semantic_kernel/kernel.py",
+          "bytes": 31428,
+          "sha256": "e6e8621df11ddfaba704259d1ae564448501b1f99ba0b1a081a1e0380ac45105",
+          "symbols": [
+            "Kernel"
+          ],
+          "status": "fetched",
+          "commit": "96c9e860db4d7c6da40652d9b421a31b05e98692"
+        },
+        {
+          "id": "F20",
+          "path": "dotnet/src/SemanticKernel.Abstractions/Kernel.cs",
+          "url": "https://github.com/microsoft/semantic-kernel/blob/96c9e860db4d7c6da40652d9b421a31b05e98692/dotnet/src/SemanticKernel.Abstractions/Kernel.cs",
+          "bytes": 34021,
+          "sha256": "0322408469f9390c2f30a97dffa5cdb98cf00b9edd3c226a8fab1a16858247d0",
+          "symbols": [],
+          "status": "fetched",
+          "commit": "96c9e860db4d7c6da40652d9b421a31b05e98692"
+        }
+      ],
+      "tree_snapshot": "fa3962b5f3a2f2340afdb45237c8b9700a8c9296",
+      "coverage": "架构资料与源码入口核对"
+    },
+    {
+      "id": "P09",
+      "name": "Langflow",
+      "repo_url": "https://github.com/langflow-ai/langflow",
+      "docs_url": "https://docs.langflow.org/",
+      "start_url": "https://github.com/langflow-ai/langflow#readme",
+      "role": "可视化应用",
+      "hook": "将可视化流程变成API与MCP工具服务",
+      "mechanism": [
+        "组件与端口",
+        "可视化流程",
+        "API或MCP交付"
+      ],
+      "best_for": "利用可编辑Python组件、可视化连接和交互测试构建流程，再作为API或MCP服务接入其他应用。",
+      "not_for": "需要按具体任务实现领域输入约束、外部作业状态与独立科学验证。",
+      "what_to_read": "先读README和最小示例，再沿组件、状态与执行入口追踪一次任务。",
+      "structbio_use": "用于理解对应系统层；结构操作通过类型化工具执行，并按任务独立验收。",
+      "relations": "按系统职责与其他框架及应用对照，不能用项目名称推断科学结果质量。",
+      "status_note": "按本轮官方README核对，版本与部署能力分别记录。",
+      "archived": false,
+      "source_urls": [
+        "https://github.com/langflow-ai/langflow"
+      ],
+      "verified_at": "2026-10-30",
+      "review": {
+        "position": "Langflow将可视化流程、Python组件、交互测试和API/MCP交付组合。它适合学习如何把可视化设计转成可复用服务，而不仅是搭一个聊天画布。",
+        "components": [
+          {
+            "name": "组件与输入输出",
+            "responsibility": "可编辑组件定义字段与行为。应检查组件声明如何转成实际执行参数，尤其是文件、凭据和对象选择不能只靠显示标签表达。"
+          },
+          {
+            "name": "图与执行",
+            "responsibility": "图解析节点和连接，推进依赖并传递值。图定义是否合法、组件能否运行和结果是否科学合理是三道不同检查。"
+          },
+          {
+            "name": "Playground与服务",
+            "responsibility": "交互测试帮助观察流程，API和MCP使流程被其他应用调用。界面、协议和执行状态需要一致的任务标识。"
+          }
+        ],
+        "runtime": [
+          "建立输入、工具和结果组件，检查端口与参数。",
+          "画布图被解析为执行依赖。",
+          "节点调用模型或科学API，返回结果和错误。",
+          "通过交互界面或API/MCP交付结果，再由领域验证确认质量。"
+        ],
+        "state": "记录图版本、组件代码、运行输入和产物。修改组件后必须能区分旧结果，不应把可视化缓存误作新运行输出。",
+        "deployment": "需要相应Python/服务环境及模型、存储或工具后端。自定义组件与已部署流程的版本应一起固定。",
+        "tradeoffs": "有利于原型与团队沟通，也增加可视化配置与代码之间的一致性要求。复杂长作业状态宜通过明确的外部服务管理。",
+        "exercise": "写一个结构检查组件，经API和MCP各调用一次，验证相同输入的结果和错误类型一致，而不仅在Playground里看起来可用。",
+        "reading_focus": "从Graph和自定义组件入口阅读，追踪字段、端口与运行值怎样进入真实函数。"
+      },
+      "code_evidence": [
+        {
+          "id": "P09",
+          "path": "src/lfx/src/lfx/graph/graph/base.py",
+          "url": "https://github.com/langflow-ai/langflow/blob/b5c54a64e685b7e50fd3bc76e965ad718fc2dea3/src/lfx/src/lfx/graph/graph/base.py",
+          "bytes": 152565,
+          "sha256": "a0fd694078b929d0a5d20186b4436413481eb5cd445f02cf137e59ba2f8924e5",
+          "symbols": [
+            "FlowSpanScope",
+            "Graph"
+          ],
+          "status": "fetched",
+          "commit": "b5c54a64e685b7e50fd3bc76e965ad718fc2dea3"
+        },
+        {
+          "id": "P09",
+          "path": "src/backend/base/langflow/custom/custom_component/component.py",
+          "url": "https://github.com/langflow-ai/langflow/blob/b5c54a64e685b7e50fd3bc76e965ad718fc2dea3/src/backend/base/langflow/custom/custom_component/component.py",
+          "bytes": 617,
+          "sha256": "3b36289fc72558c2e54ebcd2c012700b9071be42156fa168e33b6603957cf87c",
+          "symbols": [],
+          "status": "fetched",
+          "commit": "b5c54a64e685b7e50fd3bc76e965ad718fc2dea3"
+        }
+      ],
+      "tree_snapshot": "b5c54a64e685b7e50fd3bc76e965ad718fc2dea3",
+      "coverage": "架构资料与源码入口核对"
+    },
+    {
+      "id": "P10",
+      "name": "AutoGPT",
+      "repo_url": "https://github.com/Significant-Gravitas/AutoGPT",
+      "docs_url": "https://github.com/Significant-Gravitas/AutoGPT#readme",
+      "start_url": "https://github.com/Significant-Gravitas/AutoGPT#readme",
+      "role": "应用平台",
+      "hook": "研究完整Agent平台怎样组织任务、工具与持续工作",
+      "mechanism": [
+        "任务与专家",
+        "工具和流程",
+        "持续工作与交付"
+      ],
+      "best_for": "当前项目包含专家型Agent产品与可自托管平台；阅读时区分早期循环演示与当前平台代码。",
+      "not_for": "需要按具体任务实现领域输入约束、外部作业状态与独立科学验证。",
+      "what_to_read": "先读README和最小示例，再沿组件、状态与执行入口追踪一次任务。",
+      "structbio_use": "用于理解对应系统层；结构操作通过类型化工具执行，并按任务独立验收。",
+      "relations": "按系统职责与其他框架及应用对照，不能用项目名称推断科学结果质量。",
+      "status_note": "按本轮官方README核对，版本与部署能力分别记录。",
+      "archived": false,
+      "source_urls": [
+        "https://github.com/Significant-Gravitas/AutoGPT"
+      ],
+      "verified_at": "2026-10-30",
+      "review": {
+        "position": "AutoGPT当前以专家型Agent产品与可自托管平台为入口，仓库同时保留classic历史代码。介绍它时必须区分早期自主循环演示、当前平台执行和具体应用产品。",
+        "components": [
+          {
+            "name": "任务与专家入口",
+            "responsibility": "当前产品将任务交给协调与专家能力。用户体验中的一个专家不必等于一个独立可部署的软件组件，需要按代码界面核对。"
+          },
+          {
+            "name": "Blocks与执行",
+            "responsibility": "平台块封装操作，执行组件组织运行。图和任务状态决定输入输出怎样传递，是研究自动化与可恢复行为的入口。"
+          },
+          {
+            "name": "平台与历史代码",
+            "responsibility": "autogpt_platform和classic承载不同实现阶段。旧博客中的命令、循环和环境不能直接解释当前平台行为。"
+          }
+        ],
+        "runtime": [
+          "明确是学习当前平台还是复现classic。",
+          "任务进入对应协调和执行入口。",
+          "平台调用块或工具，记录中间状态和事件。",
+          "交付结果并核对真实外部操作；科学任务另有质量判据。"
+        ],
+        "state": "保留平台图、执行ID、块输入输出与外部任务关联。持续任务或重复触发需要有清楚的状态和副作用管理。",
+        "deployment": "自托管平台、模型服务、存储与依赖按当前README配置。产品功能和可见源码模块不是同义词，避免跨版本照搬教程。",
+        "tradeoffs": "可以学习完整Agent平台的产品与运行体系，但体量大。起步时先追一个最小任务，避免为理解一次工具调用读完全部平台。",
+        "exercise": "选择一个只读信息检查块，画出从任务到执行结果的链路；再与classic最小循环比较新增了哪些状态与服务层。",
+        "reading_focus": "先看仓库边界，沿当前executor和block基础类阅读，分别记录当前实现、历史实现与产品演示的证据。"
+      },
+      "code_evidence": [
+        {
+          "id": "P10",
+          "path": "autogpt_platform/backend/backend/copilot/executor/manager.py",
+          "url": "https://github.com/Significant-Gravitas/AutoGPT/blob/07212df377c4ea0ac5ed6a7c9c8ff72203564650/autogpt_platform/backend/backend/copilot/executor/manager.py",
+          "bytes": 32241,
+          "sha256": "d593674add5c5d4e53ab90410e858a8474f8b832cb36b7a5a18a80502be4c521",
+          "symbols": [
+            "CoPilotExecutor"
+          ],
+          "status": "fetched",
+          "commit": "07212df377c4ea0ac5ed6a7c9c8ff72203564650"
+        },
+        {
+          "id": "P10",
+          "path": "autogpt_platform/backend/backend/blocks/_base.py",
+          "url": "https://github.com/Significant-Gravitas/AutoGPT/blob/07212df377c4ea0ac5ed6a7c9c8ff72203564650/autogpt_platform/backend/backend/blocks/_base.py",
+          "bytes": 43109,
+          "sha256": "6eaf2df9524ec07f8387f8c48e5031383fe19436680bc76bfdd37b0421902879",
+          "symbols": [
+            "BlockEffect",
+            "BlockType",
+            "BlockCategory",
+            "BlockCostType",
+            "TokenRateDisplay",
+            "BlockCost",
+            "BlockInfo",
+            "BlockSchema",
+            "BlockSchemaInput",
+            "BlockSchemaOutput",
+            "EmptyInputSchema",
+            "EmptyOutputSchema"
+          ],
+          "status": "fetched",
+          "commit": "07212df377c4ea0ac5ed6a7c9c8ff72203564650"
+        }
+      ],
+      "tree_snapshot": "07212df377c4ea0ac5ed6a7c9c8ff72203564650",
+      "coverage": "架构资料与源码入口核对"
+    },
+    {
+      "id": "P11",
+      "name": "MetaGPT",
+      "repo_url": "https://github.com/geekan/MetaGPT",
+      "docs_url": "https://docs.deepwisdom.ai/",
+      "start_url": "https://github.com/geekan/MetaGPT#readme",
+      "role": "协作研究实现",
+      "hook": "把角色分工和标准交付物组织成软件团队",
+      "mechanism": [
+        "角色和SOP",
+        "动作与交付物",
+        "协作迭代"
+      ],
+      "best_for": "以角色、动作和SOP表达协作的软件开发研究系统；与论文中的MetaGPT及后续产品版本分开理解。",
+      "not_for": "需要按具体任务实现领域输入约束、外部作业状态与独立科学验证。",
+      "what_to_read": "先读README和最小示例，再沿组件、状态与执行入口追踪一次任务。",
+      "structbio_use": "用于理解对应系统层；结构操作通过类型化工具执行，并按任务独立验收。",
+      "relations": "按系统职责与其他框架及应用对照，不能用项目名称推断科学结果质量。",
+      "status_note": "按本轮官方README核对，版本与部署能力分别记录。",
+      "archived": false,
+      "source_urls": [
+        "https://github.com/geekan/MetaGPT"
+      ],
+      "verified_at": "2026-10-30",
+      "review": {
+        "position": "MetaGPT以角色、动作和SOP组织协作的软件开发研究系统。它的价值在于把需求、设计、实现等交付物结构化，而不是仅让多个模型连续发言。",
+        "components": [
+          {
+            "name": "Role",
+            "responsibility": "角色定义职责与可执行动作，也消费相关消息。角色边界决定谁能修改什么以及需要怎样的输入。"
+          },
+          {
+            "name": "Action与产物",
+            "responsibility": "动作把任务要求转成具体输出。下游应读取可检查的设计、代码或测试等交付物，而不是只信任上游的完成声明。"
+          },
+          {
+            "name": "Team与SOP",
+            "responsibility": "Team安排角色协作，SOP描述预期交接秩序。固定角色流程可能适合某类任务，不能直接证明适合所有科研计算。"
+          }
+        ],
+        "runtime": [
+          "用户需求进入团队，形成阶段任务。",
+          "角色按所需上下文执行相应动作。",
+          "结构化交付物和消息传递给后续角色。",
+          "最终结果由测试或任务判据检验，保留返工与失败。"
+        ],
+        "state": "保存角色配置、消息、动作输出和修改版本。团队共享内容必须能追溯来源，防止一个错误产物在后续角色中被重复强化。",
+        "deployment": "研究代码、论文版本、后续优化工作和商业产品分开理解。模型、动作、任务与执行环境需要固定，不能只记录角色名字。",
+        "tradeoffs": "有助于理解结构化协作与标准交接，但固定SOP对开放科研任务可能过强。扩展时应保留领域对象、证据和停止条件。",
+        "exercise": "将软件团队交付物映射成分析计划、可执行配置、检查报告，说明哪些结构任务可按固定SOP完成，哪些需要反馈决策。",
+        "reading_focus": "从Role、Action和Team阅读，找触发条件、交付物类型及返工逻辑，再回到MetaGPT论文检查实验范围。"
+      },
+      "code_evidence": [
+        {
+          "id": "P11",
+          "path": "metagpt/roles/role.py",
+          "url": "https://github.com/geekan/MetaGPT/blob/11cdf466d042aece04fc6cfd13b28e1a70341b1f/metagpt/roles/role.py",
+          "bytes": 25036,
+          "sha256": "2dac0259a6f3733fa2ec0df8a43eb8dda1cac199410c31ef350aaaf70f6c939b",
+          "symbols": [
+            "RoleReactMode",
+            "RoleContext",
+            "Role"
+          ],
+          "status": "fetched",
+          "commit": "11cdf466d042aece04fc6cfd13b28e1a70341b1f"
+        },
+        {
+          "id": "P11",
+          "path": "metagpt/actions/action.py",
+          "url": "https://github.com/geekan/MetaGPT/blob/11cdf466d042aece04fc6cfd13b28e1a70341b1f/metagpt/actions/action.py",
+          "bytes": 3833,
+          "sha256": "7837c9d9535885634160e3dcf1403e9cd9c2943ae923a0188dd6477ceb060aad",
+          "symbols": [
+            "Action"
+          ],
+          "status": "fetched",
+          "commit": "11cdf466d042aece04fc6cfd13b28e1a70341b1f"
+        },
+        {
+          "id": "P11",
+          "path": "metagpt/team.py",
+          "url": "https://github.com/geekan/MetaGPT/blob/11cdf466d042aece04fc6cfd13b28e1a70341b1f/metagpt/team.py",
+          "bytes": 4844,
+          "sha256": "af0398fce4109cadf8a0ac8e479d261ef0cb6347c60d0c3343ff7d6e22180bcc",
+          "symbols": [
+            "Team"
+          ],
+          "status": "fetched",
+          "commit": "11cdf466d042aece04fc6cfd13b28e1a70341b1f"
+        }
+      ],
+      "tree_snapshot": "11cdf466d042aece04fc6cfd13b28e1a70341b1f",
+      "coverage": "架构资料与源码入口核对"
+    },
+    {
+      "id": "S01",
+      "name": "Biomni",
+      "repo_url": "https://github.com/snap-stanford/Biomni",
+      "docs_url": "https://github.com/snap-stanford/Biomni#readme",
+      "start_url": "https://github.com/snap-stanford/Biomni#readme",
+      "role": "科学Agent系统",
+      "hook": "研究环境、工具与代码组合怎样支持科研问题",
+      "mechanism": [
+        "工具与数据库",
+        "规划和代码",
+        "分析与结果"
+      ],
+      "best_for": "从科学工具、软件包和数据库环境出发，以Agent规划和代码执行组合分析。",
+      "not_for": "需要按具体任务实现领域输入约束、外部作业状态与独立科学验证。",
+      "what_to_read": "先读README和最小示例，再沿组件、状态与执行入口追踪一次任务。",
+      "structbio_use": "用于理解对应系统层；结构操作通过类型化工具执行，并按任务独立验收。",
+      "relations": "按系统职责与其他框架及应用对照，不能用项目名称推断科学结果质量。",
+      "status_note": "按本轮官方README核对，版本与部署能力分别记录。",
+      "archived": false,
+      "source_urls": [
+        "https://github.com/snap-stanford/Biomni"
+      ],
+      "verified_at": "2026-10-30",
+      "review": {
+        "position": "Biomni展示科学工具、软件包、数据库与Agent代码执行如何组成统一研究环境。阅读时把环境覆盖、规划执行和科学推断分别考察，不用工具数量代表每项能力已被验证。",
+        "components": [
+          {
+            "name": "工具与环境目录",
+            "responsibility": "科学函数和依赖环境使Agent有实际操作能力。工具元信息、库版本与数据路径影响一次任务能否重跑。"
+          },
+          {
+            "name": "A1与运行状态",
+            "responsibility": "A1入口将模型、任务与环境连接起来，AgentState等对象帮助组织分析。应追踪模型选择了什么、执行了什么以及真实返回是什么。"
+          },
+          {
+            "name": "配置与结果",
+            "responsibility": "配置决定模型、超时、数据和相关连接；结果可能包含代码、文件和解释。需要分别判断程序完成与科学结论成立。"
+          }
+        ],
+        "runtime": [
+          "用户提供目标和相应研究数据。",
+          "Agent选择能力并生成分析计划或代码。",
+          "环境执行并将观察、日志和文件返回。",
+          "Agent整理解释，研究者或独立验证器检查统计、领域与证据条件。"
+        ],
+        "state": "工具目录、数据环境、分析代码和产物要有版本关联。模型笔记与真实工具结果分开保存，避免将成功执行误作科学发现证明。",
+        "deployment": "模型服务、数据下载和科学包依赖较多。先按一个轻量任务核对必要环境，再按需添加组件；本地预印本与正式论文结果也应区分。",
+        "tradeoffs": "统一环境便于跨任务组合，但依赖管理和验证覆盖是主要成本。现有案例的研究范围不能自动扩展到所有结构、图或轨迹任务。",
+        "exercise": "追踪一个只读结构信息分析从输入到结果的全过程，整理实际工具与版本；换新文件再验证，确认并非仅重演教程。",
+        "reading_focus": "从A1与BiomniConfig入口看任务、模型和环境如何装配，再选择一个普通检查工具追踪其输入输出。"
+      },
+      "code_evidence": [
+        {
+          "id": "S01",
+          "path": "biomni/agent/a1.py",
+          "url": "https://github.com/snap-stanford/Biomni/blob/400c1f366b96a35ca253e13c9b06c5076af41d65/biomni/agent/a1.py",
+          "bytes": 131378,
+          "sha256": "ffb67055ebc0ec645128026d797a29223232567c1d75f87f75947bf720da92bf",
+          "symbols": [
+            "AgentState",
+            "A1"
+          ],
+          "status": "fetched",
+          "commit": "400c1f366b96a35ca253e13c9b06c5076af41d65"
+        },
+        {
+          "id": "S01",
+          "path": "biomni/config.py",
+          "url": "https://github.com/snap-stanford/Biomni/blob/400c1f366b96a35ca253e13c9b06c5076af41d65/biomni/config.py",
+          "bytes": 3632,
+          "sha256": "cca67e90a8167ab4bfc3307f8b08a50da11e1a87b5d2c5ae6597f740cc4dac39",
+          "symbols": [
+            "BiomniConfig"
+          ],
+          "status": "fetched",
+          "commit": "400c1f366b96a35ca253e13c9b06c5076af41d65"
+        }
+      ],
+      "tree_snapshot": "400c1f366b96a35ca253e13c9b06c5076af41d65",
+      "coverage": "架构资料与源码入口核对"
+    },
+    {
+      "id": "S02",
+      "name": "ToolUniverse",
+      "repo_url": "https://github.com/mims-harvard/ToolUniverse",
+      "docs_url": "https://github.com/mims-harvard/ToolUniverse#readme",
+      "start_url": "https://github.com/mims-harvard/ToolUniverse#readme",
+      "role": "科学工具平台",
+      "hook": "统一科学工具表示、发现和执行接口",
+      "mechanism": [
+        "工具定义",
+        "发现与调用",
+        "技能与执行记录"
+      ],
+      "best_for": "将模型、数据库、API和本地工具纳入统一描述与调用方式，再与研究技能和Agent连接。",
+      "not_for": "需要按具体任务实现领域输入约束、外部作业状态与独立科学验证。",
+      "what_to_read": "先读README和最小示例，再沿组件、状态与执行入口追踪一次任务。",
+      "structbio_use": "用于理解对应系统层；结构操作通过类型化工具执行，并按任务独立验收。",
+      "relations": "按系统职责与其他框架及应用对照，不能用项目名称推断科学结果质量。",
+      "status_note": "按本轮官方README核对，版本与部署能力分别记录。",
+      "archived": false,
+      "source_urls": [
+        "https://github.com/mims-harvard/ToolUniverse"
+      ],
+      "verified_at": "2026-10-30",
+      "review": {
+        "position": "ToolUniverse着重统一科学工具的描述、发现与调用，并把不同后端能力交给Agent使用。它是理解科学操作接口和工具生态的入口，不是一个统一科学正确性判据。",
+        "components": [
+          {
+            "name": "BaseTool与Schema",
+            "responsibility": "基础工具定义规定配置和调用约定。字段类型兼容只是第一步，工具还需表达前置条件、对象身份、数据版本和失败。"
+          },
+          {
+            "name": "Registry与发现",
+            "responsibility": "注册与发现将目的映射到候选操作。检索到名称相似的工具后，还必须检查实际部署、输入格式和资源是否满足。"
+          },
+          {
+            "name": "执行与返回",
+            "responsibility": "执行入口将请求分派给相应工具或后端，处理返回、缓存或批量调用等能力。应保留真实错误和来源，而非只返回自然语言摘要。"
+          }
+        ],
+        "runtime": [
+          "用统一描述注册科学操作并核对一个可执行示例。",
+          "根据任务发现工具，再按类型和条件过滤。",
+          "调用选定后端，收集真实返回与产物。",
+          "独立科学检查决定结果是否可用于下一步或解释。"
+        ],
+        "state": "工具定义、可用性、缓存、执行任务和科学产物各有状态。目录规模、缓存命中或接口成功都不能直接证明当前输入的计算有效。",
+        "deployment": "基础API工具与本地科学包或其他扩展依赖分开安装配置。记录工具版本、后端服务及数据快照，避免把目录条目当作已部署能力。",
+        "tradeoffs": "统一工具层方便组合，但语义检索与接口适配仍可能选错操作。可靠系统需要更细的科学对象约束与任务级验收。",
+        "exercise": "为一个结构检查操作写Schema、前置条件和结果类型，再测试无效文件、错误链和缺依赖时返回能否被Agent正确处理。",
+        "reading_focus": "按BaseTool→registry→execute_function阅读，检查工具怎样注册、发现、实例化和报告不可用状态。"
+      },
+      "code_evidence": [
+        {
+          "id": "S02",
+          "path": "src/tooluniverse/base_tool.py",
+          "url": "https://github.com/mims-harvard/ToolUniverse/blob/169d065deeb3e289b3ff36d665529a123bdad791/src/tooluniverse/base_tool.py",
+          "bytes": 36256,
+          "sha256": "db9df68c765e99a25ee9008b3be376c97c53cf14f2ebf90fd54195036cbfd288",
+          "symbols": [
+            "request_url",
+            "resolve_configured_operation",
+            "null_result_error",
+            "BaseTool"
+          ],
+          "status": "fetched",
+          "commit": "169d065deeb3e289b3ff36d665529a123bdad791"
+        },
+        {
+          "id": "S02",
+          "path": "src/tooluniverse/tool_registry.py",
+          "url": "https://github.com/mims-harvard/ToolUniverse/blob/169d065deeb3e289b3ff36d665529a123bdad791/src/tooluniverse/tool_registry.py",
+          "bytes": 27728,
+          "sha256": "83fe35c2cc24bb5aee664de7b0806dce12f31425dda77903c5efd3177438b349",
+          "symbols": [
+            "mark_tool_unavailable",
+            "get_tool_errors",
+            "register_tool",
+            "register_external_tool",
+            "register_config",
+            "get_tool_registry",
+            "get_config_registry",
+            "register_tool_configs",
+            "get_list_config_registry",
+            "clear_lazy_cache",
+            "lazy_import_tool",
+            "build_lazy_registry"
+          ],
+          "status": "fetched",
+          "commit": "169d065deeb3e289b3ff36d665529a123bdad791"
+        },
+        {
+          "id": "S02",
+          "path": "src/tooluniverse/execute_function.py",
+          "url": "https://github.com/mims-harvard/ToolUniverse/blob/169d065deeb3e289b3ff36d665529a123bdad791/src/tooluniverse/execute_function.py",
+          "bytes": 246072,
+          "sha256": "4eb0dd4193a0ff1a24110f027da34952e93e2b549326f6ee3dee111dc215eb6b",
+          "symbols": [
+            "ToolCallable",
+            "ToolNamespace",
+            "explain_remote_load_failure",
+            "describe_alternative_keys",
+            "describe_missing_keys",
+            "ToolUniverse"
+          ],
+          "status": "fetched",
+          "commit": "169d065deeb3e289b3ff36d665529a123bdad791"
+        }
+      ],
+      "tree_snapshot": "169d065deeb3e289b3ff36d665529a123bdad791",
+      "coverage": "架构资料与源码入口核对"
+    },
+    {
+      "id": "S03",
+      "name": "Paper2Agent",
+      "repo_url": "https://github.com/jmiao24/Paper2Agent",
+      "docs_url": "https://github.com/jmiao24/Paper2Agent#readme",
+      "start_url": "https://github.com/jmiao24/Paper2Agent#readme",
+      "role": "方法接入系统",
+      "hook": "从论文、代码和教程形成可测试的科学工具",
+      "mechanism": [
+        "论文与复现材料",
+        "环境与工具测试",
+        "MCP与说明交付"
+      ],
+      "best_for": "当前流程结合coding-agent技能、项目环境、教程复现与验证，交付MCP工具及使用说明。",
+      "not_for": "需要按具体任务实现领域输入约束、外部作业状态与独立科学验证。",
+      "what_to_read": "先读README和最小示例，再沿组件、状态与执行入口追踪一次任务。",
+      "structbio_use": "用于理解对应系统层；结构操作通过类型化工具执行，并按任务独立验收。",
+      "relations": "按系统职责与其他框架及应用对照，不能用项目名称推断科学结果质量。",
+      "status_note": "按本轮官方README核对，版本与部署能力分别记录。",
+      "archived": false,
+      "source_urls": [
+        "https://github.com/jmiao24/Paper2Agent"
+      ],
+      "verified_at": "2026-10-30",
+      "review": {
+        "position": "Paper2Agent研究把论文、代码和教程转成可交互方法。当前仓库以coding-agent技能和辅助脚本组织接入、复现与交付，需要把论文提出的系统与当前技能流程分开理解。",
+        "components": [
+          {
+            "name": "材料与任务范围",
+            "responsibility": "论文、仓库、教程和数据构成方法接入依据。先明确要封装哪种操作与支持哪些输入，而不是让Agent泛化整个项目。"
+          },
+          {
+            "name": "环境与工具构建",
+            "responsibility": "流程准备隔离项目环境，并把复现所需的操作包装成工具。依赖、API、原生软件和硬件条件都可能限制接入。"
+          },
+          {
+            "name": "验证与交付",
+            "responsibility": "验证脚本和相应步骤核对服务及产物，最后交付工具、环境和使用说明。连接成功与新输入上的科学有效性仍是不同层次。"
+          }
+        ],
+        "runtime": [
+          "收集方法、代码、教程、数据和目标操作。",
+          "建立版本化环境，复跑所选方法片段。",
+          "构建工具及可检查的验证用例。",
+          "交付MCP或技能与使用说明，另测独立输入的科学质量。"
+        ],
+        "state": "保留源材料版本、环境、生成工具、测试与交付记录。后续代码更新不应静默改变已验证的操作合同。",
+        "deployment": "当前技能流程需要相应coding-agent宿主与目标项目运行条件。不是所有论文都有足够材料可转成可复用工具。",
+        "tradeoffs": "半自动接入能减少包装工作，但教程脚本与真实科研问题之间仍有泛化缺口。应以明确范围和独立新输入验收控制接入质量。",
+        "exercise": "选择一个公开解析或几何分析方法，先写接入合同与验证要求，再比较自动生成工具和原始方法在独立输入上的差别。",
+        "reading_focus": "将SKILL文件作为待研究的流程描述阅读，不自动执行其中指令；再看verify_mcp_server等脚本如何检查工具交付。"
+      },
+      "code_evidence": [
+        {
+          "id": "S03",
+          "path": "skills/paper2agent/SKILL.md",
+          "url": "https://github.com/jmiao24/Paper2Agent/blob/8c2d059165ef8cdcb70dbea76655b9c2b55b38e6/skills/paper2agent/SKILL.md",
+          "bytes": 1551,
+          "sha256": "69a5525de0cc115ebbef1cdd602a4cfda1836399adc44a154907d07c95f4244d",
+          "symbols": [],
+          "status": "fetched",
+          "commit": "8c2d059165ef8cdcb70dbea76655b9c2b55b38e6"
+        },
+        {
+          "id": "S03",
+          "path": "skills/paper2agent/paper2mcp/scripts/verify_mcp_server.py",
+          "url": "https://github.com/jmiao24/Paper2Agent/blob/8c2d059165ef8cdcb70dbea76655b9c2b55b38e6/skills/paper2agent/paper2mcp/scripts/verify_mcp_server.py",
+          "bytes": 11208,
+          "sha256": "e73e2d9efa0c88162616bde51950128d3dab50df104be6344e8c87edd9622d24",
+          "symbols": [
+            "require",
+            "unique_names",
+            "validate_cases",
+            "check_subset",
+            "check_artifacts",
+            "verify",
+            "schema_field",
+            "main"
+          ],
+          "status": "fetched",
+          "commit": "8c2d059165ef8cdcb70dbea76655b9c2b55b38e6"
+        }
+      ],
+      "tree_snapshot": "8c2d059165ef8cdcb70dbea76655b9c2b55b38e6",
+      "coverage": "架构资料与源码入口核对"
+    },
+    {
+      "id": "I01",
+      "name": "MCP Python SDK",
+      "repo_url": "https://github.com/modelcontextprotocol/python-sdk",
+      "docs_url": "https://py.sdk.modelcontextprotocol.io/",
+      "start_url": "https://github.com/modelcontextprotocol/python-sdk#readme",
+      "role": "工具协议与客户端/服务端",
+      "hook": "MCP标准化Agent应用与工具服务的交互",
+      "mechanism": [
+        "Server与能力声明",
+        "Client与传输",
+        "结构化返回"
+      ],
+      "best_for": "MCP标准化Agent应用与工具服务的交互。它解决工具发现、调用和资源访问的协议问题；模型决策、计算调度和科学验收仍属于应用及领域系统。",
+      "not_for": "统一接口降低跨客户端接入成本，但不能自动提供领域Schema或资源管理。单进程少量工具也可直接函数调用，不必为协议而增加部署。",
+      "what_to_read": "先读官方SDK服务端/客户端示例，再看工具Schema、传输和错误处理；把协议合同与科学合同分别写清。",
+      "structbio_use": "把同一个结构检查函数直接调用和经MCP调用各运行一次，比较参数、错误类型与返回结果是否一致。",
+      "relations": "协议会话、工具调用和外部Job是不同状态。异步科学任务应设计提交、查询与结果收集接口，不依赖对话文字推断完成。",
+      "status_note": "官方协议/SDK及相关资料分别核对；不将配套基础设施等同于Agent框架。",
+      "source_urls": [
+        "https://github.com/modelcontextprotocol/python-sdk"
+      ],
+      "verified_at": "2026-10-30",
+      "review": {
+        "position": "MCP标准化Agent应用与工具服务的交互。它解决工具发现、调用和资源访问的协议问题；模型决策、计算调度和科学验收仍属于应用及领域系统。",
+        "components": [
+          {
+            "name": "Server与能力声明",
+            "responsibility": "服务端暴露工具、资源或提示等能力，描述输入输出。声明是调用合同，必须与真实软件环境和支持输入一致。"
+          },
+          {
+            "name": "Client与传输",
+            "responsibility": "客户端连接服务、发现能力并发送调用。传输与协议错误要同工具业务错误分开，避免将连接失败误当科学结论。"
+          },
+          {
+            "name": "结构化返回",
+            "responsibility": "返回内容和状态供调用方继续决策。返回可解析不代表对象或数值正确，服务端和调用方应分别保留验证记录。"
+          }
+        ],
+        "runtime": [
+          "客户端连接指定服务并发现工具。",
+          "应用按任务和类型选择工具，发送参数。",
+          "服务执行真实操作并返回内容或错误。",
+          "应用绑定任务与产物，再执行科学检查。"
+        ],
+        "state": "协议会话、工具调用和外部Job是不同状态。异步科学任务应设计提交、查询与结果收集接口，不依赖对话文字推断完成。",
+        "deployment": "本地stdio、远端HTTP等配置按所用协议和SDK版本核对。当前Python SDK主分支已演进，旧版FastMCP示例与新接口不能混用。",
+        "tradeoffs": "统一接口降低跨客户端接入成本，但不能自动提供领域Schema或资源管理。单进程少量工具也可直接函数调用，不必为协议而增加部署。",
+        "exercise": "把同一个结构检查函数直接调用和经MCP调用各运行一次，比较参数、错误类型与返回结果是否一致。",
+        "reading_focus": "先读官方SDK服务端/客户端示例，再看工具Schema、传输和错误处理；把协议合同与科学合同分别写清。"
+      },
+      "code_evidence": [
+        {
+          "id": "I01",
+          "path": "src/mcp/server/mcpserver/server.py",
+          "url": "https://github.com/modelcontextprotocol/python-sdk/blob/d7845c073a2b9ba5ab2817ecf93d3e45ef24cd14/src/mcp/server/mcpserver/server.py",
+          "bytes": 60344,
+          "sha256": "2fe1d0b76795fe432b842d400379494e6fff48891bcf46474634c45598e4749a",
+          "symbols": [
+            "Settings",
+            "lifespan_wrapper",
+            "MCPServer",
+            "require_client_extension"
+          ],
+          "status": "fetched",
+          "commit": "d7845c073a2b9ba5ab2817ecf93d3e45ef24cd14"
+        },
+        {
+          "id": "I01",
+          "path": "src/mcp/client/client.py",
+          "url": "https://github.com/modelcontextprotocol/python-sdk/blob/d7845c073a2b9ba5ab2817ecf93d3e45ef24cd14/src/mcp/client/client.py",
+          "bytes": 46288,
+          "sha256": "65daef44015ed09c28fc3bb95baf8af6ce09ed92403e788f594d347c06e2754b",
+          "symbols": [
+            "Client"
+          ],
+          "status": "fetched",
+          "commit": "d7845c073a2b9ba5ab2817ecf93d3e45ef24cd14"
+        }
+      ],
+      "tree_snapshot": "d7845c073a2b9ba5ab2817ecf93d3e45ef24cd14",
+      "coverage": "架构资料与源码入口核对"
+    },
+    {
+      "id": "I02",
+      "name": "Pydantic",
+      "repo_url": "https://github.com/pydantic/pydantic",
+      "docs_url": "https://pydantic.dev/docs/validation/",
+      "start_url": "https://github.com/pydantic/pydantic#readme",
+      "role": "数据合同与验证",
+      "hook": "Pydantic以Python类型和验证规则表达数据合同",
+      "mechanism": [
+        "模型与字段",
+        "验证与转换",
+        "序列化与Schema"
+      ],
+      "best_for": "Pydantic以Python类型和验证规则表达数据合同。它适合检查Agent请求与结果的结构，但类型正确与科学语义正确之间仍有明确距离。",
+      "not_for": "有助于减少接口歧义；过宽的转换或默认值也可能掩盖错误。不要用“解析成功”代替“数据可靠”。",
+      "what_to_read": "从模型、字段和验证文档进入，再看JSON序列化及严格模式；用小例子验证实际转换行为。",
+      "structbio_use": "定义结构选择与结果模型，测试缺失链、额外字段、非法单位和无效数值；让文件不存在与质量不达标返回不同类别。",
+      "relations": "数据模型不是运行数据库。为任务、产物、版本和验证结果分别设计身份，序列化时保留必要的来源和选择信息。",
+      "status_note": "官方协议/SDK及相关资料分别核对；不将配套基础设施等同于Agent框架。",
+      "source_urls": [
+        "https://github.com/pydantic/pydantic"
+      ],
+      "verified_at": "2026-10-30",
+      "review": {
+        "position": "Pydantic以Python类型和验证规则表达数据合同。它适合检查Agent请求与结果的结构，但类型正确与科学语义正确之间仍有明确距离。",
+        "components": [
+          {
+            "name": "模型与字段",
+            "responsibility": "BaseModel及字段约束定义输出实例应具有的结构。需要决定默认值、额外字段和必填条件，避免缺失科学选择被静默补齐。"
+          },
+          {
+            "name": "验证与转换",
+            "responsibility": "验证可能包含类型转换及自定义规则。需要理解严格模式与容错解析的差别，尤其是坐标、单位和标识等信息。"
+          },
+          {
+            "name": "序列化与Schema",
+            "responsibility": "JSON及Schema帮助工具和服务交换数据。Schema描述形状，不会自动验证文件存在、链映射或科学假设。"
+          }
+        ],
+        "runtime": [
+          "声明输入和输出的数据模型。",
+          "解析请求，区分格式错误与合法但不适用的输入。",
+          "领域函数检查真实数据与科学条件。",
+          "输出结构化结果，并单独保存验证报告。"
+        ],
+        "state": "数据模型不是运行数据库。为任务、产物、版本和验证结果分别设计身份，序列化时保留必要的来源和选择信息。",
+        "deployment": "通常嵌入Python应用，版本差异会改变验证或Schema行为。与Agent框架的自动Schema生成配合时，要明确哪一层负责哪些校验。",
+        "tradeoffs": "有助于减少接口歧义；过宽的转换或默认值也可能掩盖错误。不要用“解析成功”代替“数据可靠”。",
+        "exercise": "定义结构选择与结果模型，测试缺失链、额外字段、非法单位和无效数值；让文件不存在与质量不达标返回不同类别。",
+        "reading_focus": "从模型、字段和验证文档进入，再看JSON序列化及严格模式；用小例子验证实际转换行为。"
+      },
+      "code_evidence": [
+        {
+          "id": "I02",
+          "path": "pydantic/main.py",
+          "url": "https://github.com/pydantic/pydantic/blob/91c44cd1bfc8c7cb909cefa8395e0a720957f1d1/pydantic/main.py",
+          "bytes": 75194,
+          "sha256": "0d20ee6ab204749939e3d8359cd3d66e1961c28f1d34529147c14b44afff95d3",
+          "symbols": [
+            "BaseModel",
+            "create_model",
+            "create_model",
+            "create_model"
+          ],
+          "status": "fetched",
+          "commit": "91c44cd1bfc8c7cb909cefa8395e0a720957f1d1"
+        },
+        {
+          "id": "I02",
+          "path": "pydantic/fields.py",
+          "url": "https://github.com/pydantic/pydantic/blob/91c44cd1bfc8c7cb909cefa8395e0a720957f1d1/pydantic/fields.py",
+          "bytes": 84944,
+          "sha256": "7ca18c35ed2574aaca9c7bdfc4d4ede11b41f54e3233b2c8432fde8fa5724956",
+          "symbols": [
+            "FieldInfo",
+            "Field",
+            "Field",
+            "Field",
+            "Field",
+            "Field",
+            "Field",
+            "Field",
+            "ModelPrivateAttr",
+            "PrivateAttr",
+            "PrivateAttr",
+            "PrivateAttr"
+          ],
+          "status": "fetched",
+          "commit": "91c44cd1bfc8c7cb909cefa8395e0a720957f1d1"
+        }
+      ],
+      "tree_snapshot": "960cbd3adc075c133172c2386c9f50c337244084",
+      "coverage": "架构资料与源码入口核对"
+    },
+    {
+      "id": "I03",
+      "name": "Langfuse Python SDK",
+      "repo_url": "https://github.com/langfuse/langfuse-python",
+      "docs_url": "https://langfuse.com/docs",
+      "start_url": "https://github.com/langfuse/langfuse-python#readme",
+      "role": "追踪与评价",
+      "hook": "Langfuse帮助观察模型、工具及应用运行，并连接数据集和评价",
+      "mechanism": [
+        "Trace与Observation",
+        "客户端与导出",
+        "数据集与评分"
+      ],
+      "best_for": "Langfuse帮助观察模型、工具及应用运行，并连接数据集和评价。它让错误可定位，科学结果是否成立仍由独立领域判据决定。",
+      "not_for": "便于诊断与比较运行，但不自动解决根因。评价设计若偏重格式或语言质量，仍会给科学错误的结果高分。",
+      "what_to_read": "从client、observe/span和导出相关接口阅读，确认事件层级、关联方式与发送失败的处理。",
+      "structbio_use": "追踪同一结构任务的成功和失败，要求每个失败能定位到具体步骤；用独立数值检查与模型评审分别评分。",
+      "relations": "追踪是观测记录，不是任务调度器或唯一事实库。重要的文件摘要、退出状态和科学检查应能在独立执行记录中找到。",
+      "status_note": "官方协议/SDK及相关资料分别核对；不将配套基础设施等同于Agent框架。",
+      "source_urls": [
+        "https://github.com/langfuse/langfuse-python"
+      ],
+      "verified_at": "2026-10-30",
+      "review": {
+        "position": "Langfuse帮助观察模型、工具及应用运行，并连接数据集和评价。它让错误可定位，科学结果是否成立仍由独立领域判据决定。",
+        "components": [
+          {
+            "name": "Trace与Observation",
+            "responsibility": "相关调用组成一次追踪，子观察表达模型、工具或其他步骤。任务ID与产物引用使追踪能回到真实分析。"
+          },
+          {
+            "name": "客户端与导出",
+            "responsibility": "SDK收集事件并按配置传给相应服务。事件丢失、延迟或采样意味着追踪可能不完整，应保留关键本地执行证据。"
+          },
+          {
+            "name": "数据集与评分",
+            "responsibility": "评价将输入、输出和评分关联起来。模型评分、人工评价与数值真值要区分，不能用同一“成功分”掩盖不同错误。"
+          }
+        ],
+        "runtime": [
+          "为一次任务创建追踪与稳定标识。",
+          "记录模型调用、工具参数、结果和异常。",
+          "将产物与验证结果关联到对应观察。",
+          "按错误类型比较版本，核对成本与实际验收。"
+        ],
+        "state": "追踪是观测记录，不是任务调度器或唯一事实库。重要的文件摘要、退出状态和科学检查应能在独立执行记录中找到。",
+        "deployment": "SDK、观测后端及导出配置分别提供；是否自托管、采样或接入其他系统依实际部署。不要把未启用的观测能力视为默认保证。",
+        "tradeoffs": "便于诊断与比较运行，但不自动解决根因。评价设计若偏重格式或语言质量，仍会给科学错误的结果高分。",
+        "exercise": "追踪同一结构任务的成功和失败，要求每个失败能定位到具体步骤；用独立数值检查与模型评审分别评分。",
+        "reading_focus": "从client、observe/span和导出相关接口阅读，确认事件层级、关联方式与发送失败的处理。"
+      },
+      "code_evidence": [
+        {
+          "id": "I03",
+          "path": "langfuse/_client/observe.py",
+          "url": "https://github.com/langfuse/langfuse-python/blob/1fc854dd2b241cf8e3dac38bfd5907ff2fe365e3/langfuse/_client/observe.py",
+          "bytes": 29339,
+          "sha256": "ff5bf642b4eb9273a0b2dce56b14ebbea103ff103b1d5fcf51a3c239138c1439",
+          "symbols": [
+            "LangfuseDecorator"
+          ],
+          "status": "fetched",
+          "commit": "1fc854dd2b241cf8e3dac38bfd5907ff2fe365e3"
+        },
+        {
+          "id": "I03",
+          "path": "langfuse/_client/client.py",
+          "url": "https://github.com/langfuse/langfuse-python/blob/1fc854dd2b241cf8e3dac38bfd5907ff2fe365e3/langfuse/_client/client.py",
+          "bytes": 173868,
+          "sha256": "e2c2bf025e7a1492370892d10d262a42fd9b0b52946e9d92c031eea2405f9f7c",
+          "symbols": [
+            "Langfuse"
+          ],
+          "status": "fetched",
+          "commit": "1fc854dd2b241cf8e3dac38bfd5907ff2fe365e3"
+        }
+      ],
+      "tree_snapshot": "1fc854dd2b241cf8e3dac38bfd5907ff2fe365e3",
+      "coverage": "架构资料与源码入口核对"
+    },
+    {
+      "id": "I04",
+      "name": "Temporal Python SDK",
+      "repo_url": "https://github.com/temporalio/sdk-python",
+      "docs_url": "https://docs.temporal.io/develop/python",
+      "start_url": "https://github.com/temporalio/sdk-python#readme",
+      "role": "持久工作流与活动",
+      "hook": "Temporal为持久工作流和活动执行提供运行体系",
+      "mechanism": [
+        "Workflow与历史",
+        "Activity与Worker",
+        "超时、重试与取消"
+      ],
+      "best_for": "Temporal为持久工作流和活动执行提供运行体系。关键概念是可重放的控制逻辑与具有外部副作用的Activity分开；它不是科学计算调度器的替代品。",
+      "not_for": "适合小时级任务和跨服务流程，但引入服务、Worker和工作流版本管理成本。短小确定步骤不一定需要独立持久工作流平台。",
+      "what_to_read": "从Workflow、Activity、Worker三层阅读官方样例，重点理解重放与实际副作用的边界。",
+      "structbio_use": "用模拟长计算测试失联、活动重试和取消；再让恢复逻辑先查询既有Job，证明不会仅因没收到确认就重复提交。",
+      "relations": "工作流历史、Activity尝试、调度器Job和科学产物各有身份。持久执行不等于外部系统自动exactly-once，也不等于科学质量合格。",
+      "status_note": "官方协议/SDK及相关资料分别核对；不将配套基础设施等同于Agent框架。",
+      "source_urls": [
+        "https://github.com/temporalio/sdk-python"
+      ],
+      "verified_at": "2026-10-30",
+      "review": {
+        "position": "Temporal为持久工作流和活动执行提供运行体系。关键概念是可重放的控制逻辑与具有外部副作用的Activity分开；它不是科学计算调度器的替代品。",
+        "components": [
+          {
+            "name": "Workflow与历史",
+            "responsibility": "Workflow表达控制关系，运行依赖历史事件恢复。代码演进与确定性要求影响已有任务能否安全重放。"
+          },
+          {
+            "name": "Activity与Worker",
+            "responsibility": "Activity执行外部I/O或计算，Worker承接实际工作。活动重试可能再次发生，外部作业必须有核对和去重设计。"
+          },
+          {
+            "name": "超时、重试与取消",
+            "responsibility": "这些规则管理长任务失败和生命周期。心跳或取消信号需要活动与外部软件配合，不能由配置自动证明科学任务已停止。"
+          }
+        ],
+        "runtime": [
+          "提交业务工作流并持久记录输入。",
+          "Worker执行Activity，必要时向集群提交作业。",
+          "活动持续查询外部状态或报告进度，工作流推进后续处理。",
+          "失败后依据历史恢复，核对真实作业与已有产物再决定重试。"
+        ],
+        "state": "工作流历史、Activity尝试、调度器Job和科学产物各有身份。持久执行不等于外部系统自动exactly-once，也不等于科学质量合格。",
+        "deployment": "需要Temporal服务、Worker及实际工具或集群连接。为研究原型可先使用本地开发服务和短任务，逐步验证恢复语义。",
+        "tradeoffs": "适合小时级任务和跨服务流程，但引入服务、Worker和工作流版本管理成本。短小确定步骤不一定需要独立持久工作流平台。",
+        "exercise": "用模拟长计算测试失联、活动重试和取消；再让恢复逻辑先查询既有Job，证明不会仅因没收到确认就重复提交。",
+        "reading_focus": "从Workflow、Activity、Worker三层阅读官方样例，重点理解重放与实际副作用的边界。"
+      },
+      "code_evidence": [
+        {
+          "id": "I04",
+          "path": "temporalio/activity.py",
+          "url": "https://github.com/temporalio/sdk-python/blob/c1a79fb659ffab144d7949213664a584809089f7/temporalio/activity.py",
+          "bytes": 22335,
+          "sha256": "29c1b3d37f54e9db9f58675907268fddb553642fcd94bb537fbeb488b85f3b96",
+          "symbols": [
+            "defn",
+            "defn",
+            "defn",
+            "defn",
+            "Info",
+            "ActivityCancellationDetails",
+            "client",
+            "in_activity",
+            "info",
+            "cancellation_details",
+            "heartbeat",
+            "is_cancelled"
+          ],
+          "status": "fetched",
+          "commit": "c1a79fb659ffab144d7949213664a584809089f7"
+        },
+        {
+          "id": "I04",
+          "path": "temporalio/worker/_worker.py",
+          "url": "https://github.com/temporalio/sdk-python/blob/c1a79fb659ffab144d7949213664a584809089f7/temporalio/worker/_worker.py",
+          "bytes": 61378,
+          "sha256": "413fd7f9864a6638bed00aacaeee36b594c4104faecefadd3f9df026504ddd92",
+          "symbols": [
+            "PollerBehaviorSimpleMaximum",
+            "PollerBehaviorAutoscaling",
+            "Worker",
+            "WorkerConfig",
+            "WorkerDeploymentConfig",
+            "load_default_build_id"
+          ],
+          "status": "fetched",
+          "commit": "c1a79fb659ffab144d7949213664a584809089f7"
+        }
+      ],
+      "tree_snapshot": "c1a79fb659ffab144d7949213664a584809089f7",
+      "coverage": "架构资料与源码入口核对"
+    },
+    {
+      "id": "I05",
+      "name": "A2A Protocol",
+      "repo_url": "https://github.com/a2aproject/A2A",
+      "docs_url": "https://a2a-protocol.org/",
+      "start_url": "https://github.com/a2aproject/A2A#readme",
+      "role": "Agent间任务互操作",
+      "hook": "A2A规范Agent应用之间的任务与结果交互，尤其适合把远端Agent看作黑盒服务",
+      "mechanism": [
+        "能力发现",
+        "Task与状态",
+        "消息与产物"
+      ],
+      "best_for": "A2A规范Agent应用之间的任务与结果交互，尤其适合把远端Agent看作黑盒服务。它与面向工具服务的MCP职责不同，也不定义某一Agent内部如何推理。",
+      "not_for": "降低跨系统委派的耦合，但增加远端能力与状态信任问题。只需调用一个确定函数时，工具接口通常更直接。",
+      "what_to_read": "先读协议生命周期与数据结构，再看SDK示例；分别比较A2A任务交接与MCP工具调用。",
+      "structbio_use": "设计一个远端结构检查Agent的任务合同：明确输入文件、接受标准、等待状态与产物，然后说明为什么不用纯聊天消息交接。",
+      "relations": "本地任务、远端Task、消息和产物需要可追溯关联。协议兼容不代表状态、成本和科学语义完全一致。",
+      "status_note": "官方协议/SDK及相关资料分别核对；不将配套基础设施等同于Agent框架。",
+      "source_urls": [
+        "https://github.com/a2aproject/A2A"
+      ],
+      "verified_at": "2026-10-30",
+      "review": {
+        "position": "A2A规范Agent应用之间的任务与结果交互，尤其适合把远端Agent看作黑盒服务。它与面向工具服务的MCP职责不同，也不定义某一Agent内部如何推理。",
+        "components": [
+          {
+            "name": "能力发现",
+            "responsibility": "应用通过能力描述了解远端Agent支持的任务与接口。描述需要与实际部署、版本和可用范围对应。"
+          },
+          {
+            "name": "Task与状态",
+            "responsibility": "任务协议管理提交、进行、需要输入及完成等生命周期。状态要与远端真实执行关联，不能仅由一条自然语言声明替代。"
+          },
+          {
+            "name": "消息与产物",
+            "responsibility": "消息承载交互，产物承载交付内容。调用方仍要确认科学文件、来源、对象身份和接受标准。"
+          }
+        ],
+        "runtime": [
+          "发现远端Agent能力并核对任务范围。",
+          "发送有输入与输出要求的任务。",
+          "接收状态或补充输入请求，必要时继续交互。",
+          "取得产物并独立验收，不推断远端内部机制。"
+        ],
+        "state": "本地任务、远端Task、消息和产物需要可追溯关联。协议兼容不代表状态、成本和科学语义完全一致。",
+        "deployment": "需要相应协议版本、客户端/服务端实现和网络端点。规范、SDK和应用后端分别阅读；不要把协议仓库当作完整Agent框架。",
+        "tradeoffs": "降低跨系统委派的耦合，但增加远端能力与状态信任问题。只需调用一个确定函数时，工具接口通常更直接。",
+        "exercise": "设计一个远端结构检查Agent的任务合同：明确输入文件、接受标准、等待状态与产物，然后说明为什么不用纯聊天消息交接。",
+        "reading_focus": "先读协议生命周期与数据结构，再看SDK示例；分别比较A2A任务交接与MCP工具调用。"
+      },
+      "code_evidence": [
+        {
+          "id": "I05",
+          "path": "specification/a2a.proto",
+          "url": "https://github.com/a2aproject/A2A/blob/4735f4876449c6f381825d8a841b31b16c6ad0c4/specification/a2a.proto",
+          "bytes": 35942,
+          "sha256": "945df6e34001b2bfd0fd62d9484b63094dfad9d78705e41e2873441c419ae2d1",
+          "symbols": [],
+          "status": "fetched",
+          "commit": "4735f4876449c6f381825d8a841b31b16c6ad0c4"
+        }
+      ],
+      "tree_snapshot": "4735f4876449c6f381825d8a841b31b16c6ad0c4",
+      "coverage": "架构资料与源码入口核对"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "cutoff_date": "2026-10-23",
+  "folder_name": "AI_Agent与结构生物学研究资料_2026-10-23",
+  "entry_points": {
+    "frontier": "01_通用Agent前沿论文/00_Agent前沿研究与NBDB落地报告.html",
+    "biology": "02_生物学与结构生物学Agent/00_AI_Agent生物学与结构生物学综述.html",
+    "tools": "03_结构生物学计算与工具/00_结构生物学计算流程与工具图谱.html",
+    "classic": "04_经典Agent论文/00_阅读导航.html",
+    "proposal": "05_NBDB建设方案/NBDB-结构生物学通用Agent建设方案.html"
+  },
+  "domain_papers": 26,
+  "tools": 69,
+  "computational_processes": 21,
+  "workflows": 8,
+  "physical_pdf_files": 62,
+  "new_downloaded_pdfs": 13,
+  "sources": {
+    "frontier": "/Users/zhouyi/Documents/nbdb_new/outputs/Agent前沿研究_2025-2026_2026-10-16",
+    "classic": "/Users/zhouyi/file/Agent论文学习包_2026-10-15",
+    "proposal": "/Users/zhouyi/Documents/nbdb_new/outputs/NBDB-结构生物学通用Agent建设方案.html"
+  },
+  "notes": "整体归档，原文件保留；工具为参考资料。"
+}
